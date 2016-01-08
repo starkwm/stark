@@ -10,6 +10,7 @@
 		F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */; };
 		F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2C1C404B53007D9DF9 /* Assets.xcassets */; };
 		F6792C301C404B53007D9DF9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2E1C404B53007D9DF9 /* MainMenu.xib */; };
+		F6792C3F1C40525C007D9DF9 /* AccessibilityHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C3E1C40525C007D9DF9 /* AccessibilityHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,6 +19,7 @@
 		F6792C2C1C404B53007D9DF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F6792C2F1C404B53007D9DF9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		F6792C311C404B53007D9DF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F6792C3E1C40525C007D9DF9 /* AccessibilityHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessibilityHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +56,6 @@
 				F6792C381C404EF8007D9DF9 /* Helpers */,
 				F6792C391C404F01007D9DF9 /* Resources */,
 				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
-				F6792C2C1C404B53007D9DF9 /* Assets.xcassets */,
 				F6792C311C404B53007D9DF9 /* Info.plist */,
 				F6792C2E1C404B53007D9DF9 /* MainMenu.xib */,
 			);
@@ -71,6 +72,7 @@
 		F6792C381C404EF8007D9DF9 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				F6792C3E1C40525C007D9DF9 /* AccessibilityHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -78,6 +80,7 @@
 		F6792C391C404F01007D9DF9 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F6792C2C1C404B53007D9DF9 /* Assets.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -152,6 +155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6792C3F1C40525C007D9DF9 /* AccessibilityHelper.swift in Sources */,
 				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
