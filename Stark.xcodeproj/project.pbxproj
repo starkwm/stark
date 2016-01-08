@@ -12,6 +12,7 @@
 		F6792C301C404B53007D9DF9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2E1C404B53007D9DF9 /* MainMenu.xib */; };
 		F6792C3F1C40525C007D9DF9 /* AccessibilityHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C3E1C40525C007D9DF9 /* AccessibilityHelper.swift */; };
 		F6792C451C405973007D9DF9 /* underscore-min.js in Resources */ = {isa = PBXBuildFile; fileRef = F6792C441C405973007D9DF9 /* underscore-min.js */; };
+		F6792C471C405B69007D9DF9 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C461C405B69007D9DF9 /* NotificationHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		F6792C311C404B53007D9DF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F6792C3E1C40525C007D9DF9 /* AccessibilityHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessibilityHelper.swift; sourceTree = "<group>"; };
 		F6792C441C405973007D9DF9 /* underscore-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "underscore-min.js"; sourceTree = "<group>"; };
+		F6792C461C405B69007D9DF9 /* NotificationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				F6792C3E1C40525C007D9DF9 /* AccessibilityHelper.swift */,
+				F6792C461C405B69007D9DF9 /* NotificationHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -159,6 +162,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6792C471C405B69007D9DF9 /* NotificationHelper.swift in Sources */,
 				F6792C3F1C40525C007D9DF9 /* AccessibilityHelper.swift in Sources */,
 				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
 			);
