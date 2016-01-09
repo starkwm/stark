@@ -33,6 +33,7 @@ public class KeyKit: NSObject {
 
     public func bind(key: String, modifiers: [String], handler: HotKeyHandler) -> HotKey {
         let hotkey = HotKey(key: key, modifiers: modifiers, handler: handler)
+        hotkey.enable()
 
         hotkeys[hotkey.internalRegistrationNumber] = hotkey
 
