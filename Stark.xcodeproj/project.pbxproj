@@ -11,6 +11,8 @@
 		F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2C1C404B53007D9DF9 /* Assets.xcassets */; };
 		F6792C301C404B53007D9DF9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2E1C404B53007D9DF9 /* MainMenu.xib */; };
 		F6792C3F1C40525C007D9DF9 /* AccessibilityHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C3E1C40525C007D9DF9 /* AccessibilityHelper.swift */; };
+		F6792C411C405598007D9DF9 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C401C405598007D9DF9 /* Application.swift */; };
+		F6792C431C4055A2007D9DF9 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C421C4055A2007D9DF9 /* Window.swift */; };
 		F6792C451C405973007D9DF9 /* underscore-min.js in Resources */ = {isa = PBXBuildFile; fileRef = F6792C441C405973007D9DF9 /* underscore-min.js */; };
 		F6792C471C405B69007D9DF9 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C461C405B69007D9DF9 /* NotificationHelper.swift */; };
 /* End PBXBuildFile section */
@@ -22,6 +24,8 @@
 		F6792C2F1C404B53007D9DF9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		F6792C311C404B53007D9DF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F6792C3E1C40525C007D9DF9 /* AccessibilityHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessibilityHelper.swift; sourceTree = "<group>"; };
+		F6792C401C405598007D9DF9 /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
+		F6792C421C4055A2007D9DF9 /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
 		F6792C441C405973007D9DF9 /* underscore-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "underscore-min.js"; sourceTree = "<group>"; };
 		F6792C461C405B69007D9DF9 /* NotificationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -69,6 +73,8 @@
 		F6792C371C404EF3007D9DF9 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				F6792C401C405598007D9DF9 /* Application.swift */,
+				F6792C421C4055A2007D9DF9 /* Window.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -162,9 +168,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6792C411C405598007D9DF9 /* Application.swift in Sources */,
 				F6792C471C405B69007D9DF9 /* NotificationHelper.swift in Sources */,
 				F6792C3F1C40525C007D9DF9 /* AccessibilityHelper.swift in Sources */,
 				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
+				F6792C431C4055A2007D9DF9 /* Window.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
