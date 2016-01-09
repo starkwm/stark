@@ -8,6 +8,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         AccessibilityHelper.askForAccessibilityIfNeeded()
 
         setupStatusItem()
+
+        let config = Config()
+        config.load()
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
