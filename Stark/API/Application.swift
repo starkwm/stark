@@ -41,7 +41,7 @@ public class Application: NSObject, ApplicationJSExport {
 
     public func allWindows() -> [Window] {
         var values: CFArray?
-        let result = AXUIElementCopyAttributeValues(element, kAXWindowAttribute, 0, 100, &values)
+        let result = AXUIElementCopyAttributeValues(element, kAXWindowsAttribute, 0, 100, &values)
 
         if result != .Success {
             return []
