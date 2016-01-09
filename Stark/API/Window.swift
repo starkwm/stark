@@ -140,11 +140,15 @@ public class Window: NSObject, WindowJSExport {
     }
 
     public func setTopLeft(topLeft: CGPoint) {
-        // TODO
+        var val = topLeft
+        let value = AXValueCreate(AXValueType(rawValue: kAXValueCGPointType)!, &val)!.takeRetainedValue()
+        AXUIElementSetAttributeValue(element, kAXPositionAttribute, value)
     }
 
     public func setSize(size: CGSize) {
-        // TODO
+        var val = size
+        let value = AXValueCreate(AXValueType(rawValue: kAXValueCGSizeType)!, &val)!.takeRetainedValue()
+        AXUIElementSetAttributeValue(element, kAXSizeAttribute, value)
     }
 
     public func maximize() {
