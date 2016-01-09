@@ -64,10 +64,14 @@ public class Config {
         let stark = JSValue(newObjectInContext: context)
         context.setObject(stark.self, forKeyedSubscript: "Stark")
 
-        let log: @convention(block) String -> () = { NSLog("%@", $0) }
+        let log: @convention(block) String -> () = {
+            NSLog("%@", $0)
+        }
         stark.setValue(unsafeBitCast(log, AnyObject.self), forProperty: "log")
 
-        let reload: @convention(block) () -> () = { self.load() }
+        let reload: @convention(block) () -> () = {
+            self.load()
+        }
         stark.setValue(unsafeBitCast(reload, AnyObject.self), forProperty: "reload")
 
         let bind: @convention(block) (String, [String], JSValue) -> HotKey = { key, modifiers, handler in
