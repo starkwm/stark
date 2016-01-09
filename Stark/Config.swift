@@ -33,6 +33,8 @@ public class Config {
             createConfigFile(primaryConfigPath)
         }
 
+        KeyKit.sharedInstance.reset()
+
         setupContext()
     }
 

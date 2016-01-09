@@ -40,6 +40,11 @@ public class KeyKit: NSObject {
         return hotkey
     }
 
+    public func reset() {
+        hotkeys.forEach { $1.disable() }
+        hotkeys.removeAll()
+    }
+
     public func handleCarbonEvent(event: EventRef) {
         if GetEventClass(event) != OSType(kEventClassKeyboard) {
             return
