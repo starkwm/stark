@@ -15,6 +15,7 @@
 		F6792C431C4055A2007D9DF9 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C421C4055A2007D9DF9 /* Window.swift */; };
 		F6792C451C405973007D9DF9 /* underscore-min.js in Resources */ = {isa = PBXBuildFile; fileRef = F6792C441C405973007D9DF9 /* underscore-min.js */; };
 		F6792C471C405B69007D9DF9 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C461C405B69007D9DF9 /* NotificationHelper.swift */; };
+		F6CBE6061C4160A900C962A7 /* NSScreen+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+JSExport.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		F6792C421C4055A2007D9DF9 /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
 		F6792C441C405973007D9DF9 /* underscore-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "underscore-min.js"; sourceTree = "<group>"; };
 		F6792C461C405B69007D9DF9 /* NotificationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
+		F6CBE6051C4160A900C962A7 /* NSScreen+JSExport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+JSExport.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				F6792C401C405598007D9DF9 /* Application.swift */,
+				F6CBE6051C4160A900C962A7 /* NSScreen+JSExport.swift */,
 				F6792C421C4055A2007D9DF9 /* Window.swift */,
 			);
 			path = API;
@@ -169,6 +172,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F6792C411C405598007D9DF9 /* Application.swift in Sources */,
+				F6CBE6061C4160A900C962A7 /* NSScreen+JSExport.swift in Sources */,
 				F6792C471C405B69007D9DF9 /* NotificationHelper.swift in Sources */,
 				F6792C3F1C40525C007D9DF9 /* AccessibilityHelper.swift in Sources */,
 				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
