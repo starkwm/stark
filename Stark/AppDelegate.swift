@@ -4,12 +4,13 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
     let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(NSVariableStatusItemLength)
 
+    let config = Config()
+
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         AccessibilityHelper.askForAccessibilityIfNeeded()
 
         setupStatusItem()
 
-        let config = Config()
         config.load()
     }
 
@@ -33,7 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func reload(sender: AnyObject?) {
-
+        config.load()
     }
 
     func quit(sender: AnyObject?) {
