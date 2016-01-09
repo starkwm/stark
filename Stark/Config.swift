@@ -67,6 +67,9 @@ public class Config {
         let log: @convention(block) String -> () = { NSLog("%@", $0) }
         stark.setValue(unsafeBitCast(log, AnyObject.self), forProperty: "log")
 
+        let reload: @convention(block) () -> () = { self.load() }
+        stark.setValue(unsafeBitCast(reload, AnyObject.self), forProperty: "reload")
+
         let bind: @convention(block) (String, [String], JSValue) -> HotKey = { key, modifiers, handler in
             KeyKit.sharedInstance.bind(key, modifiers: modifiers) {
                 handler.callWithArguments(nil)
