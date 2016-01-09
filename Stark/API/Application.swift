@@ -10,8 +10,8 @@ import JavaScriptCore
 
     func title() -> String
 
-    func show()
-    func hide()
+    func show() -> Bool
+    func hide() -> Bool
 
     func isHidden() -> Bool
 }
@@ -62,12 +62,14 @@ public class Application: NSObject, ApplicationJSExport {
         return ""
     }
 
-    public func show() {
-        // TODO
+    public func show() -> Bool {
+        let result = AXUIElementSetAttributeValue(element, kAXHiddenAttribute, false)
+        return result == .Success
     }
 
-    public func hide() {
-        // TODO
+    public func hide() -> Bool {
+        let result = AXUIElementSetAttributeValue(element, kAXHiddenAttribute, true)
+        return result == .Success
     }
 
     public func isHidden() -> Bool {
