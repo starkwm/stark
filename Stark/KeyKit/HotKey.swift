@@ -18,14 +18,14 @@ public class HotKey: NSObject {
         self.key = key
         self.modifiers = modifiers
         self.handler = handler
+
+        internalRegistrationNumber = ++HotKey.internalCarbonID
     }
 
     public func enable() -> Bool {
         if enabled {
             return true
         }
-
-        internalRegistrationNumber = ++HotKey.internalCarbonID
 
         let key = KeyCodeTranslator.keyCodeForString(self.key)
         let modifiers = KeyCodeTranslator.modifierFlagsForString(self.modifiers)
