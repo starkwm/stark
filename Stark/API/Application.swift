@@ -14,6 +14,7 @@ import JavaScriptCore
     func hide() -> Bool
 
     func isHidden() -> Bool
+    func isTerminated() -> Bool
 }
 
 public class Application: NSObject, ApplicationJSExport {
@@ -73,6 +74,21 @@ public class Application: NSObject, ApplicationJSExport {
     }
 
     public func isHidden() -> Bool {
-        return false
+        var value: AnyObject?
+        let result = AXUIElementCopyAttributeValue(element, kAXHiddenAttribute, &value)
+
+        if result != .Success {
+            return false
+        }
+
+        return (value as! NSNumber).boolValue
+    }
+
+    public func isTerminated() -> Bool {
+        if let app = NSRunningApplication(processIdentifier: pid) {
+            return app.terminated
+        }
+
+        return true
     }
 }
