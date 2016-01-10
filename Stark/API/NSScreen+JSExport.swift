@@ -2,6 +2,9 @@ import AppKit
 import JavaScriptCore
 
 @objc protocol NSScreenJSExport: JSExport {
+    static func mainScreen() -> NSScreen?
+    static func screens() -> [NSScreen]?
+
     func frameIncludingDockAndMenu() -> CGRect
     func frameWithoutDockOrMenu() -> CGRect
 
