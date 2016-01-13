@@ -1,7 +1,5 @@
 import Carbon
 
-public typealias HotKeyHandler = () -> ()
-
 public class KeyKit: NSObject {
     public static let sharedInstance = KeyKit()
 
@@ -31,7 +29,7 @@ public class KeyKit: NSObject {
         }
     }
 
-    public func bind(key: String, modifiers: [String], handler: HotKeyHandler) -> HotKey {
+    public func bind(key: String, modifiers: [String], handler: () -> ()) -> HotKey {
         let hotkey = HotKey(key: key, modifiers: modifiers, handler: handler)
         hotkey.enable()
 

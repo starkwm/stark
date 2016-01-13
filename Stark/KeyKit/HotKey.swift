@@ -12,9 +12,9 @@ public class HotKey: NSObject {
     public var key: String
     public var modifiers: [String]
 
-    public var handler: HotKeyHandler
+    public var handler: () -> ()
 
-    init(key: String, modifiers: [String], handler: HotKeyHandler) {
+    init(key: String, modifiers: [String], handler: () -> ()) {
         self.key = key
         self.modifiers = modifiers
         self.handler = handler
