@@ -1,6 +1,6 @@
 import Carbon
 
-public class KeyCodeTranslator {
+class KeyCodeHelper {
     private static let relocatableKeyCodes = [
         kVK_ANSI_A, kVK_ANSI_B, kVK_ANSI_C, kVK_ANSI_D, kVK_ANSI_E,
         kVK_ANSI_F, kVK_ANSI_G, kVK_ANSI_H, kVK_ANSI_I, kVK_ANSI_J,
@@ -59,11 +59,11 @@ public class KeyCodeTranslator {
             let key = String(utf16CodeUnits: &chars, count: length)
             keys[key.uppercaseString] = keyCode
         }
-
+        
         return keys
     }()
 
-    public static func keyCodeForString(key: String) -> Int {
+    static func keyCodeForString(key: String) -> Int {
         if let keyCode = relocatableKeys[key.uppercaseString] {
             return keyCode
         }
@@ -129,7 +129,7 @@ public class KeyCodeTranslator {
         }
     }
 
-    public static func modifierFlagsForString(modifiers: [String]) -> Int {
+    static func modifierFlagsForString(modifiers: [String]) -> Int {
         let mods = modifiers.map { $0.uppercaseString }
 
         var flags = 0
@@ -145,7 +145,7 @@ public class KeyCodeTranslator {
         if mods.contains("ALT") {
             flags |= optionKey
         }
-        
+
         if mods.contains("CMD") {
             flags |= cmdKey
         }

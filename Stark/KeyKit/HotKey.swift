@@ -27,8 +27,8 @@ public class HotKey: NSObject {
             return true
         }
 
-        let key = KeyCodeTranslator.keyCodeForString(self.key)
-        let modifiers = KeyCodeTranslator.modifierFlagsForString(self.modifiers)
+        let key = KeyCodeHelper.keyCodeForString(self.key)
+        let modifiers = KeyCodeHelper.modifierFlagsForString(self.modifiers)
 
         let eventHotKeyID = EventHotKeyID(signature: KeyKit.signature, id: internalRegistrationNumber)
 
