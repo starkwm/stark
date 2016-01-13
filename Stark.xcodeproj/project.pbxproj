@@ -20,7 +20,7 @@
 		F6CBE60B1C41A4D400C962A7 /* KeyKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE60A1C41A4D400C962A7 /* KeyKit.swift */; };
 		F6CBE60D1C41A4EA00C962A7 /* HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE60C1C41A4EA00C962A7 /* HotKey.swift */; };
 		F6CBE60F1C41A4FB00C962A7 /* KeyCodeTranslator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE60E1C41A4FB00C962A7 /* KeyCodeTranslator.swift */; };
-		F6CBE6121C41A50F00C962A7 /* KeyKitCarbonEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6111C41A50F00C962A7 /* KeyKitCarbonEvent.m */; };
+		F6CBE6121C41A50F00C962A7 /* StarkCarbonEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6111C41A50F00C962A7 /* StarkCarbonEvent.m */; };
 		F6CBE6151C41AB6A00C962A7 /* HotKey+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6141C41AB6A00C962A7 /* HotKey+JSExport.swift */; };
 		F6F9B8291C45D8D7007928D0 /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F9B8281C45D8D7007928D0 /* AlertHelper.swift */; };
 /* End PBXBuildFile section */
@@ -42,8 +42,8 @@
 		F6CBE60C1C41A4EA00C962A7 /* HotKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotKey.swift; sourceTree = "<group>"; };
 		F6CBE60E1C41A4FB00C962A7 /* KeyCodeTranslator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCodeTranslator.swift; sourceTree = "<group>"; };
 		F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Stark-Bridging-Header.h"; sourceTree = "<group>"; };
-		F6CBE6111C41A50F00C962A7 /* KeyKitCarbonEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyKitCarbonEvent.m; sourceTree = "<group>"; };
-		F6CBE6131C41A52100C962A7 /* KeyKitCarbonEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyKitCarbonEvent.h; sourceTree = "<group>"; };
+		F6CBE6111C41A50F00C962A7 /* StarkCarbonEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StarkCarbonEvent.m; sourceTree = "<group>"; };
+		F6CBE6131C41A52100C962A7 /* StarkCarbonEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StarkCarbonEvent.h; sourceTree = "<group>"; };
 		F6CBE6141C41AB6A00C962A7 /* HotKey+JSExport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HotKey+JSExport.swift"; sourceTree = "<group>"; };
 		F6F9B8281C45D8D7007928D0 /* AlertHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,6 +87,8 @@
 				F6792C311C404B53007D9DF9 /* Info.plist */,
 				F6792C2E1C404B53007D9DF9 /* MainMenu.xib */,
 				F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */,
+				F6CBE6131C41A52100C962A7 /* StarkCarbonEvent.h */,
+				F6CBE6111C41A50F00C962A7 /* StarkCarbonEvent.m */,
 			);
 			path = Stark;
 			sourceTree = "<group>";
@@ -127,8 +129,6 @@
 				F6CBE60C1C41A4EA00C962A7 /* HotKey.swift */,
 				F6CBE60E1C41A4FB00C962A7 /* KeyCodeTranslator.swift */,
 				F6CBE60A1C41A4D400C962A7 /* KeyKit.swift */,
-				F6CBE6131C41A52100C962A7 /* KeyKitCarbonEvent.h */,
-				F6CBE6111C41A50F00C962A7 /* KeyKitCarbonEvent.m */,
 			);
 			path = KeyKit;
 			sourceTree = "<group>";
@@ -213,7 +213,7 @@
 				F6CBE6081C418D6300C962A7 /* Config.swift in Sources */,
 				F6792C3F1C40525C007D9DF9 /* AccessibilityHelper.swift in Sources */,
 				F6CBE60F1C41A4FB00C962A7 /* KeyCodeTranslator.swift in Sources */,
-				F6CBE6121C41A50F00C962A7 /* KeyKitCarbonEvent.m in Sources */,
+				F6CBE6121C41A50F00C962A7 /* StarkCarbonEvent.m in Sources */,
 				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
 				F6792C431C4055A2007D9DF9 /* Window.swift in Sources */,
 				F6CBE60D1C41A4EA00C962A7 /* HotKey.swift in Sources */,

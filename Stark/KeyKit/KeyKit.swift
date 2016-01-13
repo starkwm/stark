@@ -16,7 +16,7 @@ public class KeyKit: NSObject {
 
         InstallEventHandler(
             GetEventDispatcherTarget(),
-            KeyKitCarbonEventCallbackPointer,
+            StarkCarbonEventCallbackPointer,
             1,
             &eventTypeSpec,
             nil,
