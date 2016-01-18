@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F6002D6F1C47086100C958F5 /* KeyCodeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6002D6E1C47086100C958F5 /* KeyCodeHelper.swift */; };
+		F64A8EAD1C4AB78500C88535 /* HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64A8EAC1C4AB78500C88535 /* HotKey.swift */; };
 		F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */; };
 		F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2C1C404B53007D9DF9 /* Assets.xcassets */; };
 		F6792C301C404B53007D9DF9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2E1C404B53007D9DF9 /* MainMenu.xib */; };
@@ -18,15 +19,13 @@
 		F6792C471C405B69007D9DF9 /* NotificationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C461C405B69007D9DF9 /* NotificationHelper.swift */; };
 		F6CBE6061C4160A900C962A7 /* NSScreen+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+JSExport.swift */; };
 		F6CBE6081C418D6300C962A7 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6071C418D6300C962A7 /* Config.swift */; };
-		F6CBE60B1C41A4D400C962A7 /* KeyKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE60A1C41A4D400C962A7 /* KeyKit.swift */; };
-		F6CBE60D1C41A4EA00C962A7 /* HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE60C1C41A4EA00C962A7 /* HotKey.swift */; };
 		F6CBE6121C41A50F00C962A7 /* StarkCarbonEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6111C41A50F00C962A7 /* StarkCarbonEvent.m */; };
-		F6CBE6151C41AB6A00C962A7 /* HotKey+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6141C41AB6A00C962A7 /* HotKey+JSExport.swift */; };
 		F6F9B8291C45D8D7007928D0 /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F9B8281C45D8D7007928D0 /* AlertHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F6002D6E1C47086100C958F5 /* KeyCodeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCodeHelper.swift; sourceTree = "<group>"; };
+		F64A8EAC1C4AB78500C88535 /* HotKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotKey.swift; sourceTree = "<group>"; };
 		F6792C271C404B53007D9DF9 /* Stark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6792C2C1C404B53007D9DF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -39,12 +38,9 @@
 		F6792C461C405B69007D9DF9 /* NotificationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationHelper.swift; sourceTree = "<group>"; };
 		F6CBE6051C4160A900C962A7 /* NSScreen+JSExport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+JSExport.swift"; sourceTree = "<group>"; };
 		F6CBE6071C418D6300C962A7 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
-		F6CBE60A1C41A4D400C962A7 /* KeyKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyKit.swift; sourceTree = "<group>"; };
-		F6CBE60C1C41A4EA00C962A7 /* HotKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotKey.swift; sourceTree = "<group>"; };
 		F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Stark-Bridging-Header.h"; sourceTree = "<group>"; };
 		F6CBE6111C41A50F00C962A7 /* StarkCarbonEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StarkCarbonEvent.m; sourceTree = "<group>"; };
 		F6CBE6131C41A52100C962A7 /* StarkCarbonEvent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StarkCarbonEvent.h; sourceTree = "<group>"; };
-		F6CBE6141C41AB6A00C962A7 /* HotKey+JSExport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "HotKey+JSExport.swift"; sourceTree = "<group>"; };
 		F6F9B8281C45D8D7007928D0 /* AlertHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -80,7 +76,6 @@
 			children = (
 				F6792C371C404EF3007D9DF9 /* API */,
 				F6792C381C404EF8007D9DF9 /* Helpers */,
-				F6CBE6091C41A4C700C962A7 /* KeyKit */,
 				F6792C391C404F01007D9DF9 /* Resources */,
 				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
 				F6CBE6071C418D6300C962A7 /* Config.swift */,
@@ -97,7 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				F6792C401C405598007D9DF9 /* Application.swift */,
-				F6CBE6141C41AB6A00C962A7 /* HotKey+JSExport.swift */,
+				F64A8EAC1C4AB78500C88535 /* HotKey.swift */,
 				F6CBE6051C4160A900C962A7 /* NSScreen+JSExport.swift */,
 				F6792C421C4055A2007D9DF9 /* Window.swift */,
 			);
@@ -122,15 +117,6 @@
 				F6792C441C405973007D9DF9 /* underscore-min.js */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		F6CBE6091C41A4C700C962A7 /* KeyKit */ = {
-			isa = PBXGroup;
-			children = (
-				F6CBE60C1C41A4EA00C962A7 /* HotKey.swift */,
-				F6CBE60A1C41A4D400C962A7 /* KeyKit.swift */,
-			);
-			path = KeyKit;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -204,10 +190,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F6CBE60B1C41A4D400C962A7 /* KeyKit.swift in Sources */,
 				F6792C411C405598007D9DF9 /* Application.swift in Sources */,
 				F6002D6F1C47086100C958F5 /* KeyCodeHelper.swift in Sources */,
-				F6CBE6151C41AB6A00C962A7 /* HotKey+JSExport.swift in Sources */,
 				F6CBE6061C4160A900C962A7 /* NSScreen+JSExport.swift in Sources */,
 				F6F9B8291C45D8D7007928D0 /* AlertHelper.swift in Sources */,
 				F6792C471C405B69007D9DF9 /* NotificationHelper.swift in Sources */,
@@ -216,7 +200,7 @@
 				F6CBE6121C41A50F00C962A7 /* StarkCarbonEvent.m in Sources */,
 				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
 				F6792C431C4055A2007D9DF9 /* Window.swift in Sources */,
-				F6CBE60D1C41A4EA00C962A7 /* HotKey.swift in Sources */,
+				F64A8EAD1C4AB78500C88535 /* HotKey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,8 +1,8 @@
 #import "StarkCarbonEvent.h"
 #import "Stark-Swift.h"
 
-static OSStatus StarkCarbonEventCallback(EventHandlerCallRef _, EventRef event, void *context) {
-    [[KeyKit sharedInstance] handleCarbonEvent:event];
+static OSStatus StarkCarbonEventCallback(__unused EventHandlerCallRef eventHandlerCall, EventRef event, __unused void *context) {
+    [HotKey handleEvent:event];
     return noErr;
 }
 

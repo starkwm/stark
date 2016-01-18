@@ -33,8 +33,6 @@ public class Config {
             createConfigFile(primaryConfigPath)
         }
 
-        KeyKit.sharedInstance.reset()
-
         setupContext()
     }
 
@@ -73,13 +71,6 @@ public class Config {
             self.load()
         }
         stark.setValue(unsafeBitCast(reload, AnyObject.self), forProperty: "reload")
-
-        let bind: @convention(block) (String, [String], JSValue) -> HotKey = { key, modifiers, handler in
-            KeyKit.sharedInstance.bind(key, modifiers: modifiers) {
-                handler.callWithArguments(nil)
-            }
-        }
-        stark.setValue(unsafeBitCast(bind, AnyObject.self), forProperty: "bind")
 
         context.setObject(Application.self, forKeyedSubscript: "Application")
         context.setObject(Window.self, forKeyedSubscript: "Window")
