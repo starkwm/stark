@@ -18,14 +18,14 @@ public class HotKey: NSObject, HotKeyJSExport {
 
     private static var indentifierSequence: UInt = 0
 
+    public var identifier: UInt
+
     public var key: String
     public var modifiers: [String]
 
     private var enabled = false
 
     private var eventHotKeyRef: EventHotKeyRef = nil
-
-    private var identifier: UInt
 
     private var keyCode: UInt32
     private var modifierFlags: UInt32
