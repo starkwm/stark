@@ -11,6 +11,8 @@ public class Config {
     private var primaryConfigPath: String
     private var context: JSContext
 
+    private var hotkeys: [UInt: HotKey]
+
     private static func resolvePrimaryConfigPath() -> String {
         for primaryConfigPath in primaryConfigPaths {
             let resolvedConfigPath = (primaryConfigPath as NSString).stringByResolvingSymlinksInPath
@@ -26,14 +28,22 @@ public class Config {
     public init() {
         primaryConfigPath = Config.resolvePrimaryConfigPath()
         context = JSContext(virtualMachine: JSVirtualMachine())
+        hotkeys = [UInt: HotKey]()
     }
 
     public func load() {
+        resetHotKeys()
+
         if !NSFileManager.defaultManager().fileExistsAtPath(primaryConfigPath) {
             createConfigFile(primaryConfigPath)
         }
 
         setupContext()
+    }
+
+    private func resetHotKeys() {
+        hotkeys.forEach { $1.disable() }
+        hotkeys.removeAll()
     }
 
     private func createConfigFile(path: String) {
@@ -71,6 +81,17 @@ public class Config {
             self.load()
         }
         stark.setValue(unsafeBitCast(reload, AnyObject.self), forProperty: "reload")
+
+        let bind: @convention(block) (String, [String], JSValue) -> HotKey = { key, modifiers, handler in
+            let hotkey = HotKey(key: key, modifiers: modifiers) {
+                handler.callWithArguments(nil)
+            }
+
+            self.hotkeys[hotkey.identifier] = hotkey
+
+            return hotkey
+        }
+        stark.setValue(unsafeBitCast(bind, AnyObject.self), forProperty: "bind")
 
         context.setObject(Application.self, forKeyedSubscript: "Application")
         context.setObject(Window.self, forKeyedSubscript: "Window")
