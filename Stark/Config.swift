@@ -83,13 +83,18 @@ public class Config {
         stark.setValue(unsafeBitCast(reload, AnyObject.self), forProperty: "reload")
 
         let bind: @convention(block) (String, [String], JSValue) -> HotKey = { key, modifiers, handler in
-            let hotkey = HotKey(key: key, modifiers: modifiers) {
+            var hotkey = self.hotkeys[HotKey.hashForKey(key, modifiers: modifiers)]
+
+            if hotkey == nil {
+                hotkey = HotKey(key: key, modifiers: modifiers)
+            }
+
+            hotkey?.setHandler {
                 handler.callWithArguments(nil)
             }
 
-            self.hotkeys[hotkey.hashValue] = hotkey
-
-            return hotkey
+            self.hotkeys[hotkey!.hashValue] = hotkey
+            return hotkey!
         }
         stark.setValue(unsafeBitCast(bind, AnyObject.self), forProperty: "bind")
 

@@ -13,6 +13,8 @@ let StarkHotKeySignature = UTGetOSTypeFromString("STRK")
 let StarkHotKeyIdentifier = "StarkHotKeyIdentifier"
 let StarkHotKeyKeyDownNotification = "StarkHotKeyKeyDownNotification"
 
+public typealias HotKeyHandler = () -> ()
+
 public class HotKey: NSObject, HotKeyJSExport {
     private static var dispatchToken: dispatch_once_t = 0
 
@@ -30,7 +32,7 @@ public class HotKey: NSObject, HotKeyJSExport {
     private var keyCode: UInt32
     private var modifierFlags: UInt32
 
-    private var handler: () -> ()
+    private var handler: HotKeyHandler?
 
     static func setup() {
         dispatch_once(&dispatchToken) {
@@ -77,7 +79,7 @@ public class HotKey: NSObject, HotKeyJSExport {
         return hash
     }
 
-    init(key: String, modifiers: [String], handler: () -> ()) {
+    init(key: String, modifiers: [String]) {
         HotKey.setup()
 
         self.key = key
@@ -85,8 +87,6 @@ public class HotKey: NSObject, HotKeyJSExport {
 
         self.keyCode = UInt32(KeyCodeHelper.keyCodeForString(self.key))
         self.modifierFlags = UInt32(KeyCodeHelper.modifierFlagsForString(self.modifiers))
-
-        self.handler = handler
 
         self.identifier = ++HotKey.indentifierSequence
 
@@ -108,6 +108,10 @@ public class HotKey: NSObject, HotKeyJSExport {
             name: StarkHotKeyKeyDownNotification,
             object: nil
         )
+    }
+
+    public func setHandler(handler: HotKeyHandler) {
+        self.handler = handler
     }
 
     public func enable() -> Bool {
@@ -163,7 +167,9 @@ public class HotKey: NSObject, HotKeyJSExport {
     func keyDown(notification: NSNotification) {
         if let identifier = notification.userInfo?[StarkHotKeyIdentifier]?.unsignedIntegerValue {
             if self.identifier == identifier {
-                handler()
+                if let handler = self.handler {
+                    handler()
+                }
             }
         }
     }
