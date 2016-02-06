@@ -69,6 +69,15 @@ public class Config {
     }
 
     private func setupAPI() {
+        setupStarkObject()
+
+        context.setObject(Application.self, forKeyedSubscript: "Application")
+        context.setObject(Window.self, forKeyedSubscript: "Window")
+        context.setObject(NSScreen.self, forKeyedSubscript: "Screen")
+        context.setObject(HotKey.self, forKeyedSubscript: "HotKey")
+    }
+
+    private func setupStarkObject() {
         let stark = JSValue(newObjectInContext: context)
         context.setObject(stark.self, forKeyedSubscript: "Stark")
 
@@ -97,11 +106,6 @@ public class Config {
             return hotkey!
         }
         stark.setValue(unsafeBitCast(bind, AnyObject.self), forProperty: "bind")
-
-        context.setObject(Application.self, forKeyedSubscript: "Application")
-        context.setObject(Window.self, forKeyedSubscript: "Window")
-        context.setObject(NSScreen.self, forKeyedSubscript: "Screen")
-        context.setObject(HotKey.self, forKeyedSubscript: "HotKey")
     }
 
     private func loadScript(path: String) {
