@@ -11,7 +11,7 @@ public class Config {
     private var primaryConfigPath: String
     private var context: JSContext
 
-    private var hotkeys: [UInt: HotKey]
+    private var hotkeys: [Int: HotKey]
 
     private static func resolvePrimaryConfigPath() -> String {
         for primaryConfigPath in primaryConfigPaths {
@@ -28,7 +28,7 @@ public class Config {
     public init() {
         primaryConfigPath = Config.resolvePrimaryConfigPath()
         context = JSContext(virtualMachine: JSVirtualMachine())
-        hotkeys = [UInt: HotKey]()
+        hotkeys = [Int: HotKey]()
     }
 
     public func load() {
@@ -87,7 +87,7 @@ public class Config {
                 handler.callWithArguments(nil)
             }
 
-            self.hotkeys[hotkey.identifier] = hotkey
+            self.hotkeys[hotkey.hashValue] = hotkey
 
             return hotkey
         }

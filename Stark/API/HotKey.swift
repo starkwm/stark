@@ -71,6 +71,12 @@ public class HotKey: NSObject, HotKeyJSExport {
         )
     }
 
+    static func hashForKey(key: String, modifiers: [String]) -> Int {
+        var hash = key.hashValue
+        modifiers.forEach { hash += $0.hashValue }
+        return hash
+    }
+
     init(key: String, modifiers: [String], handler: () -> ()) {
         HotKey.setup()
 
@@ -150,9 +156,7 @@ public class HotKey: NSObject, HotKeyJSExport {
 
     override public var hashValue: Int {
         get {
-            var hash = key.hashValue
-            modifiers.forEach { hash += $0.hashValue }
-            return hash
+            return HotKey.hashForKey(key, modifiers: modifiers)
         }
     }
 
