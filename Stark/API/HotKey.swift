@@ -23,6 +23,10 @@ public class HotKey: NSObject, HotKeyJSExport {
     public var key: String
     public var modifiers: [String]
 
+    override public var hashValue: Int {
+        get { return HotKey.hashForKey(key, modifiers: modifiers) }
+    }
+
     private var identifier: UInt
 
     private var enabled = false
@@ -34,22 +38,7 @@ public class HotKey: NSObject, HotKeyJSExport {
 
     private var handler: HotKeyHandler?
 
-    static func setup() {
-        dispatch_once(&dispatchToken) {
-            var keyDown = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
-
-            InstallEventHandler(
-                GetEventDispatcherTarget(),
-                StarkCarbonEventCallbackPointer,
-                1,
-                &keyDown,
-                nil,
-                nil
-            )
-        }
-    }
-
-    static func handleEvent(event: EventRef) {
+    public static func handleEvent(event: EventRef) {
         var identifier = EventHotKeyID()
 
         let status = GetEventParameter(
@@ -73,10 +62,25 @@ public class HotKey: NSObject, HotKeyJSExport {
         )
     }
 
-    static func hashForKey(key: String, modifiers: [String]) -> Int {
+    public static func hashForKey(key: String, modifiers: [String]) -> Int {
         var hash = key.hashValue
         modifiers.forEach { hash += $0.hashValue }
         return hash
+    }
+
+    private static func setup() {
+        dispatch_once(&dispatchToken) {
+            var keyDown = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
+
+            InstallEventHandler(
+                GetEventDispatcherTarget(),
+                StarkCarbonEventCallbackPointer,
+                1,
+                &keyDown,
+                nil,
+                nil
+            )
+        }
     }
 
     init(key: String, modifiers: [String]) {
@@ -158,13 +162,7 @@ public class HotKey: NSObject, HotKeyJSExport {
         return true
     }
 
-    override public var hashValue: Int {
-        get {
-            return HotKey.hashForKey(key, modifiers: modifiers)
-        }
-    }
-
-    func keyDown(notification: NSNotification) {
+    private func keyDown(notification: NSNotification) {
         if let identifier = notification.userInfo?[StarkHotKeyIdentifier]?.unsignedIntegerValue {
             if self.identifier == identifier {
                 if let handler = self.handler {
