@@ -148,6 +148,14 @@ public class HotKey: NSObject, HotKeyJSExport {
         return true
     }
 
+    override public var hashValue: Int {
+        get {
+            var hash = key.hashValue
+            modifiers.forEach { hash += $0.hashValue }
+            return hash
+        }
+    }
+
     func keyDown(notification: NSNotification) {
         if let identifier = notification.userInfo?[StarkHotKeyIdentifier]?.unsignedIntegerValue {
             if self.identifier == identifier {
