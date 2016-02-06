@@ -20,10 +20,10 @@ public class HotKey: NSObject, HotKeyJSExport {
 
     private static var indentifierSequence: UInt = 0
 
-    public var identifier: UInt
-
     public var key: String
     public var modifiers: [String]
+
+    private var identifier: UInt
 
     private var enabled = false
 
