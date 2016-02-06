@@ -25,7 +25,7 @@ public class Config {
         return primaryConfigPaths.first!
     }
 
-    public init() {
+    init() {
         primaryConfigPath = Config.resolvePrimaryConfigPath()
         context = JSContext(virtualMachine: JSVirtualMachine())
         hotkeys = [Int: HotKey]()
