@@ -17,7 +17,6 @@ public typealias HotKeyHandler = () -> ()
 
 public class HotKey: NSObject, HotKeyJSExport {
     private static var dispatchToken: dispatch_once_t = 0
-
     private static var indentifierSequence: UInt = 0
 
     public var key: String
@@ -28,14 +27,10 @@ public class HotKey: NSObject, HotKeyJSExport {
     }
 
     private var identifier: UInt
-
     private var enabled = false
-
     private var eventHotKeyRef: EventHotKeyRef = nil
-
     private var keyCode: UInt32
     private var modifierFlags: UInt32
-
     private var handler: HotKeyHandler?
 
     public static func handleEvent(event: EventRef) {
