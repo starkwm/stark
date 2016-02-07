@@ -15,6 +15,7 @@ import JavaScriptCore
     func show() -> Bool
     func hide() -> Bool
 
+    func isActive() -> Bool
     func isHidden() -> Bool
     func isTerminated() -> Bool
 }
@@ -77,6 +78,10 @@ public class Application: NSObject, ApplicationJSExport {
     public func hide() -> Bool {
         let result = AXUIElementSetAttributeValue(element, kAXHiddenAttribute, true)
         return result == .Success
+    }
+
+    public func isActive() -> Bool {
+        return NSRunningApplication(processIdentifier: pid)?.active ?? false
     }
 
     public func isHidden() -> Bool {
