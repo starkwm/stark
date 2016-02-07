@@ -12,6 +12,7 @@ import JavaScriptCore
     func bundleId() -> String
     func processId() -> pid_t
 
+    func activate() -> Bool
     func show() -> Bool
     func hide() -> Bool
 
@@ -68,6 +69,10 @@ public class Application: NSObject, ApplicationJSExport {
 
     public func processId() -> pid_t {
         return app.processIdentifier
+    }
+
+    public func activate() -> Bool {
+        return app.activateWithOptions(.ActivateAllWindows)
     }
 
     public func show() -> Bool {
