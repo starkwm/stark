@@ -14,10 +14,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         config.load()
     }
 
-    func applicationWillTerminate(aNotification: NSNotification) {
-
-    }
-
     func setupStatusItem() {
         let image = NSImage(named: "StatusItemIcon")
         image?.template = true
