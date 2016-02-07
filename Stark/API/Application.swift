@@ -9,6 +9,7 @@ import JavaScriptCore
     func visibleWindows() -> [Window]
 
     func name() -> String
+    func bundleId() -> String
     func processId() -> pid_t
 
     func show() -> Bool
@@ -58,6 +59,10 @@ public class Application: NSObject, ApplicationJSExport {
 
     public func name() -> String {
         return NSRunningApplication(processIdentifier: pid)?.localizedName ?? ""
+    }
+
+    public func bundleId() -> String {
+        return NSRunningApplication(processIdentifier: pid)?.bundleIdentifier ?? ""
     }
 
     public func processId() -> pid_t {
