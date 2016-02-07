@@ -2,6 +2,8 @@ import AppKit
 import JavaScriptCore
 
 @objc protocol ApplicationJSExport: JSExport {
+    static func find(name: String) -> Application?
+
     static func runningApps() -> [Application]
     static func frontmostApp() -> Application?
 
@@ -25,6 +27,18 @@ import JavaScriptCore
 public class Application: NSObject, ApplicationJSExport {
     private var element: AXUIElementRef
     private var app: NSRunningApplication
+
+    public static func find(name: String) -> Application? {
+        let apps = NSWorkspace.sharedWorkspace().runningApplications.filter {
+            $0.localizedName == name
+        }
+
+        if let app = apps.first {
+            return Application(pid: app.processIdentifier)
+        }
+
+        return nil
+    }
 
     public static func runningApps() -> [Application] {
         return NSWorkspace.sharedWorkspace().runningApplications.map {
