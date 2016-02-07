@@ -8,8 +8,8 @@ import JavaScriptCore
     func allWindows() -> [Window]
     func visibleWindows() -> [Window]
 
-    func title() -> String
-    func processIdentifier() -> pid_t
+    func name() -> String
+    func processId() -> pid_t
 
     func show() -> Bool
     func hide() -> Bool
@@ -56,11 +56,11 @@ public class Application: NSObject, ApplicationJSExport {
         return allWindows().filter { !$0.app().isHidden() && $0.isStandard() && !$0.isMinimized() }
     }
 
-    public func title() -> String {
+    public func name() -> String {
         return NSRunningApplication(processIdentifier: pid)?.localizedName ?? ""
     }
 
-    public func processIdentifier() -> pid_t {
+    public func processId() -> pid_t {
         return pid
     }
 
