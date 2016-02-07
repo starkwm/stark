@@ -27,6 +27,7 @@ import JavaScriptCore
     func focus()
 
     func isStandard() -> Bool
+    func isMain() -> Bool
     func isMinimized() -> Bool
 }
 
@@ -173,6 +174,17 @@ public class Window: NSObject, WindowJSExport {
         if let app = NSRunningApplication(processIdentifier: pid()) {
             app.activateWithOptions(NSApplicationActivationOptions.ActivateIgnoringOtherApps)
         }
+    }
+
+    public func isMain() -> Bool {
+        var value: AnyObject?
+        let result = AXUIElementCopyAttributeValue(element, kAXMainAttribute, &value)
+
+        if result != .Success {
+            return false
+        }
+
+        return (value as! NSNumber).boolValue
     }
 
     public func isStandard() -> Bool {
