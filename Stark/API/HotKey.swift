@@ -162,7 +162,7 @@ public class HotKey: NSObject, HotKeyJSExport {
         return true
     }
 
-    private func keyDown(notification: NSNotification) {
+    func keyDown(notification: NSNotification) {
         if let identifier = notification.userInfo?[StarkHotKeyIdentifier]?.unsignedIntegerValue {
             if self.identifier == identifier {
                 if let handler = self.handler {
