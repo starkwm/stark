@@ -9,6 +9,7 @@ import JavaScriptCore
     func visibleWindows() -> [Window]
 
     func title() -> String
+    func processIdentifier() -> pid_t
 
     func show() -> Bool
     func hide() -> Bool
@@ -56,11 +57,11 @@ public class Application: NSObject, ApplicationJSExport {
     }
 
     public func title() -> String {
-        if let title = NSRunningApplication(processIdentifier: pid)?.localizedName {
-            return title
-        }
+        return NSRunningApplication(processIdentifier: pid)?.localizedName ?? ""
+    }
 
-        return ""
+    public func processIdentifier() -> pid_t {
+        return pid
     }
 
     public func show() -> Bool {
