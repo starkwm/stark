@@ -85,21 +85,10 @@ public class Application: NSObject, ApplicationJSExport {
     }
 
     public func isHidden() -> Bool {
-        var value: AnyObject?
-        let result = AXUIElementCopyAttributeValue(element, kAXHiddenAttribute, &value)
-
-        if result != .Success {
-            return false
-        }
-
-        return (value as! NSNumber).boolValue
+        return NSRunningApplication(processIdentifier: pid)?.hidden ?? false
     }
 
     public func isTerminated() -> Bool {
-        if let app = NSRunningApplication(processIdentifier: pid) {
-            return app.terminated
-        }
-
-        return true
+        return NSRunningApplication(processIdentifier: pid)?.terminated ?? true
     }
 }
