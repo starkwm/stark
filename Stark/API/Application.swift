@@ -21,8 +21,8 @@ import JavaScriptCore
 }
 
 public class Application: NSObject, ApplicationJSExport {
-    private var pid: pid_t
     private var element: AXUIElementRef
+    private var app: NSRunningApplication
 
     public static func runningApps() -> [Application] {
         return NSWorkspace.sharedWorkspace().runningApplications.map {
@@ -39,8 +39,8 @@ public class Application: NSObject, ApplicationJSExport {
     }
 
     init(pid: pid_t) {
-        self.pid = pid
-        self.element = AXUIElementCreateApplication(self.pid).takeRetainedValue()
+        self.element = AXUIElementCreateApplication(pid).takeRetainedValue()
+        self.app = NSRunningApplication(processIdentifier: pid)!
     }
 
     public func allWindows() -> [Window] {
@@ -59,36 +59,41 @@ public class Application: NSObject, ApplicationJSExport {
     }
 
     public func name() -> String {
-        return NSRunningApplication(processIdentifier: pid)?.localizedName ?? ""
+        return app.localizedName ?? ""
     }
 
     public func bundleId() -> String {
-        return NSRunningApplication(processIdentifier: pid)?.bundleIdentifier ?? ""
+        return app.bundleIdentifier ?? ""
     }
 
     public func processId() -> pid_t {
-        return pid
+        return app.processIdentifier
     }
 
     public func show() -> Bool {
-        let result = AXUIElementSetAttributeValue(element, kAXHiddenAttribute, false)
-        return result == .Success
+        return app.unhide()
     }
 
     public func hide() -> Bool {
-        let result = AXUIElementSetAttributeValue(element, kAXHiddenAttribute, true)
-        return result == .Success
+        return app.hide()
     }
 
     public func isActive() -> Bool {
-        return NSRunningApplication(processIdentifier: pid)?.active ?? false
+        return app.active
     }
 
     public func isHidden() -> Bool {
-        return NSRunningApplication(processIdentifier: pid)?.hidden ?? false
+        var value: AnyObject?
+        let result = AXUIElementCopyAttributeValue(element, kAXHiddenAttribute, &value)
+
+        if result != .Success {
+            return false
+        }
+
+        return (value as! NSNumber).boolValue
     }
 
     public func isTerminated() -> Bool {
-        return NSRunningApplication(processIdentifier: pid)?.terminated ?? true
+        return app.terminated
     }
 }
