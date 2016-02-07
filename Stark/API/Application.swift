@@ -13,6 +13,7 @@ import JavaScriptCore
     func processId() -> pid_t
 
     func activate() -> Bool
+    func focus() -> Bool
     func show() -> Bool
     func hide() -> Bool
 
@@ -73,6 +74,10 @@ public class Application: NSObject, ApplicationJSExport {
 
     public func activate() -> Bool {
         return app.activateWithOptions(.ActivateAllWindows)
+    }
+
+    public func focus() -> Bool {
+        return app.activateWithOptions(.ActivateIgnoringOtherApps)
     }
 
     public func show() -> Bool {
