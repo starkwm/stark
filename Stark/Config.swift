@@ -41,6 +41,21 @@ public class Config {
         setupContext()
     }
 
+    public func bindKey(key: String, modifiers: [String], handler: JSValue) -> HotKey {
+        var hotkey = hotkeys[HotKey.hashForKey(key, modifiers: modifiers)]
+
+        if hotkey == nil {
+            hotkey = HotKey(key: key, modifiers: modifiers)
+        }
+
+        hotkey?.setHandler {
+            handler.callWithArguments(nil)
+        }
+
+        hotkeys[hotkey!.hashValue] = hotkey
+        return hotkey!
+    }
+
     private func resetHotKeys() {
         hotkeys.forEach { $1.disable() }
         hotkeys.removeAll()
@@ -69,46 +84,11 @@ public class Config {
     }
 
     private func setupAPI() {
-        setupStarkObject()
-
+        context.setObject(Stark.self(config: self), forKeyedSubscript: "Stark")
         context.setObject(Application.self, forKeyedSubscript: "Application")
         context.setObject(Window.self, forKeyedSubscript: "Window")
         context.setObject(NSScreen.self, forKeyedSubscript: "Screen")
         context.setObject(HotKey.self, forKeyedSubscript: "HotKey")
-    }
-
-    private func setupStarkObject() {
-        let stark = JSValue(newObjectInContext: context)
-        context.setObject(stark.self, forKeyedSubscript: "Stark")
-
-        let log: @convention(block) String -> () = {
-            NSLog("%@", $0)
-        }
-
-        stark.setValue(unsafeBitCast(log, AnyObject.self), forProperty: "log")
-
-        let reload: @convention(block) () -> () = {
-            self.load()
-        }
-
-        stark.setValue(unsafeBitCast(reload, AnyObject.self), forProperty: "reload")
-
-        let bind: @convention(block) (String, [String], JSValue) -> HotKey = { key, modifiers, handler in
-            var hotkey = self.hotkeys[HotKey.hashForKey(key, modifiers: modifiers)]
-
-            if hotkey == nil {
-                hotkey = HotKey(key: key, modifiers: modifiers)
-            }
-
-            hotkey?.setHandler {
-                handler.callWithArguments(nil)
-            }
-
-            self.hotkeys[hotkey!.hashValue] = hotkey
-            return hotkey!
-        }
-
-        stark.setValue(unsafeBitCast(bind, AnyObject.self), forProperty: "bind")
     }
 
     private func loadScript(path: String) {
