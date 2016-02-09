@@ -1,6 +1,12 @@
 import Carbon
 import JavaScriptCore
 
+private let StarkHotKeySignature = UTGetOSTypeFromString("STRK")
+private let StarkHotKeyIdentifier = "StarkHotKeyIdentifier"
+private let StarkHotKeyKeyDownNotification = "StarkHotKeyKeyDownNotification"
+
+public typealias HotKeyHandler = () -> ()
+
 @objc protocol HotKeyJSExport: JSExport {
     var key: String { get }
     var modifiers: [String] { get }
@@ -8,12 +14,6 @@ import JavaScriptCore
     func enable() -> Bool
     func disable() -> Bool
 }
-
-let StarkHotKeySignature = UTGetOSTypeFromString("STRK")
-let StarkHotKeyIdentifier = "StarkHotKeyIdentifier"
-let StarkHotKeyKeyDownNotification = "StarkHotKeyKeyDownNotification"
-
-public typealias HotKeyHandler = () -> ()
 
 public class HotKey: NSObject, HotKeyJSExport {
     private static var dispatchToken: dispatch_once_t = 0
