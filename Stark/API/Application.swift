@@ -29,12 +29,10 @@ public class Application: NSObject, ApplicationJSExport {
     private var app: NSRunningApplication
 
     public static func find(name: String) -> Application? {
-        let apps = NSWorkspace.sharedWorkspace().runningApplications.filter {
-            $0.localizedName == name
-        }
-
-        if let app = apps.first {
-            return Application(pid: app.processIdentifier)
+        for app in NSWorkspace.sharedWorkspace().runningApplications {
+            if app.localizedName == name {
+                return Application(pid: app.processIdentifier)
+            }
         }
 
         return nil
