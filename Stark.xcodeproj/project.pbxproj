@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		F6002D6F1C47086100C958F5 /* KeyCodeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6002D6E1C47086100C958F5 /* KeyCodeHelper.swift */; };
 		F649A3CD1C68E3C600A3C81A /* Stark.swift in Sources */ = {isa = PBXBuildFile; fileRef = F649A3CC1C68E3C600A3C81A /* Stark.swift */; };
-		F64A8EAD1C4AB78500C88535 /* HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64A8EAC1C4AB78500C88535 /* HotKey.swift */; };
+		F66C39C61C6AD73E0008FDD5 /* KeyHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66C39C51C6AD73E0008FDD5 /* KeyHandler.swift */; };
 		F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */; };
 		F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2C1C404B53007D9DF9 /* Assets.xcassets */; };
 		F6792C301C404B53007D9DF9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2E1C404B53007D9DF9 /* MainMenu.xib */; };
@@ -28,7 +28,7 @@
 /* Begin PBXFileReference section */
 		F6002D6E1C47086100C958F5 /* KeyCodeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCodeHelper.swift; sourceTree = "<group>"; };
 		F649A3CC1C68E3C600A3C81A /* Stark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stark.swift; sourceTree = "<group>"; };
-		F64A8EAC1C4AB78500C88535 /* HotKey.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotKey.swift; sourceTree = "<group>"; };
+		F66C39C51C6AD73E0008FDD5 /* KeyHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyHandler.swift; sourceTree = "<group>"; };
 		F6792C271C404B53007D9DF9 /* Stark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6792C2C1C404B53007D9DF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -97,7 +97,7 @@
 			children = (
 				F6792C401C405598007D9DF9 /* Application.swift */,
 				F6942ECC1C6A8EEF00D2C0D4 /* Handler.swift */,
-				F64A8EAC1C4AB78500C88535 /* HotKey.swift */,
+				F66C39C51C6AD73E0008FDD5 /* KeyHandler.swift */,
 				F6CBE6051C4160A900C962A7 /* NSScreen+JSExport.swift */,
 				F649A3CC1C68E3C600A3C81A /* Stark.swift */,
 				F6792C421C4055A2007D9DF9 /* Window.swift */,
@@ -206,9 +206,9 @@
 				F6CBE6121C41A50F00C962A7 /* StarkCarbonEvent.m in Sources */,
 				F6942ECD1C6A8EEF00D2C0D4 /* Handler.swift in Sources */,
 				F649A3CD1C68E3C600A3C81A /* Stark.swift in Sources */,
+				F66C39C61C6AD73E0008FDD5 /* KeyHandler.swift in Sources */,
 				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
 				F6792C431C4055A2007D9DF9 /* Window.swift in Sources */,
-				F64A8EAD1C4AB78500C88535 /* HotKey.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

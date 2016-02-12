@@ -4,7 +4,7 @@ import JavaScriptCore
 @objc protocol StarkJSExport: JSExport {
     func log(message: String)
     func reload()
-    @objc(bind:::) func bind(key: String, modifiers: [String], handler: JSValue) -> HotKey
+    @objc(bind:::) func bind(key: String, modifiers: [String], callback: JSValue) -> KeyHandler
 }
 
 public class Stark: NSObject, StarkJSExport {
@@ -22,7 +22,7 @@ public class Stark: NSObject, StarkJSExport {
         config.load()
     }
 
-    @objc(bind:::) public func bind(key: String, modifiers: [String], handler: JSValue) -> HotKey {
-        return config.bindKey(key, modifiers: modifiers, handler: handler)
+    @objc(bind:::) public func bind(key: String, modifiers: [String], callback: JSValue) -> KeyHandler {
+        return config.bindKey(key, modifiers: modifiers, callback: callback)
     }
 }

@@ -2,7 +2,7 @@
 #import "Stark-Swift.h"
 
 static OSStatus StarkCarbonEventCallback(__unused EventHandlerCallRef eventHandlerCall, EventRef event, __unused void *context) {
-    [HotKey handleEvent:event];
+    [KeyHandler handleEvent:event];
     return noErr;
 }
 
