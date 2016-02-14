@@ -12,6 +12,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         setupStatusItem()
 
         config.load()
+
+        NSNotificationCenter
+            .defaultCenter()
+            .postNotificationName(StarkStartNotification, object: self)
     }
 
     func setupStatusItem() {
