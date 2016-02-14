@@ -23,7 +23,6 @@
 		F6942ECD1C6A8EEF00D2C0D4 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6942ECC1C6A8EEF00D2C0D4 /* Handler.swift */; };
 		F6CBE6061C4160A900C962A7 /* NSScreen+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+JSExport.swift */; };
 		F6CBE6081C418D6300C962A7 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6071C418D6300C962A7 /* Config.swift */; };
-		F6CBE6121C41A50F00C962A7 /* StarkCarbonEventCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6111C41A50F00C962A7 /* StarkCarbonEventCallback.m */; };
 		F6F9B8291C45D8D7007928D0 /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F9B8281C45D8D7007928D0 /* AlertHelper.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,8 +46,6 @@
 		F6CBE6051C4160A900C962A7 /* NSScreen+JSExport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+JSExport.swift"; sourceTree = "<group>"; };
 		F6CBE6071C418D6300C962A7 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Stark-Bridging-Header.h"; sourceTree = "<group>"; };
-		F6CBE6111C41A50F00C962A7 /* StarkCarbonEventCallback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StarkCarbonEventCallback.m; sourceTree = "<group>"; };
-		F6CBE6131C41A52100C962A7 /* StarkCarbonEventCallback.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StarkCarbonEventCallback.h; sourceTree = "<group>"; };
 		F6F9B8281C45D8D7007928D0 /* AlertHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,8 +87,6 @@
 				F6792C311C404B53007D9DF9 /* Info.plist */,
 				F6792C2E1C404B53007D9DF9 /* MainMenu.xib */,
 				F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */,
-				F6CBE6131C41A52100C962A7 /* StarkCarbonEventCallback.h */,
-				F6CBE6111C41A50F00C962A7 /* StarkCarbonEventCallback.m */,
 			);
 			path = Stark;
 			sourceTree = "<group>";
@@ -210,7 +205,6 @@
 				F6792C471C405B69007D9DF9 /* NotificationHelper.swift in Sources */,
 				F6CBE6081C418D6300C962A7 /* Config.swift in Sources */,
 				F6792C3F1C40525C007D9DF9 /* AccessibilityHelper.swift in Sources */,
-				F6CBE6121C41A50F00C962A7 /* StarkCarbonEventCallback.m in Sources */,
 				F60894E31C6DA0090079D7B5 /* EventHelper.swift in Sources */,
 				F6942ECD1C6A8EEF00D2C0D4 /* Handler.swift in Sources */,
 				F649A3CD1C68E3C600A3C81A /* Stark.swift in Sources */,

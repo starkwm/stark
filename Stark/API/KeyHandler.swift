@@ -1,3 +1,4 @@
+import Carbon
 import JavaScriptCore
 
 @objc protocol KeyHandlerJSExport: JSExport {
@@ -32,35 +33,37 @@ public class KeyHandler: Handler {
     private var eventHotKeyRef: EventHotKeyRef = nil
     private var enabled = false
 
-    public static func handleEvent(event: EventRef) {
-        var identifier = EventHotKeyID()
-
-        let status = GetEventParameter(
-            event,
-            EventParamName(kEventParamDirectObject),
-            EventParamType(typeEventHotKeyID),
-            nil,
-            sizeof(EventHotKeyID),
-            nil,
-            &identifier
-        )
-
-        if status != noErr {
-            return
-        }
-
-        NSNotificationCenter
-            .defaultCenter()
-            .postNotificationName(StarkHotKeyKeyDownNotification, object: nil, userInfo: [StarkHotKeyIdentifier: UInt(identifier.id)])
-    }
-
     private static func setup() {
         dispatch_once(&setupDispatchToken) {
             var keyDown = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
 
+            let callback: EventHandlerUPP = { (_, event, _) -> OSStatus in
+                var identifier = EventHotKeyID()
+
+                let status = GetEventParameter(
+                    event,
+                    EventParamName(kEventParamDirectObject),
+                    EventParamType(typeEventHotKeyID),
+                    nil,
+                    sizeof(EventHotKeyID),
+                    nil,
+                    &identifier
+                )
+
+                if status != noErr {
+                    return noErr
+                }
+
+                NSNotificationCenter
+                    .defaultCenter()
+                    .postNotificationName(StarkHotKeyKeyDownNotification, object: nil, userInfo: [StarkHotKeyIdentifier: UInt(identifier.id)])
+
+                return noErr
+            }
+
             InstallEventHandler(
                 GetEventDispatcherTarget(),
-                StarkCarbonEventCallbackPointer,
+                callback,
                 1,
                 &keyDown,
                 nil,
