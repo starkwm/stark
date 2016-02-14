@@ -9,14 +9,15 @@ public class Handler: NSObject {
     }
 
     func callWithArguments(arguments: [AnyObject]!) {
-        let callback = self.callback!.value
-        let scope = JSContext(virtualMachine: callback!.context.virtualMachine)
-        let function = JSValue(object: callback, inContext: scope)
+        if let callback = self.callback?.value {
+            let scope = JSContext(virtualMachine: callback.context.virtualMachine)
+            let function = JSValue(object: callback, inContext: scope)
 
-        function.callWithArguments(arguments)
+            function.callWithArguments(arguments)
+        }
     }
 
     func call() {
-        callWithArguments(nil)
+        callWithArguments([])
     }
 }
