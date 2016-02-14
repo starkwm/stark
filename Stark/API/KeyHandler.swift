@@ -70,7 +70,9 @@ public class KeyHandler: Handler {
     }
 
     public static func hashForKey(key: String, modifiers: [String]) -> Int {
-        return key.hashValue + modifiers.reduce(0, combine: { $0 + $1.hashValue })
+        var hash = key.hashValue
+        modifiers.forEach { hash += $0.hashValue }
+        return hash
     }
 
     init(key: String, modifiers: [String]) {
