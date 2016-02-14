@@ -17,7 +17,7 @@ private let StarkHotKeyIdentifier = "StarkHotKeyIdentifier"
 private let StarkHotKeyKeyDownNotification = "StarkHotKeyKeyDownNotification"
 
 public class KeyHandler: Handler {
-    private static var dispatchToken: dispatch_once_t = 0
+    private static var setupDispatchToken: dispatch_once_t = 0
 
     public var key: String = ""
     public var modifiers: [String] = []
@@ -55,7 +55,7 @@ public class KeyHandler: Handler {
     }
 
     private static func setup() {
-        dispatch_once(&dispatchToken) {
+        dispatch_once(&setupDispatchToken) {
             var keyDown = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
 
             InstallEventHandler(
