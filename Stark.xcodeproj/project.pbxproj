@@ -11,6 +11,8 @@
 		F60894E11C6D9E310079D7B5 /* EventHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60894E01C6D9E310079D7B5 /* EventHandler.swift */; };
 		F60894E31C6DA0090079D7B5 /* EventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60894E21C6DA0090079D7B5 /* EventHelper.swift */; };
 		F649A3CD1C68E3C600A3C81A /* Stark.swift in Sources */ = {isa = PBXBuildFile; fileRef = F649A3CC1C68E3C600A3C81A /* Stark.swift */; };
+		F66454F91C70107F00B6371C /* RunningAppsObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66454F81C70107F00B6371C /* RunningAppsObserver.swift */; };
+		F66454FB1C703DD000B6371C /* AppObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66454FA1C703DD000B6371C /* AppObserver.swift */; };
 		F66C39C61C6AD73E0008FDD5 /* KeyHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66C39C51C6AD73E0008FDD5 /* KeyHandler.swift */; };
 		F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */; };
 		F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2C1C404B53007D9DF9 /* Assets.xcassets */; };
@@ -31,6 +33,8 @@
 		F60894E01C6D9E310079D7B5 /* EventHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHandler.swift; sourceTree = "<group>"; };
 		F60894E21C6DA0090079D7B5 /* EventHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHelper.swift; sourceTree = "<group>"; };
 		F649A3CC1C68E3C600A3C81A /* Stark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stark.swift; sourceTree = "<group>"; };
+		F66454F81C70107F00B6371C /* RunningAppsObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunningAppsObserver.swift; sourceTree = "<group>"; };
+		F66454FA1C703DD000B6371C /* AppObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppObserver.swift; sourceTree = "<group>"; };
 		F66C39C51C6AD73E0008FDD5 /* KeyHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyHandler.swift; sourceTree = "<group>"; };
 		F6792C271C404B53007D9DF9 /* Stark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -81,6 +85,7 @@
 			children = (
 				F6792C371C404EF3007D9DF9 /* API */,
 				F6792C381C404EF8007D9DF9 /* Helpers */,
+				F6AB3A721C723C3300A5EEDB /* Observers */,
 				F6792C391C404F01007D9DF9 /* Resources */,
 				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
 				F6CBE6071C418D6300C962A7 /* Config.swift */,
@@ -124,6 +129,15 @@
 				F6792C441C405973007D9DF9 /* underscore-min.js */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		F6AB3A721C723C3300A5EEDB /* Observers */ = {
+			isa = PBXGroup;
+			children = (
+				F66454FA1C703DD000B6371C /* AppObserver.swift */,
+				F66454F81C70107F00B6371C /* RunningAppsObserver.swift */,
+			);
+			path = Observers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,8 +215,10 @@
 				F60894E11C6D9E310079D7B5 /* EventHandler.swift in Sources */,
 				F6002D6F1C47086100C958F5 /* KeyCodeHelper.swift in Sources */,
 				F6CBE6061C4160A900C962A7 /* NSScreen+JSExport.swift in Sources */,
+				F66454FB1C703DD000B6371C /* AppObserver.swift in Sources */,
 				F6F9B8291C45D8D7007928D0 /* AlertHelper.swift in Sources */,
 				F6792C471C405B69007D9DF9 /* NotificationHelper.swift in Sources */,
+				F66454F91C70107F00B6371C /* RunningAppsObserver.swift in Sources */,
 				F6CBE6081C418D6300C962A7 /* Config.swift in Sources */,
 				F6792C3F1C40525C007D9DF9 /* AccessibilityHelper.swift in Sources */,
 				F60894E31C6DA0090079D7B5 /* EventHelper.swift in Sources */,
