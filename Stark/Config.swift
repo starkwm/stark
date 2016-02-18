@@ -10,6 +10,7 @@ public class Config {
 
     private var primaryConfigPath: String
     private var context: JSContext
+    private var observer: RunningAppsObserver
 
     private var hotkeys: [Int: KeyHandler]
 
@@ -28,6 +29,7 @@ public class Config {
     init() {
         primaryConfigPath = Config.resolvePrimaryConfigPath()
         context = JSContext(virtualMachine: JSVirtualMachine())
+        observer = RunningAppsObserver()
         hotkeys = [Int: KeyHandler]()
     }
 
