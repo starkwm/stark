@@ -45,17 +45,16 @@ public class RunningAppsObserver: NSObject {
         var apps: [NSRunningApplication]? = nil
 
         if let rv = change[NSKeyValueChangeKindKey] as? UInt, kind = NSKeyValueChange(rawValue: rv) {
-
             switch kind {
             case .Insertion:
                 apps = change[NSKeyValueChangeNewKey] as? [NSRunningApplication]
+                observeApplications(apps!)
             case .Removal:
                 apps = change[NSKeyValueChangeOldKey] as? [NSRunningApplication]
+                removeApplications(apps!)
             default:
                 return
             }
         }
-
-        print(apps)
     }
 }
