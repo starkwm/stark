@@ -57,6 +57,11 @@ public class Application: NSObject, ApplicationJSExport {
         self.app = NSRunningApplication(processIdentifier: pid)!
     }
 
+    init(app: NSRunningApplication) {
+        self.element = AXUIElementCreateApplication(app.processIdentifier).takeRetainedValue()
+        self.app = app
+    }
+
     public func allWindows() -> [Window] {
         var values: CFArray?
         let result = AXUIElementCopyAttributeValues(element, kAXWindowsAttribute, 0, 100, &values)
