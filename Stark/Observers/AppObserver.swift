@@ -51,7 +51,7 @@ public class AppObserver {
     private func setup() {
         CFRunLoopAddSource(
             CFRunLoopGetCurrent(),
-            AXObserverGetRunLoopSource(self.observer).takeRetainedValue(),
+            AXObserverGetRunLoopSource(self.observer).takeUnretainedValue(),
             kCFRunLoopDefaultMode
         )
 
