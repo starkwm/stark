@@ -20,11 +20,13 @@ public class AppObserver {
         self.element = AXUIElementCreateApplication(app.processIdentifier).takeRetainedValue()
 
         let callback: AXObserverCallback = { _, element, notification, _ in
-            let window = Window(element: element)
+            autoreleasepool {
+                let window = Window(element: element)
 
-            NSNotificationCenter
-                .defaultCenter()
-                .postNotificationName(notification as String, object: nil, userInfo: [AppObserverWindowKey: window])
+                NSNotificationCenter
+                    .defaultCenter()
+                    .postNotificationName(notification as String, object: nil, userInfo: [AppObserverWindowKey: window])
+            }
         }
 
         var observer: AXObserverRef? = nil
