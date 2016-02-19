@@ -38,6 +38,12 @@ public class AppObserver {
         for notification in AppObserver.notifications {
             removeNotification(notification)
         }
+
+        CFRunLoopRemoveSource(
+            CFRunLoopGetCurrent(),
+            AXObserverGetRunLoopSource(self.observer).takeUnretainedValue(),
+            kCFRunLoopDefaultMode
+        )
     }
 
     public func addNotification(notification: String) {
