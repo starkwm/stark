@@ -38,25 +38,28 @@ public class KeyHandler: Handler {
             var keyDown = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
 
             let callback: EventHandlerUPP = { (_, event, _) -> OSStatus in
-                var identifier: EventHotKeyID? = nil
+                autoreleasepool {
+                    var identifier = EventHotKeyID()
 
-                let status = GetEventParameter(
-                    event,
-                    EventParamName(kEventParamDirectObject),
-                    EventParamType(typeEventHotKeyID),
-                    nil,
-                    sizeof(EventHotKeyID),
-                    nil,
-                    &identifier
-                )
+                    let status = GetEventParameter(
+                        event,
+                        EventParamName(kEventParamDirectObject),
+                        EventParamType(typeEventHotKeyID),
+                        nil,
+                        sizeof(EventHotKeyID),
+                        nil,
+                        &identifier
+                    )
 
-                if status != noErr {
-                    return noErr
+                    if status != noErr {
+                        return
+                    }
+
+                    NSNotificationCenter
+                        .defaultCenter()
+                        .postNotificationName(StarkHotKeyKeyDownNotification, object: nil, userInfo: [StarkHotKeyIdentifier: UInt(identifier.id)])
+
                 }
-
-                NSNotificationCenter
-                    .defaultCenter()
-                    .postNotificationName(StarkHotKeyKeyDownNotification, object: nil, userInfo: [StarkHotKeyIdentifier: UInt(identifier!.id)])
 
                 return noErr
             }
