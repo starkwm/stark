@@ -16,20 +16,16 @@ public class EventHelper {
     }()
 
     private static let eventToNotification: [String: String] = [
-        // stark
         "starkDidLaunch": StarkStartNotification,
 
-        // screen
         "screensDidChange": NSApplicationDidChangeScreenParametersNotification,
 
-        // application
         "applicationDidLaunch": NSWorkspaceDidLaunchApplicationNotification,
         "applicationDidTerminate": NSWorkspaceDidTerminateApplicationNotification,
         "applicationDidActivate": NSWorkspaceDidActivateApplicationNotification,
         "applicationDidHide": NSWorkspaceDidHideApplicationNotification,
         "applicationDidShow": NSWorkspaceDidUnhideApplicationNotification,
 
-        // window
         "windowDidOpen": NSAccessibilityWindowCreatedNotification,
         "windowDidClose": NSAccessibilityUIElementDestroyedNotification,
         "windowDidFocus": NSAccessibilityFocusedWindowChangedNotification,
