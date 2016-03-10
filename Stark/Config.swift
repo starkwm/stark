@@ -63,9 +63,7 @@ public class Config {
     }
 
     private func createConfigFile(path: String) {
-        let resolvedPath = (path as NSString).stringByResolvingSymlinksInPath
-
-        if !NSFileManager.defaultManager().createFileAtPath(resolvedPath, contents: nil, attributes: nil) {
+        if !NSFileManager.defaultManager().createFileAtPath(path, contents: nil, attributes: nil) {
             NSLog("Unable to create configuration file: %@", path)
         }
     }
