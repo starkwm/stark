@@ -23,7 +23,8 @@ public class Config {
             }
         }
 
-        return primaryConfigPaths.first!
+        let path = primaryConfigPaths.first! as NSString
+        return path.stringByResolvingSymlinksInPath
     }
 
     init() {
