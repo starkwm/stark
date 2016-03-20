@@ -84,7 +84,7 @@ public class Config {
 
     private func setupAPI() {
         context.setObject(Stark.self(config: self), forKeyedSubscript: "Stark")
-        context.setObject(Application.self, forKeyedSubscript: "Application")
+        context.setObject(Application.self, forKeyedSubscript: "App")
         context.setObject(Window.self, forKeyedSubscript: "Window")
         context.setObject(NSScreen.self, forKeyedSubscript: "Screen")
         context.setObject(KeyHandler.self, forKeyedSubscript: "KeyHandler")
