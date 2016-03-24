@@ -95,7 +95,7 @@ public class KeyHandler: Handler {
 
         NSNotificationCenter
             .defaultCenter()
-            .addObserver(self, selector: "keyDown:", name: StarkHotKeyKeyDownNotification, object: nil)
+            .addObserver(self, selector: #selector(KeyHandler.keyDown(_:)), name: StarkHotKeyKeyDownNotification, object: nil)
 
         enable()
     }

@@ -21,7 +21,7 @@ public class EventHandler: Handler, EventHandlerJSExport {
 
         self.manageCallback(callback)
 
-        self.notificationCenter.addObserver(self, selector: "didReceiveNotification:", name: self.notification, object: nil)
+        self.notificationCenter.addObserver(self, selector: #selector(EventHandler.didReceiveNotification(_:)), name: self.notification, object: nil)
     }
 
     deinit {

@@ -26,9 +26,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.image = image
 
         let menu = NSMenu()
-        menu.addItemWithTitle("Reload", action: "reload:", keyEquivalent: "")
+        menu.addItemWithTitle("Reload", action: #selector(AppDelegate.reload(_:)), keyEquivalent: "")
         menu.addItem(NSMenuItem.separatorItem())
-        menu.addItemWithTitle("Quit Stark", action: "quit:", keyEquivalent: "")
+        menu.addItemWithTitle("Quit Stark", action: #selector(AppDelegate.quit(_:)), keyEquivalent: "")
 
         statusItem.menu = menu
     }
