@@ -89,7 +89,8 @@ public class KeyHandler: Handler {
         self.keyCode = UInt32(KeyCodeHelper.keyCodeForString(key))
         self.modifierFlags = UInt32(KeyCodeHelper.modifierFlagsForString(modifiers))
 
-        self.identifier = ++KeyHandlerIdentifierSequence
+        KeyHandlerIdentifierSequence += 1
+        self.identifier = KeyHandlerIdentifierSequence
 
         super.init()
 
