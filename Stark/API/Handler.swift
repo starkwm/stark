@@ -16,6 +16,7 @@ public class Handler: NSObject {
                 let err = String(format: "JavaScript exception: %@", exception)
                 NSLog(err)
                 NotificationHelper.deliver(err)
+                LogHelper.log(err)
             }
 
             let function = JSValue(object: callback, inContext: scope)

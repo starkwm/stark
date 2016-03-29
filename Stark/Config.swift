@@ -64,7 +64,9 @@ public class Config {
 
     private func createConfigFile(path: String) {
         if !NSFileManager.defaultManager().createFileAtPath(path, contents: nil, attributes: nil) {
-            NSLog("Unable to create configuration file: %@", path)
+            let msg = String("Unable to create configuration file: %@", path)
+            NSLog(msg)
+            LogHelper.log(msg)
         }
     }
 
@@ -94,7 +96,9 @@ public class Config {
         if let script = try? String(contentsOfFile: path) {
             context.evaluateScript(script)
         } else {
-            NSLog("Unable to load script: %@", path)
+            let msg = String(format: "Unable to load script: %@", path)
+            NSLog(msg)
+            LogHelper.log(msg)
         }
     }
 
@@ -102,5 +106,6 @@ public class Config {
         let err = String(format: "JavaScript exception: %@", exception)
         NSLog(err)
         NotificationHelper.deliver(err)
+        LogHelper.log(err)
     }
 }
