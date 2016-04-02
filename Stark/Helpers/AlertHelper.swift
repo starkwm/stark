@@ -1,12 +1,25 @@
 import AppKit
 
 public class AlertHelper {
-    public static func show(message: String, description: String? = nil, error: NSError? = nil) {
+    public static func showConfigDialog(configPath: String) {
         let alert = NSAlert()
-        alert.messageText = "Stark: \(message)"
-        alert.informativeText = description ?? (error?.localizedDescription ?? "")
-        alert.alertStyle = .CriticalAlertStyle
+        alert.messageText = "Created new Stark configuration file"
+        alert.informativeText = "Would you like to view this configuration file?"
+        alert.alertStyle = .InformationalAlertStyle
 
-        alert.runModal()
+        alert.addButtonWithTitle("Yes")
+        alert.addButtonWithTitle("No")
+
+        switch alert.runModal() {
+        case NSAlertFirstButtonReturn:
+            let task = NSTask()
+            task.launchPath = "/usr/bin/open"
+            task.arguments = [configPath]
+            task.launch()
+        default:
+            let msg = "Invalid alert button pressed"
+            NSLog(msg)
+            LogHelper.log(msg)
+        }
     }
 }

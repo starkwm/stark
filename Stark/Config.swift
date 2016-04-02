@@ -68,6 +68,9 @@ public class Config {
             NSLog(msg)
             LogHelper.log(msg)
         }
+        else {
+            AlertHelper.showConfigDialog(path)
+        }
     }
 
     private func setupContext() {
