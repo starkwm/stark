@@ -105,7 +105,6 @@ public class Config {
     private func handleJavaScriptException(exception: JSValue) {
         let err = String(format: "JavaScript exception: %@", exception)
         NSLog(err)
-        NotificationHelper.deliver(err)
         LogHelper.log(err)
     }
 }

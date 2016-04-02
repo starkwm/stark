@@ -15,7 +15,6 @@ public class Handler: NSObject {
             scope.exceptionHandler = { _, exception in
                 let err = String(format: "JavaScript exception: %@", exception)
                 NSLog(err)
-                NotificationHelper.deliver(err)
                 LogHelper.log(err)
             }
 
