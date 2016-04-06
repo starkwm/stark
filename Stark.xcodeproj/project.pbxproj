@@ -238,7 +238,6 @@
 				<string>F6CBE6061C4160A900C962A7</string>
 				<string>F66454FB1C703DD000B6371C</string>
 				<string>F6F9B8291C45D8D7007928D0</string>
-				<string>F6792C471C405B69007D9DF9</string>
 				<string>F66454F91C70107F00B6371C</string>
 				<string>F6CBE6081C418D6300C962A7</string>
 				<string>F6792C3F1C40525C007D9DF9</string>
@@ -687,7 +686,6 @@
 				<string>F60894E21C6DA0090079D7B5</string>
 				<string>F6002D6E1C47086100C958F5</string>
 				<string>F6A41BD21CA7144100D1C0C5</string>
-				<string>F6792C461C405B69007D9DF9</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -787,26 +785,6 @@
 		<dict>
 			<key>fileRef</key>
 			<string>F6792C441C405973007D9DF9</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F6792C461C405B69007D9DF9</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.swift</string>
-			<key>path</key>
-			<string>NotificationHelper.swift</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F6792C471C405B69007D9DF9</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F6792C461C405B69007D9DF9</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
