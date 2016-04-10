@@ -270,6 +270,7 @@
 			<string>2147483647</string>
 			<key>files</key>
 			<array>
+				<string>F6FC1C661CBAE8E10070ED3B</string>
 				<string>F6792C451C405973007D9DF9</string>
 				<string>F6792C2D1C404B53007D9DF9</string>
 				<string>F6792C301C404B53007D9DF9</string>
@@ -699,6 +700,7 @@
 			<key>children</key>
 			<array>
 				<string>F6792C2C1C404B53007D9DF9</string>
+				<string>F6FC1C651CBAE8E10070ED3B</string>
 				<string>F6792C441C405973007D9DF9</string>
 			</array>
 			<key>isa</key>
@@ -910,6 +912,26 @@
 		<dict>
 			<key>fileRef</key>
 			<string>F6F9B8281C45D8D7007928D0</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>F6FC1C651CBAE8E10070ED3B</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.javascript</string>
+			<key>path</key>
+			<string>stark-example.js</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F6FC1C661CBAE8E10070ED3B</key>
+		<dict>
+			<key>fileRef</key>
+			<string>F6FC1C651CBAE8E10070ED3B</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>

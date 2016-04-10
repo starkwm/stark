@@ -63,13 +63,15 @@ public class Config {
     }
 
     private func createConfigFile(path: String) {
-        if !NSFileManager.defaultManager().createFileAtPath(path, contents: nil, attributes: nil) {
-            let msg = String("Unable to create configuration file: %@", path)
-            NSLog(msg)
-            LogHelper.log(msg)
-        }
-        else {
-            AlertHelper.showConfigDialog(path)
+        if let example = NSBundle.mainBundle().pathForResource("stark-example", ofType: "js") {
+            if !NSFileManager.defaultManager().createFileAtPath(path, contents: NSData(contentsOfFile: example), attributes: nil) {
+                let msg = String("Unable to create configuration file: %@", path)
+                NSLog(msg)
+                LogHelper.log(msg)
+            }
+            else {
+                AlertHelper.showConfigDialog(path)
+            }
         }
     }
 
