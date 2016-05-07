@@ -30,6 +30,26 @@
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
+		<key>F607840B1CDE70E6001DAFA2</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.javascript</string>
+			<key>path</key>
+			<string>lodash-min.js</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F607840C1CDE70E6001DAFA2</key>
+		<dict>
+			<key>fileRef</key>
+			<string>F607840B1CDE70E6001DAFA2</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
 		<key>F60894E01C6D9E310079D7B5</key>
 		<dict>
 			<key>fileEncoding</key>
@@ -270,8 +290,8 @@
 			<string>2147483647</string>
 			<key>files</key>
 			<array>
+				<string>F607840C1CDE70E6001DAFA2</string>
 				<string>F6FC1C661CBAE8E10070ED3B</string>
-				<string>F6792C451C405973007D9DF9</string>
 				<string>F6792C2D1C404B53007D9DF9</string>
 				<string>F6792C301C404B53007D9DF9</string>
 			</array>
@@ -700,8 +720,8 @@
 			<key>children</key>
 			<array>
 				<string>F6792C2C1C404B53007D9DF9</string>
+				<string>F607840B1CDE70E6001DAFA2</string>
 				<string>F6FC1C651CBAE8E10070ED3B</string>
-				<string>F6792C441C405973007D9DF9</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
@@ -767,26 +787,6 @@
 		<dict>
 			<key>fileRef</key>
 			<string>F6792C421C4055A2007D9DF9</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F6792C441C405973007D9DF9</key>
-		<dict>
-			<key>fileEncoding</key>
-			<string>4</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.javascript</string>
-			<key>path</key>
-			<string>underscore-min.js</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F6792C451C405973007D9DF9</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F6792C441C405973007D9DF9</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>

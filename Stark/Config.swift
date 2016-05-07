@@ -82,8 +82,8 @@ public class Config {
 
         setupAPI()
 
-        if let underscore = NSBundle.mainBundle().pathForResource("underscore-min", ofType: "js") {
-            loadScript(underscore)
+        if let lodash = NSBundle.mainBundle().pathForResource("lodash-min", ofType: "js") {
+            loadScript(lodash)
         }
 
         loadScript(primaryConfigPath)
