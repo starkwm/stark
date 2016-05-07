@@ -6,6 +6,8 @@ import JavaScriptCore
     func reload()
     @objc(bind:::) func bind(key: String, modifiers: [String], callback: JSValue) -> KeyHandler
     @objc(on::) func on(event: String, callback: JSValue) -> EventHandler
+    func launch(application: String)
+    @objc(run::) func run(command: String, arguments: [String]?)
 }
 
 public class Stark: NSObject, StarkJSExport {
@@ -30,5 +32,17 @@ public class Stark: NSObject, StarkJSExport {
 
     @objc(on::) public func on(event: String, callback: JSValue) -> EventHandler {
         return EventHandler(event: event, callback: callback)
+    }
+
+    public func launch(application: String) {
+        NSWorkspace.sharedWorkspace().launchApplication(application)
+    }
+
+    @objc(run::) public func run(command: String, arguments: [String]?) {
+        let task = NSTask()
+        task.launchPath = command
+        task.arguments = arguments
+        task.launch()
+        task.waitUntilExit()
     }
 }
