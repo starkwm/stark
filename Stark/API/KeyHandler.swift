@@ -76,9 +76,8 @@ public class KeyHandler: Handler {
     }
 
     public static func hashForKey(key: String, modifiers: [String]) -> Int {
-        var hash = key.hashValue
-        modifiers.forEach { hash += $0.hashValue }
-        return hash
+        let key = String(format: "%@[%@]", key, modifiers.joinWithSeparator("|"))
+        return key.hashValue
     }
 
     init(key: String, modifiers: [String]) {
