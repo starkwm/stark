@@ -26,14 +26,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.image = image
 
         let menu = NSMenu()
-        menu.addItemWithTitle("Reload", action: #selector(AppDelegate.reload(_:)), keyEquivalent: "")
+        menu.addItemWithTitle("Edit config file", action: #selector(AppDelegate.editConfig(_:)), keyEquivalent: "")
+        menu.addItemWithTitle("Reload config file", action: #selector(AppDelegate.reloadConfig(_:)), keyEquivalent: "")
         menu.addItem(NSMenuItem.separatorItem())
         menu.addItemWithTitle("Quit Stark", action: #selector(AppDelegate.quit(_:)), keyEquivalent: "")
 
         statusItem.menu = menu
     }
 
-    func reload(sender: AnyObject?) {
+    func editConfig(sender: AnyObject?) {
+        config.edit()
+
+    }
+
+    func reloadConfig(sender: AnyObject?) {
         config.load()
     }
 

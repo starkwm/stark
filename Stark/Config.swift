@@ -44,6 +44,23 @@ public class Config {
         setupContext()
     }
 
+    public func edit() {
+        let task = NSTask()
+        task.launchPath = "/usr/bin/open"
+        task.arguments = [primaryConfigPath]
+
+        task.standardOutput = nil
+        task.standardError = nil
+
+        task.launch()
+        task.waitUntilExit()
+
+        if task.terminationStatus != 0 {
+            let description = String(format: "There was a problem opening %@ as there is not an application available to open it.\n\nPlease edit this file manually.", primaryConfigPath)
+            AlertHelper.show("Unable to open the configuration file", description: description)
+        }
+    }
+
     public func bindKey(key: String, modifiers: [String], callback: JSValue) -> KeyHandler {
         var hotkey = hotkeys[KeyHandler.hashForKey(key, modifiers: modifiers)]
 
@@ -70,7 +87,9 @@ public class Config {
                 LogHelper.log(msg)
             }
             else {
-                AlertHelper.showConfigDialog(path)
+                if AlertHelper.showConfigDialog(path) == NSAlertFirstButtonReturn {
+                    edit()
+                }
             }
         }
     }
