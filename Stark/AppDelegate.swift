@@ -55,8 +55,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func toggleRunAtLogin(sender: NSMenuItem) {
         if sender.state == NSOnState {
+            LaunchAgentHelper.remove()
             sender.state = NSOffState
         } else {
+            LaunchAgentHelper.add()
             sender.state = NSOnState
         }
     }
