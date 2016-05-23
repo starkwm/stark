@@ -18,7 +18,6 @@ public class Stark: NSObject, StarkJSExport {
     }
 
     public func log(message: String) {
-        NSLog(message)
         LogHelper.log(message)
     }
 

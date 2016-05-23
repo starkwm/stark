@@ -2,6 +2,8 @@ import Foundation
 
 public class LogHelper {
     public static func log(message: String) {
+        NSLog("%@", message)
+
         let dir = NSURL(fileURLWithPath: NSHomeDirectory())
         let file = dir.URLByAppendingPathComponent(".stark.log")
 

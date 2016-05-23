@@ -82,9 +82,7 @@ public class Config {
     private func createConfigFile(path: String) {
         if let example = NSBundle.mainBundle().pathForResource("stark-example", ofType: "js") {
             if !NSFileManager.defaultManager().createFileAtPath(path, contents: NSData(contentsOfFile: example), attributes: nil) {
-                let msg = String("Unable to create configuration file: %@", path)
-                NSLog(msg)
-                LogHelper.log(msg)
+                LogHelper.log(String("Unable to create configuration file: %@", path))
             }
             else {
                 if AlertHelper.showConfigDialog(path) == NSAlertFirstButtonReturn {
@@ -120,15 +118,11 @@ public class Config {
         if let script = try? String(contentsOfFile: path) {
             context.evaluateScript(script)
         } else {
-            let msg = String(format: "Unable to load script: %@", path)
-            NSLog(msg)
-            LogHelper.log(msg)
+            LogHelper.log(String(format: "Unable to load script: %@", path))
         }
     }
 
     private func handleJavaScriptException(exception: JSValue) {
-        let err = String(format: "JavaScript exception: %@", exception)
-        NSLog(err)
-        LogHelper.log(err)
+        LogHelper.log(String(format: "JavaScript exception: %@", exception))
     }
 }
