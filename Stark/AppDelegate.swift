@@ -25,11 +25,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.highlightMode = true
         statusItem.image = image
 
+        let loginMenuItem = NSMenuItem(title: "Run at login", action: #selector(AppDelegate.toggleRunAtLogin(_:)), keyEquivalent: "")
+
         let menu = NSMenu()
         menu.addItemWithTitle("Edit config file", action: #selector(AppDelegate.editConfig(_:)), keyEquivalent: "")
         menu.addItemWithTitle("Reload config file", action: #selector(AppDelegate.reloadConfig(_:)), keyEquivalent: "")
         menu.addItem(NSMenuItem.separatorItem())
+        menu.addItem(loginMenuItem)
+        menu.addItem(NSMenuItem.separatorItem())
         menu.addItemWithTitle("Quit Stark", action: #selector(AppDelegate.quit(_:)), keyEquivalent: "")
+
+        if LaunchAgentHelper.enabled() {
+            loginMenuItem.state = NSOnState
+        } else {
+            loginMenuItem.state = NSOffState
+        }
 
         statusItem.menu = menu
     }
@@ -41,6 +51,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func reloadConfig(sender: AnyObject?) {
         config.load()
+    }
+
+    func toggleRunAtLogin(sender: NSMenuItem) {
+        if sender.state == NSOnState {
+            sender.state = NSOffState
+        } else {
+            sender.state = NSOnState
+        }
     }
 
     func quit(sender: AnyObject?) {

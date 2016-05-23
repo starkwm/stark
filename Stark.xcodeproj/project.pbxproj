@@ -267,6 +267,7 @@
 				<string>F66C39C61C6AD73E0008FDD5</string>
 				<string>F6792C2B1C404B53007D9DF9</string>
 				<string>F6792C431C4055A2007D9DF9</string>
+				<string>F6EB17181CF36CCC00E08F8F</string>
 			</array>
 			<key>isa</key>
 			<string>PBXSourcesBuildPhase</string>
@@ -706,6 +707,7 @@
 				<string>F6F9B8281C45D8D7007928D0</string>
 				<string>F60894E21C6DA0090079D7B5</string>
 				<string>F6002D6E1C47086100C958F5</string>
+				<string>F6EB17171CF36CCC00E08F8F</string>
 				<string>F6A41BD21CA7144100D1C0C5</string>
 			</array>
 			<key>isa</key>
@@ -894,6 +896,26 @@
 			<string>Stark-Bridging-Header.h</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F6EB17171CF36CCC00E08F8F</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>LaunchAgentHelper.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F6EB17181CF36CCC00E08F8F</key>
+		<dict>
+			<key>fileRef</key>
+			<string>F6EB17171CF36CCC00E08F8F</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
 		</dict>
 		<key>F6F9B8281C45D8D7007928D0</key>
 		<dict>
