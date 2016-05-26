@@ -1,7 +1,7 @@
 import Carbon
 import JavaScriptCore
 
-@objc protocol KeyHandlerJSExport: JSExport {
+@objc protocol BindJSExport: JSExport {
     var key: String { get }
     var modifiers: [String] { get }
 
@@ -12,19 +12,19 @@ import JavaScriptCore
 }
 
 private let StarkHotKeySignature = UTGetOSTypeFromString("STRK")
-private var KeyHandlerIdentifierSequence: UInt = 0
+private var BindIdentifierSequence: UInt = 0
 
 private let StarkHotKeyIdentifier = "StarkHotKeyIdentifier"
 private let StarkHotKeyKeyDownNotification = "StarkHotKeyKeyDownNotification"
 
-public class KeyHandler: Handler {
+public class Bind: Handler {
     private static var setupDispatchToken: dispatch_once_t = 0
 
     public var key: String = ""
     public var modifiers: [String] = []
 
     override public var hashValue: Int {
-        get { return KeyHandler.hashForKey(key, modifiers: modifiers) }
+        get { return Bind.hashForKey(key, modifiers: modifiers) }
     }
 
     private var identifier: UInt = 0
@@ -81,21 +81,21 @@ public class KeyHandler: Handler {
     }
 
     init(key: String, modifiers: [String]) {
-        KeyHandler.setup()
+        Bind.setup()
 
         self.key = key
         self.modifiers = modifiers
         self.keyCode = UInt32(KeyCodeHelper.keyCodeForString(key))
         self.modifierFlags = UInt32(KeyCodeHelper.modifierFlagsForString(modifiers))
 
-        KeyHandlerIdentifierSequence += 1
-        self.identifier = KeyHandlerIdentifierSequence
+        BindIdentifierSequence += 1
+        self.identifier = BindIdentifierSequence
 
         super.init()
 
         NSNotificationCenter
             .defaultCenter()
-            .addObserver(self, selector: #selector(KeyHandler.keyDown(_:)), name: StarkHotKeyKeyDownNotification, object: nil)
+            .addObserver(self, selector: #selector(Bind.keyDown(_:)), name: StarkHotKeyKeyDownNotification, object: nil)
 
         enable()
     }

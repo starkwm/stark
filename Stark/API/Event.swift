@@ -1,11 +1,11 @@
 import AppKit
 import JavaScriptCore
 
-@objc protocol EventHandlerJSExport: JSExport {
+@objc protocol EventJSExport: JSExport {
     var name: String { get }
 }
 
-public class EventHandler: Handler, EventHandlerJSExport {
+public class Event: Handler, EventJSExport {
     public var name: String
 
     private var notification: String
@@ -21,7 +21,7 @@ public class EventHandler: Handler, EventHandlerJSExport {
 
         self.manageCallback(callback)
 
-        self.notificationCenter.addObserver(self, selector: #selector(EventHandler.didReceiveNotification(_:)), name: self.notification, object: nil)
+        self.notificationCenter.addObserver(self, selector: #selector(Event.didReceiveNotification(_:)), name: self.notification, object: nil)
     }
 
     deinit {

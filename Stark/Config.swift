@@ -12,7 +12,7 @@ public class Config {
     private var context: JSContext
     private var observer: RunningAppsObserver
 
-    private var hotkeys: [Int: KeyHandler]
+    private var hotkeys: [Int: Bind]
 
     private static func resolvePrimaryConfigPath() -> String {
         for primaryConfigPath in primaryConfigPaths {
@@ -31,7 +31,7 @@ public class Config {
         primaryConfigPath = Config.resolvePrimaryConfigPath()
         context = JSContext(virtualMachine: JSVirtualMachine())
         observer = RunningAppsObserver()
-        hotkeys = [Int: KeyHandler]()
+        hotkeys = [Int: Bind]()
     }
 
     public func load() {
@@ -61,11 +61,11 @@ public class Config {
         }
     }
 
-    public func bindKey(key: String, modifiers: [String], callback: JSValue) -> KeyHandler {
-        var hotkey = hotkeys[KeyHandler.hashForKey(key, modifiers: modifiers)]
+    public func bindKey(key: String, modifiers: [String], callback: JSValue) -> Bind {
+        var hotkey = hotkeys[Bind.hashForKey(key, modifiers: modifiers)]
 
         if hotkey == nil {
-            hotkey = KeyHandler(key: key, modifiers: modifiers)
+            hotkey = Bind(key: key, modifiers: modifiers)
         }
 
         hotkey!.manageCallback(callback)
@@ -111,7 +111,8 @@ public class Config {
         context.setObject(Application.self, forKeyedSubscript: "App")
         context.setObject(Window.self, forKeyedSubscript: "Window")
         context.setObject(NSScreen.self, forKeyedSubscript: "Screen")
-        context.setObject(KeyHandler.self, forKeyedSubscript: "KeyHandler")
+        context.setObject(Bind.self, forKeyedSubscript: "Bind")
+        context.setObject(Event.self, forKeyedSubscript: "Event")
     }
 
     private func loadScript(path: String) {
