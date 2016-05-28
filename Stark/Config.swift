@@ -12,7 +12,7 @@ public class Config {
     private var context: JSContext
     private var observer: RunningAppsObserver
 
-    private var hotkeys: [Int: Bind]
+    private var hotkeys: [Int: Bind] = [Int: Bind]()
 
     private static func resolvePrimaryConfigPath() -> String {
         for primaryConfigPath in primaryConfigPaths {
@@ -31,7 +31,6 @@ public class Config {
         primaryConfigPath = Config.resolvePrimaryConfigPath()
         context = JSContext(virtualMachine: JSVirtualMachine())
         observer = RunningAppsObserver()
-        hotkeys = [Int: Bind]()
     }
 
     public func load() {
@@ -111,8 +110,8 @@ public class Config {
         context.setObject(Application.self, forKeyedSubscript: "App")
         context.setObject(Window.self, forKeyedSubscript: "Window")
         context.setObject(NSScreen.self, forKeyedSubscript: "Screen")
-        context.setObject(Bind.self, forKeyedSubscript: "Bind")
-        context.setObject(Event.self, forKeyedSubscript: "Event")
+
+        context.setObject(Timer.self, forKeyedSubscript: "Timer")
     }
 
     private func loadScript(path: String) {

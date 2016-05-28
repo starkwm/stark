@@ -90,6 +90,26 @@
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
+		<key>F6270F8D1CF9D10500E6F679</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>Timer.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F6270F8E1CF9D10500E6F679</key>
+		<dict>
+			<key>fileRef</key>
+			<string>F6270F8D1CF9D10500E6F679</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
 		<key>F649A3CC1C68E3C600A3C81A</key>
 		<dict>
 			<key>fileEncoding</key>
@@ -266,6 +286,7 @@
 				<string>F649A3CD1C68E3C600A3C81A</string>
 				<string>F66C39C61C6AD73E0008FDD5</string>
 				<string>F6792C2B1C404B53007D9DF9</string>
+				<string>F6270F8E1CF9D10500E6F679</string>
 				<string>F6792C431C4055A2007D9DF9</string>
 				<string>F6EB17181CF36CCC00E08F8F</string>
 			</array>
@@ -690,6 +711,7 @@
 				<string>F6942ECC1C6A8EEF00D2C0D4</string>
 				<string>F6CBE6051C4160A900C962A7</string>
 				<string>F649A3CC1C68E3C600A3C81A</string>
+				<string>F6270F8D1CF9D10500E6F679</string>
 				<string>F6792C421C4055A2007D9DF9</string>
 			</array>
 			<key>isa</key>
