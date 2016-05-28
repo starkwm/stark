@@ -6,6 +6,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     let config = Config()
 
+    var aboutWindowController: AboutWindowController
+
+    override init() {
+        aboutWindowController = AboutWindowController(windowNibName: "AboutWindow")
+        super.init()
+    }
+
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         AccessibilityHelper.askForAccessibilityIfNeeded()
 
@@ -34,7 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItemWithTitle("Reload config file", action: #selector(AppDelegate.reloadConfig(_:)), keyEquivalent: "")
         menu.addItem(NSMenuItem.separatorItem())
         menu.addItem(loginMenuItem)
-        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItem(NSMenuItem.separatorItem())    
         menu.addItemWithTitle("Quit Stark", action: #selector(AppDelegate.quit(_:)), keyEquivalent: "")
 
         if LaunchAgentHelper.enabled() {
@@ -66,7 +73,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func about(sender: AnyObject?) {
-
+        NSApp.activateIgnoringOtherApps(true)
+        aboutWindowController.showWindow(nil)
     }
 
     func quit(sender: AnyObject?) {

@@ -1,0 +1,43 @@
+import AppKit
+
+public class AboutWindowController: NSWindowController {
+    public var appVersion: String = ""
+
+    @IBOutlet var versionLabel: NSTextField!
+    @IBOutlet var textField: NSTextView!
+
+    override init(window: NSWindow?) {
+        super.init(window: window)
+    }
+    
+    required public init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    override public func windowDidLoad() {
+        super.windowDidLoad()
+
+        self.window?.backgroundColor = NSColor.whiteColor()
+
+        if appVersion.characters.count <= 0 {
+            let version = valueFromInfoDict("CFBundleVersion")
+            let shortVersion = valueFromInfoDict("CFBundleShortVersionString")
+
+            appVersion = "v\(shortVersion) build \(version)"
+
+            let buildName = valueFromInfoDict("StarkBuildVersion")
+
+            if buildName.characters.count > 0 {
+                appVersion += " (\(buildName))"
+            }
+
+            versionLabel.stringValue = self.appVersion
+        }
+    }
+
+    private func valueFromInfoDict(key: String) -> String {
+        let dict = NSBundle.mainBundle().infoDictionary!
+        let value = dict[key] as! String
+        return value
+    }
+}

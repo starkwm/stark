@@ -110,6 +110,60 @@
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
+		<key>F63C8CC11CFA285800D2344B</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>F63C8CC61CFA30D800D2344B</string>
+				<string>F63C8CC41CFA295200D2344B</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>path</key>
+			<string>Interface</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F63C8CC41CFA295200D2344B</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.swift</string>
+			<key>path</key>
+			<string>AboutWindowController.swift</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F63C8CC51CFA295200D2344B</key>
+		<dict>
+			<key>fileRef</key>
+			<string>F63C8CC41CFA295200D2344B</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>F63C8CC61CFA30D800D2344B</key>
+		<dict>
+			<key>fileEncoding</key>
+			<string>4</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>file.xib</string>
+			<key>path</key>
+			<string>AboutWindow.xib</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F63C8CC71CFA30D800D2344B</key>
+		<dict>
+			<key>fileRef</key>
+			<string>F63C8CC61CFA30D800D2344B</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
 		<key>F649A3CC1C68E3C600A3C81A</key>
 		<dict>
 			<key>fileEncoding</key>
@@ -282,6 +336,7 @@
 				<string>F6CBE6081C418D6300C962A7</string>
 				<string>F6792C3F1C40525C007D9DF9</string>
 				<string>F60894E31C6DA0090079D7B5</string>
+				<string>F63C8CC51CFA295200D2344B</string>
 				<string>F6942ECD1C6A8EEF00D2C0D4</string>
 				<string>F649A3CD1C68E3C600A3C81A</string>
 				<string>F66C39C61C6AD73E0008FDD5</string>
@@ -314,6 +369,7 @@
 			<array>
 				<string>F607840C1CDE70E6001DAFA2</string>
 				<string>F6FC1C661CBAE8E10070ED3B</string>
+				<string>F63C8CC71CFA30D800D2344B</string>
 				<string>F6792C2D1C404B53007D9DF9</string>
 				<string>F6792C301C404B53007D9DF9</string>
 			</array>
@@ -379,6 +435,7 @@
 			<array>
 				<string>F6792C371C404EF3007D9DF9</string>
 				<string>F6792C381C404EF8007D9DF9</string>
+				<string>F63C8CC11CFA285800D2344B</string>
 				<string>F6AB3A721C723C3300A5EEDB</string>
 				<string>F6792C391C404F01007D9DF9</string>
 				<string>F6792C2A1C404B53007D9DF9</string>
