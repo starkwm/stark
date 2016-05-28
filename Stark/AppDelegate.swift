@@ -28,6 +28,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let loginMenuItem = NSMenuItem(title: "Run at login", action: #selector(AppDelegate.toggleRunAtLogin(_:)), keyEquivalent: "")
 
         let menu = NSMenu()
+        menu.addItemWithTitle("About", action: #selector(AppDelegate.about(_:)), keyEquivalent: "")
+        menu.addItem(NSMenuItem.separatorItem())
         menu.addItemWithTitle("Edit config file", action: #selector(AppDelegate.editConfig(_:)), keyEquivalent: "")
         menu.addItemWithTitle("Reload config file", action: #selector(AppDelegate.reloadConfig(_:)), keyEquivalent: "")
         menu.addItem(NSMenuItem.separatorItem())
@@ -61,6 +63,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             LaunchAgentHelper.add()
             sender.state = NSOnState
         }
+    }
+
+    func about(sender: AnyObject?) {
+
     }
 
     func quit(sender: AnyObject?) {
