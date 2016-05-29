@@ -11,13 +11,12 @@ import JavaScriptCore
     func isEnabled() -> Bool
 }
 
-private let StarkHotKeySignature = UTGetOSTypeFromString("STRK")
 private var BindIdentifierSequence: UInt = 0
 
 private let StarkHotKeyIdentifier = "StarkHotKeyIdentifier"
 private let StarkHotKeyKeyDownNotification = "StarkHotKeyKeyDownNotification"
 
-public class Bind: Handler {
+public class Bind: Handler, BindJSExport {
     private static var setupDispatchToken: dispatch_once_t = 0
 
     public var key: String = ""
@@ -64,14 +63,7 @@ public class Bind: Handler {
                 return noErr
             }
 
-            InstallEventHandler(
-                GetEventDispatcherTarget(),
-                callback,
-                1,
-                &keyDown,
-                nil,
-                nil
-            )
+            InstallEventHandler(GetEventDispatcherTarget(), callback, 1, &keyDown, nil, nil)
         }
     }
 
@@ -111,7 +103,7 @@ public class Bind: Handler {
             return true
         }
 
-        let identifier = EventHotKeyID(signature: StarkHotKeySignature, id: UInt32(self.identifier))
+        let identifier = EventHotKeyID(signature: UTGetOSTypeFromString("STRK"), id: UInt32(self.identifier))
 
         let status = RegisterEventHotKey(keyCode, modifierFlags, identifier, GetEventDispatcherTarget(), 0, &eventHotKeyRef)
 
