@@ -1,10 +1,9 @@
 import AppKit
 
 public class AboutWindowController: NSWindowController {
-    public var appVersion: String = ""
+    private var appVersion: String = ""
 
     @IBOutlet var versionLabel: NSTextField!
-    @IBOutlet var textField: NSTextView!
 
     override init(window: NSWindow?) {
         super.init(window: window)
