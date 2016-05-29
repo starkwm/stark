@@ -6,12 +6,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     let config = Config()
 
-    var aboutWindowController: AboutWindowController
-
-    override init() {
-        aboutWindowController = AboutWindowController(windowNibName: "AboutWindow")
-        super.init()
-    }
+    var aboutWindowController = AboutWindowController(windowNibName: "AboutWindow")
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         AccessibilityHelper.askForAccessibilityIfNeeded()
