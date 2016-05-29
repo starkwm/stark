@@ -19,12 +19,12 @@ private let StarkHotKeyKeyDownNotification = "StarkHotKeyKeyDownNotification"
 public class Bind: Handler, BindJSExport {
     private static var setupDispatchToken: dispatch_once_t = 0
 
-    public var key: String = ""
-    public var modifiers: [String] = []
-
     override public var hashValue: Int {
         get { return Bind.hashForKey(key, modifiers: modifiers) }
     }
+
+    public var key: String = ""
+    public var modifiers: [String] = []
 
     private var identifier: UInt = 0
     private var keyCode: UInt32 = 0
@@ -34,8 +34,6 @@ public class Bind: Handler, BindJSExport {
 
     private static func setup() {
         dispatch_once(&setupDispatchToken) {
-            var keyDown = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
-
             let callback: EventHandlerUPP = { (_, event, _) -> OSStatus in
                 autoreleasepool {
                     var identifier = EventHotKeyID()
@@ -62,6 +60,8 @@ public class Bind: Handler, BindJSExport {
 
                 return noErr
             }
+
+            var keyDown = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
 
             InstallEventHandler(GetEventDispatcherTarget(), callback, 1, &keyDown, nil, nil)
         }
