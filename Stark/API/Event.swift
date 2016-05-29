@@ -2,6 +2,8 @@ import AppKit
 import JavaScriptCore
 
 @objc protocol EventJSExport: JSExport {
+    @objc(on::) static func on(event: String, callback: JSValue) -> Event?
+
     var name: String { get }
 }
 
@@ -10,6 +12,10 @@ public class Event: Handler, EventJSExport {
 
     private var notification: String
     private var notificationCenter: NSNotificationCenter
+
+    @objc(on::) public static func on(event: String, callback: JSValue) -> Event? {
+        return nil
+    }
 
     init(event: String, callback: JSValue) {
         self.name = event

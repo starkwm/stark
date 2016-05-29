@@ -2,6 +2,8 @@ import Carbon
 import JavaScriptCore
 
 @objc protocol BindJSExport: JSExport {
+    @objc(on:::) static func on(key: String, modifiers: [String], callback: JSValue) -> Bind?
+
     var key: String { get }
     var modifiers: [String] { get }
 
@@ -72,11 +74,16 @@ public class Bind: Handler, BindJSExport {
         return key.hashValue
     }
 
+    @objc(on:::) public static func on(key: String, modifiers: [String], callback: JSValue) -> Bind? {
+        return nil
+    }
+
     init(key: String, modifiers: [String]) {
         Bind.setup()
 
         self.key = key
         self.modifiers = modifiers
+
         self.keyCode = UInt32(KeyCodeHelper.keyCodeForString(key))
         self.modifierFlags = UInt32(KeyCodeHelper.modifierFlagsForString(modifiers))
 
