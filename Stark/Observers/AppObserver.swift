@@ -46,11 +46,11 @@ public class AppObserver {
         )
     }
 
-    public func addNotification(notification: String) {
+    private func addNotification(notification: String) {
         AXObserverAddNotification(self.observer, self.element, notification, nil)
     }
 
-    public func removeNotification(notification: String) {
+    private func removeNotification(notification: String) {
         AXObserverRemoveNotification(self.observer, self.element, notification)
     }
 
