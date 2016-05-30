@@ -48,6 +48,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.menu = menu
     }
 
+    func about(sender: AnyObject?) {
+        NSApp.activateIgnoringOtherApps(true)
+        aboutWindowController.showWindow(nil)
+    }
+
     func editConfig(sender: AnyObject?) {
         config.edit()
 
@@ -65,11 +70,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             LaunchAgentHelper.add()
             sender.state = NSOnState
         }
-    }
-
-    func about(sender: AnyObject?) {
-        NSApp.activateIgnoringOtherApps(true)
-        aboutWindowController.showWindow(nil)
     }
 
     func quit(sender: AnyObject?) {
