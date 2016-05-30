@@ -39,11 +39,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(NSMenuItem.separatorItem())    
         menu.addItemWithTitle("Quit Stark", action: #selector(AppDelegate.quit(_:)), keyEquivalent: "")
 
-        if LaunchAgentHelper.enabled() {
-            loginMenuItem.state = NSOnState
-        } else {
-            loginMenuItem.state = NSOffState
-        }
+        loginMenuItem.state = (LaunchAgentHelper.enabled() ? NSOnState : NSOffState)
 
         statusItem.menu = menu
     }
