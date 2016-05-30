@@ -21,18 +21,6 @@ public class RunningAppsObserver: NSObject {
             .removeObserver(self, forKeyPath: NSWorkspaceRunningApplicationsKeyPath)
     }
 
-    private func observeApplications(apps: [NSRunningApplication]) {
-        for app in apps {
-            observers[app.processIdentifier] = AppObserver(app: app)
-        }
-    }
-
-    private func removeApplications(apps: [NSRunningApplication]) {
-        for app in apps {
-            observers.removeValueForKey(app.processIdentifier)
-        }
-    }
-
     public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String: AnyObject]?, context: UnsafeMutablePointer<Void>) {
         if keyPath != NSWorkspaceRunningApplicationsKeyPath {
             return
@@ -48,13 +36,25 @@ public class RunningAppsObserver: NSObject {
             switch kind {
             case .Insertion:
                 apps = change[NSKeyValueChangeNewKey] as? [NSRunningApplication]
-                observeApplications(apps!)
+                observeApplications(apps ?? [])
             case .Removal:
                 apps = change[NSKeyValueChangeOldKey] as? [NSRunningApplication]
-                removeApplications(apps!)
+                removeApplications(apps ?? [])
             default:
                 return
             }
+        }
+    }
+
+    private func observeApplications(apps: [NSRunningApplication]) {
+        for app in apps {
+            observers[app.processIdentifier] = AppObserver(app: app)
+        }
+    }
+
+    private func removeApplications(apps: [NSRunningApplication]) {
+        for app in apps {
+            observers.removeValueForKey(app.processIdentifier)
         }
     }
 }
