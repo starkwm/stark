@@ -37,9 +37,7 @@ public class AppObserver {
     }
 
     deinit {
-        for notification in AppObserver.notifications {
-            removeNotification(notification)
-        }
+        AppObserver.notifications.forEach {  removeNotification($0) }
 
         CFRunLoopRemoveSource(
             CFRunLoopGetCurrent(),
@@ -63,8 +61,6 @@ public class AppObserver {
             kCFRunLoopDefaultMode
         )
 
-        for notification in AppObserver.notifications {
-            addNotification(notification)
-        }
+        AppObserver.notifications.forEach { addNotification($0) }
     }
 }
