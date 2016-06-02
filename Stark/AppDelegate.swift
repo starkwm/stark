@@ -10,7 +10,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var aboutWindowController = AboutWindowController(windowNibName: "AboutWindow")
 
     override init() {
-        NSLog("AppDelegate init()")
         self.config = Config()
         self.context = Context(config: self.config)
     }
