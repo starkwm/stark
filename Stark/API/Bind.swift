@@ -2,7 +2,7 @@ import Carbon
 import JavaScriptCore
 
 @objc protocol BindJSExport: JSExport {
-    @objc(on:::) static func on(key: String, modifiers: [String], callback: JSValue) -> Bind?
+    @objc(on:::) static func on(key: String, modifiers: [String], callback: JSValue) -> Bind
 
     var key: String { get }
     var modifiers: [String] { get }
@@ -20,6 +20,8 @@ private let StarkHotKeyKeyDownNotification = "StarkHotKeyKeyDownNotification"
 
 public class Bind: Handler, BindJSExport {
     private static var setupDispatchToken: dispatch_once_t = 0
+
+    private static var hotkeys: [Int: Bind] = [Int: Bind]()
 
     override public var hashValue: Int {
         get { return Bind.hashForKey(key, modifiers: modifiers) }
@@ -69,13 +71,27 @@ public class Bind: Handler, BindJSExport {
         }
     }
 
+    public static func reset() {
+        self.hotkeys.forEach { $1.disable() }
+        self.hotkeys.removeAll()
+    }
+
     public static func hashForKey(key: String, modifiers: [String]) -> Int {
         let key = String(format: "%@[%@]", key, modifiers.joinWithSeparator("|"))
         return key.hashValue
     }
 
-    @objc(on:::) public static func on(key: String, modifiers: [String], callback: JSValue) -> Bind? {
-        return nil
+    @objc(on:::) public static func on(key: String, modifiers: [String], callback: JSValue) -> Bind {
+        var hotkey = hotkeys[Bind.hashForKey(key, modifiers: modifiers)]
+
+        if hotkey == nil {
+            hotkey = Bind(key: key, modifiers: modifiers)
+        }
+
+        hotkey!.manageCallback(callback)
+
+        hotkeys[hotkey!.hashValue] = hotkey
+        return hotkey!
     }
 
     init(key: String, modifiers: [String]) {

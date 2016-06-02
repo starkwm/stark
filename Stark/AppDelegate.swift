@@ -4,16 +4,23 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
     let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(NSVariableStatusItemLength)
 
-    let config = Config()
+    var config: Config
+    var context: Context
 
     var aboutWindowController = AboutWindowController(windowNibName: "AboutWindow")
+
+    override init() {
+        NSLog("AppDelegate init()")
+        self.config = Config()
+        self.context = Context(config: self.config)
+    }
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         AccessibilityHelper.askForAccessibilityIfNeeded()
 
         setupStatusItem()
 
-        config.load()
+        context.setup()
 
         NSNotificationCenter
             .defaultCenter()
@@ -51,11 +58,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func editConfig(sender: AnyObject?) {
         config.edit()
-
     }
 
     func reloadConfig(sender: AnyObject?) {
-        config.load()
+        context.setup()
     }
 
     func toggleRunAtLogin(sender: NSMenuItem) {

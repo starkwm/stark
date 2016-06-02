@@ -1,5 +1,5 @@
 // bind ctrl+shift+f to maximize focused window
-var maximize = Stark.bind("f", ["ctrl", "shift"], function() {
+var maximize = Bind.on("f", ["ctrl", "shift"], function() {
   var win = Window.focusedWindow();
 
   if (win) {
@@ -9,7 +9,7 @@ var maximize = Stark.bind("f", ["ctrl", "shift"], function() {
 
 // bind ctrl+shift+a to resize and reposition focused window to the left half of
 // the screen.
-var leftHalf = Stark.bind("a", ["ctrl", "shift"], function() {
+var leftHalf = Bind.on("a", ["ctrl", "shift"], function() {
   var win = Window.focusedWindow();
 
   if (win) {
@@ -36,7 +36,7 @@ var rightHalf = Stark.bind("d", ["ctrl", "shift"], function() {
 });
 
 // listen for when Terminal.app is launched and maximize every visible window.
-var maximizeTerminal = Stark.on("applicationDidLaunch", function(app) {
+var maximizeTerminal = Event.on("applicationDidLaunch", function(app) {
   var name = app.name();
 
   if (name === "Terminal") {

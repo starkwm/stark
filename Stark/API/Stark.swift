@@ -9,10 +9,12 @@ import JavaScriptCore
 }
 
 public class Stark: NSObject, StarkJSExport {
-    var config: Config
+    private var config: Config
+    private var context: Context
 
-    init(config: Config) {
+    init(config: Config, context: Context) {
         self.config = config
+        self.context = context
     }
 
     public func log(message: String) {
@@ -20,7 +22,7 @@ public class Stark: NSObject, StarkJSExport {
     }
 
     public func reload() {
-        config.load()
+        context.setup()
     }
 
     public func launch(application: String) {
