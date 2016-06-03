@@ -33,6 +33,8 @@ public class Context {
     }
 
     private func setupAPI() {
+        context = JSContext(virtualMachine: JSVirtualMachine())
+
         context.exceptionHandler = { [weak self] ctx, exception in
             self?.handleJSException(exception)
         }
