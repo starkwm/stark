@@ -14,7 +14,8 @@ public class AppObserver {
     ]
 
     private var element: AXUIElementRef
-    private var observer: AXObserverRef
+
+    private var observer: AXObserverRef?
 
     init(app: NSRunningApplication) {
         self.element = AXUIElementCreateApplication(app.processIdentifier).takeRetainedValue()
@@ -31,7 +32,8 @@ public class AppObserver {
 
         var observer: AXObserverRef? = nil
         AXObserverCreate(app.processIdentifier, callback, &observer)
-        self.observer = observer!
+
+        self.observer = observer
 
         setup()
     }
@@ -39,27 +41,35 @@ public class AppObserver {
     deinit {
         AppObserver.notifications.forEach {  removeNotification($0) }
 
-        CFRunLoopRemoveSource(
-            CFRunLoopGetCurrent(),
-            AXObserverGetRunLoopSource(self.observer).takeUnretainedValue(),
-            kCFRunLoopDefaultMode
-        )
+        if self.observer != nil {
+            CFRunLoopRemoveSource(
+                CFRunLoopGetCurrent(),
+                AXObserverGetRunLoopSource(self.observer!).takeUnretainedValue(),
+                kCFRunLoopDefaultMode
+            )
+        }
     }
 
     private func addNotification(notification: String) {
-        AXObserverAddNotification(self.observer, self.element, notification, nil)
+        if self.observer != nil {
+            AXObserverAddNotification(self.observer!, self.element, notification, nil)
+        }
     }
 
     private func removeNotification(notification: String) {
-        AXObserverRemoveNotification(self.observer, self.element, notification)
+        if self.observer != nil {
+            AXObserverRemoveNotification(self.observer!, self.element, notification)
+        }
     }
 
     private func setup() {
-        CFRunLoopAddSource(
-            CFRunLoopGetCurrent(),
-            AXObserverGetRunLoopSource(self.observer).takeUnretainedValue(),
-            kCFRunLoopDefaultMode
-        )
+        if self.observer != nil {
+            CFRunLoopAddSource(
+                CFRunLoopGetCurrent(),
+                AXObserverGetRunLoopSource(self.observer!).takeUnretainedValue(),
+                kCFRunLoopDefaultMode
+            )
+        }
 
         AppObserver.notifications.forEach { addNotification($0) }
     }
