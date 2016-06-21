@@ -10,8 +10,11 @@ import JavaScriptCore
     func allWindows() -> [Window]
     func visibleWindows() -> [Window]
 
+    // TODO: make property
     func name() -> String
+    // TODO: make property
     func bundleId() -> String
+    // TODO: make property
     func processId() -> pid_t
 
     func activate() -> Bool

@@ -5,7 +5,9 @@ import JavaScriptCore
     static func mainScreen() -> NSScreen?
     static func screens() -> [NSScreen]?
 
+    // TODO: make property
     func frameIncludingDockAndMenu() -> CGRect
+    // TODO: make property
     func frameWithoutDockOrMenu() -> CGRect
 
     func nextScreen() -> NSScreen?

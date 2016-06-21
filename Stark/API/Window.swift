@@ -10,10 +10,14 @@ import JavaScriptCore
 
     func screen() -> NSScreen
 
+    // TODO: make property
     func title() -> String
 
+    // TODO: make property
     func frame() -> CGRect
+    // TODO: make property
     func topLeft() -> CGPoint
+    // TODO: make property
     func size() -> CGSize
 
     func setFrame(frame: CGRect)
