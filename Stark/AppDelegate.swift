@@ -10,8 +10,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var aboutWindowController = AboutWindowController(windowNibName: "AboutWindow")
 
     override init() {
-        self.config = Config()
-        self.context = Context(config: self.config)
+        config = Config()
+        context = Context(config: config)
     }
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {

@@ -22,9 +22,9 @@ public class Timer: Handler, TimerJSExport {
     init(interval: NSTimeInterval, repeats: Bool, callback: JSValue) {
         super.init()
 
-        timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: self, selector: #selector(self.timerDidFire), userInfo: nil, repeats: repeats)
+        timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: self, selector: #selector(timerDidFire), userInfo: nil, repeats: repeats)
 
-        self.manageCallback(callback)
+        manageCallback(callback)
     }
 
     public func stop() {
@@ -32,6 +32,6 @@ public class Timer: Handler, TimerJSExport {
     }
 
     public func timerDidFire() {
-        self.callWithArguments(nil)
+        callWithArguments(nil)
     }
 }

@@ -16,7 +16,7 @@ public class AboutWindowController: NSWindowController {
     override public func windowDidLoad() {
         super.windowDidLoad()
 
-        self.window?.backgroundColor = NSColor.whiteColor()
+        window?.backgroundColor = NSColor.whiteColor()
 
         if appVersion.characters.count <= 0 {
             let version = valueFromInfoDict("CFBundleVersion")
@@ -30,7 +30,7 @@ public class AboutWindowController: NSWindowController {
                 appVersion += " (\(buildName))"
             }
 
-            versionLabel.stringValue = self.appVersion
+            versionLabel.stringValue = appVersion
         }
     }
 

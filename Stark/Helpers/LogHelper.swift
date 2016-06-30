@@ -12,16 +12,16 @@ public class LogHelper {
 
         let log = String(format: "%@ %@", formatter.stringFromDate(NSDate()), message)
 
-        try! self.stringAppendLineToURL(log, fileURL: file)
+        try! stringAppendLineToURL(log, fileURL: file)
     }
 
     private static func stringAppendLineToURL(message: String, fileURL: NSURL) throws {
-        try self.stringAppendToURL(message.stringByAppendingString("\n"), fileURL: fileURL)
+        try stringAppendToURL(message.stringByAppendingString("\n"), fileURL: fileURL)
     }
 
     private static func stringAppendToURL(message: String, fileURL: NSURL) throws {
         let data = message.dataUsingEncoding(NSUTF8StringEncoding)!
-        try self.dataAppendToURL(data, fileURL: fileURL)
+        try dataAppendToURL(data, fileURL: fileURL)
     }
 
     private static func dataAppendToURL(data: NSData, fileURL: NSURL) throws {

@@ -18,36 +18,36 @@ public class Event: Handler, EventJSExport {
     }
 
     init(event: String, callback: JSValue) {
-        self.name = event
+        name = event
 
-        self.notification = EventHelper.notificationForEvent(event)
-        self.notificationCenter = EventHelper.notificationCenterForNotification(self.notification)
+        notification = EventHelper.notificationForEvent(event)
+        notificationCenter = EventHelper.notificationCenterForNotification(notification)
 
         super.init()
 
-        self.manageCallback(callback)
+        manageCallback(callback)
 
-        self.notificationCenter.addObserver(self, selector: #selector(Event.didReceiveNotification(_:)), name: self.notification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(Event.didReceiveNotification(_:)), name: notification, object: nil)
     }
 
     deinit {
-        self.notificationCenter.removeObserver(self, name: self.notification, object: nil)
+        notificationCenter.removeObserver(self, name: notification, object: nil)
     }
 
     func didReceiveNotification(notification: NSNotification) {
         guard let userInfo = notification.userInfo else {
-            self.call()
+            call()
             return
         }
 
         if let runningApp = userInfo[NSWorkspaceApplicationKey] as? NSRunningApplication {
             let app = Application(app: runningApp)
-            self.callWithArguments([app])
+            callWithArguments([app])
             return
         }
 
         if let window = userInfo[AppObserverWindowKey] as? Window {
-            self.callWithArguments([window])
+            callWithArguments([window])
             return
         }
     }

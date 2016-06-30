@@ -9,7 +9,7 @@ public class Handler: NSObject {
     }
 
     func callWithArguments(arguments: [AnyObject]!) {
-        if let callback = self.callback?.value {
+        if let callback = callback?.value {
             let scope = JSContext(virtualMachine: callback.context.virtualMachine)
 
             scope.exceptionHandler = { _, exception in

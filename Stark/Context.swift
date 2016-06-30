@@ -8,7 +8,7 @@ public class Context {
     private let observer = RunningAppsObserver()
 
     public init(config: Config) {
-        self.context = JSContext(virtualMachine: JSVirtualMachine())
+        context = JSContext(virtualMachine: JSVirtualMachine())
         self.config = config
     }
 

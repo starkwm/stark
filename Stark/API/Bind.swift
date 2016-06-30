@@ -72,8 +72,8 @@ public class Bind: Handler, BindJSExport {
     }
 
     public static func reset() {
-        self.hotkeys.forEach { $1.disable() }
-        self.hotkeys.removeAll()
+        hotkeys.forEach { $1.disable() }
+        hotkeys.removeAll()
     }
 
     public static func hashForKey(key: String, modifiers: [String]) -> Int {
@@ -100,11 +100,11 @@ public class Bind: Handler, BindJSExport {
         self.key = key
         self.modifiers = modifiers
 
-        self.keyCode = UInt32(KeyCodeHelper.keyCodeForString(key))
-        self.modifierFlags = UInt32(KeyCodeHelper.modifierFlagsForString(modifiers))
+        keyCode = UInt32(KeyCodeHelper.keyCodeForString(key))
+        modifierFlags = UInt32(KeyCodeHelper.modifierFlagsForString(modifiers))
 
         BindIdentifierSequence += 1
-        self.identifier = BindIdentifierSequence
+        identifier = BindIdentifierSequence
 
         super.init()
 
@@ -126,9 +126,9 @@ public class Bind: Handler, BindJSExport {
             return true
         }
 
-        let identifier = EventHotKeyID(signature: UTGetOSTypeFromString("STRK"), id: UInt32(self.identifier))
+        let eventHotKeyID = EventHotKeyID(signature: UTGetOSTypeFromString("STRK"), id: UInt32(identifier))
 
-        let status = RegisterEventHotKey(keyCode, modifierFlags, identifier, GetEventDispatcherTarget(), 0, &eventHotKeyRef)
+        let status = RegisterEventHotKey(keyCode, modifierFlags, eventHotKeyID, GetEventDispatcherTarget(), 0, &eventHotKeyRef)
 
         if status != noErr {
             return false
@@ -161,7 +161,7 @@ public class Bind: Handler, BindJSExport {
     }
 
     func keyDown(notification: NSNotification) {
-        if self.identifier == notification.userInfo?[StarkHotKeyIdentifier]?.unsignedIntegerValue {
+        if identifier == notification.userInfo?[StarkHotKeyIdentifier]?.unsignedIntegerValue {
             call()
         }
     }
