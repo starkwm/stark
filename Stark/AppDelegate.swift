@@ -33,19 +33,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.highlightMode = true
         statusItem.image = image
 
-        let loginMenuItem = NSMenuItem(title: "Run at login", action: #selector(AppDelegate.toggleRunAtLogin(_:)), keyEquivalent: "")
+        let loginMenuItem = NSMenuItem(title: "Run at login", action: #selector(AppDelegate.toggleRunAtLogin), keyEquivalent: "")
 
         let menu = NSMenu()
-        menu.addItemWithTitle("About", action: #selector(AppDelegate.about(_:)), keyEquivalent: "")
+        menu.addItemWithTitle("About", action: #selector(AppDelegate.about), keyEquivalent: "")
         menu.addItem(NSMenuItem.separatorItem())
-        menu.addItemWithTitle("Edit config file", action: #selector(AppDelegate.editConfig(_:)), keyEquivalent: "")
-        menu.addItemWithTitle("Reload config file", action: #selector(AppDelegate.reloadConfig(_:)), keyEquivalent: "")
+        menu.addItemWithTitle("Edit config file", action: #selector(AppDelegate.editConfig), keyEquivalent: "")
+        menu.addItemWithTitle("Reload config file", action: #selector(AppDelegate.reloadConfig), keyEquivalent: "")
         menu.addItem(NSMenuItem.separatorItem())
         menu.addItem(loginMenuItem)
         menu.addItem(NSMenuItem.separatorItem())    
-        menu.addItemWithTitle("Quit Stark", action: #selector(AppDelegate.quit(_:)), keyEquivalent: "")
+        menu.addItemWithTitle("Quit Stark", action: #selector(AppDelegate.quit), keyEquivalent: "")
 
-        loginMenuItem.state = (LaunchAgentHelper.enabled() ? NSOnState : NSOffState)
+        loginMenuItem.state = LaunchAgentHelper.enabled() ? NSOnState : NSOffState
 
         statusItem.menu = menu
     }
