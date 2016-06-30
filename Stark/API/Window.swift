@@ -80,7 +80,7 @@ public class Window: NSObject, WindowJSExport {
         var lastScreen = NSScreen()
 
         for screen in NSScreen.screens()! {
-            let screenFrame = screen.frameIncludingDockAndMenu()
+            let screenFrame = screen.frameIncludingDockAndMenu
             let intersection = CGRectIntersection(windowFrame, screenFrame)
             let volume = intersection.size.width * intersection.size.height
 
@@ -157,7 +157,7 @@ public class Window: NSObject, WindowJSExport {
     }
 
     public func maximize() {
-        setFrame(screen().frameIncludingDockAndMenu())
+        setFrame(screen().frameIncludingDockAndMenu)
     }
 
     public func minimize() {

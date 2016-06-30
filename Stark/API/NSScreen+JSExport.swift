@@ -5,28 +5,30 @@ import JavaScriptCore
     static func mainScreen() -> NSScreen?
     static func screens() -> [NSScreen]?
 
-    // TODO: make property
-    func frameIncludingDockAndMenu() -> CGRect
-    // TODO: make property
-    func frameWithoutDockOrMenu() -> CGRect
+    var frameIncludingDockAndMenu: CGRect { get }
+    var frameWithoutDockOrMenu: CGRect { get }
 
     func nextScreen() -> NSScreen?
     func prevScreen() -> NSScreen?
 }
 
 extension NSScreen: NSScreenJSExport {
-    public func frameIncludingDockAndMenu() -> CGRect {
-        let primaryScreen = NSScreen.screens()!.first
-        var f = frame
-        f.origin.y = NSHeight(primaryScreen!.frame) - NSHeight(f) - f.origin.y
-        return f
+    public var frameIncludingDockAndMenu: CGRect {
+        get {
+            let primaryScreen = NSScreen.screens()!.first
+            var f = frame
+            f.origin.y = NSHeight(primaryScreen!.frame) - NSHeight(f) - f.origin.y
+            return f
+        }
     }
 
-    public func frameWithoutDockOrMenu() -> CGRect {
-        let primaryScreen = NSScreen.screens()!.first
-        var f = visibleFrame
-        f.origin.y = NSHeight(primaryScreen!.frame) - NSHeight(f) - f.origin.y
-        return f
+    public var frameWithoutDockOrMenu: CGRect {
+        get {
+            let primaryScreen = NSScreen.screens()!.first
+            var f = visibleFrame
+            f.origin.y = NSHeight(primaryScreen!.frame) - NSHeight(f) - f.origin.y
+            return f
+        }
     }
 
     public func nextScreen() -> NSScreen? {
