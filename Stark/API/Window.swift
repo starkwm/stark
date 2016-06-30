@@ -10,15 +10,11 @@ import JavaScriptCore
 
     func screen() -> NSScreen
 
-    // TODO: make property
-    func title() -> String
+    var title: String { get }
 
-    // TODO: make property
-    func frame() -> CGRect
-    // TODO: make property
-    func topLeft() -> CGPoint
-    // TODO: make property
-    func size() -> CGSize
+    var frame: CGRect { get }
+    var topLeft: CGPoint { get }
+    var size: CGSize { get }
 
     func setFrame(frame: CGRect)
     func setTopLeft(topLeft: CGPoint)
@@ -75,7 +71,7 @@ public class Window: NSObject, WindowJSExport {
     }
 
     public func screen() -> NSScreen {
-        let windowFrame = frame()
+        let windowFrame = frame
         var lastVolume: CGFloat = 0
         var lastScreen = NSScreen()
 
@@ -93,49 +89,57 @@ public class Window: NSObject, WindowJSExport {
         return lastScreen
     }
 
-    public func title() -> String {
-        var value: AnyObject?
-        let result = AXUIElementCopyAttributeValue(element, kAXTitleAttribute, &value)
+    public var title: String {
+        get {
+            var value: AnyObject?
+            let result = AXUIElementCopyAttributeValue(element, kAXTitleAttribute, &value)
 
-        if result != .Success {
-            return ""
-        }
-
-        return value as! String
-    }
-
-    public func frame() -> CGRect {
-        return CGRect(origin: topLeft(), size: size())
-    }
-
-    public func topLeft() -> CGPoint {
-        var value: AnyObject?
-        let result = AXUIElementCopyAttributeValue(element, kAXPositionAttribute, &value)
-
-        var topLeft = CGPointZero
-
-        if result == .Success {
-            if !AXValueGetValue(value as! AXValueRef, AXValueType.CGPoint, &topLeft) {
-                topLeft = CGPointZero
+            if result != .Success {
+                return ""
             }
-        }
 
-        return topLeft
+            return value as! String
+        }
     }
 
-    public func size() -> CGSize {
-        var value: AnyObject?
-        let result = AXUIElementCopyAttributeValue(element, kAXSizeAttribute, &value)
-
-        var size = CGSizeZero
-
-        if result == .Success {
-            if !AXValueGetValue(value as! AXValueRef, AXValueType.CGSize, &size) {
-                size = CGSizeZero
-            }
+    public var frame: CGRect {
+        get {
+            return CGRect(origin: topLeft, size: size)
         }
+    }
 
-        return size
+    public var topLeft: CGPoint {
+        get {
+            var value: AnyObject?
+            let result = AXUIElementCopyAttributeValue(element, kAXPositionAttribute, &value)
+
+            var topLeft = CGPointZero
+
+            if result == .Success {
+                if !AXValueGetValue(value as! AXValueRef, AXValueType.CGPoint, &topLeft) {
+                    topLeft = CGPointZero
+                }
+            }
+
+            return topLeft
+        }
+    }
+
+    public var size: CGSize {
+        get {
+            var value: AnyObject?
+            let result = AXUIElementCopyAttributeValue(element, kAXSizeAttribute, &value)
+
+            var size = CGSizeZero
+
+            if result == .Success {
+                if !AXValueGetValue(value as! AXValueRef, AXValueType.CGSize, &size) {
+                    size = CGSizeZero
+                }
+            }
+
+            return size
+        }
     }
 
     public func setFrame(frame: CGRect) {
