@@ -10,12 +10,9 @@ import JavaScriptCore
     func allWindows() -> [Window]
     func visibleWindows() -> [Window]
 
-    // TODO: make property
-    func name() -> String
-    // TODO: make property
-    func bundleId() -> String
-    // TODO: make property
-    func processId() -> pid_t
+    var name: String { get }
+    var bundleId: String { get }
+    var processId: pid_t { get }
 
     func activate() -> Bool
     func focus() -> Bool
@@ -80,16 +77,16 @@ public class Application: NSObject, ApplicationJSExport {
         return allWindows().filter { !$0.app().isHidden() && $0.isStandard() && !$0.isMinimized() }
     }
 
-    public func name() -> String {
-        return app.localizedName ?? ""
+    public var name: String {
+        get { return app.localizedName ?? "" }
     }
 
-    public func bundleId() -> String {
-        return app.bundleIdentifier ?? ""
+    public var bundleId: String {
+        get { return app.bundleIdentifier ?? "" }
     }
 
-    public func processId() -> pid_t {
-        return app.processIdentifier
+    public var processId: pid_t {
+        get { return app.processIdentifier }
     }
 
     public func activate() -> Bool {
