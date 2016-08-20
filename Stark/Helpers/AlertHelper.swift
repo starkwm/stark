@@ -5,7 +5,7 @@ public class AlertHelper {
         let alert = NSAlert()
         alert.messageText = "Created new Stark configuration file"
         alert.informativeText = "Would you like to view this configuration file?"
-        alert.alertStyle = .InformationalAlertStyle
+        alert.alertStyle = .Informational
 
         alert.addButtonWithTitle("Yes")
         alert.addButtonWithTitle("No")
@@ -17,7 +17,7 @@ public class AlertHelper {
         let alert = NSAlert()
         alert.messageText = message
         alert.informativeText = description ?? (error?.localizedDescription ?? "")
-        alert.alertStyle = .CriticalAlertStyle
+        alert.alertStyle = .Critical
 
         alert.runModal()
     }

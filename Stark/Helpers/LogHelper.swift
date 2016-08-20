@@ -12,7 +12,7 @@ public class LogHelper {
 
         let log = String(format: "%@ %@", formatter.stringFromDate(NSDate()), message)
 
-        try! stringAppendLineToURL(log, fileURL: file)
+        try! stringAppendLineToURL(log, fileURL: file!)
     }
 
     private static func stringAppendLineToURL(message: String, fileURL: NSURL) throws {
