@@ -77,10 +77,10 @@ public class Window: NSObject, WindowJSExport {
 
         for screen in NSScreen.screens()! {
             let screenFrame = screen.frameIncludingDockAndMenu
-            let intersection = CGRectIntersection(windowFrame, screenFrame)
+            let intersection = windowFrame.intersect(screenFrame)
             let volume = intersection.size.width * intersection.size.height
 
-            if (volume > lastVolume) {
+            if volume > lastVolume {
                 lastVolume = volume
                 lastScreen = screen
             }
@@ -113,11 +113,11 @@ public class Window: NSObject, WindowJSExport {
             var value: AnyObject?
             let result = AXUIElementCopyAttributeValue(element, kAXPositionAttribute, &value)
 
-            var topLeft = CGPointZero
+            var topLeft = CGPoint.zero
 
             if result == .Success {
                 if !AXValueGetValue(value as! AXValueRef, AXValueType.CGPoint, &topLeft) {
-                    topLeft = CGPointZero
+                    topLeft = CGPoint.zero
                 }
             }
 
@@ -130,11 +130,11 @@ public class Window: NSObject, WindowJSExport {
             var value: AnyObject?
             let result = AXUIElementCopyAttributeValue(element, kAXSizeAttribute, &value)
 
-            var size = CGSizeZero
+            var size = CGSize.zero
 
             if result == .Success {
                 if !AXValueGetValue(value as! AXValueRef, AXValueType.CGSize, &size) {
-                    size = CGSizeZero
+                    size = CGSize.zero
                 }
             }
 

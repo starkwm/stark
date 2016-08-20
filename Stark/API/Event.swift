@@ -46,7 +46,7 @@ public class Event: Handler, EventJSExport {
             return
         }
 
-        if let window = userInfo[AppObserverWindowKey] as? Window {
+        if let window = userInfo[appObserverWindowKey] as? Window {
             callWithArguments([window])
             return
         }

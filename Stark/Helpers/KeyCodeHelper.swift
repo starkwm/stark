@@ -59,7 +59,7 @@ public class KeyCodeHelper {
             let key = String(utf16CodeUnits: &chars, count: length)
             keys[key.uppercaseString] = keyCode
         }
-        
+
         return keys
     }()
 
@@ -149,7 +149,7 @@ public class KeyCodeHelper {
         if mods.contains("CMD") {
             flags |= cmdKey
         }
-        
+
         return flags
     }
 }

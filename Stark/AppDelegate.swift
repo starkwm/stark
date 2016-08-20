@@ -23,7 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         NSNotificationCenter
             .defaultCenter()
-            .postNotificationName(StarkStartNotification, object: self)
+            .postNotificationName(starkStartNotification, object: self)
     }
 
     func setupStatusItem() {
@@ -42,7 +42,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItemWithTitle("Reload config file", action: #selector(AppDelegate.reloadConfig), keyEquivalent: "")
         menu.addItem(NSMenuItem.separatorItem())
         menu.addItem(loginMenuItem)
-        menu.addItem(NSMenuItem.separatorItem())    
+        menu.addItem(NSMenuItem.separatorItem())
         menu.addItemWithTitle("Quit Stark", action: #selector(AppDelegate.quit), keyEquivalent: "")
 
         loginMenuItem.state = LaunchAgentHelper.enabled() ? NSOnState : NSOffState

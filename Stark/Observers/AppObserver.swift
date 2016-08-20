@@ -1,6 +1,6 @@
 import AppKit
 
-public let AppObserverWindowKey = "ObserverWindowKey"
+public let appObserverWindowKey = "observerWindowKey"
 
 public class AppObserver {
     private static let notifications = [
@@ -26,7 +26,7 @@ public class AppObserver {
 
                 NSNotificationCenter
                     .defaultCenter()
-                    .postNotificationName(notification as String, object: nil, userInfo: [AppObserverWindowKey: window])
+                    .postNotificationName(notification as String, object: nil, userInfo: [appObserverWindowKey: window])
             }
         }
 

@@ -1,6 +1,6 @@
 import AppKit
 
-private let NSWorkspaceRunningApplicationsKeyPath = "runningApplications";
+private let NSWorkspaceRunningApplicationsKeyPath = "runningApplications"
 
 public class RunningAppsObserver: NSObject {
     public var observers = [pid_t: AppObserver]()

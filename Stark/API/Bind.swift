@@ -13,10 +13,10 @@ import JavaScriptCore
     func isEnabled() -> Bool
 }
 
-private var BindIdentifierSequence: UInt = 0
+private var bindIdentifierSequence: UInt = 0
 
-private let StarkHotKeyIdentifier = "StarkHotKeyIdentifier"
-private let StarkHotKeyKeyDownNotification = "StarkHotKeyKeyDownNotification"
+private let starkHotKeyIdentifier = "starkHotKeyIdentifier"
+private let starkHotKeyKeyDownNotification = "starkHotKeyKeyDownNotification"
 
 public class Bind: Handler, BindJSExport {
     private static var setupDispatchToken: dispatch_once_t = 0
@@ -58,7 +58,7 @@ public class Bind: Handler, BindJSExport {
 
                     NSNotificationCenter
                         .defaultCenter()
-                        .postNotificationName(StarkHotKeyKeyDownNotification, object: nil, userInfo: [StarkHotKeyIdentifier: UInt(identifier.id)])
+                        .postNotificationName(starkHotKeyKeyDownNotification, object: nil, userInfo: [starkHotKeyIdentifier: UInt(identifier.id)])
 
                 }
 
@@ -103,14 +103,14 @@ public class Bind: Handler, BindJSExport {
         keyCode = UInt32(KeyCodeHelper.keyCodeForString(key))
         modifierFlags = UInt32(KeyCodeHelper.modifierFlagsForString(modifiers))
 
-        BindIdentifierSequence += 1
-        identifier = BindIdentifierSequence
+        bindIdentifierSequence += 1
+        identifier = bindIdentifierSequence
 
         super.init()
 
         NSNotificationCenter
             .defaultCenter()
-            .addObserver(self, selector: #selector(Bind.keyDown(_:)), name: StarkHotKeyKeyDownNotification, object: nil)
+            .addObserver(self, selector: #selector(Bind.keyDown(_:)), name: starkHotKeyKeyDownNotification, object: nil)
 
         enable()
     }
@@ -118,7 +118,7 @@ public class Bind: Handler, BindJSExport {
     deinit {
         NSNotificationCenter
             .defaultCenter()
-            .removeObserver(self, name: StarkHotKeyKeyDownNotification, object: nil)
+            .removeObserver(self, name: starkHotKeyKeyDownNotification, object: nil)
     }
 
     public func enable() -> Bool {
@@ -161,7 +161,7 @@ public class Bind: Handler, BindJSExport {
     }
 
     func keyDown(notification: NSNotification) {
-        if identifier == notification.userInfo?[StarkHotKeyIdentifier]?.unsignedIntegerValue {
+        if identifier == notification.userInfo?[starkHotKeyIdentifier]?.unsignedIntegerValue {
             call()
         }
     }

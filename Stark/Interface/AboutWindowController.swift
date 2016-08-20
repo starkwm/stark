@@ -8,7 +8,7 @@ public class AboutWindowController: NSWindowController {
     override init(window: NSWindow?) {
         super.init(window: window)
     }
-    
+
     required public init?(coder: NSCoder) {
         super.init(coder: coder)
     }

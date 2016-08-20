@@ -59,7 +59,7 @@ extension NSScreen: NSScreenJSExport {
 
             return screens[index]
         }
-        
+
         return nil
     }
 }

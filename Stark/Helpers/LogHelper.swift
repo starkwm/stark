@@ -12,7 +12,7 @@ public class LogHelper {
 
         let log = String(format: "%@ %@", formatter.stringFromDate(NSDate()), message)
 
-        try! stringAppendLineToURL(log, fileURL: file!)
+        _ = try? stringAppendLineToURL(log, fileURL: file!)
     }
 
     private static func stringAppendLineToURL(message: String, fileURL: NSURL) throws {
@@ -32,8 +32,7 @@ public class LogHelper {
 
             fileHandle.seekToEndOfFile()
             fileHandle.writeData(data)
-        }
-        else {
+        } else {
             try data.writeToURL(fileURL, options: .DataWritingAtomic)
         }
     }
