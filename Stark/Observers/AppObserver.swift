@@ -18,7 +18,7 @@ public class AppObserver {
     private var observer: AXObserverRef? = nil
 
     init(app: NSRunningApplication) {
-        element = AXUIElementCreateApplication(app.processIdentifier).takeRetainedValue()
+        element = AXUIElementCreateApplication(app.processIdentifier)
 
         let callback: AXObserverCallback = { _, element, notification, _ in
             autoreleasepool {
@@ -41,7 +41,7 @@ public class AppObserver {
         if observer != nil {
             CFRunLoopRemoveSource(
                 CFRunLoopGetCurrent(),
-                AXObserverGetRunLoopSource(observer!).takeUnretainedValue(),
+                AXObserverGetRunLoopSource(observer!),
                 kCFRunLoopDefaultMode
             )
         }
@@ -63,7 +63,7 @@ public class AppObserver {
         if observer != nil {
             CFRunLoopAddSource(
                 CFRunLoopGetCurrent(),
-                AXObserverGetRunLoopSource(observer!).takeUnretainedValue(),
+                AXObserverGetRunLoopSource(observer!),
                 kCFRunLoopDefaultMode
             )
         }

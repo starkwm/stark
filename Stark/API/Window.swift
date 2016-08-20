@@ -32,7 +32,7 @@ import JavaScriptCore
 }
 
 public class Window: NSObject, WindowJSExport {
-    private static let systemWideElement = AXUIElementCreateSystemWide().takeRetainedValue()
+    private static let systemWideElement = AXUIElementCreateSystemWide()
 
     private var element: AXUIElementRef
 
@@ -150,13 +150,13 @@ public class Window: NSObject, WindowJSExport {
 
     public func setTopLeft(topLeft: CGPoint) {
         var val = topLeft
-        let value = AXValueCreate(AXValueType(rawValue: kAXValueCGPointType)!, &val)!.takeRetainedValue()
+        let value = AXValueCreate(AXValueType(rawValue: kAXValueCGPointType)!, &val)!
         AXUIElementSetAttributeValue(element, kAXPositionAttribute, value)
     }
 
     public func setSize(size: CGSize) {
         var val = size
-        let value = AXValueCreate(AXValueType(rawValue: kAXValueCGSizeType)!, &val)!.takeRetainedValue()
+        let value = AXValueCreate(AXValueType(rawValue: kAXValueCGSizeType)!, &val)!
         AXUIElementSetAttributeValue(element, kAXSizeAttribute, value)
     }
 
