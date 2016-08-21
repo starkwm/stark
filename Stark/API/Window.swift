@@ -53,12 +53,15 @@ public class Window: NSObject, WindowJSExport {
         }
 
         var window: AnyObject?
+
+        // swiftlint:disable:next force_cast
         let result = AXUIElementCopyAttributeValue(app as! AXUIElementRef, kAXFocusedWindowAttribute, &window)
 
         if result != .Success {
             return nil
         }
 
+        // swiftlint:disable:next force_cast
         return Window(element: window as! AXUIElementRef)
     }
 
@@ -98,7 +101,11 @@ public class Window: NSObject, WindowJSExport {
                 return ""
             }
 
-            return value as! String
+            if let title = value as? String {
+                return title
+            }
+
+            return ""
         }
     }
 
@@ -116,6 +123,7 @@ public class Window: NSObject, WindowJSExport {
             var topLeft = CGPoint.zero
 
             if result == .Success {
+                // swiftlint:disable:next force_cast
                 if !AXValueGetValue(value as! AXValueRef, AXValueType.CGPoint, &topLeft) {
                     topLeft = CGPoint.zero
                 }
@@ -133,6 +141,7 @@ public class Window: NSObject, WindowJSExport {
             var size = CGSize.zero
 
             if result == .Success {
+                // swiftlint:disable:next force_cast
                 if !AXValueGetValue(value as! AXValueRef, AXValueType.CGSize, &size) {
                     size = CGSize.zero
                 }
@@ -192,7 +201,11 @@ public class Window: NSObject, WindowJSExport {
             return false
         }
 
-        return (value as! NSNumber).boolValue
+        if let number = value as? NSNumber {
+            return number.boolValue
+        }
+
+        return false
     }
 
     public func isStandard() -> Bool {
@@ -200,11 +213,14 @@ public class Window: NSObject, WindowJSExport {
         let result = AXUIElementCopyAttributeValue(element, kAXSubroleAttribute, &value)
 
         if result != .Success {
-            value = ""
+            return false
         }
 
-        let subrole = value as! String
-        return subrole == kAXStandardWindowSubrole
+        if let subrole = value as? String {
+            return subrole == kAXStandardWindowSubrole
+        }
+
+        return false
     }
 
     public func isMinimized() -> Bool {
@@ -215,7 +231,11 @@ public class Window: NSObject, WindowJSExport {
             return false
         }
 
-        return (value as! NSNumber).boolValue
+        if let number = value as? NSNumber {
+            return number.boolValue
+        }
+
+        return false
     }
 
     private func pid() -> pid_t {

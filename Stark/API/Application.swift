@@ -70,7 +70,10 @@ public class Application: NSObject, ApplicationJSExport {
             return []
         }
 
-        return (values! as [AnyObject]).map { Window(element: $0 as! AXUIElementRef) }
+        let elements = values! as [AnyObject]
+
+        // swiftlint:disable:next force_cast
+        return elements.map { Window(element: $0 as! AXUIElementRef) }
     }
 
     public func visibleWindows() -> [Window] {
@@ -117,7 +120,11 @@ public class Application: NSObject, ApplicationJSExport {
             return false
         }
 
-        return (value as! NSNumber).boolValue
+        if let number = value as? NSNumber {
+            return number.boolValue
+        }
+
+        return false
     }
 
     public func isTerminated() -> Bool {
