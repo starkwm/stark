@@ -34,7 +34,7 @@ import JavaScriptCore
 public class Window: NSObject, WindowJSExport {
     private static let systemWideElement = AXUIElementCreateSystemWide()
 
-    private var element: AXUIElementRef
+    private var element: AXUIElement
 
     public static func allWindows() -> [Window] {
         return Application.runningApps().flatMap { $0.allWindows() }
@@ -55,17 +55,17 @@ public class Window: NSObject, WindowJSExport {
         var window: AnyObject?
 
         // swiftlint:disable:next force_cast
-        let result = AXUIElementCopyAttributeValue(app as! AXUIElementRef, kAXFocusedWindowAttribute, &window)
+        let result = AXUIElementCopyAttributeValue(app as! AXUIElement, kAXFocusedWindowAttribute, &window)
 
         if result != .Success {
             return nil
         }
 
         // swiftlint:disable:next force_cast
-        return Window(element: window as! AXUIElementRef)
+        return Window(element: window as! AXUIElement)
     }
 
-    init(element: AXUIElementRef) {
+    init(element: AXUIElement) {
         self.element = element
     }
 

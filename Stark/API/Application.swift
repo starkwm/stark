@@ -25,7 +25,7 @@ import JavaScriptCore
 }
 
 public class Application: NSObject, ApplicationJSExport {
-    private var element: AXUIElementRef
+    private var element: AXUIElement
     private var app: NSRunningApplication
 
     public static func find(name: String) -> Application? {
@@ -73,7 +73,7 @@ public class Application: NSObject, ApplicationJSExport {
         let elements = values! as [AnyObject]
 
         // swiftlint:disable:next force_cast
-        return elements.map { Window(element: $0 as! AXUIElementRef) }
+        return elements.map { Window(element: $0 as! AXUIElement) }
     }
 
     public func visibleWindows() -> [Window] {

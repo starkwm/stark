@@ -13,7 +13,7 @@ public class AppObserver {
         NSAccessibilityWindowDeminiaturizedNotification,
     ]
 
-    private var element: AXUIElementRef
+    private var element: AXUIElement
 
     private var observer: AXObserverRef? = nil
 
