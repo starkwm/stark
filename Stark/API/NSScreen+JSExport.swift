@@ -17,7 +17,7 @@ extension NSScreen: NSScreenJSExport {
         get {
             let primaryScreen = NSScreen.screens()!.first
             var f = frame
-            f.origin.y = NSHeight(primaryScreen!.frame) - NSHeight(f) - f.origin.y
+            f.origin.y = primaryScreen!.frame.height - f.height - f.origin.y
             return f
         }
     }
@@ -26,7 +26,7 @@ extension NSScreen: NSScreenJSExport {
         get {
             let primaryScreen = NSScreen.screens()!.first
             var f = visibleFrame
-            f.origin.y = NSHeight(primaryScreen!.frame) - NSHeight(f) - f.origin.y
+            f.origin.y = primaryScreen!.frame.height - f.height - f.origin.y
             return f
         }
     }
