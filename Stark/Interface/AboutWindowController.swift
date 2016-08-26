@@ -36,7 +36,11 @@ public class AboutWindowController: NSWindowController {
 
     private func valueFromInfoDict(key: String) -> String {
         let dict = NSBundle.mainBundle().infoDictionary!
-        let value = dict[key] as! String
-        return value
+
+        if let value = dict[key] as? String {
+            return value
+        }
+
+        return ""
     }
 }
