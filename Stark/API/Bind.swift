@@ -10,7 +10,7 @@ import JavaScriptCore
     func enable() -> Bool
     func disable() -> Bool
 
-    func isEnabled() -> Bool
+    var isEnabled: Bool { get }
 }
 
 private var bindIdentifierSequence: UInt = 0
@@ -156,8 +156,10 @@ public class Bind: Handler, BindJSExport {
         return true
     }
 
-    public func isEnabled() -> Bool {
-        return enabled
+    public var isEnabled: Bool {
+        get {
+            return enabled
+        }
     }
 
     func keyDown(notification: NSNotification) {

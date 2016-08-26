@@ -8,8 +8,8 @@ import JavaScriptCore
     var frameIncludingDockAndMenu: CGRect { get }
     var frameWithoutDockOrMenu: CGRect { get }
 
-    func nextScreen() -> NSScreen?
-    func prevScreen() -> NSScreen?
+    var nextScreen: NSScreen? { get }
+    var prevScreen: NSScreen? { get }
 }
 
 extension NSScreen: NSScreenJSExport {
@@ -31,35 +31,39 @@ extension NSScreen: NSScreenJSExport {
         }
     }
 
-    public func nextScreen() -> NSScreen? {
-        let screens = NSScreen.screens()!
+    public var nextScreen: NSScreen? {
+        get {
+            let screens = NSScreen.screens()!
 
-        if var index = screens.indexOf(self) {
-            index += 1
+            if var index = screens.indexOf(self) {
+                index += 1
 
-            if index == screens.count {
-                index = 0
+                if index == screens.count {
+                    index = 0
+                }
+
+                return screens[index]
             }
 
-            return screens[index]
+            return nil
         }
-
-        return nil
     }
 
-    public func prevScreen() -> NSScreen? {
-        let screens = NSScreen.screens()!
+    public var prevScreen: NSScreen? {
+        get {
+            let screens = NSScreen.screens()!
 
-        if var index = screens.indexOf(self) {
-            index -= 1
+            if var index = screens.indexOf(self) {
+                index -= 1
 
-            if index == -1 {
-                index = screens.count - 1
+                if index == -1 {
+                    index = screens.count - 1
+                }
+
+                return screens[index]
             }
 
-            return screens[index]
+            return nil
         }
-
-        return nil
     }
 }

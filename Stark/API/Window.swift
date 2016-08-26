@@ -2,13 +2,13 @@ import AppKit
 import JavaScriptCore
 
 @objc protocol WindowJSExport: JSExport {
-    static func allWindows() -> [Window]
-    static func visibleWindows() -> [Window]
-    static func focusedWindow() -> Window?
+    static var allWindows: [Window] { get }
+    static var visibleWindows: [Window] { get }
+    static var focusedWindow: Window? { get }
 
-    func app() -> Application
+    var app: Application { get }
 
-    func screen() -> NSScreen
+    var screen: NSScreen { get }
 
     var title: String { get }
 
@@ -26,9 +26,9 @@ import JavaScriptCore
 
     func focus()
 
-    func isStandard() -> Bool
-    func isMain() -> Bool
-    func isMinimized() -> Bool
+    var isStandard: Bool { get }
+    var isMain: Bool { get }
+    var isMinimized: Bool { get }
 }
 
 public class Window: NSObject, WindowJSExport {
@@ -36,60 +36,70 @@ public class Window: NSObject, WindowJSExport {
 
     private var element: AXUIElement
 
-    public static func allWindows() -> [Window] {
-        return Application.runningApps().flatMap { $0.allWindows() }
+    public static var allWindows: [Window] {
+        get {
+            return Application.runningApps.flatMap { $0.allWindows }
+        }
     }
 
-    public static func visibleWindows() -> [Window] {
-        return allWindows().filter { !$0.app().isHidden() && !$0.isMinimized() && $0.isStandard() }
+    public static var visibleWindows: [Window] {
+        get {
+            return allWindows.filter { !$0.app.isHidden && !$0.isMinimized && $0.isStandard }
+        }
     }
 
-    public static func focusedWindow() -> Window? {
-        var app: AnyObject?
-        AXUIElementCopyAttributeValue(systemWideElement, kAXFocusedApplicationAttribute, &app)
+    public static var focusedWindow: Window? {
+        get {
+            var app: AnyObject?
+            AXUIElementCopyAttributeValue(systemWideElement, kAXFocusedApplicationAttribute, &app)
 
-        if app == nil {
-            return nil
+            if app == nil {
+                return nil
+            }
+
+            var window: AnyObject?
+
+            // swiftlint:disable:next force_cast
+            let result = AXUIElementCopyAttributeValue(app as! AXUIElement, kAXFocusedWindowAttribute, &window)
+
+            if result != .Success {
+                return nil
+            }
+
+            // swiftlint:disable:next force_cast
+            return Window(element: window as! AXUIElement)
         }
-
-        var window: AnyObject?
-
-        // swiftlint:disable:next force_cast
-        let result = AXUIElementCopyAttributeValue(app as! AXUIElement, kAXFocusedWindowAttribute, &window)
-
-        if result != .Success {
-            return nil
-        }
-
-        // swiftlint:disable:next force_cast
-        return Window(element: window as! AXUIElement)
     }
 
     init(element: AXUIElement) {
         self.element = element
     }
 
-    public func app() -> Application {
-        return Application(pid: pid())
+    public var app: Application {
+        get {
+            return Application(pid: pid())
+        }
     }
 
-    public func screen() -> NSScreen {
-        let windowFrame = frame
-        var lastVolume: CGFloat = 0
-        var lastScreen = NSScreen()
+    public var screen: NSScreen {
+        get {
+            let windowFrame = frame
+            var lastVolume: CGFloat = 0
+            var lastScreen = NSScreen()
 
-        for screen in NSScreen.screens()! {
-            let screenFrame = screen.frameIncludingDockAndMenu
-            let intersection = windowFrame.intersect(screenFrame)
-            let volume = intersection.size.width * intersection.size.height
+            for screen in NSScreen.screens()! {
+                let screenFrame = screen.frameIncludingDockAndMenu
+                let intersection = windowFrame.intersect(screenFrame)
+                let volume = intersection.size.width * intersection.size.height
 
-            if volume > lastVolume {
-                lastVolume = volume
-                lastScreen = screen
+                if volume > lastVolume {
+                    lastVolume = volume
+                    lastScreen = screen
+                }
             }
-        }
 
-        return lastScreen
+            return lastScreen
+        }
     }
 
     public var title: String {
@@ -170,7 +180,7 @@ public class Window: NSObject, WindowJSExport {
     }
 
     public func maximize() {
-        setFrame(screen().frameIncludingDockAndMenu)
+        setFrame(screen.frameIncludingDockAndMenu)
     }
 
     public func minimize() {
@@ -193,49 +203,55 @@ public class Window: NSObject, WindowJSExport {
         }
     }
 
-    public func isMain() -> Bool {
-        var value: AnyObject?
-        let result = AXUIElementCopyAttributeValue(element, kAXMainAttribute, &value)
+    public var isMain: Bool {
+        get {
+            var value: AnyObject?
+            let result = AXUIElementCopyAttributeValue(element, kAXMainAttribute, &value)
 
-        if result != .Success {
+            if result != .Success {
+                return false
+            }
+
+            if let number = value as? NSNumber {
+                return number.boolValue
+            }
+
             return false
         }
-
-        if let number = value as? NSNumber {
-            return number.boolValue
-        }
-
-        return false
     }
 
-    public func isStandard() -> Bool {
-        var value: AnyObject?
-        let result = AXUIElementCopyAttributeValue(element, kAXSubroleAttribute, &value)
+    public var isStandard: Bool {
+        get {
+            var value: AnyObject?
+            let result = AXUIElementCopyAttributeValue(element, kAXSubroleAttribute, &value)
 
-        if result != .Success {
+            if result != .Success {
+                return false
+            }
+
+            if let subrole = value as? String {
+                return subrole == kAXStandardWindowSubrole
+            }
+
             return false
         }
-
-        if let subrole = value as? String {
-            return subrole == kAXStandardWindowSubrole
-        }
-
-        return false
     }
 
-    public func isMinimized() -> Bool {
-        var value: AnyObject?
-        let result = AXUIElementCopyAttributeValue(element, kAXMinimizedAttribute, &value)
+    public var isMinimized: Bool {
+        get {
+            var value: AnyObject?
+            let result = AXUIElementCopyAttributeValue(element, kAXMinimizedAttribute, &value)
 
-        if result != .Success {
+            if result != .Success {
+                return false
+            }
+
+            if let number = value as? NSNumber {
+                return number.boolValue
+            }
+
             return false
         }
-
-        if let number = value as? NSNumber {
-            return number.boolValue
-        }
-
-        return false
     }
 
     private func pid() -> pid_t {

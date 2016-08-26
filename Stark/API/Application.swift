@@ -4,11 +4,11 @@ import JavaScriptCore
 @objc protocol ApplicationJSExport: JSExport {
     static func find(name: String) -> Application?
 
-    static func runningApps() -> [Application]
-    static func frontmostApp() -> Application?
+    static var runningApps: [Application] { get }
+    static var frontmostApp: Application? { get }
 
-    func allWindows() -> [Window]
-    func visibleWindows() -> [Window]
+    var allWindows: [Window] { get }
+    var visibleWindows: [Window] { get }
 
     var name: String { get }
     var bundleId: String { get }
@@ -19,9 +19,9 @@ import JavaScriptCore
     func show() -> Bool
     func hide() -> Bool
 
-    func isActive() -> Bool
-    func isHidden() -> Bool
-    func isTerminated() -> Bool
+    var isActive: Bool { get }
+    var isHidden: Bool { get }
+    var isTerminated: Bool { get }
 }
 
 public class Application: NSObject, ApplicationJSExport {
@@ -38,18 +38,22 @@ public class Application: NSObject, ApplicationJSExport {
         return nil
     }
 
-    public static func runningApps() -> [Application] {
-        return NSWorkspace.sharedWorkspace().runningApplications.map {
-            Application(pid: $0.processIdentifier)
+    public static var runningApps: [Application] {
+        get {
+            return NSWorkspace.sharedWorkspace().runningApplications.map {
+                Application(pid: $0.processIdentifier)
+            }
         }
     }
 
-    public static func frontmostApp() -> Application? {
-        if let app = NSWorkspace.sharedWorkspace().frontmostApplication {
-            return Application(pid: app.processIdentifier)
-        }
+    public static var frontmostApp: Application? {
+        get {
+            if let app = NSWorkspace.sharedWorkspace().frontmostApplication {
+                return Application(pid: app.processIdentifier)
+            }
 
-        return nil
+            return nil
+        }
     }
 
     init(pid: pid_t) {
@@ -62,22 +66,26 @@ public class Application: NSObject, ApplicationJSExport {
         self.app = app
     }
 
-    public func allWindows() -> [Window] {
-        var values: CFArray?
-        let result = AXUIElementCopyAttributeValues(element, kAXWindowsAttribute, 0, 100, &values)
+    public var allWindows: [Window] {
+        get {
+            var values: CFArray?
+            let result = AXUIElementCopyAttributeValues(element, kAXWindowsAttribute, 0, 100, &values)
 
-        if result != .Success {
-            return []
+            if result != .Success {
+                return []
+            }
+
+            let elements = values! as [AnyObject]
+
+            // swiftlint:disable:next force_cast
+            return elements.map { Window(element: $0 as! AXUIElement) }
         }
-
-        let elements = values! as [AnyObject]
-
-        // swiftlint:disable:next force_cast
-        return elements.map { Window(element: $0 as! AXUIElement) }
     }
 
-    public func visibleWindows() -> [Window] {
-        return allWindows().filter { !$0.app().isHidden() && $0.isStandard() && !$0.isMinimized() }
+    public var visibleWindows: [Window] {
+        get {
+            return allWindows.filter { !$0.app().isHidden && $0.isStandard && !$0.isMinimized }
+        }
     }
 
     public var name: String {
@@ -108,26 +116,32 @@ public class Application: NSObject, ApplicationJSExport {
         return app.hide()
     }
 
-    public func isActive() -> Bool {
-        return app.active
+    public var isActive: Bool {
+        get {
+            return app.active
+        }
     }
 
-    public func isHidden() -> Bool {
-        var value: AnyObject?
-        let result = AXUIElementCopyAttributeValue(element, kAXHiddenAttribute, &value)
+    public var isHidden: Bool {
+        get {
+            var value: AnyObject?
+            let result = AXUIElementCopyAttributeValue(element, kAXHiddenAttribute, &value)
 
-        if result != .Success {
+            if result != .Success {
+                return false
+            }
+
+            if let number = value as? NSNumber {
+                return number.boolValue
+            }
+
             return false
         }
-
-        if let number = value as? NSNumber {
-            return number.boolValue
-        }
-
-        return false
     }
 
-    public func isTerminated() -> Bool {
-        return app.terminated
+    public var isTerminated: Bool {
+        get {
+            return app.terminated
+        }
     }
 }
