@@ -2,22 +2,11 @@ import AppKit
 import JavaScriptCore
 
 @objc protocol TimerJSExport: JSExport {
-    @objc(every::) static func every(interval: NSTimeInterval, callback: JSValue) -> Timer
-    @objc(after::) static func after(interval: NSTimeInterval, callback: JSValue) -> Timer
-
     func stop()
 }
 
-public class Timer: Handler, TimerJSExport {
+public class Timer: Handler, TimerJSExport, HashableJSExport {
     private var timer: NSTimer? = nil
-
-    @objc(every::) public static func every(interval: NSTimeInterval, callback: JSValue) -> Timer {
-        return Timer(interval: interval, repeats: true, callback: callback)
-    }
-
-    @objc(after::) public static func after(interval: NSTimeInterval, callback: JSValue) -> Timer {
-        return Timer(interval: interval, repeats: false, callback: callback)
-    }
 
     init(interval: NSTimeInterval, repeats: Bool, callback: JSValue) {
         super.init()
@@ -31,7 +20,7 @@ public class Timer: Handler, TimerJSExport {
         timer?.invalidate()
     }
 
-    public func timerDidFire() {
+    func timerDidFire() {
         callWithArguments(nil)
     }
 }

@@ -2,8 +2,6 @@ import Carbon
 import JavaScriptCore
 
 @objc protocol BindJSExport: JSExport {
-    @objc(on:::) static func on(key: String, modifiers: [String], callback: JSValue) -> Bind
-
     init(key: String, modifiers: [String], callback: JSValue)
 
     var key: String { get }
@@ -20,7 +18,7 @@ private var bindIdentifierSequence: UInt = 0
 private let starkHotKeyIdentifier = "starkHotKeyIdentifier"
 private let starkHotKeyKeyDownNotification = "starkHotKeyKeyDownNotification"
 
-public class Bind: Handler, BindJSExport {
+public class Bind: Handler, BindJSExport, HashableJSExport {
     private static var setupDispatchToken: dispatch_once_t = 0
 
     private static var hotkeys: [Int: Bind] = [Int: Bind]()
@@ -81,17 +79,6 @@ public class Bind: Handler, BindJSExport {
     public static func hashForKey(key: String, modifiers: [String]) -> Int {
         let key = String(format: "%@[%@]", key, modifiers.joinWithSeparator("|"))
         return key.hashValue
-    }
-
-    @objc(on:::) public static func on(key: String, modifiers: [String], callback: JSValue) -> Bind {
-        var hotkey = hotkeys[Bind.hashForKey(key, modifiers: modifiers)]
-
-        if hotkey == nil {
-            hotkey = Bind(key: key, modifiers: modifiers, callback: callback)
-        }
-
-        hotkeys[hotkey!.hashValue] = hotkey
-        return hotkey!
     }
 
     public required init(key: String, modifiers: [String], callback: JSValue) {
