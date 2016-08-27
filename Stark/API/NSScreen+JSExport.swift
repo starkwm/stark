@@ -2,8 +2,8 @@ import AppKit
 import JavaScriptCore
 
 @objc protocol NSScreenJSExport: JSExport {
-    static func mainScreen() -> NSScreen?
-    static func screens() -> [NSScreen]?
+    static func all() -> [NSScreen]
+    static func focused() -> NSScreen?
 
     var frameIncludingDockAndMenu: CGRect { get }
     var frameWithoutDockOrMenu: CGRect { get }
@@ -13,6 +13,14 @@ import JavaScriptCore
 }
 
 extension NSScreen: NSScreenJSExport {
+    public static func all() -> [NSScreen] {
+        return screens() ?? []
+    }
+
+    public static func focused() -> NSScreen? {
+        return mainScreen()
+    }
+
     public var frameIncludingDockAndMenu: CGRect {
         get {
             let primaryScreen = NSScreen.screens()!.first

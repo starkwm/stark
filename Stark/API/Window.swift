@@ -2,9 +2,9 @@ import AppKit
 import JavaScriptCore
 
 @objc protocol WindowJSExport: JSExport {
-    static var allWindows: [Window] { get }
-    static var visibleWindows: [Window] { get }
-    static var focusedWindow: Window? { get }
+    static func all() -> [Window]
+    static func visible() -> [Window]
+    static func focused() -> Window?
 
     var app: Application { get }
 
@@ -36,39 +36,33 @@ public class Window: NSObject, WindowJSExport {
 
     private var element: AXUIElement
 
-    public static var allWindows: [Window] {
-        get {
-            return Application.runningApps.flatMap { $0.allWindows }
-        }
+    public static func all() -> [Window] {
+        return Application.all().flatMap { $0.allWindows }
     }
 
-    public static var visibleWindows: [Window] {
-        get {
-            return allWindows.filter { !$0.app.isHidden && !$0.isMinimized && $0.isStandard }
-        }
+    public static func visible() -> [Window] {
+        return all().filter { !$0.app.isHidden && !$0.isMinimized && $0.isStandard }
     }
 
-    public static var focusedWindow: Window? {
-        get {
-            var app: AnyObject?
-            AXUIElementCopyAttributeValue(systemWideElement, kAXFocusedApplicationAttribute, &app)
+    public static func focused() -> Window? {
+        var app: AnyObject?
+        AXUIElementCopyAttributeValue(systemWideElement, kAXFocusedApplicationAttribute, &app)
 
-            if app == nil {
-                return nil
-            }
-
-            var window: AnyObject?
-
-            // swiftlint:disable:next force_cast
-            let result = AXUIElementCopyAttributeValue(app as! AXUIElement, kAXFocusedWindowAttribute, &window)
-
-            if result != .Success {
-                return nil
-            }
-
-            // swiftlint:disable:next force_cast
-            return Window(element: window as! AXUIElement)
+        if app == nil {
+            return nil
         }
+
+        var window: AnyObject?
+
+        // swiftlint:disable:next force_cast
+        let result = AXUIElementCopyAttributeValue(app as! AXUIElement, kAXFocusedWindowAttribute, &window)
+
+        if result != .Success {
+            return nil
+        }
+
+        // swiftlint:disable:next force_cast
+        return Window(element: window as! AXUIElement)
     }
 
     init(element: AXUIElement) {

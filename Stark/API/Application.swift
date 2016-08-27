@@ -4,8 +4,8 @@ import JavaScriptCore
 @objc protocol ApplicationJSExport: JSExport {
     static func find(name: String) -> Application?
 
-    static var runningApps: [Application] { get }
-    static var frontmostApp: Application? { get }
+    static func all() -> [Application]
+    static func focused() -> Application?
 
     var allWindows: [Window] { get }
     var visibleWindows: [Window] { get }
@@ -16,6 +16,7 @@ import JavaScriptCore
 
     func activate() -> Bool
     func focus() -> Bool
+
     func show() -> Bool
     func hide() -> Bool
 
@@ -38,22 +39,18 @@ public class Application: NSObject, ApplicationJSExport {
         return nil
     }
 
-    public static var runningApps: [Application] {
-        get {
-            return NSWorkspace.sharedWorkspace().runningApplications.map {
-                Application(pid: $0.processIdentifier)
-            }
+    public static func all() -> [Application] {
+        return NSWorkspace.sharedWorkspace().runningApplications.map {
+            Application(pid: $0.processIdentifier)
         }
     }
 
-    public static var frontmostApp: Application? {
-        get {
-            if let app = NSWorkspace.sharedWorkspace().frontmostApplication {
-                return Application(pid: app.processIdentifier)
-            }
-
-            return nil
+    public static func focused() -> Application? {
+        if let app = NSWorkspace.sharedWorkspace().frontmostApplication {
+            return Application(pid: app.processIdentifier)
         }
+
+        return nil
     }
 
     init(pid: pid_t) {
