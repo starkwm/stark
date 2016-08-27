@@ -84,7 +84,7 @@ public class Application: NSObject, ApplicationJSExport {
 
     public var visibleWindows: [Window] {
         get {
-            return allWindows.filter { !$0.app().isHidden && $0.isStandard && !$0.isMinimized }
+            return allWindows.filter { !$0.app.isHidden && $0.isStandard && !$0.isMinimized }
         }
     }
 
