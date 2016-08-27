@@ -4,6 +4,8 @@ import JavaScriptCore
 @objc protocol EventJSExport: JSExport {
     @objc(on::) static func on(event: String, callback: JSValue) -> Event
 
+    init(event: String, callback: JSValue)
+
     var name: String { get }
 }
 
@@ -17,7 +19,7 @@ public class Event: Handler, EventJSExport {
         return Event(event: event, callback: callback)
     }
 
-    init(event: String, callback: JSValue) {
+    public required init(event: String, callback: JSValue) {
         name = event
 
         notification = EventHelper.notificationForEvent(event)

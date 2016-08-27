@@ -4,6 +4,8 @@ import JavaScriptCore
 @objc protocol BindJSExport: JSExport {
     @objc(on:::) static func on(key: String, modifiers: [String], callback: JSValue) -> Bind
 
+    init(key: String, modifiers: [String], callback: JSValue)
+
     var key: String { get }
     var modifiers: [String] { get }
 
@@ -85,16 +87,14 @@ public class Bind: Handler, BindJSExport {
         var hotkey = hotkeys[Bind.hashForKey(key, modifiers: modifiers)]
 
         if hotkey == nil {
-            hotkey = Bind(key: key, modifiers: modifiers)
+            hotkey = Bind(key: key, modifiers: modifiers, callback: callback)
         }
-
-        hotkey!.manageCallback(callback)
 
         hotkeys[hotkey!.hashValue] = hotkey
         return hotkey!
     }
 
-    init(key: String, modifiers: [String]) {
+    public required init(key: String, modifiers: [String], callback: JSValue) {
         Bind.setup()
 
         self.key = key
@@ -107,6 +107,8 @@ public class Bind: Handler, BindJSExport {
         identifier = bindIdentifierSequence
 
         super.init()
+
+        manageCallback(callback)
 
         NSNotificationCenter
             .defaultCenter()
