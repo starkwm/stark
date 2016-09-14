@@ -1,7 +1,7 @@
 import AppKit
 
-public class AboutWindowController: NSWindowController {
-    private var appVersion: String = ""
+open class AboutWindowController: NSWindowController {
+    fileprivate var appVersion: String = ""
 
     @IBOutlet var versionLabel: NSTextField!
 
@@ -13,10 +13,10 @@ public class AboutWindowController: NSWindowController {
         super.init(coder: coder)
     }
 
-    override public func windowDidLoad() {
+    override open func windowDidLoad() {
         super.windowDidLoad()
 
-        window?.backgroundColor = NSColor.whiteColor()
+        window?.backgroundColor = NSColor.white
 
         if appVersion.characters.count <= 0 {
             let version = valueFromInfoDict("CFBundleVersion")
@@ -34,8 +34,8 @@ public class AboutWindowController: NSWindowController {
         }
     }
 
-    private func valueFromInfoDict(key: String) -> String {
-        let dict = NSBundle.mainBundle().infoDictionary!
+    fileprivate func valueFromInfoDict(_ key: String) -> String {
+        let dict = Bundle.main.infoDictionary!
 
         if let value = dict[key] as? String {
             return value

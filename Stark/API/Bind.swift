@@ -18,26 +18,8 @@ private var bindIdentifierSequence: UInt = 0
 private let starkHotKeyIdentifier = "starkHotKeyIdentifier"
 private let starkHotKeyKeyDownNotification = "starkHotKeyKeyDownNotification"
 
-public class Bind: Handler, BindJSExport, HashableJSExport {
-    private static var setupDispatchToken: dispatch_once_t = 0
-
-    private static var hotkeys: [Int: Bind] = [Int: Bind]()
-
-    override public var hashValue: Int {
-        get { return Bind.hashForKey(key, modifiers: modifiers) }
-    }
-
-    public var key: String = ""
-    public var modifiers: [String] = []
-
-    private var identifier: UInt = 0
-    private var keyCode: UInt32 = 0
-    private var modifierFlags: UInt32 = 0
-    private var eventHotKeyRef: EventHotKeyRef = nil
-    private var enabled = false
-
-    private static func setup() {
-        dispatch_once(&setupDispatchToken) {
+open class Bind: Handler, BindJSExport, HashableJSExport {
+    private static var __once: () = {
             let callback: EventHandlerUPP = { (_, event, _) -> OSStatus in
                 autoreleasepool {
                     var identifier = EventHotKeyID()
@@ -47,7 +29,7 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
                         EventParamName(kEventParamDirectObject),
                         EventParamType(typeEventHotKeyID),
                         nil,
-                        sizeof(EventHotKeyID),
+                        MemoryLayout<EventHotKeyID>.size,
                         nil,
                         &identifier
                     )
@@ -56,9 +38,8 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
                         return
                     }
 
-                    NSNotificationCenter
-                        .defaultCenter()
-                        .postNotificationName(starkHotKeyKeyDownNotification, object: nil, userInfo: [starkHotKeyIdentifier: UInt(identifier.id)])
+                    NotificationCenter.default
+                        .post(name: Notification.Name(rawValue: starkHotKeyKeyDownNotification), object: nil, userInfo: [starkHotKeyIdentifier: UInt(identifier.id)])
 
                 }
 
@@ -68,16 +49,35 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
             var keyDown = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
 
             InstallEventHandler(GetEventDispatcherTarget(), callback, 1, &keyDown, nil, nil)
-        }
+        }()
+    fileprivate static var setupDispatchToken: Int = 0
+
+    fileprivate static var hotkeys: [Int: Bind] = [Int: Bind]()
+
+    override open var hashValue: Int {
+        get { return Bind.hashForKey(key, modifiers: modifiers) }
     }
 
-    public static func reset() {
-        hotkeys.forEach { $1.disable() }
+    open var key: String = ""
+    open var modifiers: [String] = []
+
+    fileprivate var identifier: UInt = 0
+    fileprivate var keyCode: UInt32 = 0
+    fileprivate var modifierFlags: UInt32 = 0
+    fileprivate var eventHotKeyRef: EventHotKeyRef? = nil
+    fileprivate var enabled = false
+
+    fileprivate static func setup() {
+        _ = Bind.__once
+    }
+
+    open static func reset() {
+        hotkeys.forEach { _ = $1.disable() }
         hotkeys.removeAll()
     }
 
-    public static func hashForKey(key: String, modifiers: [String]) -> Int {
-        let key = String(format: "%@[%@]", key, modifiers.joinWithSeparator("|"))
+    open static func hashForKey(_ key: String, modifiers: [String]) -> Int {
+        let key = String(format: "%@[%@]", key, modifiers.joined(separator: "|"))
         return key.hashValue
     }
 
@@ -97,25 +97,23 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
 
         manageCallback(callback)
 
-        NSNotificationCenter
-            .defaultCenter()
-            .addObserver(self, selector: #selector(Bind.keyDown(_:)), name: starkHotKeyKeyDownNotification, object: nil)
+        NotificationCenter.default
+            .addObserver(self, selector: #selector(Bind.keyDown(_:)), name: NSNotification.Name(rawValue: starkHotKeyKeyDownNotification), object: nil)
 
-        enable()
+        _ = enable()
     }
 
     deinit {
-        NSNotificationCenter
-            .defaultCenter()
-            .removeObserver(self, name: starkHotKeyKeyDownNotification, object: nil)
+        NotificationCenter.default
+            .removeObserver(self, name: NSNotification.Name(rawValue: starkHotKeyKeyDownNotification), object: nil)
     }
 
-    public func enable() -> Bool {
+    open func enable() -> Bool {
         if enabled {
             return true
         }
 
-        let eventHotKeyID = EventHotKeyID(signature: UTGetOSTypeFromString("STRK"), id: UInt32(identifier))
+        let eventHotKeyID = EventHotKeyID(signature: UTGetOSTypeFromString("STRK" as CFString), id: UInt32(identifier))
 
         let status = RegisterEventHotKey(keyCode, modifierFlags, eventHotKeyID, GetEventDispatcherTarget(), 0, &eventHotKeyRef)
 
@@ -128,7 +126,7 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
         return true
     }
 
-    public func disable() -> Bool {
+    open func disable() -> Bool {
         if !enabled {
             return true
         }
@@ -145,14 +143,14 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
         return true
     }
 
-    public var isEnabled: Bool {
+    open var isEnabled: Bool {
         get {
             return enabled
         }
     }
 
-    func keyDown(notification: NSNotification) {
-        if identifier == notification.userInfo?[starkHotKeyIdentifier]?.unsignedIntegerValue {
+    func keyDown(_ notification: Notification) {
+        if identifier == ((notification as NSNotification).userInfo?[starkHotKeyIdentifier] as AnyObject).uintValue {
             call()
         }
     }

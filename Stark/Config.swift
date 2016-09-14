@@ -1,37 +1,37 @@
 import AppKit
 
-public class Config {
-    private static let primaryConfigPaths: [String] = [
+open class Config {
+    fileprivate static let primaryConfigPaths: [String] = [
         "~/.stark.js",
         "~/Library/Application Support/Stark/stark.js",
         "~/.config/stark/stark.js",
     ]
 
-    public let primaryConfigPath = Config.resolvePrimaryConfigPath()
+    open let primaryConfigPath = Config.resolvePrimaryConfigPath()
 
-    private static func resolvePrimaryConfigPath() -> String {
+    fileprivate static func resolvePrimaryConfigPath() -> String {
         for configPath in primaryConfigPaths {
-            let resolvedConfigPath = (configPath as NSString).stringByResolvingSymlinksInPath
+            let resolvedConfigPath = (configPath as NSString).resolvingSymlinksInPath
 
-            if NSFileManager.defaultManager().fileExistsAtPath(resolvedConfigPath) {
+            if FileManager.default.fileExists(atPath: resolvedConfigPath) {
                 return resolvedConfigPath
             }
         }
 
-        return (primaryConfigPaths.first! as NSString).stringByResolvingSymlinksInPath
+        return (primaryConfigPaths.first! as NSString).resolvingSymlinksInPath
     }
 
-    public func createUnlessExists(path: String) {
-        if NSFileManager.defaultManager().fileExistsAtPath(primaryConfigPath) {
+    open func createUnlessExists(_ path: String) {
+        if FileManager.default.fileExists(atPath: primaryConfigPath) {
             return
         }
 
-        guard let example = NSBundle.mainBundle().pathForResource("stark-example", ofType: "js") else {
+        guard let example = Bundle.main.path(forResource: "stark-example", ofType: "js") else {
             return
         }
 
-        if !NSFileManager.defaultManager().createFileAtPath(path, contents: NSData(contentsOfFile: example), attributes: nil) {
-            LogHelper.log(String("Unable to create configuration file: %@", path))
+        if !FileManager.default.createFile(atPath: path, contents: try? Data(contentsOf: URL(fileURLWithPath: example)), attributes: nil) {
+            LogHelper.log(String(format: "Unable to create configuration file: %@", path))
             return
         }
 
@@ -40,8 +40,8 @@ public class Config {
         }
     }
 
-    public func edit() {
-        let task = NSTask()
+    open func edit() {
+        let task = Process()
         task.launchPath = "/usr/bin/open"
         task.arguments = [primaryConfigPath]
 

@@ -2,7 +2,7 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    let statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(NSVariableStatusItemLength)
+    let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
 
     var config: Config
     var context: Context
@@ -14,21 +14,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         context = Context(config: config)
     }
 
-    func applicationDidFinishLaunching(aNotification: NSNotification) {
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         AccessibilityHelper.askForAccessibilityIfNeeded()
 
         setupStatusItem()
 
         context.setup()
 
-        NSNotificationCenter
-            .defaultCenter()
-            .postNotificationName(starkStartNotification, object: self)
+        NotificationCenter.default
+            .post(name: Notification.Name(rawValue: starkStartNotification), object: self)
     }
 
     func setupStatusItem() {
         let image = NSImage(named: "StatusItemIcon")
-        image?.template = true
+        image?.isTemplate = true
 
         statusItem.highlightMode = true
         statusItem.image = image
@@ -36,44 +35,44 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let loginMenuItem = NSMenuItem(title: "Run at login", action: #selector(AppDelegate.toggleRunAtLogin), keyEquivalent: "")
 
         let menu = NSMenu()
-        menu.addItemWithTitle("About", action: #selector(AppDelegate.about), keyEquivalent: "")
-        menu.addItem(NSMenuItem.separatorItem())
-        menu.addItemWithTitle("Edit config file", action: #selector(AppDelegate.editConfig), keyEquivalent: "")
-        menu.addItemWithTitle("Reload config file", action: #selector(AppDelegate.reloadConfig), keyEquivalent: "")
-        menu.addItem(NSMenuItem.separatorItem())
+        menu.addItem(withTitle: "About", action: #selector(AppDelegate.about), keyEquivalent: "")
+        menu.addItem(NSMenuItem.separator())
+        menu.addItem(withTitle: "Edit config file", action: #selector(AppDelegate.editConfig), keyEquivalent: "")
+        menu.addItem(withTitle: "Reload config file", action: #selector(AppDelegate.reloadConfig), keyEquivalent: "")
+        menu.addItem(NSMenuItem.separator())
         menu.addItem(loginMenuItem)
-        menu.addItem(NSMenuItem.separatorItem())
-        menu.addItemWithTitle("Quit Stark", action: #selector(AppDelegate.quit), keyEquivalent: "")
+        menu.addItem(NSMenuItem.separator())
+        menu.addItem(withTitle: "Quit Stark", action: #selector(AppDelegate.quit), keyEquivalent: "")
 
         loginMenuItem.state = LaunchAgentHelper.enabled() ? NSOnState : NSOffState
 
         statusItem.menu = menu
     }
 
-    func about(sender: AnyObject?) {
-        NSApp.activateIgnoringOtherApps(true)
+    func about(_ sender: AnyObject?) {
+        NSApp.activate(ignoringOtherApps: true)
         aboutWindowController.showWindow(nil)
     }
 
-    func editConfig(sender: AnyObject?) {
+    func editConfig(_ sender: AnyObject?) {
         config.edit()
     }
 
-    func reloadConfig(sender: AnyObject?) {
+    func reloadConfig(_ sender: AnyObject?) {
         context.setup()
     }
 
-    func toggleRunAtLogin(sender: NSMenuItem) {
+    func toggleRunAtLogin(_ sender: NSMenuItem) {
         if sender.state == NSOnState {
             LaunchAgentHelper.remove()
             sender.state = NSOffState
         } else {
-            LaunchAgentHelper.add()
+            _ = LaunchAgentHelper.add()
             sender.state = NSOnState
         }
     }
 
-    func quit(sender: AnyObject?) {
+    func quit(_ sender: AnyObject?) {
         NSApp.terminate(nil)
     }
 }

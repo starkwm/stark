@@ -1,7 +1,7 @@
 import Carbon
 
-public class KeyCodeHelper {
-    private static let relocatableKeyCodes = [
+open class KeyCodeHelper {
+    fileprivate static let relocatableKeyCodes = [
         kVK_ANSI_A, kVK_ANSI_B, kVK_ANSI_C, kVK_ANSI_D, kVK_ANSI_E,
         kVK_ANSI_F, kVK_ANSI_G, kVK_ANSI_H, kVK_ANSI_I, kVK_ANSI_J,
         kVK_ANSI_K, kVK_ANSI_L, kVK_ANSI_M, kVK_ANSI_N, kVK_ANSI_O,
@@ -25,19 +25,19 @@ public class KeyCodeHelper {
         kVK_ANSI_Period
     ]
 
-    private static let relocatableKeys: [String: Int] = {
+    fileprivate static let relocatableKeys: [String: Int] = {
         var keys = [String: Int]()
 
         let inputSource = TISCopyCurrentASCIICapableKeyboardLayoutInputSource().takeUnretainedValue()
         let layoutDataRefPtr = TISGetInputSourceProperty(inputSource, kTISPropertyUnicodeKeyLayoutData)
-        let layoutDataRef = unsafeBitCast(layoutDataRefPtr, CFDataRef.self)
-        let layoutData = unsafeBitCast(CFDataGetBytePtr(layoutDataRef), UnsafePointer<UCKeyboardLayout>.self)
+        let layoutDataRef = unsafeBitCast(layoutDataRefPtr, to: CFData.self)
+        let layoutData = unsafeBitCast(CFDataGetBytePtr(layoutDataRef), to: UnsafePointer<UCKeyboardLayout>.self)
 
         for keyCode in relocatableKeyCodes {
             var deadKeyState: UInt32 = 0
             let maxLength = 255
             var length = 0
-            var chars = [UniChar](count: maxLength, repeatedValue: 0)
+            var chars = [UniChar](repeating: 0, count: maxLength)
 
             UCKeyTranslate(
                 layoutData,
@@ -57,18 +57,18 @@ public class KeyCodeHelper {
             }
 
             let key = String(utf16CodeUnits: &chars, count: length)
-            keys[key.uppercaseString] = keyCode
+            keys[key.uppercased()] = keyCode
         }
 
         return keys
     }()
 
-    public static func keyCodeForString(key: String) -> Int {
-        if let keyCode = relocatableKeys[key.uppercaseString] {
+    open static func keyCodeForString(_ key: String) -> Int {
+        if let keyCode = relocatableKeys[key.uppercased()] {
             return keyCode
         }
 
-        switch key.uppercaseString {
+        switch key.uppercased() {
         case "F1": return kVK_F1
         case "F2": return kVK_F2
         case "F3": return kVK_F3
@@ -129,8 +129,8 @@ public class KeyCodeHelper {
         }
     }
 
-    public static func modifierFlagsForString(modifiers: [String]) -> Int {
-        let mods = modifiers.map { $0.uppercaseString }
+    open static func modifierFlagsForString(_ modifiers: [String]) -> Int {
+        let mods = modifiers.map { $0.uppercased() }
 
         var flags = 0
 

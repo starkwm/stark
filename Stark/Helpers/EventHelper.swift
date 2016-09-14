@@ -2,29 +2,29 @@ import AppKit
 
 public let starkStartNotification = "starkStartNotification"
 
-public class EventHelper {
-    private static let notificationToNotificationCenter: [String: NSNotificationCenter] = {
-        let workspaceNotificationCenter = NSWorkspace.sharedWorkspace().notificationCenter
+open class EventHelper {
+    fileprivate static let notificationToNotificationCenter: [String: NotificationCenter] = {
+        let workspaceNotificationCenter = NSWorkspace.shared().notificationCenter
 
         return [
-            NSWorkspaceDidLaunchApplicationNotification: workspaceNotificationCenter,
-            NSWorkspaceDidTerminateApplicationNotification: workspaceNotificationCenter,
-            NSWorkspaceDidActivateApplicationNotification: workspaceNotificationCenter,
-            NSWorkspaceDidHideApplicationNotification: workspaceNotificationCenter,
-            NSWorkspaceDidUnhideApplicationNotification: workspaceNotificationCenter,
+            NSNotification.Name.NSWorkspaceDidLaunchApplication.rawValue: workspaceNotificationCenter,
+            NSNotification.Name.NSWorkspaceDidTerminateApplication.rawValue: workspaceNotificationCenter,
+            NSNotification.Name.NSWorkspaceDidActivateApplication.rawValue: workspaceNotificationCenter,
+            NSNotification.Name.NSWorkspaceDidHideApplication.rawValue: workspaceNotificationCenter,
+            NSNotification.Name.NSWorkspaceDidUnhideApplication.rawValue: workspaceNotificationCenter,
         ]
     }()
 
-    private static let eventToNotification: [String: String] = [
+    fileprivate static let eventToNotification: [String: String] = [
         "starkDidLaunch": starkStartNotification,
 
-        "screensDidChange": NSApplicationDidChangeScreenParametersNotification,
+        "screensDidChange": NSNotification.Name.NSApplicationDidChangeScreenParameters.rawValue,
 
-        "applicationDidLaunch": NSWorkspaceDidLaunchApplicationNotification,
-        "applicationDidTerminate": NSWorkspaceDidTerminateApplicationNotification,
-        "applicationDidActivate": NSWorkspaceDidActivateApplicationNotification,
-        "applicationDidHide": NSWorkspaceDidHideApplicationNotification,
-        "applicationDidShow": NSWorkspaceDidUnhideApplicationNotification,
+        "applicationDidLaunch": NSNotification.Name.NSWorkspaceDidLaunchApplication.rawValue,
+        "applicationDidTerminate": NSNotification.Name.NSWorkspaceDidTerminateApplication.rawValue,
+        "applicationDidActivate": NSNotification.Name.NSWorkspaceDidActivateApplication.rawValue,
+        "applicationDidHide": NSNotification.Name.NSWorkspaceDidHideApplication.rawValue,
+        "applicationDidShow": NSNotification.Name.NSWorkspaceDidUnhideApplication.rawValue,
 
         "windowDidOpen": NSAccessibilityWindowCreatedNotification,
         "windowDidClose": NSAccessibilityUIElementDestroyedNotification,
@@ -35,15 +35,15 @@ public class EventHelper {
         "windowDidUnminimize": NSAccessibilityWindowDeminiaturizedNotification,
     ]
 
-    public static func notificationCenterForNotification(notification: String) -> NSNotificationCenter {
+    open static func notificationCenterForNotification(_ notification: String) -> NotificationCenter {
         if let notificationCenter = notificationToNotificationCenter[notification] {
             return notificationCenter
         }
 
-        return NSNotificationCenter.defaultCenter()
+        return NotificationCenter.default
     }
 
-    public static func notificationForEvent(event: String) -> String {
+    open static func notificationForEvent(_ event: String) -> String {
         if let notifiction = eventToNotification[event] {
             return notifiction
         }

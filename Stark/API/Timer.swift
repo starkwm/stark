@@ -5,18 +5,18 @@ import JavaScriptCore
     func stop()
 }
 
-public class Timer: Handler, TimerJSExport, HashableJSExport {
-    private var timer: NSTimer? = nil
+open class Timer: Handler, TimerJSExport, HashableJSExport {
+    fileprivate var timer: Foundation.Timer? = nil
 
-    init(interval: NSTimeInterval, repeats: Bool, callback: JSValue) {
+    init(interval: TimeInterval, repeats: Bool, callback: JSValue) {
         super.init()
 
-        timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: self, selector: #selector(timerDidFire), userInfo: nil, repeats: repeats)
+        timer = Foundation.Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(timerDidFire), userInfo: nil, repeats: repeats)
 
         manageCallback(callback)
     }
 
-    public func stop() {
+    open func stop() {
         timer?.invalidate()
     }
 

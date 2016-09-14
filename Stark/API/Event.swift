@@ -7,11 +7,11 @@ import JavaScriptCore
     var name: String { get }
 }
 
-public class Event: Handler, EventJSExport, HashableJSExport {
-    public var name: String
+open class Event: Handler, EventJSExport, HashableJSExport {
+    open var name: String
 
-    private var notification: String
-    private var notificationCenter: NSNotificationCenter
+    fileprivate var notification: String
+    fileprivate var notificationCenter: NotificationCenter
 
     public required init(event: String, callback: JSValue) {
         name = event
@@ -23,15 +23,15 @@ public class Event: Handler, EventJSExport, HashableJSExport {
 
         manageCallback(callback)
 
-        notificationCenter.addObserver(self, selector: #selector(Event.didReceiveNotification(_:)), name: notification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(Event.didReceiveNotification(_:)), name: NSNotification.Name(rawValue: notification), object: nil)
     }
 
     deinit {
-        notificationCenter.removeObserver(self, name: notification, object: nil)
+        notificationCenter.removeObserver(self, name: NSNotification.Name(rawValue: notification), object: nil)
     }
 
-    func didReceiveNotification(notification: NSNotification) {
-        guard let userInfo = notification.userInfo else {
+    func didReceiveNotification(_ notification: Notification) {
+        guard let userInfo = (notification as NSNotification).userInfo else {
             call()
             return
         }

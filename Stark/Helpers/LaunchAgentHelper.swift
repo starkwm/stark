@@ -1,19 +1,18 @@
 import Foundation
 
-public class LaunchAgentHelper {
-    private static var launchAgentDirectory: NSURL? {
-        let libDir = try? NSFileManager
-            .defaultManager()
-            .URLForDirectory(.LibraryDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: false)
+open class LaunchAgentHelper {
+    fileprivate static var launchAgentDirectory: URL? {
+        let libDir = try? FileManager.default
+            .url(for: .libraryDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
 
-        return libDir?.URLByAppendingPathComponent("LaunchAgents") ?? nil
+        return libDir?.appendingPathComponent("LaunchAgents") ?? nil
     }
 
-    private static var launchAgentFile: NSURL? {
-        return launchAgentDirectory?.URLByAppendingPathComponent("co.rustyrobots.Stark.plist") ?? nil
+    fileprivate static var launchAgentFile: URL? {
+        return launchAgentDirectory?.appendingPathComponent("co.rustyrobots.Stark.plist") ?? nil
     }
 
-    public static func add() -> Bool {
+    open static func add() -> Bool {
         guard let launchAgentDirectory = launchAgentDirectory else {
             LogHelper.log("Could not access launch agent directory")
             return false
@@ -24,13 +23,12 @@ public class LaunchAgentHelper {
             return false
         }
 
-        if launchAgentDirectory.checkResourceIsReachableAndReturnError(nil) == false {
-            let _ = try? NSFileManager
-                .defaultManager()
-                .createDirectoryAtURL(launchAgentDirectory, withIntermediateDirectories: false, attributes: nil)
+        if (launchAgentDirectory as NSURL).checkResourceIsReachableAndReturnError(nil) == false {
+            let _ = try? FileManager.default
+                .createDirectory(at: launchAgentDirectory, withIntermediateDirectories: false, attributes: nil)
         }
 
-        guard let execPath = NSBundle.mainBundle().executablePath else {
+        guard let execPath = Bundle.main.executablePath else {
             return false
         }
 
@@ -40,19 +38,18 @@ public class LaunchAgentHelper {
             "RunAtLoad": true
         ]
 
-        plist.writeToURL(launchAgentFile, atomically: true)
+        plist.write(to: launchAgentFile, atomically: true)
 
         return true
     }
 
-    public static func remove() {
-        let _ = try? NSFileManager
-            .defaultManager()
-            .removeItemAtURL(launchAgentFile!)
+    open static func remove() {
+        let _ = try? FileManager.default
+            .removeItem(at: launchAgentFile!)
     }
 
-    public static func enabled() -> Bool {
-        let reachable = launchAgentFile?.checkResourceIsReachableAndReturnError(nil)
+    open static func enabled() -> Bool {
+        let reachable = (launchAgentFile as NSURL?)?.checkResourceIsReachableAndReturnError(nil)
         return reachable ?? false
     }
 }

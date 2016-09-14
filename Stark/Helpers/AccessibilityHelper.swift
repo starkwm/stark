@@ -1,10 +1,10 @@
 import AppKit
 
-public class AccessibilityHelper {
-    public static func askForAccessibilityIfNeeded() {
+open class AccessibilityHelper {
+    open static func askForAccessibilityIfNeeded() {
         let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true]
 
-        if AXIsProcessTrustedWithOptions(options) {
+        if AXIsProcessTrustedWithOptions(options as CFDictionary?) {
             return
         }
 

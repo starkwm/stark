@@ -18,7 +18,7 @@ extension NSScreen: NSScreenJSExport {
     }
 
     public static func focused() -> NSScreen? {
-        return mainScreen()
+        return main()
     }
 
     public var frameIncludingDockAndMenu: CGRect {
@@ -43,7 +43,7 @@ extension NSScreen: NSScreenJSExport {
         get {
             let screens = NSScreen.screens()!
 
-            if var index = screens.indexOf(self) {
+            if var index = screens.index(of: self) {
                 index += 1
 
                 if index == screens.count {
@@ -61,7 +61,7 @@ extension NSScreen: NSScreenJSExport {
         get {
             let screens = NSScreen.screens()!
 
-            if var index = screens.indexOf(self) {
+            if var index = screens.index(of: self) {
                 index -= 1
 
                 if index == -1 {

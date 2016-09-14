@@ -1,23 +1,23 @@
 import AppKit
 import JavaScriptCore
 
-public class Context {
-    private var context: JSContext
-    private var config: Config
+open class Context {
+    fileprivate var context: JSContext
+    fileprivate var config: Config
 
-    private let observer = RunningAppsObserver()
+    fileprivate let observer = RunningAppsObserver()
 
     public init(config: Config) {
         context = JSContext(virtualMachine: JSVirtualMachine())
         self.config = config
     }
 
-    public func setup() {
+    open func setup() {
         Bind.reset()
 
         setupAPI()
 
-        guard let lodashPath = NSBundle.mainBundle().pathForResource("lodash-min", ofType: "js") else {
+        guard let lodashPath = Bundle.main.path(forResource: "lodash-min", ofType: "js") else {
             LogHelper.log("Unable to setup context, could not find lodash-min.js")
             return
         }
@@ -34,30 +34,30 @@ public class Context {
         loadJSFile(config.primaryConfigPath)
     }
 
-    private func handleJSException(exception: JSValue) {
+    fileprivate func handleJSException(_ exception: JSValue) {
         LogHelper.log(String(format: "Unhandled JavaScript Exception: %@", exception))
     }
 
-    private func setupAPI() {
+    fileprivate func setupAPI() {
         context = JSContext(virtualMachine: JSVirtualMachine())
 
         context.exceptionHandler = { [weak self] ctx, exception in
-            self?.handleJSException(exception)
+            self?.handleJSException(exception!)
         }
 
-        context.setObject(Stark.self(config: config, context: self), forKeyedSubscript: "Stark")
+        context.setObject(Stark.self(config: config, context: self), forKeyedSubscript: "Stark" as (NSCopying & NSObjectProtocol)!)
 
-        context.setObject(NSScreen.self, forKeyedSubscript: "Screen")
+        context.setObject(NSScreen.self, forKeyedSubscript: "Screen" as (NSCopying & NSObjectProtocol)!)
 
-        context.setObject(Application.self, forKeyedSubscript: "App")
-        context.setObject(Window.self, forKeyedSubscript: "Window")
+        context.setObject(Application.self, forKeyedSubscript: "App" as (NSCopying & NSObjectProtocol)!)
+        context.setObject(Window.self, forKeyedSubscript: "Window" as (NSCopying & NSObjectProtocol)!)
 
-        context.setObject(Bind.self, forKeyedSubscript: "Bind")
-        context.setObject(Event.self, forKeyedSubscript: "Event")
-        context.setObject(Timer.self, forKeyedSubscript: "Timer")
+        context.setObject(Bind.self, forKeyedSubscript: "Bind" as (NSCopying & NSObjectProtocol)!)
+        context.setObject(Event.self, forKeyedSubscript: "Event" as (NSCopying & NSObjectProtocol)!)
+        context.setObject(Timer.self, forKeyedSubscript: "Timer" as (NSCopying & NSObjectProtocol)!)
     }
 
-    private func loadJSFile(path: String) {
+    fileprivate func loadJSFile(_ path: String) {
         guard let scriptContents = try? String(contentsOfFile: path) else {
             LogHelper.log(String(format: "Unable to read script: %@", path))
             return

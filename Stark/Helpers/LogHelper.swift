@@ -1,39 +1,39 @@
 import Foundation
 
-public class LogHelper {
-    public static func log(message: String) {
+open class LogHelper {
+    open static func log(_ message: String) {
         NSLog("%@", message)
 
-        let dir = NSURL(fileURLWithPath: NSHomeDirectory())
-        let file = dir.URLByAppendingPathComponent(".stark.log")
+        let dir = URL(fileURLWithPath: NSHomeDirectory())
+        let file = dir.appendingPathComponent(".stark.log")
 
-        let formatter = NSDateFormatter()
+        let formatter = DateFormatter()
         formatter.dateFormat = "[yyyy-MM-dd HH:mm:ss]"
 
-        let log = String(format: "%@ %@", formatter.stringFromDate(NSDate()), message)
+        let log = String(format: "%@ %@", formatter.string(from: Date()), message)
 
-        _ = try? stringAppendLineToURL(log, fileURL: file!)
+        _ = try? stringAppendLineToURL(log, fileURL: file)
     }
 
-    private static func stringAppendLineToURL(message: String, fileURL: NSURL) throws {
-        try stringAppendToURL(message.stringByAppendingString("\n"), fileURL: fileURL)
+    fileprivate static func stringAppendLineToURL(_ message: String, fileURL: URL) throws {
+        try stringAppendToURL(message + "\n", fileURL: fileURL)
     }
 
-    private static func stringAppendToURL(message: String, fileURL: NSURL) throws {
-        let data = message.dataUsingEncoding(NSUTF8StringEncoding)!
+    fileprivate static func stringAppendToURL(_ message: String, fileURL: URL) throws {
+        let data = message.data(using: String.Encoding.utf8)!
         try dataAppendToURL(data, fileURL: fileURL)
     }
 
-    private static func dataAppendToURL(data: NSData, fileURL: NSURL) throws {
-        if let fileHandle = try? NSFileHandle(forWritingToURL: fileURL) {
+    fileprivate static func dataAppendToURL(_ data: Data, fileURL: URL) throws {
+        if let fileHandle = try? FileHandle(forWritingTo: fileURL) {
             defer {
                 fileHandle.closeFile()
             }
 
             fileHandle.seekToEndOfFile()
-            fileHandle.writeData(data)
+            fileHandle.write(data)
         } else {
-            try data.writeToURL(fileURL, options: .DataWritingAtomic)
+            try data.write(to: fileURL, options: .atomic)
         }
     }
 }

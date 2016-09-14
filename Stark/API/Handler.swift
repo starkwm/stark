@@ -1,24 +1,24 @@
 import Foundation
 import JavaScriptCore
 
-public class Handler: NSObject {
+open class Handler: NSObject {
     var callback: JSManagedValue?
 
-    func manageCallback(callback: JSValue) {
+    func manageCallback(_ callback: JSValue) {
         self.callback = JSManagedValue(value: callback, andOwner: self)
     }
 
-    func callWithArguments(arguments: [AnyObject]!) {
+    func callWithArguments(_ arguments: [AnyObject]!) {
         if let callback = callback?.value {
             let scope = JSContext(virtualMachine: callback.context.virtualMachine)
 
-            scope.exceptionHandler = { _, exception in
-                LogHelper.log(String(format: "JavaScript exception: %@", exception))
+            scope?.exceptionHandler = { _, exception in
+                LogHelper.log(String(format: "JavaScript exception: %@", exception!))
             }
 
-            let function = JSValue(object: callback, inContext: scope)
+            let function = JSValue(object: callback, in: scope)
 
-            function.callWithArguments(arguments)
+            _ = function?.call(withArguments: arguments)
         }
     }
 

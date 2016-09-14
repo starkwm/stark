@@ -2,26 +2,26 @@ import AppKit
 
 private let NSWorkspaceRunningApplicationsKeyPath = "runningApplications"
 
-public class RunningAppsObserver: NSObject {
-    public var observers = [pid_t: AppObserver]()
+open class RunningAppsObserver: NSObject {
+    open var observers = [pid_t: AppObserver]()
 
     override init() {
         super.init()
 
         NSWorkspace
-            .sharedWorkspace()
-            .addObserver(self, forKeyPath: NSWorkspaceRunningApplicationsKeyPath, options: [.Old, .New], context: nil)
+            .shared()
+            .addObserver(self, forKeyPath: NSWorkspaceRunningApplicationsKeyPath, options: [.old, .new], context: nil)
 
-        observeApplications(NSWorkspace.sharedWorkspace().runningApplications)
+        observeApplications(NSWorkspace.shared().runningApplications)
     }
 
     deinit {
         NSWorkspace
-            .sharedWorkspace()
+            .shared()
             .removeObserver(self, forKeyPath: NSWorkspaceRunningApplicationsKeyPath)
     }
 
-    public override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String: AnyObject]?, context: UnsafeMutablePointer<Void>) {
+    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath != NSWorkspaceRunningApplicationsKeyPath {
             return
         }
@@ -32,13 +32,13 @@ public class RunningAppsObserver: NSObject {
 
         var apps: [NSRunningApplication]? = nil
 
-        if let rv = change[NSKeyValueChangeKindKey] as? UInt, kind = NSKeyValueChange(rawValue: rv) {
+        if let rv = change[NSKeyValueChangeKey.kindKey] as? UInt, let kind = NSKeyValueChange(rawValue: rv) {
             switch kind {
-            case .Insertion:
-                apps = change[NSKeyValueChangeNewKey] as? [NSRunningApplication]
+            case .insertion:
+                apps = change[NSKeyValueChangeKey.newKey] as? [NSRunningApplication]
                 observeApplications(apps ?? [])
-            case .Removal:
-                apps = change[NSKeyValueChangeOldKey] as? [NSRunningApplication]
+            case .removal:
+                apps = change[NSKeyValueChangeKey.oldKey] as? [NSRunningApplication]
                 removeApplications(apps ?? [])
             default:
                 return
@@ -46,15 +46,15 @@ public class RunningAppsObserver: NSObject {
         }
     }
 
-    private func observeApplications(apps: [NSRunningApplication]) {
+    fileprivate func observeApplications(_ apps: [NSRunningApplication]) {
         for app in apps {
             observers[app.processIdentifier] = AppObserver(app: app)
         }
     }
 
-    private func removeApplications(apps: [NSRunningApplication]) {
+    fileprivate func removeApplications(_ apps: [NSRunningApplication]) {
         for app in apps {
-            observers.removeValueForKey(app.processIdentifier)
+            observers.removeValue(forKey: app.processIdentifier)
         }
     }
 }

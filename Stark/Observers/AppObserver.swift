@@ -2,8 +2,8 @@ import AppKit
 
 public let appObserverWindowKey = "observerWindowKey"
 
-public class AppObserver {
-    private static let notifications = [
+open class AppObserver {
+    fileprivate static let notifications = [
         NSAccessibilityWindowCreatedNotification,
         NSAccessibilityUIElementDestroyedNotification,
         NSAccessibilityFocusedWindowChangedNotification,
@@ -13,9 +13,9 @@ public class AppObserver {
         NSAccessibilityWindowDeminiaturizedNotification,
     ]
 
-    private var element: AXUIElement
+    fileprivate var element: AXUIElement
 
-    private var observer: AXObserverRef? = nil
+    fileprivate var observer: AXObserver? = nil
 
     init(app: NSRunningApplication) {
         element = AXUIElementCreateApplication(app.processIdentifier)
@@ -24,9 +24,8 @@ public class AppObserver {
             autoreleasepool {
                 let window = Window(element: element)
 
-                NSNotificationCenter
-                    .defaultCenter()
-                    .postNotificationName(notification as String, object: nil, userInfo: [appObserverWindowKey: window])
+                NotificationCenter.default
+                    .post(name: Notification.Name(rawValue: notification as String), object: nil, userInfo: [appObserverWindowKey: window])
             }
         }
 
@@ -42,29 +41,29 @@ public class AppObserver {
             CFRunLoopRemoveSource(
                 CFRunLoopGetCurrent(),
                 AXObserverGetRunLoopSource(observer!),
-                kCFRunLoopDefaultMode
+                CFRunLoopMode.defaultMode
             )
         }
     }
 
-    private func addNotification(notification: String) {
+    fileprivate func addNotification(_ notification: String) {
         if observer != nil {
-            AXObserverAddNotification(observer!, element, notification, nil)
+            AXObserverAddNotification(observer!, element, notification as CFString, nil)
         }
     }
 
-    private func removeNotification(notification: String) {
+    fileprivate func removeNotification(_ notification: String) {
         if observer != nil {
-            AXObserverRemoveNotification(observer!, element, notification)
+            AXObserverRemoveNotification(observer!, element, notification as CFString)
         }
     }
 
-    private func setup() {
+    fileprivate func setup() {
         if observer != nil {
             CFRunLoopAddSource(
                 CFRunLoopGetCurrent(),
                 AXObserverGetRunLoopSource(observer!),
-                kCFRunLoopDefaultMode
+                CFRunLoopMode.defaultMode
             )
         }
 

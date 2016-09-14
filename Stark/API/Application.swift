@@ -2,7 +2,7 @@ import AppKit
 import JavaScriptCore
 
 @objc protocol ApplicationJSExport: JSExport {
-    static func find(name: String) -> Application?
+    static func find(_ name: String) -> Application?
 
     static func all() -> [Application]
     static func focused() -> Application?
@@ -25,12 +25,12 @@ import JavaScriptCore
     var isTerminated: Bool { get }
 }
 
-public class Application: NSObject, ApplicationJSExport {
-    private var element: AXUIElement
-    private var app: NSRunningApplication
+open class Application: NSObject, ApplicationJSExport {
+    fileprivate var element: AXUIElement
+    fileprivate var app: NSRunningApplication
 
-    public static func find(name: String) -> Application? {
-        for app in NSWorkspace.sharedWorkspace().runningApplications {
+    open static func find(_ name: String) -> Application? {
+        for app in NSWorkspace.shared().runningApplications {
             if app.localizedName == name {
                 return Application(pid: app.processIdentifier)
             }
@@ -39,14 +39,14 @@ public class Application: NSObject, ApplicationJSExport {
         return nil
     }
 
-    public static func all() -> [Application] {
-        return NSWorkspace.sharedWorkspace().runningApplications.map {
+    open static func all() -> [Application] {
+        return NSWorkspace.shared().runningApplications.map {
             Application(pid: $0.processIdentifier)
         }
     }
 
-    public static func focused() -> Application? {
-        if let app = NSWorkspace.sharedWorkspace().frontmostApplication {
+    open static func focused() -> Application? {
+        if let app = NSWorkspace.shared().frontmostApplication {
             return Application(pid: app.processIdentifier)
         }
 
@@ -63,12 +63,12 @@ public class Application: NSObject, ApplicationJSExport {
         self.app = app
     }
 
-    public var allWindows: [Window] {
+    open var allWindows: [Window] {
         get {
             var values: CFArray?
-            let result = AXUIElementCopyAttributeValues(element, kAXWindowsAttribute, 0, 100, &values)
+            let result = AXUIElementCopyAttributeValues(element, kAXWindowsAttribute as CFString, 0, 100, &values)
 
-            if result != .Success {
+            if result != .success {
                 return []
             }
 
@@ -79,52 +79,52 @@ public class Application: NSObject, ApplicationJSExport {
         }
     }
 
-    public var visibleWindows: [Window] {
+    open var visibleWindows: [Window] {
         get {
             return allWindows.filter { !$0.app.isHidden && $0.isStandard && !$0.isMinimized }
         }
     }
 
-    public var name: String {
+    open var name: String {
         get { return app.localizedName ?? "" }
     }
 
-    public var bundleId: String {
+    open var bundleId: String {
         get { return app.bundleIdentifier ?? "" }
     }
 
-    public var processId: pid_t {
+    open var processId: pid_t {
         get { return app.processIdentifier }
     }
 
-    public func activate() -> Bool {
-        return app.activateWithOptions(.ActivateAllWindows)
+    open func activate() -> Bool {
+        return app.activate(options: .activateAllWindows)
     }
 
-    public func focus() -> Bool {
-        return app.activateWithOptions(.ActivateIgnoringOtherApps)
+    open func focus() -> Bool {
+        return app.activate(options: .activateIgnoringOtherApps)
     }
 
-    public func show() -> Bool {
+    open func show() -> Bool {
         return app.unhide()
     }
 
-    public func hide() -> Bool {
+    open func hide() -> Bool {
         return app.hide()
     }
 
-    public var isActive: Bool {
+    open var isActive: Bool {
         get {
-            return app.active
+            return app.isActive
         }
     }
 
-    public var isHidden: Bool {
+    open var isHidden: Bool {
         get {
             var value: AnyObject?
-            let result = AXUIElementCopyAttributeValue(element, kAXHiddenAttribute, &value)
+            let result = AXUIElementCopyAttributeValue(element, kAXHiddenAttribute as CFString, &value)
 
-            if result != .Success {
+            if result != .success {
                 return false
             }
 
@@ -136,9 +136,9 @@ public class Application: NSObject, ApplicationJSExport {
         }
     }
 
-    public var isTerminated: Bool {
+    open var isTerminated: Bool {
         get {
-            return app.terminated
+            return app.isTerminated
         }
     }
 }
