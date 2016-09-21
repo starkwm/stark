@@ -33,3 +33,4 @@ DerivedData
 Carthage/Build
 
 node_modules
+Stark/Resources/stark-lib.js
