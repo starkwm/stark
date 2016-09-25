@@ -179,7 +179,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F6792C341C404B53007D9DF9 /* Build configuration list for PBXNativeTarget "Stark" */;
 			buildPhases = (
-				F67CFD7E1D93164C00FF0F49 /* Concatenate and Minify Stark JS Lib */,
+				F67CFD7E1D93164C00FF0F49 /* Concatenate and Minify Stark JS */,
 				F6792C231C404B53007D9DF9 /* Sources */,
 				F6792C241C404B53007D9DF9 /* Frameworks */,
 				F6792C251C404B53007D9DF9 /* Resources */,
@@ -244,14 +244,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F67CFD7E1D93164C00FF0F49 /* Concatenate and Minify Stark JS Lib */ = {
+		F67CFD7E1D93164C00FF0F49 /* Concatenate and Minify Stark JS */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Concatenate and Minify Stark JS Lib";
+			name = "Concatenate and Minify Stark JS";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
