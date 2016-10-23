@@ -98,7 +98,7 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
         manageCallback(callback)
 
         NotificationCenter.default
-            .addObserver(self, selector: #selector(Bind.keyDown(_:)), name: NSNotification.Name(rawValue: starkHotKeyKeyDownNotification), object: nil)
+            .addObserver(self, selector: #selector(Bind.keyDown(notification:)), name: NSNotification.Name(rawValue: starkHotKeyKeyDownNotification), object: nil)
 
         _ = enable()
     }
@@ -149,7 +149,7 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
         }
     }
 
-    func keyDown(_ notification: Notification) {
+    func keyDown(notification: Notification) {
         if let userDict = notification.userInfo {
             if identifier == userDict[starkHotKeyIdentifier] as? UInt {
                 call()
