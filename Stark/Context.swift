@@ -22,7 +22,7 @@ open class Context {
             return
         }
 
-        guard let starklibPath = NSBundle.mainBundle().pathForResource("stark-lib", ofType: "js") else {
+        guard let starklibPath = Bundle.main.path(forResource: "stark-lib", ofType: "js") else {
             LogHelper.log("Unable to setup context, could not find stark-lib.js")
             return
         }
