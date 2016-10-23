@@ -150,8 +150,10 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
     }
 
     func keyDown(_ notification: Notification) {
-        if identifier == ((notification as NSNotification).userInfo?[starkHotKeyIdentifier] as AnyObject).uintValue {
-            call()
+        if let userDict = notification.userInfo {
+            if identifier == userDict[starkHotKeyIdentifier] as? UInt {
+                call()
+            }
         }
     }
 }
