@@ -14,12 +14,12 @@ open class LaunchAgentHelper {
 
     open static func add() -> Bool {
         guard let launchAgentDirectory = launchAgentDirectory else {
-            LogHelper.log("Could not access launch agent directory")
+            LogHelper.log(message: "Could not access launch agent directory")
             return false
         }
 
         guard let launchAgentFile = launchAgentFile else {
-            LogHelper.log("Could not access launch agent file")
+            LogHelper.log(message: "Could not access launch agent file")
             return false
         }
 

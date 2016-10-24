@@ -35,7 +35,7 @@ open class EventHelper {
         "windowDidUnminimize": NSAccessibilityWindowDeminiaturizedNotification,
     ]
 
-    open static func notificationCenterForNotification(_ notification: String) -> NotificationCenter {
+    open static func notificationCenterForNotification(notification: String) -> NotificationCenter {
         if let notificationCenter = notificationToNotificationCenter[notification] {
             return notificationCenter
         }
@@ -43,7 +43,7 @@ open class EventHelper {
         return NotificationCenter.default
     }
 
-    open static func notificationForEvent(_ event: String) -> String {
+    open static func notificationForEvent(event: String) -> String {
         if let notifiction = eventToNotification[event] {
             return notifiction
         }

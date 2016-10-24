@@ -18,7 +18,7 @@ open class Stark: NSObject, StarkJSExport {
     }
 
     open func log(_ message: String) {
-        LogHelper.log(message)
+        LogHelper.log(message: message)
     }
 
     open func reload() {

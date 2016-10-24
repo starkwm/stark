@@ -88,8 +88,8 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
         self.key = key
         self.modifiers = modifiers
 
-        keyCode = UInt32(KeyCodeHelper.keyCodeForString(key))
-        modifierFlags = UInt32(KeyCodeHelper.modifierFlagsForString(modifiers))
+        keyCode = UInt32(KeyCodeHelper.keyCodeForString(key: key))
+        modifierFlags = UInt32(KeyCodeHelper.modifierFlagsForString(modifiers: modifiers))
 
         bindIdentifierSequence += 1
         identifier = bindIdentifierSequence

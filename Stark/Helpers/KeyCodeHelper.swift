@@ -63,7 +63,7 @@ open class KeyCodeHelper {
         return keys
     }()
 
-    open static func keyCodeForString(_ key: String) -> Int {
+    open static func keyCodeForString(key: String) -> Int {
         if let keyCode = relocatableKeys[key.uppercased()] {
             return keyCode
         }
@@ -129,7 +129,7 @@ open class KeyCodeHelper {
         }
     }
 
-    open static func modifierFlagsForString(_ modifiers: [String]) -> Int {
+    open static func modifierFlagsForString(modifiers: [String]) -> Int {
         let mods = modifiers.map { $0.uppercased() }
 
         var flags = 0
