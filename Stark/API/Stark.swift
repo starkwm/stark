@@ -5,7 +5,7 @@ import JavaScriptCore
     func log(_ message: String)
     func reload()
     func launch(_ application: String)
-    @objc(run::) func run(_ command: String, arguments: [String]?)
+    func run(_ command: String, _ arguments: [String]?)
 }
 
 open class Stark: NSObject, StarkJSExport {
@@ -29,7 +29,7 @@ open class Stark: NSObject, StarkJSExport {
         NSWorkspace.shared().launchApplication(application)
     }
 
-    @objc(run::) open func run(_ command: String, arguments: [String]?) {
+    open func run(_ command: String, _ arguments: [String]?) {
         let task = Process()
         task.launchPath = command
         task.arguments = arguments
