@@ -14,7 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         context = Context(config: config)
     }
 
-    func applicationDidFinishLaunching(aNotification: Notification) {
+    func applicationDidFinishLaunching(_ aNotification: Notification) {
         AccessibilityHelper.askForAccessibilityIfNeeded()
 
         setupStatusItem()
