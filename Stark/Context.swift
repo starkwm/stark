@@ -29,20 +29,20 @@ open class Context {
 
         config.createUnlessExists(config.primaryConfigPath)
 
-        loadJSFile(lodashPath)
-        loadJSFile(starklibPath)
-        loadJSFile(config.primaryConfigPath)
+        loadJSFile(path: lodashPath)
+        loadJSFile(path: starklibPath)
+        loadJSFile(path: config.primaryConfigPath)
     }
 
-    fileprivate func handleJSException(_ exception: JSValue) {
+    fileprivate func handleJSException(exception: JSValue) {
         LogHelper.log(String(format: "Unhandled JavaScript Exception: %@", exception))
     }
 
     fileprivate func setupAPI() {
         context = JSContext(virtualMachine: JSVirtualMachine())
 
-        context.exceptionHandler = { [weak self] ctx, exception in
-            self?.handleJSException(exception!)
+        context.exceptionHandler = { [weak self] ctx, ex in
+            self?.handleJSException(exception: ex!)
         }
 
         context.setObject(Stark.self(config: config, context: self), forKeyedSubscript: "Stark" as (NSCopying & NSObjectProtocol)!)
@@ -57,7 +57,7 @@ open class Context {
         context.setObject(Timer.self, forKeyedSubscript: "Timer" as (NSCopying & NSObjectProtocol)!)
     }
 
-    fileprivate func loadJSFile(_ path: String) {
+    fileprivate func loadJSFile(path: String) {
         guard let scriptContents = try? String(contentsOfFile: path) else {
             LogHelper.log(String(format: "Unable to read script: %@", path))
             return
