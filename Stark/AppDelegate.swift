@@ -14,7 +14,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         context = Context(config: config)
     }
 
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
+    func applicationDidFinishLaunching(aNotification: Notification) {
         AccessibilityHelper.askForAccessibilityIfNeeded()
 
         setupStatusItem()
@@ -49,20 +49,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.menu = menu
     }
 
-    func about(_ sender: AnyObject?) {
+    func about(sender: AnyObject?) {
         NSApp.activate(ignoringOtherApps: true)
         aboutWindowController.showWindow(nil)
     }
 
-    func editConfig(_ sender: AnyObject?) {
+    func editConfig(sender: AnyObject?) {
         config.edit()
     }
 
-    func reloadConfig(_ sender: AnyObject?) {
+    func reloadConfig(sender: AnyObject?) {
         context.setup()
     }
 
-    func toggleRunAtLogin(_ sender: NSMenuItem) {
+    func toggleRunAtLogin(sender: NSMenuItem) {
         if sender.state == NSOnState {
             LaunchAgentHelper.remove()
             sender.state = NSOffState
@@ -72,7 +72,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func quit(_ sender: AnyObject?) {
+    func quit(sender: AnyObject?) {
         NSApp.terminate(nil)
     }
 }
