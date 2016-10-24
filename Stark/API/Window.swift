@@ -37,7 +37,7 @@ open class Window: NSObject, WindowJSExport {
     fileprivate var element: AXUIElement
 
     open static func all() -> [Window] {
-        return Application.all().flatMap { $0.allWindows }
+        return Application.all().flatMap { $0.windows() }
     }
 
     open static func visible() -> [Window] {

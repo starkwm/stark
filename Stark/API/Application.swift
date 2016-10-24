@@ -1,14 +1,16 @@
 import AppKit
 import JavaScriptCore
 
+private let starkVisibilityOptionsKey = "visible"
+
 @objc protocol ApplicationJSExport: JSExport {
     static func find(_ name: String) -> Application?
 
     static func all() -> [Application]
     static func focused() -> Application?
 
-    var allWindows: [Window] { get }
-    var visibleWindows: [Window] { get }
+    func windows() -> [Window]
+    func windows(_ options: [String: AnyObject]) -> [Window]
 
     var name: String { get }
     var bundleId: String { get }
@@ -63,26 +65,28 @@ open class Application: NSObject, ApplicationJSExport {
         self.app = app
     }
 
-    open var allWindows: [Window] {
-        get {
-            var values: CFArray?
-            let result = AXUIElementCopyAttributeValues(element, kAXWindowsAttribute as CFString, 0, 100, &values)
+    open func windows() -> [Window] {
+        var values: CFArray?
+        let result = AXUIElementCopyAttributeValues(element, kAXWindowsAttribute as CFString, 0, 100, &values)
 
-            if result != .success {
-                return []
-            }
-
-            let elements = values! as [AnyObject]
-
-            // swiftlint:disable:next force_cast
-            return elements.map { Window(element: $0 as! AXUIElement) }
+        if result != .success {
+            return []
         }
+
+        let elements = values! as [AnyObject]
+
+        // swiftlint:disable:next force_cast
+        return elements.map { Window(element: $0 as! AXUIElement) }
     }
 
-    open var visibleWindows: [Window] {
-        get {
-            return allWindows.filter { !$0.app.isHidden && $0.isStandard && !$0.isMinimized }
+    open func windows(_ options: [String: AnyObject]) -> [Window] {
+        let visible = options[starkVisibilityOptionsKey] as? Bool ?? false
+
+        if visible {
+            return windows().filter { !$0.app.isHidden && $0.isStandard && !$0.isMinimized }
         }
+
+        return windows()
     }
 
     open var name: String {
