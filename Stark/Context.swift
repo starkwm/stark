@@ -41,8 +41,8 @@ open class Context {
     fileprivate func setupAPI() {
         context = JSContext(virtualMachine: JSVirtualMachine())
 
-        context.exceptionHandler = { [weak self] ctx, ex in
-            self?.handleJSException(exception: ex!)
+        context.exceptionHandler = { [weak self] ctx, err in
+            self?.handleJSException(exception: err!)
         }
 
         context.setObject(Stark.self(config: config, context: self), forKeyedSubscript: "Stark" as (NSCopying & NSObjectProtocol)!)
