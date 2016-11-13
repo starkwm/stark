@@ -1,9 +1,12 @@
 import AppKit
 import JavaScriptCore
 
+private let starkVisibilityOptionsKey = "visible"
+
 @objc protocol WindowJSExport: JSExport {
     static func all() -> [Window]
-    static func visible() -> [Window]
+    static func all(_ options: [String: AnyObject]) -> [Window]
+
     static func focused() -> Window?
 
     var app: Application { get }
@@ -38,6 +41,16 @@ open class Window: NSObject, WindowJSExport {
 
     open static func all() -> [Window] {
         return Application.all().flatMap { $0.windows() }
+    }
+
+    static func all(_ options: [String : AnyObject]) -> [Window] {
+        let visible = options[starkVisibilityOptionsKey] as? Bool ?? false
+
+        if visible {
+            return all().filter { !$0.app.isHidden && $0.isStandard && !$0.isMinimized }
+        }
+
+        return all()
     }
 
     open static func visible() -> [Window] {
