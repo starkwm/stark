@@ -27,7 +27,7 @@ open class Context {
             return
         }
 
-        config.createUnlessExists(config.primaryConfigPath)
+        config.createUnlessExists(path: config.primaryConfigPath)
 
         loadJSFile(path: lodashPath)
         loadJSFile(path: starklibPath)

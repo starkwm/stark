@@ -21,7 +21,7 @@ open class Config {
         return (primaryConfigPaths.first! as NSString).resolvingSymlinksInPath
     }
 
-    open func createUnlessExists(_ path: String) {
+    open func createUnlessExists(path: String) {
         if FileManager.default.fileExists(atPath: primaryConfigPath) {
             return
         }
