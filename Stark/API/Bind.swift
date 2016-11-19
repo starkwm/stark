@@ -98,6 +98,8 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
     deinit {
         NotificationCenter.default
             .removeObserver(self, name: NSNotification.Name(rawValue: starkHotKeyKeyDownNotification), object: nil)
+
+        _ = disable()
     }
 
     open func enable() -> Bool {
