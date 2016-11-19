@@ -13,10 +13,6 @@ open class Context {
     }
 
     open func setup() {
-        Bind.reset()
-
-        setupAPI()
-
         guard let lodashPath = Bundle.main.path(forResource: "lodash-min", ofType: "js") else {
             LogHelper.log(message: "Unable to setup context, could not find lodash-min.js")
             return
@@ -28,6 +24,8 @@ open class Context {
         }
 
         config.createUnlessExists(path: config.primaryConfigPath)
+
+        setupAPI()
 
         loadJSFile(path: lodashPath)
         loadJSFile(path: starklibPath)

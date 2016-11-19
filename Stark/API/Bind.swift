@@ -21,39 +21,35 @@ private let starkHotKeyKeyDownNotification = "starkHotKeyKeyDownNotification"
 open class Bind: Handler, BindJSExport, HashableJSExport {
     // swiftlint:disable:next variable_name
     private static var __once: () = {
-            let callback: EventHandlerUPP = { (_, event, _) -> OSStatus in
-                autoreleasepool {
-                    var identifier = EventHotKeyID()
+        let callback: EventHandlerUPP = { (_, event, _) -> OSStatus in
+            autoreleasepool {
+                var identifier = EventHotKeyID()
 
-                    let status = GetEventParameter(
-                        event,
-                        EventParamName(kEventParamDirectObject),
-                        EventParamType(typeEventHotKeyID),
-                        nil,
-                        MemoryLayout<EventHotKeyID>.size,
-                        nil,
-                        &identifier
-                    )
+                let status = GetEventParameter(
+                    event,
+                    EventParamName(kEventParamDirectObject),
+                    EventParamType(typeEventHotKeyID),
+                    nil,
+                    MemoryLayout<EventHotKeyID>.size,
+                    nil,
+                    &identifier
+                )
 
-                    if status != noErr {
-                        return
-                    }
-
-                    NotificationCenter.default
-                        .post(name: Notification.Name(rawValue: starkHotKeyKeyDownNotification), object: nil, userInfo: [starkHotKeyIdentifier: UInt(identifier.id)])
-
+                if status != noErr {
+                    return
                 }
 
-                return noErr
+                NotificationCenter.default
+                    .post(name: Notification.Name(rawValue: starkHotKeyKeyDownNotification), object: nil, userInfo: [starkHotKeyIdentifier: UInt(identifier.id)])
             }
 
-            var keyDown = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
+            return noErr
+        }
 
-            InstallEventHandler(GetEventDispatcherTarget(), callback, 1, &keyDown, nil, nil)
-        }()
-    fileprivate static var setupDispatchToken: Int = 0
+        var keyDown = EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
 
-    fileprivate static var hotkeys: [Int: Bind] = [Int: Bind]()
+        InstallEventHandler(GetEventDispatcherTarget(), callback, 1, &keyDown, nil, nil)
+    }()
 
     override open var hashValue: Int {
         get { return Bind.hashForKey(key, modifiers: modifiers) }
@@ -70,11 +66,6 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
 
     fileprivate static func setup() {
         _ = Bind.__once
-    }
-
-    open static func reset() {
-        hotkeys.forEach { _ = $1.disable() }
-        hotkeys.removeAll()
     }
 
     open static func hashForKey(_ key: String, modifiers: [String]) -> Int {
