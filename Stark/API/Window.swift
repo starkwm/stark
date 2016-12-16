@@ -43,7 +43,7 @@ open class Window: NSObject, WindowJSExport {
         return Application.all().flatMap { $0.windows() }
     }
 
-    static func all(_ options: [String : AnyObject]) -> [Window] {
+    static func all(_ options: [String: AnyObject]) -> [Window] {
         let visible = options[starkVisibilityOptionsKey] as? Bool ?? false
 
         if visible {
@@ -83,89 +83,77 @@ open class Window: NSObject, WindowJSExport {
     }
 
     open var app: Application {
-        get {
-            return Application(pid: pid())
-        }
+        return Application(pid: pid())
     }
 
     open var screen: NSScreen {
-        get {
-            let windowFrame = frame
-            var lastVolume: CGFloat = 0
-            var lastScreen = NSScreen()
+        let windowFrame = frame
+        var lastVolume: CGFloat = 0
+        var lastScreen = NSScreen()
 
-            for screen in NSScreen.screens()! {
-                let screenFrame = screen.frameIncludingDockAndMenu
-                let intersection = windowFrame.intersection(screenFrame)
-                let volume = intersection.size.width * intersection.size.height
+        for screen in NSScreen.screens()! {
+            let screenFrame = screen.frameIncludingDockAndMenu
+            let intersection = windowFrame.intersection(screenFrame)
+            let volume = intersection.size.width * intersection.size.height
 
-                if volume > lastVolume {
-                    lastVolume = volume
-                    lastScreen = screen
-                }
+            if volume > lastVolume {
+                lastVolume = volume
+                lastScreen = screen
             }
-
-            return lastScreen
         }
+
+        return lastScreen
     }
 
     open var title: String {
-        get {
-            var value: AnyObject?
-            let result = AXUIElementCopyAttributeValue(element, kAXTitleAttribute as CFString, &value)
+        var value: AnyObject?
+        let result = AXUIElementCopyAttributeValue(element, kAXTitleAttribute as CFString, &value)
 
-            if result != .success {
-                return ""
-            }
-
-            if let title = value as? String {
-                return title
-            }
-
+        if result != .success {
             return ""
         }
+
+        if let title = value as? String {
+            return title
+        }
+
+        return ""
     }
 
     open var frame: CGRect {
-        get {
-            return CGRect(origin: topLeft, size: size)
-        }
+        return CGRect(origin: topLeft, size: size)
     }
 
     open var topLeft: CGPoint {
-        get {
-            var value: AnyObject?
-            let result = AXUIElementCopyAttributeValue(element, kAXPositionAttribute as CFString, &value)
+        var value: AnyObject?
+        let result = AXUIElementCopyAttributeValue(element, kAXPositionAttribute as CFString, &value)
 
-            var topLeft = CGPoint.zero
+        var topLeft = CGPoint.zero
 
-            if result == .success {
-                // swiftlint:disable:next force_cast
-                if !AXValueGetValue(value as! AXValue, AXValueType.cgPoint, &topLeft) {
-                    topLeft = CGPoint.zero
-                }
+        if result == .success {
+            // swiftlint:disable:next force_cast
+            if !AXValueGetValue(value as! AXValue, AXValueType.cgPoint, &topLeft) {
+                topLeft = CGPoint.zero
             }
-
-            return topLeft
         }
+
+        return topLeft
     }
 
     open var size: CGSize {
-        get {
-            var value: AnyObject?
-            let result = AXUIElementCopyAttributeValue(element, kAXSizeAttribute as CFString, &value)
+        var value: AnyObject?
+        let result = AXUIElementCopyAttributeValue(element, kAXSizeAttribute as CFString, &value)
 
-            var size = CGSize.zero
+        var size = CGSize.zero
 
-            if result == .success {
-                // swiftlint:disable:next force_cast
-                if !AXValueGetValue(value as! AXValue, AXValueType.cgSize, &size) {
-                    size = CGSize.zero
-                }
+        if result == .success {
+            // swiftlint:disable:next force_cast
+            if !AXValueGetValue(value as! AXValue, AXValueType.cgSize, &size) {
+                size = CGSize.zero
             }
-
-            return size
         }
+
+        return size
     }
 
     open func setFrame(_ frame: CGRect) {
@@ -211,54 +199,48 @@ open class Window: NSObject, WindowJSExport {
     }
 
     open var isMain: Bool {
-        get {
-            var value: AnyObject?
-            let result = AXUIElementCopyAttributeValue(element, kAXMainAttribute as CFString, &value)
+        var value: AnyObject?
+        let result = AXUIElementCopyAttributeValue(element, kAXMainAttribute as CFString, &value)
 
-            if result != .success {
-                return false
-            }
-
-            if let number = value as? NSNumber {
-                return number.boolValue
-            }
-
+        if result != .success {
             return false
         }
+
+        if let number = value as? NSNumber {
+            return number.boolValue
+        }
+
+        return false
     }
 
     open var isStandard: Bool {
-        get {
-            var value: AnyObject?
-            let result = AXUIElementCopyAttributeValue(element, kAXSubroleAttribute as CFString, &value)
+        var value: AnyObject?
+        let result = AXUIElementCopyAttributeValue(element, kAXSubroleAttribute as CFString, &value)
 
-            if result != .success {
-                return false
-            }
-
-            if let subrole = value as? String {
-                return subrole == kAXStandardWindowSubrole
-            }
-
+        if result != .success {
             return false
         }
+
+        if let subrole = value as? String {
+            return subrole == kAXStandardWindowSubrole
+        }
+
+        return false
     }
 
     open var isMinimized: Bool {
-        get {
-            var value: AnyObject?
-            let result = AXUIElementCopyAttributeValue(element, kAXMinimizedAttribute as CFString, &value)
+        var value: AnyObject?
+        let result = AXUIElementCopyAttributeValue(element, kAXMinimizedAttribute as CFString, &value)
 
-            if result != .success {
-                return false
-            }
-
-            if let number = value as? NSNumber {
-                return number.boolValue
-            }
-
+        if result != .success {
             return false
         }
+
+        if let number = value as? NSNumber {
+            return number.boolValue
+        }
+
+        return false
     }
 
     fileprivate func pid() -> pid_t {

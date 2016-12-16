@@ -89,17 +89,11 @@ open class Application: NSObject, ApplicationJSExport {
         return windows()
     }
 
-    open var name: String {
-        get { return app.localizedName ?? "" }
-    }
+    open var name: String { return app.localizedName ?? "" }
 
-    open var bundleId: String {
-        get { return app.bundleIdentifier ?? "" }
-    }
+    open var bundleId: String { return app.bundleIdentifier ?? "" }
 
-    open var processId: pid_t {
-        get { return app.processIdentifier }
-    }
+    open var processId: pid_t { return app.processIdentifier }
 
     open func activate() -> Bool {
         return app.activate(options: .activateAllWindows)
@@ -118,31 +112,25 @@ open class Application: NSObject, ApplicationJSExport {
     }
 
     open var isActive: Bool {
-        get {
-            return app.isActive
-        }
+        return app.isActive
     }
 
     open var isHidden: Bool {
-        get {
-            var value: AnyObject?
-            let result = AXUIElementCopyAttributeValue(element, kAXHiddenAttribute as CFString, &value)
+        var value: AnyObject?
+        let result = AXUIElementCopyAttributeValue(element, kAXHiddenAttribute as CFString, &value)
 
-            if result != .success {
-                return false
-            }
-
-            if let number = value as? NSNumber {
-                return number.boolValue
-            }
-
+        if result != .success {
             return false
         }
+
+        if let number = value as? NSNumber {
+            return number.boolValue
+        }
+
+        return false
     }
 
     open var isTerminated: Bool {
-        get {
-            return app.isTerminated
-        }
+        return app.isTerminated
     }
 }

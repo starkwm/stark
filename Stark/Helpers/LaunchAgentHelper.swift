@@ -35,7 +35,7 @@ open class LaunchAgentHelper {
         let plist: NSDictionary = [
             "Label": "co.rustyrobots.Stark",
             "Program": execPath,
-            "RunAtLoad": true
+            "RunAtLoad": true,
         ]
 
         plist.write(to: launchAgentFile, atomically: true)

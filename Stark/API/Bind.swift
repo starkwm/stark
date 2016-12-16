@@ -51,9 +51,7 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
         InstallEventHandler(GetEventDispatcherTarget(), callback, 1, &keyDown, nil, nil)
     }()
 
-    override open var hashValue: Int {
-        get { return Bind.hashForKey(key, modifiers: modifiers) }
-    }
+    open override var hashValue: Int { return Bind.hashForKey(key, modifiers: modifiers) }
 
     open var key: String = ""
     open var modifiers: [String] = []
@@ -61,7 +59,7 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
     fileprivate var identifier: UInt = 0
     fileprivate var keyCode: UInt32 = 0
     fileprivate var modifierFlags: UInt32 = 0
-    fileprivate var eventHotKeyRef: EventHotKeyRef? = nil
+    fileprivate var eventHotKeyRef: EventHotKeyRef?
     fileprivate var enabled = false
 
     fileprivate static func setup() {
@@ -138,9 +136,7 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
     }
 
     open var isEnabled: Bool {
-        get {
-            return enabled
-        }
+        return enabled
     }
 
     func keyDown(notification: Notification) {

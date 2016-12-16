@@ -41,7 +41,7 @@ open class AppObserver: NSObject {
         if observer != nil {
             notifications.forEach { removeNotification($0) }
 
-            CFRunLoopRemoveSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(observer!),CFRunLoopMode.defaultMode)
+            CFRunLoopRemoveSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(observer!), CFRunLoopMode.defaultMode)
         }
 
         notificationCenter.removeObserver(self, name: .NSWorkspaceDidLaunchApplication, object: nil)

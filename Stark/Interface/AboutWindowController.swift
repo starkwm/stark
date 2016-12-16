@@ -9,11 +9,11 @@ open class AboutWindowController: NSWindowController {
         super.init(window: window)
     }
 
-    required public init?(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    override open func windowDidLoad() {
+    open override func windowDidLoad() {
         super.windowDidLoad()
 
         window?.backgroundColor = NSColor.white

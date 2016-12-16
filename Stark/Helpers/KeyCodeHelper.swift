@@ -22,7 +22,7 @@ open class KeyCodeHelper {
         kVK_ANSI_Backslash,
         kVK_ANSI_Comma,
         kVK_ANSI_Slash,
-        kVK_ANSI_Period
+        kVK_ANSI_Period,
     ]
 
     fileprivate static let relocatableKeys: [String: Int] = {

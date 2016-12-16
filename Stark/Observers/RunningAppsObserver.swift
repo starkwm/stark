@@ -30,7 +30,7 @@ open class RunningAppsObserver: NSObject {
             return
         }
 
-        var apps: [NSRunningApplication]? = nil
+        var apps: [NSRunningApplication]?
 
         if let rv = change[NSKeyValueChangeKey.kindKey] as? UInt, let kind = NSKeyValueChange(rawValue: rv) {
             switch kind {

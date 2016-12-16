@@ -6,7 +6,7 @@ import JavaScriptCore
 }
 
 open class Timer: Handler, TimerJSExport, HashableJSExport {
-    fileprivate var timer: Foundation.Timer? = nil
+    fileprivate var timer: Foundation.Timer?
 
     init(interval: TimeInterval, repeats: Bool, callback: JSValue) {
         super.init()
