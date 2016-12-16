@@ -2,48 +2,49 @@ import AppKit
 
 public let appObserverWindowKey = "observerWindowKey"
 
-open class AppObserver {
-    fileprivate static let notifications = [
-        NSAccessibilityWindowCreatedNotification,
-        NSAccessibilityUIElementDestroyedNotification,
-        NSAccessibilityFocusedWindowChangedNotification,
-        NSAccessibilityWindowMovedNotification,
-        NSAccessibilityWindowResizedNotification,
-        NSAccessibilityWindowMiniaturizedNotification,
-        NSAccessibilityWindowDeminiaturizedNotification,
-    ]
+fileprivate let notifications = [
+    NSAccessibilityWindowCreatedNotification,
+    NSAccessibilityUIElementDestroyedNotification,
+    NSAccessibilityFocusedWindowChangedNotification,
+    NSAccessibilityWindowMovedNotification,
+    NSAccessibilityWindowResizedNotification,
+    NSAccessibilityWindowMiniaturizedNotification,
+    NSAccessibilityWindowDeminiaturizedNotification,
+]
 
+fileprivate let observerCallback: AXObserverCallback = { _, element, notification, _ in
+    autoreleasepool {
+        let window = Window(element: element)
+
+        NotificationCenter.default.post(name: Notification.Name(rawValue: notification as String), object: nil, userInfo: [appObserverWindowKey: window])
+    }
+}
+
+fileprivate let notificationCenter = NSWorkspace.shared().notificationCenter
+
+open class AppObserver: NSObject {
     fileprivate var element: AXUIElement
 
-    fileprivate var observer: AXObserver? = nil
+    fileprivate var observer: AXObserver?
 
     init(app: NSRunningApplication) {
         element = AXUIElementCreateApplication(app.processIdentifier)
 
-        let callback: AXObserverCallback = { _, element, notification, _ in
-            autoreleasepool {
-                let window = Window(element: element)
+        super.init()
 
-                NotificationCenter.default
-                    .post(name: Notification.Name(rawValue: notification as String), object: nil, userInfo: [appObserverWindowKey: window])
-            }
-        }
+        notificationCenter.addObserver(self, selector: #selector(AppObserver.didReceiveNotification(_:)), name: .NSWorkspaceDidLaunchApplication, object: nil)
 
-        AXObserverCreate(app.processIdentifier, callback, &observer)
-
-        setup()
+        AXObserverCreate(app.processIdentifier, observerCallback, &observer)
     }
 
     deinit {
-        AppObserver.notifications.forEach {  removeNotification($0) }
-
         if observer != nil {
-            CFRunLoopRemoveSource(
-                CFRunLoopGetCurrent(),
-                AXObserverGetRunLoopSource(observer!),
-                CFRunLoopMode.defaultMode
-            )
+            notifications.forEach { removeNotification($0) }
+
+            CFRunLoopRemoveSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(observer!),CFRunLoopMode.defaultMode)
         }
+
+        notificationCenter.removeObserver(self, name: .NSWorkspaceDidLaunchApplication, object: nil)
     }
 
     fileprivate func addNotification(_ notification: String) {
@@ -58,15 +59,11 @@ open class AppObserver {
         }
     }
 
-    fileprivate func setup() {
+    func didReceiveNotification(_ notification: Notification) {
         if observer != nil {
-            CFRunLoopAddSource(
-                CFRunLoopGetCurrent(),
-                AXObserverGetRunLoopSource(observer!),
-                CFRunLoopMode.defaultMode
-            )
-        }
+            CFRunLoopAddSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(observer!), CFRunLoopMode.defaultMode)
 
-        AppObserver.notifications.forEach { addNotification($0) }
+            notifications.forEach { addNotification($0) }
+        }
     }
 }
