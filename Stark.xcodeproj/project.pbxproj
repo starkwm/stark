@@ -179,6 +179,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F6792C341C404B53007D9DF9 /* Build configuration list for PBXNativeTarget "Stark" */;
 			buildPhases = (
+				F6E49B601E04B8AD004E99CD /* Linting */,
 				F67CFD7E1D93164C00FF0F49 /* Concatenate and Minify Stark JS */,
 				F6792C231C404B53007D9DF9 /* Sources */,
 				F6792C241C404B53007D9DF9 /* Frameworks */,
@@ -257,6 +258,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = make;
+		};
+		F6E49B601E04B8AD004E99CD /* Linting */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Linting;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = swiftlint;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -397,7 +412,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Stark/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = co.rustyrobots.Stark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Stark/Stark-Bridging-Header.h";
@@ -414,7 +429,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = Stark/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = co.rustyrobots.Stark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Stark/Stark-Bridging-Header.h";
