@@ -3,7 +3,7 @@ import AppKit
 open class AboutWindowController: NSWindowController {
     fileprivate var appVersion: String = ""
 
-    @IBOutlet var versionLabel: NSTextField!
+    @IBOutlet fileprivate var versionLabel: NSTextField!
 
     override init(window: NSWindow?) {
         super.init(window: window)
@@ -18,7 +18,7 @@ open class AboutWindowController: NSWindowController {
 
         window?.backgroundColor = NSColor.white
 
-        if appVersion.characters.count <= 0 {
+        if appVersion.characters.isEmpty {
             let version = valueFromInfoDict("CFBundleVersion")
             let shortVersion = valueFromInfoDict("CFBundleShortVersionString")
 

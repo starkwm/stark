@@ -5,11 +5,11 @@ open class LaunchAgentHelper {
         let libDir = try? FileManager.default
             .url(for: .libraryDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
 
-        return libDir?.appendingPathComponent("LaunchAgents") ?? nil
+        return libDir?.appendingPathComponent("LaunchAgents")
     }
 
     fileprivate static var launchAgentFile: URL? {
-        return launchAgentDirectory?.appendingPathComponent("co.rustyrobots.Stark.plist") ?? nil
+        return launchAgentDirectory?.appendingPathComponent("co.rustyrobots.Stark.plist")
     }
 
     open static func add() -> Bool {
