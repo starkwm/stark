@@ -32,7 +32,5 @@
 	<string>NSApplication</string>
 	<key>LSUIElement</key>
 	<true/>
-	<key>StarkBuildVersion</key>
-	<string>alpha 13</string>
 </dict>
 </plist>

@@ -23,13 +23,6 @@ open class AboutWindowController: NSWindowController {
             let shortVersion = valueFromInfoDict("CFBundleShortVersionString")
 
             appVersion = "v\(shortVersion) build \(version)"
-
-            let buildName = valueFromInfoDict("StarkBuildVersion")
-
-            if buildName.characters.count > 0 {
-                appVersion += " (\(buildName))"
-            }
-
             versionLabel.stringValue = appVersion
         }
     }
