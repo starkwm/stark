@@ -1,6 +1,9 @@
 XCODEFLAGS=-project "Stark.xcodeproj" -scheme "Stark"
 
-.PHONY: build minify clean
+VERSION_NUMBER=$(shell agvtool what-marketing-version -terse1)
+BUILD_NUMBER=$(shell agvtool what-version -terse)
+
+.PHONY: build minify clean archive export bump-build
 
 build:
 	xcodebuild $(XCODEFLAGS) build
@@ -21,3 +24,7 @@ archive: clean
 
 export: archive
 	xcodebuild -exportArchive -archivePath "build/Stark/Stark.xcarchive" -exportFormat "app" -exportPath "build/Stark"
+	(cd build && zip -q -r --symlinks - "Stark.app") > "build/stark-v$(VERSION_NUMBER).$(BUILD_NUMBER).zip"
+
+bump-build:
+	agvtool next-version -all
