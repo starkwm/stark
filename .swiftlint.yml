@@ -3,3 +3,14 @@ trailing_comma:
 
 disabled_rules:
   - line_length
+
+opt_in_rules:
+  - attributes
+  - closure_spacing
+  - empty_count
+  - explicit_init
+  - nimble_operator
+  - operator_usage_whitespace
+  - overridden_super_call
+  - private_outlet
+  - redundant_nil_coalescing
