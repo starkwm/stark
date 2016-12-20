@@ -231,6 +231,7 @@
 			buildConfigurationList = F6792C341C404B53007D9DF9 /* Build configuration list for PBXNativeTarget "Stark" */;
 			buildPhases = (
 				F6BF27871E04EAEE003CC6C9 /* Concatenate & Minify JavaScript */,
+				F66FB78E1E08EDCB006A0430 /* Lint */,
 				F6792C231C404B53007D9DF9 /* Sources */,
 				F6792C241C404B53007D9DF9 /* Frameworks */,
 				F6792C251C404B53007D9DF9 /* Resources */,
@@ -297,6 +298,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		F66FB78E1E08EDCB006A0430 /* Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Lint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint autocorrect --path ./Stark\n    swiftlint lint --path ./Stark\nelse\n    echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
 		F6BF27871E04EAEE003CC6C9 /* Concatenate & Minify JavaScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
