@@ -11,6 +11,12 @@
 		F607840C1CDE70E6001DAFA2 /* lodash-min.js in Resources */ = {isa = PBXBuildFile; fileRef = F607840B1CDE70E6001DAFA2 /* lodash-min.js */; };
 		F60894E11C6D9E310079D7B5 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60894E01C6D9E310079D7B5 /* Event.swift */; };
 		F60894E31C6DA0090079D7B5 /* EventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60894E21C6DA0090079D7B5 /* EventHelper.swift */; };
+		F618118C1E08E1BC007B2397 /* KSCrash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F618118A1E08E1BC007B2397 /* KSCrash.framework */; };
+		F618118D1E08E1BC007B2397 /* KSCrash.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F618118A1E08E1BC007B2397 /* KSCrash.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F618118E1E08E1BC007B2397 /* SentrySwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F618118B1E08E1BC007B2397 /* SentrySwift.framework */; };
+		F618118F1E08E1BC007B2397 /* SentrySwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F618118B1E08E1BC007B2397 /* SentrySwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F61811961E08E274007B2397 /* KSCrash.framework.dSYM in Copy Carthage dSYM files */ = {isa = PBXBuildFile; fileRef = F61811941E08E274007B2397 /* KSCrash.framework.dSYM */; };
+		F61811971E08E274007B2397 /* SentrySwift.framework.dSYM in Copy Carthage dSYM files */ = {isa = PBXBuildFile; fileRef = F61811951E08E274007B2397 /* SentrySwift.framework.dSYM */; };
 		F6270F8E1CF9D10500E6F679 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6270F8D1CF9D10500E6F679 /* Timer.swift */; };
 		F63C8CC51CFA295200D2344B /* AboutWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C8CC41CFA295200D2344B /* AboutWindowController.swift */; };
 		F63C8CC71CFA30D800D2344B /* AboutWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F63C8CC61CFA30D800D2344B /* AboutWindow.xib */; };
@@ -36,11 +42,42 @@
 		F6FC1C661CBAE8E10070ED3B /* stark-example.js in Resources */ = {isa = PBXBuildFile; fileRef = F6FC1C651CBAE8E10070ED3B /* stark-example.js */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		F61811901E08E1BC007B2397 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F618118D1E08E1BC007B2397 /* KSCrash.framework in Embed Frameworks */,
+				F618118F1E08E1BC007B2397 /* SentrySwift.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F61811931E08E25E007B2397 /* Copy Carthage dSYM files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				F61811961E08E274007B2397 /* KSCrash.framework.dSYM in Copy Carthage dSYM files */,
+				F61811971E08E274007B2397 /* SentrySwift.framework.dSYM in Copy Carthage dSYM files */,
+			);
+			name = "Copy Carthage dSYM files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		F6002D6E1C47086100C958F5 /* KeyCodeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCodeHelper.swift; sourceTree = "<group>"; };
 		F607840B1CDE70E6001DAFA2 /* lodash-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lodash-min.js"; sourceTree = "<group>"; };
 		F60894E01C6D9E310079D7B5 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		F60894E21C6DA0090079D7B5 /* EventHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHelper.swift; sourceTree = "<group>"; };
+		F618118A1E08E1BC007B2397 /* KSCrash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KSCrash.framework; path = Carthage/Build/Mac/KSCrash.framework; sourceTree = "<group>"; };
+		F618118B1E08E1BC007B2397 /* SentrySwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SentrySwift.framework; path = Carthage/Build/Mac/SentrySwift.framework; sourceTree = "<group>"; };
+		F61811941E08E274007B2397 /* KSCrash.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = KSCrash.framework.dSYM; path = Carthage/Build/Mac/KSCrash.framework.dSYM; sourceTree = "<group>"; };
+		F61811951E08E274007B2397 /* SentrySwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SentrySwift.framework.dSYM; path = Carthage/Build/Mac/SentrySwift.framework.dSYM; sourceTree = "<group>"; };
 		F6270F8D1CF9D10500E6F679 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		F63C8CC41CFA295200D2344B /* AboutWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutWindowController.swift; sourceTree = "<group>"; };
 		F63C8CC61CFA30D800D2344B /* AboutWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutWindow.xib; sourceTree = "<group>"; };
@@ -74,12 +111,25 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F618118C1E08E1BC007B2397 /* KSCrash.framework in Frameworks */,
+				F618118E1E08E1BC007B2397 /* SentrySwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F61811921E08E1C7007B2397 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				F618118A1E08E1BC007B2397 /* KSCrash.framework */,
+				F61811941E08E274007B2397 /* KSCrash.framework.dSYM */,
+				F618118B1E08E1BC007B2397 /* SentrySwift.framework */,
+				F61811951E08E274007B2397 /* SentrySwift.framework.dSYM */,
+			);
+			name = Vendor;
+			sourceTree = "<group>";
+		};
 		F63C8CC11CFA285800D2344B /* Interface */ = {
 			isa = PBXGroup;
 			children = (
@@ -94,6 +144,7 @@
 			children = (
 				F6792C281C404B53007D9DF9 /* Products */,
 				F6792C291C404B53007D9DF9 /* Stark */,
+				F61811921E08E1C7007B2397 /* Vendor */,
 			);
 			sourceTree = "<group>";
 		};
@@ -183,6 +234,8 @@
 				F6792C231C404B53007D9DF9 /* Sources */,
 				F6792C241C404B53007D9DF9 /* Frameworks */,
 				F6792C251C404B53007D9DF9 /* Resources */,
+				F61811901E08E1BC007B2397 /* Embed Frameworks */,
+				F61811931E08E25E007B2397 /* Copy Carthage dSYM files */,
 			);
 			buildRules = (
 			);
@@ -396,6 +449,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = Stark/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
@@ -415,6 +472,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = Stark/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
