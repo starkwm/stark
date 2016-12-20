@@ -14,12 +14,6 @@ node_modules/.bin/uglifyjs:
 minify: node_modules/.bin/uglifyjs
 	node_modules/.bin/uglifyjs --compress --output Stark/Resources/stark-lib.js StarkLib/*.js
 
-format:
-	@swiftformat ./Stark
-
-lint:
-	@swiftlint lint --path ./Stark
-
 clean:
 	rm -fr build
 	rm -fr Stark/Resources/stark-lib.js
