@@ -6,10 +6,13 @@ ARCHIVE_PATH="$(OUTPUT_PATH)/Stark.xcarchive"
 JAVASCRIPT_SOURCE=StarkLib/*.js
 JAVASCRIPT_OUTPUT="Stark/Resources/stark-lib.js"
 
-.PHONY: build clean archive export minify
+.PHONY: build bootstrap clean archive export minify
 
 build:
 	@xcodebuild $(XCODEFLAGS) build
+
+bootstrap:
+	@carthage update --platform macOS --use-submodules
 
 clean:
 	rm -fr $(OUTPUT_PATH)
