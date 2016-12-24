@@ -11,12 +11,6 @@
 		F607840C1CDE70E6001DAFA2 /* lodash-min.js in Resources */ = {isa = PBXBuildFile; fileRef = F607840B1CDE70E6001DAFA2 /* lodash-min.js */; };
 		F60894E11C6D9E310079D7B5 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60894E01C6D9E310079D7B5 /* Event.swift */; };
 		F60894E31C6DA0090079D7B5 /* EventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60894E21C6DA0090079D7B5 /* EventHelper.swift */; };
-		F618118C1E08E1BC007B2397 /* KSCrash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F618118A1E08E1BC007B2397 /* KSCrash.framework */; };
-		F618118D1E08E1BC007B2397 /* KSCrash.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F618118A1E08E1BC007B2397 /* KSCrash.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F618118E1E08E1BC007B2397 /* SentrySwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F618118B1E08E1BC007B2397 /* SentrySwift.framework */; };
-		F618118F1E08E1BC007B2397 /* SentrySwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F618118B1E08E1BC007B2397 /* SentrySwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F61811961E08E274007B2397 /* KSCrash.framework.dSYM in Copy Carthage Debug Symbols */ = {isa = PBXBuildFile; fileRef = F61811941E08E274007B2397 /* KSCrash.framework.dSYM */; };
-		F61811971E08E274007B2397 /* SentrySwift.framework.dSYM in Copy Carthage Debug Symbols */ = {isa = PBXBuildFile; fileRef = F61811951E08E274007B2397 /* SentrySwift.framework.dSYM */; };
 		F6270F8E1CF9D10500E6F679 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6270F8D1CF9D10500E6F679 /* Timer.swift */; };
 		F63C8CC51CFA295200D2344B /* AboutWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C8CC41CFA295200D2344B /* AboutWindowController.swift */; };
 		F63C8CC71CFA30D800D2344B /* AboutWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F63C8CC61CFA30D800D2344B /* AboutWindow.xib */; };
@@ -27,7 +21,6 @@
 		F66C39C61C6AD73E0008FDD5 /* Bind.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66C39C51C6AD73E0008FDD5 /* Bind.swift */; };
 		F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */; };
 		F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2C1C404B53007D9DF9 /* Assets.xcassets */; };
-		F6792C301C404B53007D9DF9 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2E1C404B53007D9DF9 /* MainMenu.xib */; };
 		F6792C3F1C40525C007D9DF9 /* AccessibilityHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C3E1C40525C007D9DF9 /* AccessibilityHelper.swift */; };
 		F6792C411C405598007D9DF9 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C401C405598007D9DF9 /* Application.swift */; };
 		F6792C431C4055A2007D9DF9 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C421C4055A2007D9DF9 /* Window.swift */; };
@@ -36,6 +29,13 @@
 		F6A41BD31CA7144100D1C0C5 /* LogHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A41BD21CA7144100D1C0C5 /* LogHelper.swift */; };
 		F6CBE6061C4160A900C962A7 /* NSScreen+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+JSExport.swift */; };
 		F6CBE6081C418D6300C962A7 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6071C418D6300C962A7 /* Config.swift */; };
+		F6D00B671E0E03F30087F68D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6D00B661E0E03F30087F68D /* MainMenu.xib */; };
+		F6D00B6A1E0E04DD0087F68D /* KSCrash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6D00B681E0E04DD0087F68D /* KSCrash.framework */; };
+		F6D00B6B1E0E04DD0087F68D /* KSCrash.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F6D00B681E0E04DD0087F68D /* KSCrash.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F6D00B6C1E0E04DD0087F68D /* SentrySwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6D00B691E0E04DD0087F68D /* SentrySwift.framework */; };
+		F6D00B6D1E0E04DD0087F68D /* SentrySwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F6D00B691E0E04DD0087F68D /* SentrySwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F6D00B711E0E04F60087F68D /* KSCrash.framework.dSYM in Copy Carthage Debug Symbols */ = {isa = PBXBuildFile; fileRef = F6D00B6F1E0E04F60087F68D /* KSCrash.framework.dSYM */; };
+		F6D00B721E0E04F60087F68D /* SentrySwift.framework.dSYM in Copy Carthage Debug Symbols */ = {isa = PBXBuildFile; fileRef = F6D00B701E0E04F60087F68D /* SentrySwift.framework.dSYM */; };
 		F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */; };
 		F6ED60091D71D38C007CF2A3 /* Hashable+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6ED60081D71D38C007CF2A3 /* Hashable+JSExport.swift */; };
 		F6F9B8291C45D8D7007928D0 /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F9B8281C45D8D7007928D0 /* AlertHelper.swift */; };
@@ -43,28 +43,28 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		F61811901E08E1BC007B2397 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				F618118D1E08E1BC007B2397 /* KSCrash.framework in Embed Frameworks */,
-				F618118F1E08E1BC007B2397 /* SentrySwift.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		F61811931E08E25E007B2397 /* Copy Carthage Debug Symbols */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				F61811961E08E274007B2397 /* KSCrash.framework.dSYM in Copy Carthage Debug Symbols */,
-				F61811971E08E274007B2397 /* SentrySwift.framework.dSYM in Copy Carthage Debug Symbols */,
+				F6D00B711E0E04F60087F68D /* KSCrash.framework.dSYM in Copy Carthage Debug Symbols */,
+				F6D00B721E0E04F60087F68D /* SentrySwift.framework.dSYM in Copy Carthage Debug Symbols */,
 			);
 			name = "Copy Carthage Debug Symbols";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F6D00B6E1E0E04DE0087F68D /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F6D00B6B1E0E04DD0087F68D /* KSCrash.framework in Embed Frameworks */,
+				F6D00B6D1E0E04DD0087F68D /* SentrySwift.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -74,10 +74,6 @@
 		F607840B1CDE70E6001DAFA2 /* lodash-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lodash-min.js"; sourceTree = "<group>"; };
 		F60894E01C6D9E310079D7B5 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		F60894E21C6DA0090079D7B5 /* EventHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHelper.swift; sourceTree = "<group>"; };
-		F618118A1E08E1BC007B2397 /* KSCrash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KSCrash.framework; path = Carthage/Build/Mac/KSCrash.framework; sourceTree = "<group>"; };
-		F618118B1E08E1BC007B2397 /* SentrySwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SentrySwift.framework; path = Carthage/Build/Mac/SentrySwift.framework; sourceTree = "<group>"; };
-		F61811941E08E274007B2397 /* KSCrash.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = KSCrash.framework.dSYM; path = Carthage/Build/Mac/KSCrash.framework.dSYM; sourceTree = "<group>"; };
-		F61811951E08E274007B2397 /* SentrySwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SentrySwift.framework.dSYM; path = Carthage/Build/Mac/SentrySwift.framework.dSYM; sourceTree = "<group>"; };
 		F6270F8D1CF9D10500E6F679 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		F63C8CC41CFA295200D2344B /* AboutWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutWindowController.swift; sourceTree = "<group>"; };
 		F63C8CC61CFA30D800D2344B /* AboutWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutWindow.xib; sourceTree = "<group>"; };
@@ -89,7 +85,6 @@
 		F6792C271C404B53007D9DF9 /* Stark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6792C2C1C404B53007D9DF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F6792C2F1C404B53007D9DF9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		F6792C311C404B53007D9DF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F6792C3E1C40525C007D9DF9 /* AccessibilityHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessibilityHelper.swift; sourceTree = "<group>"; };
 		F6792C401C405598007D9DF9 /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
@@ -100,6 +95,11 @@
 		F6CBE6051C4160A900C962A7 /* NSScreen+JSExport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+JSExport.swift"; sourceTree = "<group>"; };
 		F6CBE6071C418D6300C962A7 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Stark-Bridging-Header.h"; sourceTree = "<group>"; };
+		F6D00B661E0E03F30087F68D /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		F6D00B681E0E04DD0087F68D /* KSCrash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KSCrash.framework; path = ../Carthage/Build/Mac/KSCrash.framework; sourceTree = "<group>"; };
+		F6D00B691E0E04DD0087F68D /* SentrySwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SentrySwift.framework; path = ../Carthage/Build/Mac/SentrySwift.framework; sourceTree = "<group>"; };
+		F6D00B6F1E0E04F60087F68D /* KSCrash.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = KSCrash.framework.dSYM; path = ../Carthage/Build/Mac/KSCrash.framework.dSYM; sourceTree = "<group>"; };
+		F6D00B701E0E04F60087F68D /* SentrySwift.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = SentrySwift.framework.dSYM; path = ../Carthage/Build/Mac/SentrySwift.framework.dSYM; sourceTree = "<group>"; };
 		F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchAgentHelper.swift; sourceTree = "<group>"; };
 		F6ED60081D71D38C007CF2A3 /* Hashable+JSExport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Hashable+JSExport.swift"; sourceTree = "<group>"; };
 		F6F9B8281C45D8D7007928D0 /* AlertHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
@@ -111,8 +111,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F618118C1E08E1BC007B2397 /* KSCrash.framework in Frameworks */,
-				F618118E1E08E1BC007B2397 /* SentrySwift.framework in Frameworks */,
+				F6D00B6A1E0E04DD0087F68D /* KSCrash.framework in Frameworks */,
+				F6D00B6C1E0E04DD0087F68D /* SentrySwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,12 +122,12 @@
 		F61811921E08E1C7007B2397 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				F618118A1E08E1BC007B2397 /* KSCrash.framework */,
-				F61811941E08E274007B2397 /* KSCrash.framework.dSYM */,
-				F618118B1E08E1BC007B2397 /* SentrySwift.framework */,
-				F61811951E08E274007B2397 /* SentrySwift.framework.dSYM */,
+				F6D00B6F1E0E04F60087F68D /* KSCrash.framework.dSYM */,
+				F6D00B701E0E04F60087F68D /* SentrySwift.framework.dSYM */,
+				F6D00B681E0E04DD0087F68D /* KSCrash.framework */,
+				F6D00B691E0E04DD0087F68D /* SentrySwift.framework */,
 			);
-			name = Vendor;
+			path = Vendor;
 			sourceTree = "<group>";
 		};
 		F63C8CC11CFA285800D2344B /* Interface */ = {
@@ -168,7 +168,7 @@
 				F6CBE6071C418D6300C962A7 /* Config.swift */,
 				F667BCA51CFB972A008B4B83 /* Context.swift */,
 				F6792C311C404B53007D9DF9 /* Info.plist */,
-				F6792C2E1C404B53007D9DF9 /* MainMenu.xib */,
+				F6D00B661E0E03F30087F68D /* MainMenu.xib */,
 				F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */,
 			);
 			path = Stark;
@@ -235,8 +235,8 @@
 				F6792C231C404B53007D9DF9 /* Sources */,
 				F6792C241C404B53007D9DF9 /* Frameworks */,
 				F6792C251C404B53007D9DF9 /* Resources */,
-				F61811901E08E1BC007B2397 /* Embed Frameworks */,
 				F61811931E08E25E007B2397 /* Copy Carthage Debug Symbols */,
+				F6D00B6E1E0E04DE0087F68D /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -291,7 +291,7 @@
 				F67CFD7D1D93164000FF0F49 /* stark-lib.js in Resources */,
 				F63C8CC71CFA30D800D2344B /* AboutWindow.xib in Resources */,
 				F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */,
-				F6792C301C404B53007D9DF9 /* MainMenu.xib in Resources */,
+				F6D00B671E0E03F30087F68D /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -358,18 +358,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		F6792C2E1C404B53007D9DF9 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F6792C2F1C404B53007D9DF9 /* Base */,
-			);
-			name = MainMenu.xib;
-			path = .;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		F6792C321C404B53007D9DF9 /* Debug */ = {
