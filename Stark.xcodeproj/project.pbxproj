@@ -30,9 +30,7 @@
 		F6CBE6061C4160A900C962A7 /* NSScreen+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+JSExport.swift */; };
 		F6CBE6081C418D6300C962A7 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6071C418D6300C962A7 /* Config.swift */; };
 		F6D00B671E0E03F30087F68D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6D00B661E0E03F30087F68D /* MainMenu.xib */; };
-		F6D00B6A1E0E04DD0087F68D /* KSCrash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6D00B681E0E04DD0087F68D /* KSCrash.framework */; };
 		F6D00B6B1E0E04DD0087F68D /* KSCrash.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F6D00B681E0E04DD0087F68D /* KSCrash.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F6D00B6C1E0E04DD0087F68D /* SentrySwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6D00B691E0E04DD0087F68D /* SentrySwift.framework */; };
 		F6D00B6D1E0E04DD0087F68D /* SentrySwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F6D00B691E0E04DD0087F68D /* SentrySwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F6D00B711E0E04F60087F68D /* KSCrash.framework.dSYM in Copy Carthage Debug Symbols */ = {isa = PBXBuildFile; fileRef = F6D00B6F1E0E04F60087F68D /* KSCrash.framework.dSYM */; };
 		F6D00B721E0E04F60087F68D /* SentrySwift.framework.dSYM in Copy Carthage Debug Symbols */ = {isa = PBXBuildFile; fileRef = F6D00B701E0E04F60087F68D /* SentrySwift.framework.dSYM */; };
@@ -111,8 +109,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F6D00B6A1E0E04DD0087F68D /* KSCrash.framework in Frameworks */,
-				F6D00B6C1E0E04DD0087F68D /* SentrySwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
