@@ -115,7 +115,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F61811921E08E1C7007B2397 /* Vendor */ = {
+		F61811921E08E1C7007B2397 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				F6D00B6F1E0E04F60087F68D /* KSCrash.framework.dSYM */,
@@ -123,6 +123,7 @@
 				F6D00B681E0E04DD0087F68D /* KSCrash.framework */,
 				F6D00B691E0E04DD0087F68D /* SentrySwift.framework */,
 			);
+			name = Frameworks;
 			path = Vendor;
 			sourceTree = "<group>";
 		};
@@ -138,9 +139,9 @@
 		F6792C1E1C404B53007D9DF9 = {
 			isa = PBXGroup;
 			children = (
+				F61811921E08E1C7007B2397 /* Frameworks */,
 				F6792C281C404B53007D9DF9 /* Products */,
 				F6792C291C404B53007D9DF9 /* Stark */,
-				F61811921E08E1C7007B2397 /* Vendor */,
 			);
 			sourceTree = "<group>";
 		};
