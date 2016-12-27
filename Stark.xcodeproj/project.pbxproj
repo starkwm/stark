@@ -32,8 +32,8 @@
 		F6D00B671E0E03F30087F68D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6D00B661E0E03F30087F68D /* MainMenu.xib */; };
 		F6D00B6B1E0E04DD0087F68D /* KSCrash.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F6D00B681E0E04DD0087F68D /* KSCrash.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F6D00B6D1E0E04DD0087F68D /* SentrySwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F6D00B691E0E04DD0087F68D /* SentrySwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F6D00B711E0E04F60087F68D /* KSCrash.framework.dSYM in Copy Carthage Debug Symbols */ = {isa = PBXBuildFile; fileRef = F6D00B6F1E0E04F60087F68D /* KSCrash.framework.dSYM */; };
-		F6D00B721E0E04F60087F68D /* SentrySwift.framework.dSYM in Copy Carthage Debug Symbols */ = {isa = PBXBuildFile; fileRef = F6D00B701E0E04F60087F68D /* SentrySwift.framework.dSYM */; };
+		F6D00B711E0E04F60087F68D /* KSCrash.framework.dSYM in Copy Debug Symbols */ = {isa = PBXBuildFile; fileRef = F6D00B6F1E0E04F60087F68D /* KSCrash.framework.dSYM */; };
+		F6D00B721E0E04F60087F68D /* SentrySwift.framework.dSYM in Copy Debug Symbols */ = {isa = PBXBuildFile; fileRef = F6D00B701E0E04F60087F68D /* SentrySwift.framework.dSYM */; };
 		F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */; };
 		F6ED60091D71D38C007CF2A3 /* Hashable+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6ED60081D71D38C007CF2A3 /* Hashable+JSExport.swift */; };
 		F6F9B8291C45D8D7007928D0 /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F9B8281C45D8D7007928D0 /* AlertHelper.swift */; };
@@ -41,16 +41,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		F61811931E08E25E007B2397 /* Copy Carthage Debug Symbols */ = {
+		F61811931E08E25E007B2397 /* Copy Debug Symbols */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
-				F6D00B711E0E04F60087F68D /* KSCrash.framework.dSYM in Copy Carthage Debug Symbols */,
-				F6D00B721E0E04F60087F68D /* SentrySwift.framework.dSYM in Copy Carthage Debug Symbols */,
+				F6D00B711E0E04F60087F68D /* KSCrash.framework.dSYM in Copy Debug Symbols */,
+				F6D00B721E0E04F60087F68D /* SentrySwift.framework.dSYM in Copy Debug Symbols */,
 			);
-			name = "Copy Carthage Debug Symbols";
+			name = "Copy Debug Symbols";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		F6D00B6E1E0E04DE0087F68D /* Embed Frameworks */ = {
@@ -232,8 +232,8 @@
 				F6792C231C404B53007D9DF9 /* Sources */,
 				F6792C241C404B53007D9DF9 /* Frameworks */,
 				F6792C251C404B53007D9DF9 /* Resources */,
-				F61811931E08E25E007B2397 /* Copy Carthage Debug Symbols */,
 				F6D00B6E1E0E04DE0087F68D /* Embed Frameworks */,
+				F61811931E08E25E007B2397 /* Copy Debug Symbols */,
 			);
 			buildRules = (
 			);
