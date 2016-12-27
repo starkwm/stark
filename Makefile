@@ -12,7 +12,7 @@ build:
 	@xcodebuild $(XCODEFLAGS) build
 
 bootstrap:
-	@carthage bootstrap --platform macOS --use-submodules
+	@carthage bootstrap --platform mac
 
 clean:
 	rm -fr $(OUTPUT_PATH)
