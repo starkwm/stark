@@ -30,11 +30,30 @@
 		F6CBE6061C4160A900C962A7 /* NSScreen+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+JSExport.swift */; };
 		F6CBE6081C418D6300C962A7 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6071C418D6300C962A7 /* Config.swift */; };
 		F6D00B671E0E03F30087F68D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6D00B661E0E03F30087F68D /* MainMenu.xib */; };
+		F6E5ACAF1E1591980097F9B8 /* KSCrash.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6E5ACAE1E1591980097F9B8 /* KSCrash.framework */; };
+		F6E5ACB01E1591980097F9B8 /* KSCrash.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F6E5ACAE1E1591980097F9B8 /* KSCrash.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		F6E5ACB31E15919E0097F9B8 /* SentrySwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6E5ACB21E15919E0097F9B8 /* SentrySwift.framework */; };
+		F6E5ACB41E15919E0097F9B8 /* SentrySwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F6E5ACB21E15919E0097F9B8 /* SentrySwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */; };
 		F6ED60091D71D38C007CF2A3 /* Hashable+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6ED60081D71D38C007CF2A3 /* Hashable+JSExport.swift */; };
 		F6F9B8291C45D8D7007928D0 /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F9B8281C45D8D7007928D0 /* AlertHelper.swift */; };
 		F6FC1C661CBAE8E10070ED3B /* stark-example.js in Resources */ = {isa = PBXBuildFile; fileRef = F6FC1C651CBAE8E10070ED3B /* stark-example.js */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F6E5ACB11E1591990097F9B8 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F6E5ACB01E1591980097F9B8 /* KSCrash.framework in Embed Frameworks */,
+				F6E5ACB41E15919E0097F9B8 /* SentrySwift.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		F6002D6E1C47086100C958F5 /* KeyCodeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCodeHelper.swift; sourceTree = "<group>"; };
@@ -63,6 +82,8 @@
 		F6CBE6071C418D6300C962A7 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Stark-Bridging-Header.h"; sourceTree = "<group>"; };
 		F6D00B661E0E03F30087F68D /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		F6E5ACAE1E1591980097F9B8 /* KSCrash.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KSCrash.framework; path = Carthage/Build/Mac/KSCrash.framework; sourceTree = "<group>"; };
+		F6E5ACB21E15919E0097F9B8 /* SentrySwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SentrySwift.framework; path = Carthage/Build/Mac/SentrySwift.framework; sourceTree = "<group>"; };
 		F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchAgentHelper.swift; sourceTree = "<group>"; };
 		F6ED60081D71D38C007CF2A3 /* Hashable+JSExport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Hashable+JSExport.swift"; sourceTree = "<group>"; };
 		F6F9B8281C45D8D7007928D0 /* AlertHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
@@ -74,6 +95,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6E5ACAF1E1591980097F9B8 /* KSCrash.framework in Frameworks */,
+				F6E5ACB31E15919E0097F9B8 /* SentrySwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +115,7 @@
 		F6792C1E1C404B53007D9DF9 = {
 			isa = PBXGroup;
 			children = (
+				F6E5ACB51E1594A80097F9B8 /* Frameworks */,
 				F6792C281C404B53007D9DF9 /* Products */,
 				F6792C291C404B53007D9DF9 /* Stark */,
 			);
@@ -172,6 +196,15 @@
 			path = Observers;
 			sourceTree = "<group>";
 		};
+		F6E5ACB51E1594A80097F9B8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F6E5ACAE1E1591980097F9B8 /* KSCrash.framework */,
+				F6E5ACB21E15919E0097F9B8 /* SentrySwift.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -184,6 +217,7 @@
 				F6792C231C404B53007D9DF9 /* Sources */,
 				F6FFF1A61E1219B20023D78C /* Frameworks */,
 				F6792C251C404B53007D9DF9 /* Resources */,
+				F6E5ACB11E1591990097F9B8 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
