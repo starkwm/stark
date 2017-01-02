@@ -6,13 +6,20 @@ ARCHIVE_PATH="$(OUTPUT_PATH)/Stark.xcarchive"
 JAVASCRIPT_SOURCE=StarkLib/*.js
 JAVASCRIPT_OUTPUT="Stark/Resources/stark-lib.js"
 
+STARK_SECRETS="Stark/Secrets.swift"
+EXAMPLE_SECRETS="Stark/Secrets-Example.swift"
+
 .PHONY: build bootstrap clean archive export minify
 
 build:
 	@xcodebuild $(XCODEFLAGS) build
 
 bootstrap:
-	@carthage bootstrap --platform mac
+	@carthage bootstrap --platform macoS
+	@cp $(EXAMPLE_SECRETS) $(STARK_SECRETS)
+	@echo "--------------------------------------------------------------------------------"
+	@echo "Created $(STARK_SECRETS). Please add your keys to it."
+	@echo "--------------------------------------------------------------------------------"
 
 clean:
 	rm -fr $(OUTPUT_PATH)
