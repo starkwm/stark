@@ -34,3 +34,4 @@ Carthage/
 
 node_modules
 Stark/Resources/stark-lib.js
+Secrets.swift
