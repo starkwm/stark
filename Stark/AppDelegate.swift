@@ -41,7 +41,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let menu = NSMenu()
         menu.addItem(withTitle: "About", action: #selector(AppDelegate.about), keyEquivalent: "")
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(withTitle: "Edit config file", action: #selector(AppDelegate.editConfig), keyEquivalent: "")
         menu.addItem(withTitle: "Reload config file", action: #selector(AppDelegate.reloadConfig), keyEquivalent: "")
         menu.addItem(NSMenuItem.separator())
         menu.addItem(loginMenuItem)
@@ -56,10 +55,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func about(sender: AnyObject?) {
         NSApp.activate(ignoringOtherApps: true)
         aboutWindowController.showWindow(nil)
-    }
-
-    func editConfig(sender: AnyObject?) {
-        config.edit()
     }
 
     func reloadConfig(sender: AnyObject?) {
