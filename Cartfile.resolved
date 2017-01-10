@@ -1,2 +1,2 @@
-github "kstenerud/KSCrash" "1.13.4"
-github "getsentry/sentry-swift" "1.4.0"
+github "kstenerud/KSCrash" "1.13.6"
+github "getsentry/sentry-swift" "1.4.2"
