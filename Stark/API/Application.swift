@@ -32,13 +32,13 @@ open class Application: NSObject, ApplicationJSExport {
     fileprivate var app: NSRunningApplication
 
     open static func find(_ name: String) -> Application? {
-        for app in NSWorkspace.shared().runningApplications {
-            if app.localizedName == name {
-                return Application(pid: app.processIdentifier)
-            }
+        let app = NSWorkspace.shared().runningApplications.first(where: { $0.localizedName == name })
+
+        guard app != nil else {
+            return nil
         }
 
-        return nil
+        return Application(pid: app!.processIdentifier)
     }
 
     open static func all() -> [Application] {
