@@ -157,7 +157,6 @@ open class Window: NSObject, WindowJSExport {
     }
 
     open func setFrame(_ frame: CGRect) {
-        setSize(frame.size)
         setTopLeft(frame.origin)
         setSize(frame.size)
     }
