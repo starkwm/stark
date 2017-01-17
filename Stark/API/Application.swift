@@ -42,9 +42,7 @@ open class Application: NSObject, ApplicationJSExport {
     }
 
     open static func all() -> [Application] {
-        return NSWorkspace.shared().runningApplications.map {
-            Application(pid: $0.processIdentifier)
-        }
+        return NSWorkspace.shared().runningApplications.map { Application(pid: $0.processIdentifier) }
     }
 
     open static func focused() -> Application? {
