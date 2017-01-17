@@ -39,8 +39,7 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
                     return
                 }
 
-                NotificationCenter.default
-                    .post(name: Notification.Name(rawValue: starkHotKeyKeyDownNotification), object: nil, userInfo: [starkHotKeyIdentifier: UInt(identifier.id)])
+                NotificationCenter.default.post(name: Notification.Name(rawValue: starkHotKeyKeyDownNotification), object: nil, userInfo: [starkHotKeyIdentifier: UInt(identifier.id)])
             }
 
             return noErr
