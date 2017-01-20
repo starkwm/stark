@@ -17,7 +17,6 @@ open class Handler: NSObject {
             }
 
             let function = JSValue(object: callback, in: scope)
-
             _ = function?.call(withArguments: arguments)
         }
     }
