@@ -13,14 +13,14 @@ import JavaScriptCore
     var isEnabled: Bool { get }
 }
 
-private var bindIdentifierSequence: UInt = 0
+fileprivate var bindIdentifierSequence: UInt = 0
 
-private let starkHotKeyIdentifier = "starkHotKeyIdentifier"
-private let starkHotKeyKeyDownNotification = "starkHotKeyKeyDownNotification"
+fileprivate let starkHotKeyIdentifier = "starkHotKeyIdentifier"
+fileprivate let starkHotKeyKeyDownNotification = "starkHotKeyKeyDownNotification"
 
 open class Bind: Handler, BindJSExport, HashableJSExport {
     // swiftlint:disable:next variable_name
-    private static var __once: () = {
+    fileprivate static var __once: () = {
         let callback: EventHandlerUPP = { (handler, event, data) -> OSStatus in
             autoreleasepool {
                 var identifier = EventHotKeyID()
@@ -86,15 +86,13 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
 
         manageCallback(callback)
 
-        NotificationCenter.default
-            .addObserver(self, selector: #selector(Bind.keyDown(notification:)), name: NSNotification.Name(rawValue: starkHotKeyKeyDownNotification), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(Bind.keyDown(notification:)), name: NSNotification.Name(rawValue: starkHotKeyKeyDownNotification), object: nil)
 
         _ = enable()
     }
 
     deinit {
-        NotificationCenter.default
-            .removeObserver(self, name: NSNotification.Name(rawValue: starkHotKeyKeyDownNotification), object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: starkHotKeyKeyDownNotification), object: nil)
 
         _ = disable()
     }
