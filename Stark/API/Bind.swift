@@ -64,17 +64,13 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
 
     fileprivate var enabled = false
 
-    fileprivate static func setup() {
-        _ = Bind.__once
-    }
-
     open static func hashForKey(_ key: String, modifiers: [String]) -> Int {
         let key = String(format: "%@[%@]", key, modifiers.joined(separator: "|"))
         return key.hashValue
     }
 
     public required init(key: String, modifiers: [String], callback: JSValue) {
-        Bind.setup()
+        _ = Bind.__once
 
         self.key = key
         self.modifiers = modifiers
