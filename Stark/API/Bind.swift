@@ -56,9 +56,12 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
     open var modifiers: [String] = []
 
     fileprivate var identifier: UInt = 0
+
     fileprivate var keyCode: UInt32 = 0
     fileprivate var modifierFlags: UInt32 = 0
+
     fileprivate var eventHotKeyRef: EventHotKeyRef?
+
     fileprivate var enabled = false
 
     fileprivate static func setup() {
