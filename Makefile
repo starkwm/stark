@@ -3,13 +3,12 @@ XCODEFLAGS=-project "Stark.xcodeproj" -scheme "Stark"
 OUTPUT_PATH="build/Stark"
 ARCHIVE_PATH="$(OUTPUT_PATH)/Stark.xcarchive"
 
-JAVASCRIPT_SOURCE=StarkLib/*.js
-JAVASCRIPT_OUTPUT="Stark/Resources/stark-lib.js"
+JAVASCRIPT_LIB="Stark/Resources/stark-lib.js"
 
 STARK_SECRETS="Stark/Secrets.swift"
 EXAMPLE_SECRETS="Stark/Secrets-Example.swift"
 
-.PHONY: build bootstrap clean archive export minify
+.PHONY: build bootstrap clean archive export lint minify
 
 build:
 	@xcodebuild $(XCODEFLAGS) build
@@ -23,7 +22,7 @@ bootstrap:
 
 clean:
 	rm -fr $(OUTPUT_PATH)
-	rm -fr $(JAVASCRIPT_OUTPUT)
+	rm -fr $(JAVASCRIPT_LIB)
 	@xcodebuild $(XCODEFLAGS) clean
 
 archive: clean
@@ -35,5 +34,11 @@ export: archive
 node_modules/.bin/uglifyjs:
 	@yarn install
 
+node_modules/.bin/eslint:
+	@yarn install
+
+lint: node_modules/.bin/eslint
+	@yarn run lint
+
 minify: node_modules/.bin/uglifyjs
-	node_modules/.bin/uglifyjs --compress --output $(JAVASCRIPT_OUTPUT) $(JAVASCRIPT_SOURCE)
+	@yarn run minify

@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "lint": "eslint StarkLib/*.js",
+    "minify": "uglifyjs --compress --output Stark/Resources/stark-lib.js StarkLib/*.js"
+  },
   "devDependencies": {
     "eslint": "^3.14.0",
     "eslint-config-standard": "^6.2.1",
