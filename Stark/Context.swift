@@ -39,7 +39,7 @@ open class Context {
     fileprivate func setupAPI() {
         context = JSContext(virtualMachine: JSVirtualMachine())
 
-        context.exceptionHandler = { [weak self] ctx, err in
+        context.exceptionHandler = { [weak self] _, err in
             self?.handleJSException(exception: err!)
         }
 

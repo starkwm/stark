@@ -24,7 +24,7 @@ open class LaunchAgentHelper {
         }
 
         if (launchAgentDirectory as NSURL).checkResourceIsReachableAndReturnError(nil) == false {
-            let _ = try? FileManager.default
+            _ = try? FileManager.default
                 .createDirectory(at: launchAgentDirectory, withIntermediateDirectories: false, attributes: nil)
         }
 
@@ -44,7 +44,7 @@ open class LaunchAgentHelper {
     }
 
     open static func remove() {
-        let _ = try? FileManager.default
+        _ = try? FileManager.default
             .removeItem(at: launchAgentFile!)
     }
 

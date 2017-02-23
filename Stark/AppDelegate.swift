@@ -15,7 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         context = Context(config: config)
     }
 
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
+    func applicationDidFinishLaunching(_: Notification) {
         SentryClient.shared = SentryClient(dsnString: starkSentryDSN)
         SentryClient.shared?.startCrashHandler()
 
@@ -52,12 +52,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.menu = menu
     }
 
-    func about(sender: AnyObject?) {
+    func about(sender _: AnyObject?) {
         NSApp.activate(ignoringOtherApps: true)
         aboutWindowController.showWindow(nil)
     }
 
-    func reloadConfig(sender: AnyObject?) {
+    func reloadConfig(sender _: AnyObject?) {
         context.setup()
     }
 
@@ -71,7 +71,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
-    func quit(sender: AnyObject?) {
+    func quit(sender _: AnyObject?) {
         NSApp.terminate(nil)
     }
 }

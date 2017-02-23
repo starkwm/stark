@@ -21,7 +21,7 @@ fileprivate let starkHotKeyKeyDownNotification = "starkHotKeyKeyDownNotification
 open class Bind: Handler, BindJSExport, HashableJSExport {
     // swiftlint:disable:next variable_name
     fileprivate static var __once: () = {
-        let callback: EventHandlerUPP = { (handler, event, data) -> OSStatus in
+        let callback: EventHandlerUPP = { (_, event, _) -> OSStatus in
             autoreleasepool {
                 var identifier = EventHotKeyID()
 

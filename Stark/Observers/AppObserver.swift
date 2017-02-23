@@ -59,7 +59,7 @@ open class AppObserver: NSObject {
         }
     }
 
-    func didReceiveNotification(_ notification: Notification) {
+    func didReceiveNotification(_: Notification) {
         if observer != nil {
             CFRunLoopAddSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(observer!), CFRunLoopMode.defaultMode)
 

@@ -21,7 +21,7 @@ open class RunningAppsObserver: NSObject {
             .removeObserver(self, forKeyPath: NSWorkspaceRunningApplicationsKeyPath)
     }
 
-    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+    open override func observeValue(forKeyPath keyPath: String?, of _: Any?, change: [NSKeyValueChangeKey: Any]?, context _: UnsafeMutableRawPointer?) {
         if keyPath != NSWorkspaceRunningApplicationsKeyPath {
             return
         }
