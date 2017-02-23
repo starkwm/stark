@@ -202,8 +202,8 @@
 		F6E5ACB51E1594A80097F9B8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				F6C7FABB1E5F8595007A977B /* Sentry.framework */,
 				F6E5ACAE1E1591980097F9B8 /* KSCrash.framework */,
+				F6C7FABB1E5F8595007A977B /* Sentry.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
