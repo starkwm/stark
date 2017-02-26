@@ -39,7 +39,7 @@ open class AppObserver: NSObject {
 
     deinit {
         if observer != nil {
-            notifications.forEach { removeNotification($0) }
+            notifications.forEach { remove(notification: $0) }
 
             CFRunLoopRemoveSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(observer!), CFRunLoopMode.defaultMode)
         }
@@ -47,13 +47,13 @@ open class AppObserver: NSObject {
         notificationCenter.removeObserver(self, name: .NSWorkspaceDidLaunchApplication, object: nil)
     }
 
-    fileprivate func addNotification(_ notification: String) {
+    fileprivate func add(notification: String) {
         if observer != nil {
             AXObserverAddNotification(observer!, element, notification as CFString, nil)
         }
     }
 
-    fileprivate func removeNotification(_ notification: String) {
+    fileprivate func remove(notification: String) {
         if observer != nil {
             AXObserverRemoveNotification(observer!, element, notification as CFString)
         }
@@ -63,7 +63,7 @@ open class AppObserver: NSObject {
         if observer != nil {
             CFRunLoopAddSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(observer!), CFRunLoopMode.defaultMode)
 
-            notifications.forEach { addNotification($0) }
+            notifications.forEach { add(notification: $0) }
         }
     }
 }

@@ -12,7 +12,7 @@ open class RunningAppsObserver: NSObject {
             .shared()
             .addObserver(self, forKeyPath: NSWorkspaceRunningApplicationsKeyPath, options: [.old, .new], context: nil)
 
-        observeApplications(NSWorkspace.shared().runningApplications)
+        observe(applications: NSWorkspace.shared().runningApplications)
     }
 
     deinit {
@@ -36,24 +36,24 @@ open class RunningAppsObserver: NSObject {
             switch kind {
             case .insertion:
                 apps = change[NSKeyValueChangeKey.newKey] as? [NSRunningApplication]
-                observeApplications(apps ?? [])
+                observe(applications: apps ?? [])
             case .removal:
                 apps = change[NSKeyValueChangeKey.oldKey] as? [NSRunningApplication]
-                removeApplications(apps ?? [])
+                unobserve(applications: apps ?? [])
             default:
                 return
             }
         }
     }
 
-    fileprivate func observeApplications(_ apps: [NSRunningApplication]) {
-        for app in apps {
+    fileprivate func observe(applications: [NSRunningApplication]) {
+        for app in applications {
             observers[app.processIdentifier] = AppObserver(app: app)
         }
     }
 
-    fileprivate func removeApplications(_ apps: [NSRunningApplication]) {
-        for app in apps {
+    fileprivate func unobserve(applications: [NSRunningApplication]) {
+        for app in applications {
             observers.removeValue(forKey: app.processIdentifier)
         }
     }
