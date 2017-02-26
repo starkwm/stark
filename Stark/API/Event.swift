@@ -16,8 +16,8 @@ open class Event: Handler, EventJSExport, HashableJSExport {
     public required init(event: String, callback: JSValue) {
         name = event
 
-        notification = EventHelper.notificationForEvent(event: event)
-        notificationCenter = EventHelper.notificationCenterForNotification(notification: notification)
+        notification = EventHelper.notification(for: event)
+        notificationCenter = EventHelper.notificationCenter(for: notification)
 
         super.init()
 
