@@ -1,3 +1,1 @@
-# Stark
-
-Power your window management with an Arc Reactor.
+![](assets/repo-banner.png)
