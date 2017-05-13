@@ -16,14 +16,11 @@ open class AboutWindowController: NSWindowController {
     open override func windowDidLoad() {
         super.windowDidLoad()
 
-        window?.backgroundColor = NSColor.white
-
         if appVersion.characters.isEmpty {
-            let version = valueFromInfoDict("CFBundleVersion")
-            let shortVersion = valueFromInfoDict("CFBundleShortVersionString")
+            let build = valueFromInfoDict("CFBundleVersion")
+            let version = valueFromInfoDict("CFBundleShortVersionString")
 
-            appVersion = "v\(shortVersion) build \(version)"
-            versionLabel.stringValue = appVersion
+            versionLabel.stringValue = "Version \(version) (\(build))"
         }
     }
 
