@@ -1,13 +1,12 @@
 {
+  "name": "stark-lib",
+  "private": true,
   "scripts": {
-    "lint": "eslint StarkLib/*.js",
-    "minify": "uglifyjs --compress --output Stark/Resources/stark-lib.js StarkLib/*.js"
+    "lint": "xo --space StarkLib/*.js",
+    "build": "concat StarkLib/*.js -o Stark/Resources/stark-lib.js"
   },
-  "devDependencies": {
-    "eslint": "^3.14.0",
-    "eslint-config-standard": "^6.2.1",
-    "eslint-plugin-promise": "^3.4.0",
-    "eslint-plugin-standard": "^2.0.1",
-    "uglify-js": "^2.7.5"
+  "dependencies": {
+    "concat": "^1.0.3",
+    "xo": "^0.18.2"
   }
 }

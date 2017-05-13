@@ -1,25 +1,25 @@
 /* global Bind */
 
 (function (Bind) {
-  var binds = {}
+  let binds = {};
 
-  Bind.on = function (key, modifiers, callback) {
-    var handler = new Bind(key, modifiers, callback)
-
-    if (handler) {
-      binds[handler.hashValue] = handler
-      return handler.hashValue
-    }
-
-    return
-  }
-
-  Bind.off = function (identifier) {
-    var handler = binds[identifier]
+  Bind.on = (key, modifiers, callback) => {
+    const handler = new Bind(key, modifiers, callback);
 
     if (handler) {
-      handler.disable()
-      delete binds[identifier]
+      binds[handler.hashValue] = handler;
+      return handler.hashValue;
+    }
+
+    return;
+  }
+
+  Bind.off = (identifier) => {
+    const handler = binds[identifier];
+
+    if (handler) {
+      handler.disable();
+      delete binds[identifier];
     }
   }
-})(Bind)
+})(Bind);

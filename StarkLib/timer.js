@@ -1,41 +1,41 @@
 /* global Timer */
 
 (function (Timer) {
-  var timers = {}
+  const timers = {};
 
-  Timer.after = function (interval, callback) {
-    var timer = new Timer(interval, false, function (handler) {
-      callback(handler)
-      Timer.off(handler.hashValue)
-    })
+  Timer.after = (interval, callback) => {
+    const timer = new Timer(interval, false, handler => {
+      callback(handler);
+      Timer.off(handler.hashValue);
+    });
 
-    timers[timer.hashValue] = timer
-    return timer.hashValue
-  }
+    timers[timer.hashValue] = timer;
+    return timer.hashValue;
+  };
 
-  Timer.every = function (interval, callbac) {
-    var timer = new Timer(interval, true, callbac)
-    timers[timer.hashValue] = timer
-    return timer.hashValue
-  }
+  Timer.every = (interval, callback) => {
+    const timer = new Timer(interval, true, callback);
+    timers[timer.hashValue] = timer;
+    return timer.hashValue;
+  };
 
-  Timer.off = function (identifier) {
-    var timer = timers[identifier]
+  Timer.off = identifier => {
+    const timer = timers[identifier];
 
     if (timer) {
-      timer.stop()
-      delete timers[identifier]
+      timer.stop();
+      delete timers[identifier];
     }
-  }
-})(Timer)
+  };
+})(Timer);
 
-this.clearTimeout = Timer.off
-this.clearInterval = Timer.off
+this.clearTimeout = Timer.off;
+this.clearInterval = Timer.off;
 
-this.setTimeout = function (callback, ms) {
-  return Timer.after(ms / 1000, callback)
-}
+this.setTimeout = (callback, ms) => {
+  return Timer.after(ms / 1000, callback);
+};
 
-this.setInterval = function (callback, ms) {
-  return Timer.every(ms / 1000, callback)
-}
+this.setInterval = (callback, ms) => {
+  return Timer.every(ms / 1000, callback);
+};

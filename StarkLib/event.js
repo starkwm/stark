@@ -1,25 +1,23 @@
 /* global Event */
 
 (function (Event) {
-  var events = {}
+  const events = {};
 
   Event.on = function (event, callback) {
-    var handler = new Event(event, callback)
+    const handler = new Event(event, callback);
 
     if (handler) {
-      events[handler.hashValue] = handler
-      return handler.hashValue
+      events[handler.hashValue] = handler;
+      return handler.hashValue;
     }
-
-    return
-  }
+  };
 
   Event.off = function (identifier) {
-    var handler = events[identifier]
+    const handler = events[identifier];
 
     if (handler) {
-      handler.disable()
-      delete events[identifier]
+      handler.disable();
+      delete events[identifier];
     }
-  }
-})(Event)
+  };
+})(Event);

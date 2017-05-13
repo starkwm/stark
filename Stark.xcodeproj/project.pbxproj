@@ -216,7 +216,7 @@
 			buildConfigurationList = F6792C341C404B53007D9DF9 /* Build configuration list for PBXNativeTarget "Stark" */;
 			buildPhases = (
 				F620B8771E382F6C0090EB11 /* Lint JavaScript */,
-				F6BF27871E04EAEE003CC6C9 /* Minify JavaScript */,
+				F6D6F2261EC746D000ACAF35 /* Concatenate JavaScript */,
 				F66FB78E1E08EDCB006A0430 /* Lint Swift */,
 				F6792C231C404B53007D9DF9 /* Sources */,
 				F6FFF1A61E1219B20023D78C /* Frameworks */,
@@ -311,19 +311,19 @@
 			shellPath = /bin/sh;
 			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint autocorrect --path ./Stark\n    swiftlint lint --path ./Stark\nelse\n    echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
-		F6BF27871E04EAEE003CC6C9 /* Minify JavaScript */ = {
+		F6D6F2261EC746D000ACAF35 /* Concatenate JavaScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Minify JavaScript";
+			name = "Concatenate JavaScript";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "make minify";
+			shellScript = "make concat";
 		};
 /* End PBXShellScriptBuildPhase section */
 
