@@ -1,7 +1,8 @@
 import AppKit
 import JavaScriptCore
 
-@objc protocol EventJSExport: JSExport {
+@objc
+protocol EventJSExport: JSExport {
     init(event: String, callback: JSValue)
 
     var name: String { get }
@@ -30,13 +31,14 @@ open class Event: Handler, EventJSExport, HashableJSExport {
         notificationCenter.removeObserver(self, name: NSNotification.Name(rawValue: notification), object: nil)
     }
 
+    @objc
     func didReceiveNotification(_ notification: Notification) {
         guard let userInfo = (notification as NSNotification).userInfo else {
             call()
             return
         }
 
-        if let runningApp = userInfo[NSWorkspaceApplicationKey] as? NSRunningApplication {
+        if let runningApp = userInfo[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
             let app = Application(app: runningApp)
             callWithArguments([app])
             return

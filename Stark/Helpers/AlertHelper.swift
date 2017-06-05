@@ -1,7 +1,7 @@
 import AppKit
 
 open class AlertHelper {
-    open static func showConfigDialog(configPath _: String) -> NSModalResponse {
+    open static func showConfigDialog(configPath _: String) -> NSApplication.ModalResponse {
         let alert = NSAlert()
         alert.messageText = "Created new Stark configuration file"
         alert.informativeText = "Would you like to view this configuration file?"

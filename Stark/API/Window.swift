@@ -3,7 +3,8 @@ import JavaScriptCore
 
 private let starkVisibilityOptionsKey = "visible"
 
-@objc protocol WindowJSExport: JSExport {
+@objc
+protocol WindowJSExport: JSExport {
     static func all() -> [Window]
     static func all(_ options: [String: AnyObject]) -> [Window]
 
@@ -91,7 +92,7 @@ open class Window: NSObject, WindowJSExport {
         var lastVolume: CGFloat = 0
         var lastScreen = NSScreen()
 
-        for screen in NSScreen.screens()! {
+        for screen in NSScreen.screens {
             let screenFrame = screen.frameIncludingDockAndMenu
             let intersection = windowFrame.intersection(screenFrame)
             let volume = intersection.size.width * intersection.size.height
@@ -193,7 +194,7 @@ open class Window: NSObject, WindowJSExport {
         }
 
         if let app = NSRunningApplication(processIdentifier: pid()) {
-            app.activate(options: NSApplicationActivationOptions.activateIgnoringOtherApps)
+            app.activate(options: NSApplication.ActivationOptions.activateIgnoringOtherApps)
         }
     }
 

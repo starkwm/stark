@@ -1,14 +1,14 @@
 import Cocoa
-import Sentry
+//import Sentry
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    let statusItem = NSStatusBar.system().statusItem(withLength: NSVariableStatusItemLength)
+    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
     var config: Config
     var context: Context
 
-    var aboutWindowController = AboutWindowController(windowNibName: "AboutWindow")
+    var aboutWindowController = AboutWindowController(windowNibName: NSNib.Name(rawValue: "AboutWindow"))
 
     override init() {
         config = Config()
@@ -16,8 +16,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_: Notification) {
-        SentryClient.shared = SentryClient(dsnString: starkSentryDSN)
-        SentryClient.shared?.startCrashHandler()
+//        SentryClient.shared = SentryClient(dsnString: starkSentryDSN)
+//        SentryClient.shared?.startCrashHandler()
 
         AccessibilityHelper.askForAccessibilityIfNeeded()
 
@@ -30,7 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func setupStatusItem() {
-        let image = NSImage(named: "StatusItemIcon")
+        let image = NSImage(named: NSImage.Name(rawValue: "StatusItemIcon"))
         image?.isTemplate = true
 
         statusItem.highlightMode = true
@@ -47,30 +47,34 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(NSMenuItem.separator())
         menu.addItem(withTitle: "Quit Stark", action: #selector(AppDelegate.quit), keyEquivalent: "")
 
-        loginMenuItem.state = LaunchAgentHelper.enabled() ? NSOnState : NSOffState
+        loginMenuItem.state = LaunchAgentHelper.enabled() ? NSControl.StateValue.onState : NSControl.StateValue.offState
 
         statusItem.menu = menu
     }
 
+    @objc
     func about(sender _: AnyObject?) {
         NSApp.activate(ignoringOtherApps: true)
         aboutWindowController.showWindow(nil)
     }
 
+    @objc
     func reloadConfig(sender _: AnyObject?) {
         context.setup()
     }
 
+    @objc
     func toggleRunAtLogin(sender: NSMenuItem) {
-        if sender.state == NSOnState {
+        if sender.state == NSControl.StateValue.onState {
             LaunchAgentHelper.remove()
-            sender.state = NSOffState
+            sender.state = NSControl.StateValue.offState
         } else {
             _ = LaunchAgentHelper.add()
-            sender.state = NSOnState
+            sender.state = NSControl.StateValue.onState
         }
     }
 
+    @objc
     func quit(sender _: AnyObject?) {
         NSApp.terminate(nil)
     }

@@ -3,7 +3,8 @@ import JavaScriptCore
 
 private let starkVisibilityOptionsKey = "visible"
 
-@objc protocol ApplicationJSExport: JSExport {
+@objc
+protocol ApplicationJSExport: JSExport {
     static func find(_ name: String) -> Application?
 
     static func all() -> [Application]
@@ -32,7 +33,7 @@ open class Application: NSObject, ApplicationJSExport {
     fileprivate var app: NSRunningApplication
 
     open static func find(_ name: String) -> Application? {
-        let app = NSWorkspace.shared().runningApplications.first(where: { $0.localizedName == name })
+        let app = NSWorkspace.shared.runningApplications.first(where: { $0.localizedName == name })
 
         guard app != nil else {
             return nil
@@ -42,11 +43,11 @@ open class Application: NSObject, ApplicationJSExport {
     }
 
     open static func all() -> [Application] {
-        return NSWorkspace.shared().runningApplications.map { Application(pid: $0.processIdentifier) }
+        return NSWorkspace.shared.runningApplications.map { Application(pid: $0.processIdentifier) }
     }
 
     open static func focused() -> Application? {
-        if let app = NSWorkspace.shared().frontmostApplication {
+        if let app = NSWorkspace.shared.frontmostApplication {
             return Application(pid: app.processIdentifier)
         }
 

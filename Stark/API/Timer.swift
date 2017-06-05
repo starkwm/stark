@@ -1,7 +1,8 @@
 import AppKit
 import JavaScriptCore
 
-@objc protocol TimerJSExport: JSExport {
+@objc
+protocol TimerJSExport: JSExport {
     init(interval: TimeInterval, repeats: Bool, callback: JSValue)
 
     func stop()
@@ -22,6 +23,7 @@ open class Timer: Handler, TimerJSExport, HashableJSExport {
         timer?.invalidate()
     }
 
+    @objc
     func timerDidFire() {
         callWithArguments(nil)
     }

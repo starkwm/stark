@@ -1,7 +1,8 @@
 import AppKit
 import JavaScriptCore
 
-@objc protocol StarkJSExport: JSExport {
+@objc
+protocol StarkJSExport: JSExport {
     func log(_ message: String)
     func reload()
     func launch(_ application: String)
@@ -26,7 +27,7 @@ open class Stark: NSObject, StarkJSExport {
     }
 
     open func launch(_ application: String) {
-        NSWorkspace.shared().launchApplication(application)
+        NSWorkspace.shared.launchApplication(application)
     }
 
     open func run(_ command: String, _ arguments: [String]?) {

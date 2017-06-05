@@ -3,13 +3,13 @@ import AppKit
 public let appObserverWindowKey = "observerWindowKey"
 
 fileprivate let notifications = [
-    NSAccessibilityWindowCreatedNotification,
-    NSAccessibilityUIElementDestroyedNotification,
-    NSAccessibilityFocusedWindowChangedNotification,
-    NSAccessibilityWindowMovedNotification,
-    NSAccessibilityWindowResizedNotification,
-    NSAccessibilityWindowMiniaturizedNotification,
-    NSAccessibilityWindowDeminiaturizedNotification,
+    NSAccessibilityNotificationName.windowCreated,
+    NSAccessibilityNotificationName.uiElementDestroyed,
+    NSAccessibilityNotificationName.focusedWindowChanged,
+    NSAccessibilityNotificationName.windowMoved,
+    NSAccessibilityNotificationName.windowResized,
+    NSAccessibilityNotificationName.windowMiniaturized,
+    NSAccessibilityNotificationName.windowDeminiaturized,
 ]
 
 fileprivate let observerCallback: AXObserverCallback = { _, element, notification, _ in
@@ -20,7 +20,7 @@ fileprivate let observerCallback: AXObserverCallback = { _, element, notificatio
     }
 }
 
-fileprivate let notificationCenter = NSWorkspace.shared().notificationCenter
+fileprivate let notificationCenter = NSWorkspace.shared.notificationCenter
 
 open class AppObserver: NSObject {
     fileprivate var element: AXUIElement
@@ -32,19 +32,19 @@ open class AppObserver: NSObject {
 
         super.init()
 
-        notificationCenter.addObserver(self, selector: #selector(AppObserver.didReceiveNotification(_:)), name: .NSWorkspaceDidLaunchApplication, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(AppObserver.didReceiveNotification(_:)), name: NSWorkspace.didLaunchApplicationNotification, object: nil)
 
         AXObserverCreate(app.processIdentifier, observerCallback, &observer)
     }
 
     deinit {
         if observer != nil {
-            notifications.forEach { remove(notification: $0) }
+            notifications.forEach { remove(notification: $0.rawValue) }
 
             CFRunLoopRemoveSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(observer!), CFRunLoopMode.defaultMode)
         }
 
-        notificationCenter.removeObserver(self, name: .NSWorkspaceDidLaunchApplication, object: nil)
+        notificationCenter.removeObserver(self, name: NSWorkspace.didLaunchApplicationNotification, object: nil)
     }
 
     fileprivate func add(notification: String) {
@@ -59,11 +59,12 @@ open class AppObserver: NSObject {
         }
     }
 
+    @objc
     func didReceiveNotification(_: Notification) {
         if observer != nil {
             CFRunLoopAddSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(observer!), CFRunLoopMode.defaultMode)
 
-            notifications.forEach { add(notification: $0) }
+            notifications.forEach { add(notification: $0.rawValue) }
         }
     }
 }

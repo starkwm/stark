@@ -1,7 +1,8 @@
 import Carbon
 import JavaScriptCore
 
-@objc protocol BindJSExport: JSExport {
+@objc
+protocol BindJSExport: JSExport {
     init(key: String, modifiers: [String], callback: JSValue)
 
     var key: String { get }
@@ -135,6 +136,7 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
         return enabled
     }
 
+    @objc
     func keyDown(notification: Notification) {
         if let userDict = notification.userInfo {
             if identifier == userDict[starkHotKeyIdentifier] as? UInt {
