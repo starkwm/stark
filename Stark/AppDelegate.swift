@@ -47,7 +47,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItem(NSMenuItem.separator())
         menu.addItem(withTitle: "Quit Stark", action: #selector(AppDelegate.quit), keyEquivalent: "")
 
-        loginMenuItem.state = LaunchAgentHelper.enabled() ? NSControl.StateValue.onState : NSControl.StateValue.offState
+        loginMenuItem.state = LaunchAgentHelper.enabled() ? NSControl.StateValue.on : NSControl.StateValue.off
 
         statusItem.menu = menu
     }
@@ -65,12 +65,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     @objc
     func toggleRunAtLogin(sender: NSMenuItem) {
-        if sender.state == NSControl.StateValue.onState {
+        if sender.state == NSControl.StateValue.on {
             LaunchAgentHelper.remove()
-            sender.state = NSControl.StateValue.offState
+            sender.state = NSControl.StateValue.off
         } else {
             _ = LaunchAgentHelper.add()
-            sender.state = NSControl.StateValue.onState
+            sender.state = NSControl.StateValue.on
         }
     }
 
