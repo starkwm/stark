@@ -2,7 +2,7 @@ import AppKit
 
 public let appObserverWindowKey = "observerWindowKey"
 
-fileprivate let notifications = [
+private let notifications = [
     NSAccessibilityNotificationName.windowCreated,
     NSAccessibilityNotificationName.uiElementDestroyed,
     NSAccessibilityNotificationName.focusedWindowChanged,
@@ -12,7 +12,7 @@ fileprivate let notifications = [
     NSAccessibilityNotificationName.windowDeminiaturized,
 ]
 
-fileprivate let observerCallback: AXObserverCallback = { _, element, notification, _ in
+private let observerCallback: AXObserverCallback = { _, element, notification, _ in
     autoreleasepool {
         let window = Window(element: element)
 
@@ -20,7 +20,7 @@ fileprivate let observerCallback: AXObserverCallback = { _, element, notificatio
     }
 }
 
-fileprivate let notificationCenter = NSWorkspace.shared.notificationCenter
+private let notificationCenter = NSWorkspace.shared.notificationCenter
 
 open class AppObserver: NSObject {
     fileprivate var element: AXUIElement

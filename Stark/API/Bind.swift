@@ -14,10 +14,10 @@ protocol BindJSExport: JSExport {
     var isEnabled: Bool { get }
 }
 
-fileprivate var bindIdentifierSequence: UInt = 0
+private var bindIdentifierSequence: UInt = 0
 
-fileprivate let starkHotKeyIdentifier = "starkHotKeyIdentifier"
-fileprivate let starkHotKeyKeyDownNotification = "starkHotKeyKeyDownNotification"
+private let starkHotKeyIdentifier = "starkHotKeyIdentifier"
+private let starkHotKeyKeyDownNotification = "starkHotKeyKeyDownNotification"
 
 open class Bind: Handler, BindJSExport, HashableJSExport {
     // swiftlint:disable:next variable_name
