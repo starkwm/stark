@@ -1,6 +1,6 @@
 import Carbon
 
-fileprivate let relocatableKeyCodes = [
+private let relocatableKeyCodes = [
     kVK_ANSI_A, kVK_ANSI_B, kVK_ANSI_C, kVK_ANSI_D, kVK_ANSI_E,
     kVK_ANSI_F, kVK_ANSI_G, kVK_ANSI_H, kVK_ANSI_I, kVK_ANSI_J,
     kVK_ANSI_K, kVK_ANSI_L, kVK_ANSI_M, kVK_ANSI_N, kVK_ANSI_O,
@@ -22,7 +22,7 @@ fileprivate let relocatableKeyCodes = [
     kVK_ANSI_Period,
 ]
 
-fileprivate let keyToCode = [
+private let keyToCode = [
     "F1": kVK_F1,
     "F2": kVK_F2,
     "F3": kVK_F3,

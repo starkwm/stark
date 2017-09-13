@@ -9,15 +9,15 @@ open class RunningAppsObserver: NSObject {
         super.init()
 
         NSWorkspace
-            .shared()
+            .shared
             .addObserver(self, forKeyPath: NSWorkspaceRunningApplicationsKeyPath, options: [.old, .new], context: nil)
 
-        observe(applications: NSWorkspace.shared().runningApplications)
+        observe(applications: NSWorkspace.shared.runningApplications)
     }
 
     deinit {
         NSWorkspace
-            .shared()
+            .shared
             .removeObserver(self, forKeyPath: NSWorkspaceRunningApplicationsKeyPath)
     }
 

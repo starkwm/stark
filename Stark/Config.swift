@@ -35,7 +35,7 @@ open class Config {
             return
         }
 
-        if AlertHelper.showConfigDialog(configPath: path) == NSAlertFirstButtonReturn {
+        if AlertHelper.showConfigDialog(configPath: path) == NSApplication.ModalResponse.alertFirstButtonReturn {
             edit()
         }
     }

@@ -1,7 +1,8 @@
 import AppKit
 import JavaScriptCore
 
-@objc protocol NSScreenJSExport: JSExport {
+@objc
+protocol NSScreenJSExport: JSExport {
     static func all() -> [NSScreen]
     static func focused() -> NSScreen?
 
@@ -14,29 +15,29 @@ import JavaScriptCore
 
 extension NSScreen: NSScreenJSExport {
     public static func all() -> [NSScreen] {
-        return screens() ?? []
+        return screens
     }
 
     public static func focused() -> NSScreen? {
-        return main()
+        return main
     }
 
     public var frameIncludingDockAndMenu: CGRect {
-        let primaryScreen = NSScreen.screens()!.first
+        let primaryScreen = NSScreen.screens.first
         var f = frame
         f.origin.y = primaryScreen!.frame.height - f.height - f.origin.y
         return f
     }
 
     public var frameWithoutDockOrMenu: CGRect {
-        let primaryScreen = NSScreen.screens()!.first
+        let primaryScreen = NSScreen.screens.first
         var f = visibleFrame
         f.origin.y = primaryScreen!.frame.height - f.height - f.origin.y
         return f
     }
 
     public var nextScreen: NSScreen? {
-        let screens = NSScreen.screens()!
+        let screens = NSScreen.screens
 
         if var index = screens.index(of: self) {
             index += 1
@@ -52,7 +53,7 @@ extension NSScreen: NSScreenJSExport {
     }
 
     public var prevScreen: NSScreen? {
-        let screens = NSScreen.screens()!
+        let screens = NSScreen.screens
 
         if var index = screens.index(of: self) {
             index -= 1

@@ -1,7 +1,8 @@
 import Carbon
 import JavaScriptCore
 
-@objc protocol BindJSExport: JSExport {
+@objc
+protocol BindJSExport: JSExport {
     init(key: String, modifiers: [String], callback: JSValue)
 
     var key: String { get }
@@ -13,10 +14,10 @@ import JavaScriptCore
     var isEnabled: Bool { get }
 }
 
-fileprivate var bindIdentifierSequence: UInt = 0
+private var bindIdentifierSequence: UInt = 0
 
-fileprivate let starkHotKeyIdentifier = "starkHotKeyIdentifier"
-fileprivate let starkHotKeyKeyDownNotification = "starkHotKeyKeyDownNotification"
+private let starkHotKeyIdentifier = "starkHotKeyIdentifier"
+private let starkHotKeyKeyDownNotification = "starkHotKeyKeyDownNotification"
 
 open class Bind: Handler, BindJSExport, HashableJSExport {
     // swiftlint:disable:next variable_name
@@ -135,6 +136,7 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
         return enabled
     }
 
+    @objc
     func keyDown(notification: Notification) {
         if let userDict = notification.userInfo {
             if identifier == userDict[starkHotKeyIdentifier] as? UInt {
