@@ -1,5 +1,4 @@
 import Cocoa
-//import Sentry
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -16,9 +15,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_: Notification) {
-//        SentryClient.shared = SentryClient(dsnString: starkSentryDSN)
-//        SentryClient.shared?.startCrashHandler()
-
         AccessibilityHelper.askForAccessibilityIfNeeded()
 
         setupStatusItem()

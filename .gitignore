@@ -30,8 +30,5 @@ DerivedData
 # Add this line if you want to avoid checking in source code from Carthage dependencies.
 # Carthage/Checkouts
 
-Carthage/
-
 node_modules
 Stark/Resources/stark-lib.js
-Secrets.swift

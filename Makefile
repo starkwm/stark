@@ -10,13 +10,6 @@ EXAMPLE_SECRETS="Stark/Secrets-Example.swift"
 build:
 	@xcodebuild $(XCODEFLAGS) build
 
-bootstrap:
-	@carthage bootstrap --platform macOS
-	@cp $(EXAMPLE_SECRETS) $(STARK_SECRETS)
-	@echo "--------------------------------------------------------------------------------"
-	@echo "Created $(STARK_SECRETS). Please add your keys to it."
-	@echo "--------------------------------------------------------------------------------"
-
 clean:
 	rm -fr $(JAVASCRIPT_LIB)
 
