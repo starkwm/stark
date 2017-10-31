@@ -1,0 +1,12 @@
+{
+  "name": "stark.js",
+  "private": true,
+  "scripts": {
+    "lint": "xo --space *.js",
+    "build": "concat *.js -o ../Stark/Resources/stark-lib.js"
+  },
+  "dependencies": {
+    "concat": "^1.0.3",
+    "xo": "^0.18.2"
+  }
+}

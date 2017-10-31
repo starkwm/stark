@@ -5,7 +5,7 @@ JAVASCRIPT_LIB="Stark/Resources/stark-lib.js"
 STARK_SECRETS="Stark/Secrets.swift"
 EXAMPLE_SECRETS="Stark/Secrets-Example.swift"
 
-.PHONY: build bootstrap clean lint concat
+.PHONY: build clean lint concat
 
 build:
 	@xcodebuild $(XCODEFLAGS) build
@@ -13,14 +13,14 @@ build:
 clean:
 	rm -fr $(JAVASCRIPT_LIB)
 
-node_modules/.bin/concat:
-	@npm i
+StarkJS/node_modules/.bin/concat:
+	@cd StarkJS && npm i
 
-node_modules/.bin/xo:
-	@npm i
+StarkJS/node_modules/.bin/xo:
+	@cd StarkJS && npm i
 
-lint: node_modules/.bin/xo
-	@npm run lint
+lint: StarkJS/node_modules/.bin/xo
+	@cd StarkJS && npm run lint
 
-concat: node_modules/.bin/concat
-	@npm run build
+concat: StarkJS/node_modules/.bin/concat
+	@cd StarkJS && npm run build
