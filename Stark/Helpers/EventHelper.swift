@@ -1,9 +1,9 @@
 import AppKit
 
-public let starkStartNotification = "starkStartNotification"
+let starkStartNotification = "starkStartNotification"
 
-open class EventHelper {
-    fileprivate static let notificationToNotificationCenter: [String: NotificationCenter] = {
+class EventHelper {
+    static let notificationToNotificationCenter: [String: NotificationCenter] = {
         let workspaceNotificationCenter = NSWorkspace.shared.notificationCenter
 
         return [
@@ -15,7 +15,7 @@ open class EventHelper {
         ]
     }()
 
-    fileprivate static let eventToNotification: [String: String] = [
+    static let eventToNotification: [String: String] = [
         "starkDidLaunch": starkStartNotification,
 
         "screensDidChange": NSApplication.didChangeScreenParametersNotification.rawValue,
@@ -35,7 +35,7 @@ open class EventHelper {
         "windowDidUnminimize": NSAccessibilityNotificationName.windowDeminiaturized.rawValue,
     ]
 
-    open static func notificationCenter(for notification: String) -> NotificationCenter {
+    static func notificationCenter(for notification: String) -> NotificationCenter {
         if let notificationCenter = notificationToNotificationCenter[notification] {
             return notificationCenter
         }
@@ -43,7 +43,7 @@ open class EventHelper {
         return NotificationCenter.default
     }
 
-    open static func notification(for event: String) -> String {
+    static func notification(for event: String) -> String {
         if let notifiction = eventToNotification[event] {
             return notifiction
         }

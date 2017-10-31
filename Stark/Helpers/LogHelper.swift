@@ -1,7 +1,7 @@
 import Foundation
 
-open class LogHelper {
-    open static func log(message: String) {
+class LogHelper {
+    static func log(message: String) {
         NSLog("%@", message)
 
         let dir = URL(fileURLWithPath: NSHomeDirectory())
@@ -15,16 +15,16 @@ open class LogHelper {
         _ = try? stringAppendLineToURL(message: log, fileURL: file)
     }
 
-    fileprivate static func stringAppendLineToURL(message: String, fileURL: URL) throws {
+    static func stringAppendLineToURL(message: String, fileURL: URL) throws {
         try stringAppendToURL(message: message + "\n", fileURL: fileURL)
     }
 
-    fileprivate static func stringAppendToURL(message: String, fileURL: URL) throws {
+    static func stringAppendToURL(message: String, fileURL: URL) throws {
         let data = message.data(using: String.Encoding.utf8)!
         try dataAppendToURL(data: data, fileURL: fileURL)
     }
 
-    fileprivate static func dataAppendToURL(data: Data, fileURL: URL) throws {
+    static func dataAppendToURL(data: Data, fileURL: URL) throws {
         if let fileHandle = try? FileHandle(forWritingTo: fileURL) {
             defer {
                 fileHandle.closeFile()

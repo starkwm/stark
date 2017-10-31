@@ -1,18 +1,18 @@
 import Foundation
 
-open class LaunchAgentHelper {
-    fileprivate static var launchAgentDirectory: URL? {
+class LaunchAgentHelper {
+    static var launchAgentDirectory: URL? {
         let libDir = try? FileManager.default
             .url(for: .libraryDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
 
         return libDir?.appendingPathComponent("LaunchAgents")
     }
 
-    fileprivate static var launchAgentFile: URL? {
+    static var launchAgentFile: URL? {
         return launchAgentDirectory?.appendingPathComponent("co.rustyrobots.Stark.plist")
     }
 
-    open static func add() -> Bool {
+    static func add() -> Bool {
         guard let launchAgentDirectory = launchAgentDirectory else {
             LogHelper.log(message: "Could not access launch agent directory")
             return false
@@ -43,12 +43,12 @@ open class LaunchAgentHelper {
         return true
     }
 
-    open static func remove() {
+    static func remove() {
         _ = try? FileManager.default
             .removeItem(at: launchAgentFile!)
     }
 
-    open static func enabled() -> Bool {
+    static func enabled() -> Bool {
         let reachable = (launchAgentFile as NSURL?)?.checkResourceIsReachableAndReturnError(nil)
         return reachable ?? false
     }
