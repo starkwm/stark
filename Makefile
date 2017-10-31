@@ -14,13 +14,13 @@ clean:
 	rm -fr $(JAVASCRIPT_LIB)
 
 node_modules/.bin/concat:
-	@yarn install
+	@npm i
 
 node_modules/.bin/xo:
-	@yarn install
+	@npm i
 
 lint: node_modules/.bin/xo
-	@yarn lint
+	@npm run lint
 
 concat: node_modules/.bin/concat
-	@yarn build
+	@npm run build
