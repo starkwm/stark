@@ -29,8 +29,8 @@ protocol ApplicationJSExport: JSExport {
 }
 
 open class Application: NSObject, ApplicationJSExport {
-    fileprivate var element: AXUIElement
-    fileprivate var app: NSRunningApplication
+    private var element: AXUIElement
+    private var app: NSRunningApplication
 
     open static func find(_ name: String) -> Application? {
         let app = NSWorkspace.shared.runningApplications.first(where: { $0.localizedName == name })

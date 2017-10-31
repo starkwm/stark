@@ -10,8 +10,8 @@ protocol StarkJSExport: JSExport {
 }
 
 open class Stark: NSObject, StarkJSExport {
-    fileprivate var config: Config
-    fileprivate var context: Context
+    private var config: Config
+    private var context: Context
 
     init(config: Config, context: Context) {
         self.config = config

@@ -46,13 +46,13 @@ open class RunningAppsObserver: NSObject {
         }
     }
 
-    fileprivate func observe(applications: [NSRunningApplication]) {
+    private func observe(applications: [NSRunningApplication]) {
         for app in applications {
             observers[app.processIdentifier] = AppObserver(app: app)
         }
     }
 
-    fileprivate func unobserve(applications: [NSRunningApplication]) {
+    private func unobserve(applications: [NSRunningApplication]) {
         for app in applications {
             observers.removeValue(forKey: app.processIdentifier)
         }

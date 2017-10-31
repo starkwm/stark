@@ -36,9 +36,9 @@ protocol WindowJSExport: JSExport {
 }
 
 open class Window: NSObject, WindowJSExport {
-    fileprivate static let systemWideElement = AXUIElementCreateSystemWide()
+    private static let systemWideElement = AXUIElementCreateSystemWide()
 
-    fileprivate var element: AXUIElement
+    private var element: AXUIElement
 
     open static func all() -> [Window] {
         return Application.all().flatMap { $0.windows() }
@@ -243,7 +243,7 @@ open class Window: NSObject, WindowJSExport {
         return false
     }
 
-    fileprivate func pid() -> pid_t {
+    private func pid() -> pid_t {
         var pid: pid_t = 0
         let result = AXUIElementGetPid(element, &pid)
 

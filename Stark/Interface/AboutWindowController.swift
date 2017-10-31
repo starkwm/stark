@@ -1,9 +1,9 @@
 import AppKit
 
 open class AboutWindowController: NSWindowController {
-    fileprivate var appVersion: String = ""
+    private var appVersion: String = ""
 
-    @IBOutlet fileprivate var versionLabel: NSTextField!
+    @IBOutlet private var versionLabel: NSTextField!
 
     override init(window: NSWindow?) {
         super.init(window: window)
@@ -24,7 +24,7 @@ open class AboutWindowController: NSWindowController {
         }
     }
 
-    fileprivate func valueFromInfoDict(_ key: String) -> String {
+    private func valueFromInfoDict(_ key: String) -> String {
         let dict = Bundle.main.infoDictionary!
 
         if let value = dict[key] as? String {

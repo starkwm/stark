@@ -11,8 +11,8 @@ protocol EventJSExport: JSExport {
 open class Event: Handler, EventJSExport, HashableJSExport {
     open var name: String
 
-    fileprivate var notification: String
-    fileprivate var notificationCenter: NotificationCenter
+    private var notification: String
+    private var notificationCenter: NotificationCenter
 
     public required init(event: String, callback: JSValue) {
         name = event

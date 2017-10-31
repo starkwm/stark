@@ -9,7 +9,7 @@ protocol TimerJSExport: JSExport {
 }
 
 open class Timer: Handler, TimerJSExport, HashableJSExport {
-    fileprivate var timer: Foundation.Timer?
+    private var timer: Foundation.Timer?
 
     public required init(interval: TimeInterval, repeats: Bool, callback: JSValue) {
         super.init()

@@ -23,9 +23,9 @@ private let observerCallback: AXObserverCallback = { _, element, notification, _
 private let notificationCenter = NSWorkspace.shared.notificationCenter
 
 open class AppObserver: NSObject {
-    fileprivate var element: AXUIElement
+    private var element: AXUIElement
 
-    fileprivate var observer: AXObserver?
+    private var observer: AXObserver?
 
     init(app: NSRunningApplication) {
         element = AXUIElementCreateApplication(app.processIdentifier)
@@ -47,13 +47,13 @@ open class AppObserver: NSObject {
         notificationCenter.removeObserver(self, name: NSWorkspace.didLaunchApplicationNotification, object: nil)
     }
 
-    fileprivate func add(notification: String) {
+    private func add(notification: String) {
         if observer != nil {
             AXObserverAddNotification(observer!, element, notification as CFString, nil)
         }
     }
 
-    fileprivate func remove(notification: String) {
+    private func remove(notification: String) {
         if observer != nil {
             AXObserverRemoveNotification(observer!, element, notification as CFString)
         }
