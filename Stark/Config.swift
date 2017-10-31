@@ -1,15 +1,15 @@
 import AppKit
 
-open class Config {
-    fileprivate static let primaryConfigPaths: [String] = [
+class Config {
+    static let primaryConfigPaths: [String] = [
         "~/.stark.js",
         "~/Library/Application Support/Stark/stark.js",
         "~/.config/stark/stark.js",
     ]
 
-    open let primaryConfigPath = Config.resolvePrimaryConfigPath()
+    let primaryConfigPath = Config.resolvePrimaryConfigPath()
 
-    fileprivate static func resolvePrimaryConfigPath() -> String {
+    static func resolvePrimaryConfigPath() -> String {
         for configPath in primaryConfigPaths {
             let resolvedConfigPath = (configPath as NSString).resolvingSymlinksInPath
 
@@ -21,7 +21,7 @@ open class Config {
         return (primaryConfigPaths.first! as NSString).resolvingSymlinksInPath
     }
 
-    open func createUnlessExists(path: String) {
+    func createUnlessExists(path: String) {
         if FileManager.default.fileExists(atPath: primaryConfigPath) {
             return
         }
@@ -40,7 +40,7 @@ open class Config {
         }
     }
 
-    open func edit() {
+    func edit() {
         let task = Process()
         task.launchPath = "/usr/bin/open"
         task.arguments = [primaryConfigPath]
