@@ -16,7 +16,7 @@ open class AboutWindowController: NSWindowController {
     open override func windowDidLoad() {
         super.windowDidLoad()
 
-        if appVersion.characters.isEmpty {
+        if appVersion.isEmpty {
             let build = valueFromInfoDict("CFBundleVersion")
             let version = valueFromInfoDict("CFBundleShortVersionString")
 
