@@ -32,28 +32,6 @@ class Config {
 
         if !FileManager.default.createFile(atPath: path, contents: try? Data(contentsOf: URL(fileURLWithPath: example)), attributes: nil) {
             LogHelper.log(message: String(format: "Unable to create configuration file: %@", path))
-            return
-        }
-
-        if AlertHelper.showConfigDialog(configPath: path) == NSApplication.ModalResponse.alertFirstButtonReturn {
-            edit()
-        }
-    }
-
-    func edit() {
-        let task = Process()
-        task.launchPath = "/usr/bin/open"
-        task.arguments = [primaryConfigPath]
-
-        task.standardOutput = nil
-        task.standardError = nil
-
-        task.launch()
-        task.waitUntilExit()
-
-        if task.terminationStatus != 0 {
-            let description = String(format: "There was a problem opening %@ as there is not an application available to open it.\n\nPlease edit this file manually.", primaryConfigPath)
-            AlertHelper.show(message: "Unable to open the configuration file", description: description)
         }
     }
 }

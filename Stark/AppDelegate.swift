@@ -7,8 +7,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var config: Config
     var context: Context
 
-    var aboutWindowController = AboutWindowController(windowNibName: NSNib.Name(rawValue: "AboutWindow"))
-
     override init() {
         config = Config()
         context = Context(config: config)
@@ -43,8 +41,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let loginMenuItem = NSMenuItem(title: "Run at login", action: #selector(AppDelegate.toggleRunAtLogin), keyEquivalent: "")
 
         let menu = NSMenu()
-        menu.addItem(withTitle: "About", action: #selector(AppDelegate.about), keyEquivalent: "")
-        menu.addItem(NSMenuItem.separator())
         menu.addItem(withTitle: "Reload config file", action: #selector(AppDelegate.reloadConfig), keyEquivalent: "")
         menu.addItem(NSMenuItem.separator())
         menu.addItem(loginMenuItem)
@@ -54,12 +50,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         loginMenuItem.state = LaunchAgentHelper.enabled() ? NSControl.StateValue.on : NSControl.StateValue.off
 
         statusItem.menu = menu
-    }
-
-    @objc
-    func about(sender _: AnyObject?) {
-        NSApp.activate(ignoringOtherApps: true)
-        aboutWindowController.showWindow(nil)
     }
 
     @objc
