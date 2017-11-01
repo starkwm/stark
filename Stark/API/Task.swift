@@ -16,21 +16,14 @@ open class Task: Handler, TaskJSExport, HashableJSExport {
         task.launchPath = path
         task.arguments = arguments
 
-        task.standardOutput = Pipe()
-        task.standardError = Pipe()
-
         super.init()
 
-        manageCallback(callback)
-
-        setupTerminationHandler()
-        launch()
-    }
-
-    func setupTerminationHandler() {
         task.terminationHandler = { [weak self] _ in
             self?.taskDidTerminate()
         }
+
+        manageCallback(callback)
+        launch()
     }
 
     func launch() {
