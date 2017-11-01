@@ -8,6 +8,7 @@ open class Handler: NSObject {
         self.callback = JSManagedValue(value: callback, andOwner: self)
     }
 
+    @objc
     func callWithArguments(_ arguments: [AnyObject]!) {
         if let callback = callback?.value {
             let scope = JSContext(virtualMachine: callback.context.virtualMachine)
