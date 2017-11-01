@@ -24,6 +24,7 @@
 		F67CFD7D1D93164000FF0F49 /* stark-lib.js in Resources */ = {isa = PBXBuildFile; fileRef = F67CFD7C1D93164000FF0F49 /* stark-lib.js */; };
 		F6942ECD1C6A8EEF00D2C0D4 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6942ECC1C6A8EEF00D2C0D4 /* Handler.swift */; };
 		F6A41BD31CA7144100D1C0C5 /* LogHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A41BD21CA7144100D1C0C5 /* LogHelper.swift */; };
+		F6C480F61FA94389009E3297 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C480F51FA94389009E3297 /* Task.swift */; };
 		F6CBE6061C4160A900C962A7 /* NSScreen+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+JSExport.swift */; };
 		F6CBE6081C418D6300C962A7 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6071C418D6300C962A7 /* Config.swift */; };
 		F6D00B671E0E03F30087F68D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6D00B661E0E03F30087F68D /* MainMenu.xib */; };
@@ -53,6 +54,7 @@
 		F67CFD7C1D93164000FF0F49 /* stark-lib.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "stark-lib.js"; sourceTree = "<group>"; };
 		F6942ECC1C6A8EEF00D2C0D4 /* Handler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Handler.swift; sourceTree = "<group>"; };
 		F6A41BD21CA7144100D1C0C5 /* LogHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogHelper.swift; sourceTree = "<group>"; };
+		F6C480F51FA94389009E3297 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		F6CBE6051C4160A900C962A7 /* NSScreen+JSExport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+JSExport.swift"; sourceTree = "<group>"; };
 		F6CBE6071C418D6300C962A7 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		F6D00B661E0E03F30087F68D /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 				F6ED60081D71D38C007CF2A3 /* Hashable+JSExport.swift */,
 				F6CBE6051C4160A900C962A7 /* NSScreen+JSExport.swift */,
 				F649A3CC1C68E3C600A3C81A /* Stark.swift */,
+				F6C480F51FA94389009E3297 /* Task.swift */,
 				F6270F8D1CF9D10500E6F679 /* Timer.swift */,
 				F6792C421C4055A2007D9DF9 /* Window.swift */,
 			);
@@ -287,6 +290,7 @@
 				F6792C411C405598007D9DF9 /* Application.swift in Sources */,
 				F6A41BD31CA7144100D1C0C5 /* LogHelper.swift in Sources */,
 				F60894E11C6D9E310079D7B5 /* Event.swift in Sources */,
+				F6C480F61FA94389009E3297 /* Task.swift in Sources */,
 				F6002D6F1C47086100C958F5 /* KeyCodeHelper.swift in Sources */,
 				F6CBE6061C4160A900C962A7 /* NSScreen+JSExport.swift in Sources */,
 				F66454FB1C703DD000B6371C /* AppObserver.swift in Sources */,
