@@ -12,8 +12,6 @@
 		F60894E11C6D9E310079D7B5 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60894E01C6D9E310079D7B5 /* Event.swift */; };
 		F60894E31C6DA0090079D7B5 /* EventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60894E21C6DA0090079D7B5 /* EventHelper.swift */; };
 		F6270F8E1CF9D10500E6F679 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6270F8D1CF9D10500E6F679 /* Timer.swift */; };
-		F63C8CC51CFA295200D2344B /* AboutWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63C8CC41CFA295200D2344B /* AboutWindowController.swift */; };
-		F63C8CC71CFA30D800D2344B /* AboutWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = F63C8CC61CFA30D800D2344B /* AboutWindow.xib */; };
 		F649A3CD1C68E3C600A3C81A /* Stark.swift in Sources */ = {isa = PBXBuildFile; fileRef = F649A3CC1C68E3C600A3C81A /* Stark.swift */; };
 		F66454F91C70107F00B6371C /* RunningAppsObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66454F81C70107F00B6371C /* RunningAppsObserver.swift */; };
 		F66454FB1C703DD000B6371C /* AppObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66454FA1C703DD000B6371C /* AppObserver.swift */; };
@@ -41,8 +39,6 @@
 		F60894E01C6D9E310079D7B5 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		F60894E21C6DA0090079D7B5 /* EventHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHelper.swift; sourceTree = "<group>"; };
 		F6270F8D1CF9D10500E6F679 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
-		F63C8CC41CFA295200D2344B /* AboutWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutWindowController.swift; sourceTree = "<group>"; };
-		F63C8CC61CFA30D800D2344B /* AboutWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AboutWindow.xib; sourceTree = "<group>"; };
 		F649A3CC1C68E3C600A3C81A /* Stark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stark.swift; sourceTree = "<group>"; };
 		F66454F81C70107F00B6371C /* RunningAppsObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunningAppsObserver.swift; sourceTree = "<group>"; };
 		F66454FA1C703DD000B6371C /* AppObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppObserver.swift; sourceTree = "<group>"; };
@@ -77,15 +73,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F63C8CC11CFA285800D2344B /* Interface */ = {
-			isa = PBXGroup;
-			children = (
-				F63C8CC61CFA30D800D2344B /* AboutWindow.xib */,
-				F63C8CC41CFA295200D2344B /* AboutWindowController.swift */,
-			);
-			path = Interface;
-			sourceTree = "<group>";
-		};
 		F6792C1E1C404B53007D9DF9 = {
 			isa = PBXGroup;
 			children = (
@@ -108,7 +95,6 @@
 			children = (
 				F6792C371C404EF3007D9DF9 /* API */,
 				F6792C381C404EF8007D9DF9 /* Helpers */,
-				F63C8CC11CFA285800D2344B /* Interface */,
 				F6AB3A721C723C3300A5EEDB /* Observers */,
 				F6792C391C404F01007D9DF9 /* Resources */,
 				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
@@ -240,7 +226,6 @@
 				F607840C1CDE70E6001DAFA2 /* lodash-min.js in Resources */,
 				F6FC1C661CBAE8E10070ED3B /* stark-example.js in Resources */,
 				F67CFD7D1D93164000FF0F49 /* stark-lib.js in Resources */,
-				F63C8CC71CFA30D800D2344B /* AboutWindow.xib in Resources */,
 				F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */,
 				F6D00B671E0E03F30087F68D /* MainMenu.xib in Resources */,
 			);
@@ -309,7 +294,6 @@
 				F66454F91C70107F00B6371C /* RunningAppsObserver.swift in Sources */,
 				F6CBE6081C418D6300C962A7 /* Config.swift in Sources */,
 				F60894E31C6DA0090079D7B5 /* EventHelper.swift in Sources */,
-				F63C8CC51CFA295200D2344B /* AboutWindowController.swift in Sources */,
 				F6942ECD1C6A8EEF00D2C0D4 /* Handler.swift in Sources */,
 				F667BCA61CFB972A008B4B83 /* Context.swift in Sources */,
 				F649A3CD1C68E3C600A3C81A /* Stark.swift in Sources */,
