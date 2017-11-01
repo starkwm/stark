@@ -15,13 +15,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_: Notification) {
-        AccessibilityHelper.askForAccessibilityIfNeeded()
-
+        askForAccessibilityIfNeeded()
         setupStatusItem()
 
         context.setup()
 
         NotificationCenter.default.post(name: Notification.Name(rawValue: starkStartNotification), object: self)
+    }
+
+    func askForAccessibilityIfNeeded() {
+        let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true]
+
+        if AXIsProcessTrustedWithOptions(options as CFDictionary?) {
+            return
+        }
+
+        NSApp.terminate(nil)
     }
 
     func setupStatusItem() {
