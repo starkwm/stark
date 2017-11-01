@@ -1,6 +1,6 @@
 import AppKit
 
-public let appObserverWindowKey = "observerWindowKey"
+let appObserverWindowKey = "observerWindowKey"
 
 private let notifications = [
     NSAccessibilityNotificationName.windowCreated,
@@ -22,7 +22,7 @@ private let observerCallback: AXObserverCallback = { _, element, notification, _
 
 private let notificationCenter = NSWorkspace.shared.notificationCenter
 
-open class AppObserver: NSObject {
+class AppObserver: NSObject {
     private var element: AXUIElement
 
     private var observer: AXObserver?

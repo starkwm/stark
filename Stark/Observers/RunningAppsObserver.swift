@@ -2,8 +2,8 @@ import AppKit
 
 private let NSWorkspaceRunningApplicationsKeyPath = "runningApplications"
 
-open class RunningAppsObserver: NSObject {
-    open var observers = [pid_t: AppObserver]()
+class RunningAppsObserver: NSObject {
+    var observers = [pid_t: AppObserver]()
 
     override init() {
         super.init()
@@ -21,7 +21,7 @@ open class RunningAppsObserver: NSObject {
             .removeObserver(self, forKeyPath: NSWorkspaceRunningApplicationsKeyPath)
     }
 
-    open override func observeValue(forKeyPath keyPath: String?, of _: Any?, change: [NSKeyValueChangeKey: Any]?, context _: UnsafeMutableRawPointer?) {
+    override func observeValue(forKeyPath keyPath: String?, of _: Any?, change: [NSKeyValueChangeKey: Any]?, context _: UnsafeMutableRawPointer?) {
         if keyPath != NSWorkspaceRunningApplicationsKeyPath {
             return
         }
