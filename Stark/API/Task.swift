@@ -14,7 +14,10 @@ open class Task: Handler, TaskJSExport, HashableJSExport {
     public required init(path: String, arguments: [String]?, callback: JSValue) {
         task = Process()
         task.launchPath = path
-        task.arguments = arguments
+
+        if let arguments = arguments {
+            task.arguments = arguments
+        }
 
         super.init()
 
