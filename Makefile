@@ -1,17 +1,19 @@
+BUILDDIR=$(PWD)/Build
+ARCHIVE=$(BUILDDIR)/Stark.xcarchive
+EXPORT_OPTIONS=$(PWD)/exportPlist.plist
+
 XCODEFLAGS=-project "Stark.xcodeproj" -scheme "Stark"
 
 JAVASCRIPT_LIB="Stark/Resources/stark-lib.js"
 
-STARK_SECRETS="Stark/Secrets.swift"
-EXAMPLE_SECRETS="Stark/Secrets-Example.swift"
-
-.PHONY: build clean lint concat
+.PHONY: build archive lint concat
 
 build:
 	@xcodebuild $(XCODEFLAGS) build
 
-clean:
-	rm -fr $(JAVASCRIPT_LIB)
+archive:
+	@xcodebuild $(XCODEFLAGS) clean archive -archivePath $(ARCHIVE)
+	@xcodebuild -exportArchive -archivePath $(ARCHIVE) -exportPath $(BUILDDIR) -exportOptionsPlist $(EXPORT_OPTIONS)
 
 StarkJS/node_modules/.bin/concat:
 	@cd StarkJS && npm i
