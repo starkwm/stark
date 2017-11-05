@@ -4,6 +4,7 @@ BUILDDIR=$(PWD)/Build
 ARCHIVE=$(BUILDDIR)/Stark.xcarchive
 EXPORT_OPTIONS=$(PWD)/exportPlist.plist
 
+JAVASCRIPTDIR=$(PWD)/StarkJS
 
 build:
 	@xcodebuild $(XCODEFLAGS) build
@@ -13,13 +14,13 @@ archive:
 	@xcodebuild -exportArchive -archivePath $(ARCHIVE) -exportPath $(BUILDDIR) -exportOptionsPlist $(EXPORT_OPTIONS)
 
 bootstrap:
-	@cd StarkJS && npm install
+	@cd $(JAVASCRIPTDIR) && npm install
 	@brew install swiftlint
 
 lint: bootstrap
-	@cd StarkJS && npm run lint
+	@cd $(JAVASCRIPTDIR) && npm run lint
 
 concat: bootstrap
-	@cd StarkJS && npm run build
+	@cd $(JAVASCRIPTDIR) && npm run build
 
 .PHONY: build archive bootstrap lint concat
