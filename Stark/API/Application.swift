@@ -24,6 +24,8 @@ protocol ApplicationJSExport: JSExport {
     func show() -> Bool
     func hide() -> Bool
 
+    func terminate() -> Bool
+
     var isActive: Bool { get }
     var isHidden: Bool { get }
     var isTerminated: Bool { get }
@@ -113,6 +115,10 @@ open class Application: NSObject, ApplicationJSExport {
 
     open func hide() -> Bool {
         return app.hide()
+    }
+
+    open func terminate() -> Bool {
+        return app.terminate()
     }
 
     open var isActive: Bool {
