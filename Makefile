@@ -1,26 +1,26 @@
 XCODEFLAGS=-project "Stark.xcodeproj" -scheme "Stark"
 
-JAVASCRIPT_LIB="Stark/Resources/stark-lib.js"
+BUILDDIR=$(PWD)/Build
+ARCHIVE=$(BUILDDIR)/Stark.xcarchive
+EXPORT_OPTIONS=$(PWD)/exportPlist.plist
 
-STARK_SECRETS="Stark/Secrets.swift"
-EXAMPLE_SECRETS="Stark/Secrets-Example.swift"
-
-.PHONY: build clean lint concat
+JAVASCRIPTDIR=$(PWD)/StarkJS
 
 build:
 	@xcodebuild $(XCODEFLAGS) build
 
-clean:
-	rm -fr $(JAVASCRIPT_LIB)
+archive:
+	@xcodebuild $(XCODEFLAGS) clean archive -archivePath $(ARCHIVE)
+	@xcodebuild -exportArchive -archivePath $(ARCHIVE) -exportPath $(BUILDDIR) -exportOptionsPlist $(EXPORT_OPTIONS)
 
-StarkJS/node_modules/.bin/concat:
-	@cd StarkJS && npm i
+bootstrap:
+	@cd $(JAVASCRIPTDIR) && npm install
+	@brew install swiftlint
 
-StarkJS/node_modules/.bin/xo:
-	@cd StarkJS && npm i
+lint: bootstrap
+	@cd $(JAVASCRIPTDIR) && npm run lint
 
-lint: StarkJS/node_modules/.bin/xo
-	@cd StarkJS && npm run lint
+concat: bootstrap
+	@cd $(JAVASCRIPTDIR) && npm run build
 
-concat: StarkJS/node_modules/.bin/concat
-	@cd StarkJS && npm run build
+.PHONY: build archive bootstrap lint concat
