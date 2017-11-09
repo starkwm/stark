@@ -6,6 +6,8 @@ protocol EventJSExport: JSExport {
     init(event: String, callback: JSValue)
 
     var name: String { get }
+
+    func disable()
 }
 
 open class Event: Handler, EventJSExport, HashableJSExport {
@@ -28,6 +30,10 @@ open class Event: Handler, EventJSExport, HashableJSExport {
     }
 
     deinit {
+        disable()
+    }
+
+    open func disable() {
         notificationCenter.removeObserver(self, name: NSNotification.Name(rawValue: notification), object: nil)
     }
 
