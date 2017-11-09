@@ -9,8 +9,8 @@ protocol NSScreenJSExport: JSExport {
     var frameIncludingDockAndMenu: CGRect { get }
     var frameWithoutDockOrMenu: CGRect { get }
 
-    var nextScreen: NSScreen? { get }
-    var prevScreen: NSScreen? { get }
+    var next: NSScreen? { get }
+    var previous: NSScreen? { get }
 }
 
 extension NSScreen: NSScreenJSExport {
@@ -36,7 +36,7 @@ extension NSScreen: NSScreenJSExport {
         return f
     }
 
-    public var nextScreen: NSScreen? {
+    public var next: NSScreen? {
         let screens = NSScreen.screens
 
         if var index = screens.index(of: self) {
@@ -52,7 +52,7 @@ extension NSScreen: NSScreenJSExport {
         return nil
     }
 
-    public var prevScreen: NSScreen? {
+    public var previous: NSScreen? {
         let screens = NSScreen.screens
 
         if var index = screens.index(of: self) {
