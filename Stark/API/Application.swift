@@ -6,7 +6,7 @@ private let starkVisibilityOptionsKey = "visible"
 @objc
 protocol ApplicationJSExport: JSExport {
     static func find(_ name: String) -> Application?
-    static func launch(_ application: String)
+    static func launch(_ name: String)
 
     static func all() -> [Application]
     static func focused() -> Application?
@@ -43,8 +43,8 @@ open class Application: NSObject, ApplicationJSExport {
         return Application(pid: app!.processIdentifier)
     }
 
-    static open func launch(_ application: String) {
-        NSWorkspace.shared.launchApplication(application)
+    open static func launch(_ name: String) {
+        NSWorkspace.shared.launchApplication(name)
     }
 
     open static func all() -> [Application] {
