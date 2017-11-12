@@ -2,11 +2,13 @@
   "name": "stark.js",
   "private": true,
   "scripts": {
-    "lint": "xo --space *.js",
+    "lint": "eslint *.js",
     "build": "concat *.js -o ../Stark/Resources/stark-lib.js"
   },
-  "dependencies": {
+  "devDependencies": {
     "concat": "^1.0.3",
-    "xo": "^0.18.2"
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.8.0"
   }
 }
