@@ -1,10 +1,14 @@
 import AppKit
 import JavaScriptCore
 
+private let NSScreenNumberKey = "NSScreenNumber"
+
 @objc
 protocol NSScreenJSExport: JSExport {
     static func all() -> [NSScreen]
     static func focused() -> NSScreen?
+
+    var identifier: String { get }
 
     var frameIncludingDockAndMenu: CGRect { get }
     var frameWithoutDockOrMenu: CGRect { get }
@@ -20,6 +24,15 @@ extension NSScreen: NSScreenJSExport {
 
     public static func focused() -> NSScreen? {
         return main
+    }
+
+    public var identifier: String {
+        guard let number = deviceDescription[NSDeviceDescriptionKey(NSScreenNumberKey)] as? NSNumber else {
+            return ""
+        }
+
+        let uuid = CGDisplayCreateUUIDFromDisplayID(number.uint32Value).takeRetainedValue()
+        return CFUUIDCreateString(nil, uuid) as String
     }
 
     public var frameIncludingDockAndMenu: CGRect {
