@@ -1,7 +1,7 @@
 import AppKit
 import JavaScriptCore
 
-private let NSScreenNumberKey = "NSScreenNumber"
+private let NSScreenNumberKey = NSDeviceDescriptionKey("NSScreenNumber")
 
 @objc
 protocol NSScreenJSExport: JSExport {
@@ -27,7 +27,7 @@ extension NSScreen: NSScreenJSExport {
     }
 
     public var identifier: String {
-        guard let number = deviceDescription[NSDeviceDescriptionKey(NSScreenNumberKey)] as? NSNumber else {
+        guard let number = deviceDescription[NSScreenNumberKey] as? NSNumber else {
             return ""
         }
 
