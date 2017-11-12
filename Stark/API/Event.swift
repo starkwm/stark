@@ -46,12 +46,12 @@ public class Event: Handler, EventJSExport, HashableJSExport {
 
         if let runningApp = userInfo[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
             let app = Application(app: runningApp)
-            callWithArguments([app])
+            call(withArguments: [app])
             return
         }
 
         if let window = userInfo[appObserverWindowKey] as? Window {
-            callWithArguments([window])
+            call(withArguments: [window])
             return
         }
     }
