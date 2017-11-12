@@ -1,8 +1,8 @@
 import Foundation
 import JavaScriptCore
 
-open class Handler: NSObject {
-    var callback: JSManagedValue?
+public class Handler: NSObject {
+    private var callback: JSManagedValue?
 
     func manageCallback(_ callback: JSValue) {
         self.callback = JSManagedValue(value: callback, andOwner: self)
