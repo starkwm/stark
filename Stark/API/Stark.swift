@@ -34,8 +34,6 @@ open class Stark: NSObject, StarkJSExport {
         let task = Process()
         task.launchPath = command
         task.arguments = arguments
-
-        task.waitUntilExit()
         task.launch()
     }
 }
