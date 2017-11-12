@@ -8,7 +8,7 @@ protocol TimerJSExport: JSExport {
     func stop()
 }
 
-open class Timer: Handler, TimerJSExport, HashableJSExport {
+public class Timer: Handler, TimerJSExport, HashableJSExport {
     private var timer: Foundation.Timer?
 
     public required init(interval: TimeInterval, repeats: Bool, callback: JSValue) {
@@ -19,12 +19,12 @@ open class Timer: Handler, TimerJSExport, HashableJSExport {
         manageCallback(callback)
     }
 
-    open func stop() {
+    public func stop() {
         timer?.invalidate()
     }
 
     @objc
     func timerDidFire() {
-        callWithArguments(nil)
+        call()
     }
 }

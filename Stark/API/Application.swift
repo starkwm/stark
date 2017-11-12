@@ -31,11 +31,11 @@ protocol ApplicationJSExport: JSExport {
     var isTerminated: Bool { get }
 }
 
-open class Application: NSObject, ApplicationJSExport {
+public class Application: NSObject, ApplicationJSExport {
     private var element: AXUIElement
     private var app: NSRunningApplication
 
-    open static func find(_ name: String) -> Application? {
+    public static func find(_ name: String) -> Application? {
         let app = NSWorkspace.shared.runningApplications.first(where: { $0.localizedName == name })
 
         guard app != nil else {
@@ -45,15 +45,15 @@ open class Application: NSObject, ApplicationJSExport {
         return Application(pid: app!.processIdentifier)
     }
 
-    open static func launch(_ name: String) {
+    public static func launch(_ name: String) {
         NSWorkspace.shared.launchApplication(name)
     }
 
-    open static func all() -> [Application] {
+    public static func all() -> [Application] {
         return NSWorkspace.shared.runningApplications.map { Application(pid: $0.processIdentifier) }
     }
 
-    open static func focused() -> Application? {
+    public static func focused() -> Application? {
         if let app = NSWorkspace.shared.frontmostApplication {
             return Application(pid: app.processIdentifier)
         }
@@ -71,7 +71,7 @@ open class Application: NSObject, ApplicationJSExport {
         self.app = app
     }
 
-    open func windows() -> [Window] {
+    public func windows() -> [Window] {
         var values: CFArray?
         let result = AXUIElementCopyAttributeValues(element, kAXWindowsAttribute as CFString, 0, 100, &values)
 
@@ -85,7 +85,7 @@ open class Application: NSObject, ApplicationJSExport {
         return elements.map { Window(element: $0 as! AXUIElement) }
     }
 
-    open func windows(_ options: [String: AnyObject]) -> [Window] {
+    public func windows(_ options: [String: AnyObject]) -> [Window] {
         let visible = options[starkVisibilityOptionsKey] as? Bool ?? false
 
         if visible {
@@ -95,37 +95,37 @@ open class Application: NSObject, ApplicationJSExport {
         return windows()
     }
 
-    open var name: String { return app.localizedName ?? "" }
+    public var name: String { return app.localizedName ?? "" }
 
-    open var bundleId: String { return app.bundleIdentifier ?? "" }
+    public var bundleId: String { return app.bundleIdentifier ?? "" }
 
-    open var processId: pid_t { return app.processIdentifier }
+    public var processId: pid_t { return app.processIdentifier }
 
-    open func activate() -> Bool {
+    public func activate() -> Bool {
         return app.activate(options: .activateAllWindows)
     }
 
-    open func focus() -> Bool {
+    public func focus() -> Bool {
         return app.activate(options: .activateIgnoringOtherApps)
     }
 
-    open func show() -> Bool {
+    public func show() -> Bool {
         return app.unhide()
     }
 
-    open func hide() -> Bool {
+    public func hide() -> Bool {
         return app.hide()
     }
 
-    open func terminate() -> Bool {
+    public func terminate() -> Bool {
         return app.terminate()
     }
 
-    open var isActive: Bool {
+    public var isActive: Bool {
         return app.isActive
     }
 
-    open var isHidden: Bool {
+    public var isHidden: Bool {
         var value: AnyObject?
         let result = AXUIElementCopyAttributeValue(element, kAXHiddenAttribute as CFString, &value)
 
@@ -140,7 +140,7 @@ open class Application: NSObject, ApplicationJSExport {
         return false
     }
 
-    open var isTerminated: Bool {
+    public var isTerminated: Bool {
         return app.isTerminated
     }
 }

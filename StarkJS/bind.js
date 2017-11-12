@@ -1,8 +1,9 @@
 /* global Bind */
 
 (function (Bind) {
-  let binds = {};
+  const binds = {};
 
+  // eslint-disable-next-line no-param-reassign
   Bind.on = (key, modifiers, callback) => {
     const handler = new Bind(key, modifiers, callback);
 
@@ -11,9 +12,10 @@
       return handler.hashValue;
     }
 
-    return;
-  }
+    return null;
+  };
 
+  // eslint-disable-next-line no-param-reassign
   Bind.off = (identifier) => {
     const handler = binds[identifier];
 
@@ -21,5 +23,5 @@
       handler.disable();
       delete binds[identifier];
     }
-  }
-})(Bind);
+  };
+}(Bind));

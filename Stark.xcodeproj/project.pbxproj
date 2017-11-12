@@ -79,7 +79,6 @@
 		F6792C1E1C404B53007D9DF9 = {
 			isa = PBXGroup;
 			children = (
-				F6E5ACB51E1594A80097F9B8 /* Frameworks */,
 				F6792C281C404B53007D9DF9 /* Products */,
 				F6792C291C404B53007D9DF9 /* Stark */,
 			);
@@ -157,13 +156,6 @@
 				F66454F81C70107F00B6371C /* RunningAppsObserver.swift */,
 			);
 			path = Observers;
-			sourceTree = "<group>";
-		};
-		F6E5ACB51E1594A80097F9B8 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

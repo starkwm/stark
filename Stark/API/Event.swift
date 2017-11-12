@@ -10,8 +10,8 @@ protocol EventJSExport: JSExport {
     func disable()
 }
 
-open class Event: Handler, EventJSExport, HashableJSExport {
-    open var name: String
+public class Event: Handler, EventJSExport, HashableJSExport {
+    public var name: String
 
     private var notification: String
     private var notificationCenter: NotificationCenter
@@ -33,7 +33,7 @@ open class Event: Handler, EventJSExport, HashableJSExport {
         disable()
     }
 
-    open func disable() {
+    public func disable() {
         notificationCenter.removeObserver(self, name: NSNotification.Name(rawValue: notification), object: nil)
     }
 
@@ -46,12 +46,12 @@ open class Event: Handler, EventJSExport, HashableJSExport {
 
         if let runningApp = userInfo[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
             let app = Application(app: runningApp)
-            callWithArguments([app])
+            call(withArguments: [app])
             return
         }
 
         if let window = userInfo[appObserverWindowKey] as? Window {
-            callWithArguments([window])
+            call(withArguments: [window])
             return
         }
     }

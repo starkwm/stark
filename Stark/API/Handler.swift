@@ -1,14 +1,14 @@
 import Foundation
 import JavaScriptCore
 
-open class Handler: NSObject {
-    var callback: JSManagedValue?
+public class Handler: NSObject {
+    private var callback: JSManagedValue?
 
     func manageCallback(_ callback: JSValue) {
         self.callback = JSManagedValue(value: callback, andOwner: self)
     }
 
-    func callWithArguments(_ arguments: [AnyObject]!) {
+    func call(withArguments arguments: [AnyObject]!) {
         if let callback = callback?.value {
             let scope = JSContext(virtualMachine: callback.context.virtualMachine)
 
@@ -22,6 +22,6 @@ open class Handler: NSObject {
     }
 
     func call() {
-        callWithArguments([])
+        call(withArguments: [])
     }
 }
