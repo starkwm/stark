@@ -19,7 +19,7 @@ private var bindIdentifierSequence: UInt = 0
 private let starkHotKeyIdentifier = "starkHotKeyIdentifier"
 private let starkHotKeyKeyDownNotification = "starkHotKeyKeyDownNotification"
 
-open class Bind: Handler, BindJSExport, HashableJSExport {
+public class Bind: Handler, BindJSExport, HashableJSExport {
     // swiftlint:disable:next variable_name
     private static var __once: () = {
         let callback: EventHandlerUPP = { (_, event, _) -> OSStatus in
@@ -51,10 +51,10 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
         InstallEventHandler(GetEventDispatcherTarget(), callback, 1, &keyDown, nil, nil)
     }()
 
-    open override var hashValue: Int { return Bind.hashForKey(key, modifiers: modifiers) }
+    public override var hashValue: Int { return Bind.hashForKey(key, modifiers: modifiers) }
 
-    open var key: String = ""
-    open var modifiers: [String] = []
+    public var key: String = ""
+    public var modifiers: [String] = []
 
     private var identifier: UInt = 0
 
@@ -65,7 +65,7 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
 
     private var enabled = false
 
-    open static func hashForKey(_ key: String, modifiers: [String]) -> Int {
+    public static func hashForKey(_ key: String, modifiers: [String]) -> Int {
         let key = String(format: "%@[%@]", key, modifiers.joined(separator: "|"))
         return key.hashValue
     }
@@ -97,7 +97,7 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
         _ = disable()
     }
 
-    open func enable() -> Bool {
+    public func enable() -> Bool {
         if enabled {
             return true
         }
@@ -115,7 +115,7 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
         return true
     }
 
-    open func disable() -> Bool {
+    public func disable() -> Bool {
         if !enabled {
             return true
         }
@@ -132,7 +132,7 @@ open class Bind: Handler, BindJSExport, HashableJSExport {
         return true
     }
 
-    open var isEnabled: Bool {
+    public var isEnabled: Bool {
         return enabled
     }
 

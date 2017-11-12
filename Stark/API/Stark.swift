@@ -8,7 +8,7 @@ protocol StarkJSExport: JSExport {
     func run(_ command: String, _ arguments: [String]?)
 }
 
-open class Stark: NSObject, StarkJSExport {
+public class Stark: NSObject, StarkJSExport {
     private var config: Config
     private var context: Context
 
@@ -17,15 +17,15 @@ open class Stark: NSObject, StarkJSExport {
         self.context = context
     }
 
-    open func log(_ message: String) {
+    public func log(_ message: String) {
         LogHelper.log(message: message)
     }
 
-    open func reload() {
+    public func reload() {
         context.setup()
     }
 
-    open func run(_ command: String, _ arguments: [String]?) {
+    public func run(_ command: String, _ arguments: [String]?) {
         if !FileManager.default.fileExists(atPath: command) {
             LogHelper.log(message: String(format: "Binary '%@' doesn't exist", command))
             return
