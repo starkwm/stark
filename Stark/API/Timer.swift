@@ -25,6 +25,6 @@ open class Timer: Handler, TimerJSExport, HashableJSExport {
 
     @objc
     func timerDidFire() {
-        callWithArguments(nil)
+        call()
     }
 }
