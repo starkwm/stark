@@ -17,10 +17,10 @@ bootstrap:
 	@cd $(JAVASCRIPTDIR) && npm install
 	@brew install swiftlint
 
-lint: bootstrap
+lint:
 	@cd $(JAVASCRIPTDIR) && npm run lint
 
-concat: bootstrap
+concat:
 	@cd $(JAVASCRIPTDIR) && npm run build
 
 .PHONY: build archive bootstrap lint concat
