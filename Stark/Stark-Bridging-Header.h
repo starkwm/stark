@@ -43,3 +43,6 @@ void CGSAddWindowsToSpaces(CGSConnectionID connection, CFArrayRef windowIds, CFA
 
 // XXX: Undocumented private API to remove the given windows (CGWindowIDs) from the given spaces (CGSSpaceIDs)
 void CGSRemoveWindowsFromSpaces(CGSConnectionID connection, CFArrayRef windowIds, CFArrayRef spaceIds);
+
+// XXX: Undocumented private API to get the CGWindowID for an AXUIElementRef
+AXError _AXUIElementGetWindow(AXUIElementRef element, CGWindowID *identifier);

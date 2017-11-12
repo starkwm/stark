@@ -83,6 +83,12 @@ open class Window: NSObject, WindowJSExport {
         self.element = element
     }
 
+    open var identifier: CGWindowID {
+        var identifier: CGWindowID = 0
+        _AXUIElementGetWindow(element, &identifier)
+        return identifier
+    }
+
     open var app: Application {
         return Application(pid: pid())
     }
