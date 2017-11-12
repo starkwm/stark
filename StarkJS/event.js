@@ -3,16 +3,20 @@
 (function (Event) {
   const events = {};
 
-  Event.on = function (event, callback) {
+  // eslint-disable-next-line no-param-reassign
+  Event.on = (event, callback) => {
     const handler = new Event(event, callback);
 
     if (handler) {
       events[handler.hashValue] = handler;
       return handler.hashValue;
     }
+
+    return null;
   };
 
-  Event.off = function (identifier) {
+  // eslint-disable-next-line no-param-reassign
+  Event.off = (identifier) => {
     const handler = events[identifier];
 
     if (handler) {
@@ -20,4 +24,4 @@
       delete events[identifier];
     }
   };
-})(Event);
+}(Event));
