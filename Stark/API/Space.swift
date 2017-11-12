@@ -8,7 +8,9 @@ private let CGSSpacesKey = "Spaces"
 protocol SpaceJSExport: JSExport {
     static func active() -> Space
     static func all() -> [Space]
+
     static func currentSpace(for screen: NSScreen) -> Space
+    static func spaces(for window: Window) -> [Space]
 }
 
 open class Space: NSObject, SpaceJSExport {
@@ -49,7 +51,23 @@ open class Space: NSObject, SpaceJSExport {
         return Space(identifier: identifier)
     }
 
-    init(identifier: UInt) {
+    open static func spaces(for window: Window) -> [Space] {
+        var spaces = [Space]()
+
+        let identifiers = CGSCopySpacesForWindows(CGSMainConnectionID(), kCGSAllSpacesMask, [window.identifier] as CFArray).takeRetainedValue() as NSArray
+
+        for space in all() {
+            let identifier = space.identifier
+
+            if identifiers.contains(identifier) {
+                spaces.append(Space(identifier: identifier))
+            }
+        }
+
+        return spaces
+    }
+
+    init(identifier: CGSSpaceID) {
         self.identifier = identifier
     }
 }
