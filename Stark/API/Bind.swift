@@ -58,27 +58,7 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
         return String(format: "%@[%@]", key, modifiers.joined(separator: "|")).hashValue
     }
 
-    /// Instance Variables
-
-    private var identifier: UInt
-
-    private var keyCode: UInt32
-
-    private var modifierFlags: UInt32
-
-    private var eventHotKeyRef: EventHotKeyRef?
-
-    private var enabled = false
-
-    public override var hashValue: Int { return Bind.hashForKey(key, modifiers: modifiers) }
-
-    public var key: String = ""
-
-    public var modifiers: [String] = []
-
-    public var isEnabled: Bool { return enabled }
-
-    /// Instance Functions
+    /// Initializers
 
     public required init(key: String, modifiers: [String], callback: JSValue) {
         _ = Bind.__once
@@ -106,6 +86,28 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
 
         _ = disable()
     }
+
+    /// Instance Variables
+
+    private var identifier: UInt
+
+    private var keyCode: UInt32
+
+    private var modifierFlags: UInt32
+
+    private var eventHotKeyRef: EventHotKeyRef?
+
+    private var enabled = false
+
+    public override var hashValue: Int { return Bind.hashForKey(key, modifiers: modifiers) }
+
+    public var key: String = ""
+
+    public var modifiers: [String] = []
+
+    public var isEnabled: Bool { return enabled }
+
+    /// Instance Functions
 
     public func enable() -> Bool {
         if enabled {
