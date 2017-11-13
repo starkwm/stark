@@ -81,6 +81,12 @@ public class Window: NSObject, WindowJSExport {
         return Window(element: window as! AXUIElement)
     }
 
+    /// Initializers
+
+    init(element: AXUIElement) {
+        self.element = element
+    }
+
     /// Instance Variables
 
     private var element: AXUIElement
@@ -211,10 +217,6 @@ public class Window: NSObject, WindowJSExport {
     }
 
     /// Instance Functions
-
-    init(element: AXUIElement) {
-        self.element = element
-    }
 
     public func setFrame(_ frame: CGRect) {
         setTopLeft(frame.origin)
