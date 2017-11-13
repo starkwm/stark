@@ -11,10 +11,15 @@ protocol EventJSExport: JSExport {
 }
 
 public class Event: Handler, EventJSExport, HashableJSExport {
-    public var name: String
+    /// Instance Variables
 
     private var notification: String
+
     private var notificationCenter: NotificationCenter
+
+    public var name: String
+
+    /// Instance Functions
 
     public required init(event: String, callback: JSValue) {
         name = event
