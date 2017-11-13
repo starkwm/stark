@@ -11,12 +11,16 @@ protocol ApplicationJSExport: JSExport {
     static func all() -> [Application]
     static func focused() -> Application?
 
-    func windows() -> [Window]
-    func windows(_ options: [String: AnyObject]) -> [Window]
-
     var name: String { get }
     var bundleId: String { get }
     var processId: pid_t { get }
+
+    var isActive: Bool { get }
+    var isHidden: Bool { get }
+    var isTerminated: Bool { get }
+
+    func windows() -> [Window]
+    func windows(_ options: [String: AnyObject]) -> [Window]
 
     func activate() -> Bool
     func focus() -> Bool
@@ -25,15 +29,10 @@ protocol ApplicationJSExport: JSExport {
     func hide() -> Bool
 
     func terminate() -> Bool
-
-    var isActive: Bool { get }
-    var isHidden: Bool { get }
-    var isTerminated: Bool { get }
 }
 
 public class Application: NSObject, ApplicationJSExport {
-    private var element: AXUIElement
-    private var app: NSRunningApplication
+    /// Static Functions
 
     public static func find(_ name: String) -> Application? {
         let app = NSWorkspace.shared.runningApplications.first(where: { $0.localizedName == name })
@@ -61,13 +60,48 @@ public class Application: NSObject, ApplicationJSExport {
         return nil
     }
 
+    /// Instance Variables
+
+    private var element: AXUIElement
+
+    private var app: NSRunningApplication
+
+    public var name: String { return app.localizedName ?? "" }
+
+    public var bundleId: String { return app.bundleIdentifier ?? "" }
+
+    public var processId: pid_t { return app.processIdentifier }
+
+    public var isActive: Bool { return app.isActive }
+
+    public var isHidden: Bool {
+        var value: AnyObject?
+        let result = AXUIElementCopyAttributeValue(element, kAXHiddenAttribute as CFString, &value)
+
+        if result != .success {
+            return false
+        }
+
+        if let number = value as? NSNumber {
+            return number.boolValue
+        }
+
+        return false
+    }
+
+    public var isTerminated: Bool {
+        return app.isTerminated
+    }
+
+    /// Instance Functions
+
     init(pid: pid_t) {
-        element = AXUIElementCreateApplication(pid)
-        app = NSRunningApplication(processIdentifier: pid)!
+        self.element = AXUIElementCreateApplication(pid)
+        self.app = NSRunningApplication(processIdentifier: pid)!
     }
 
     init(app: NSRunningApplication) {
-        element = AXUIElementCreateApplication(app.processIdentifier)
+        self.element = AXUIElementCreateApplication(app.processIdentifier)
         self.app = app
     }
 
@@ -95,12 +129,6 @@ public class Application: NSObject, ApplicationJSExport {
         return windows()
     }
 
-    public var name: String { return app.localizedName ?? "" }
-
-    public var bundleId: String { return app.bundleIdentifier ?? "" }
-
-    public var processId: pid_t { return app.processIdentifier }
-
     public func activate() -> Bool {
         return app.activate(options: .activateAllWindows)
     }
@@ -119,28 +147,5 @@ public class Application: NSObject, ApplicationJSExport {
 
     public func terminate() -> Bool {
         return app.terminate()
-    }
-
-    public var isActive: Bool {
-        return app.isActive
-    }
-
-    public var isHidden: Bool {
-        var value: AnyObject?
-        let result = AXUIElementCopyAttributeValue(element, kAXHiddenAttribute as CFString, &value)
-
-        if result != .success {
-            return false
-        }
-
-        if let number = value as? NSNumber {
-            return number.boolValue
-        }
-
-        return false
-    }
-
-    public var isTerminated: Bool {
-        return app.isTerminated
     }
 }
