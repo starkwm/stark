@@ -20,6 +20,10 @@ protocol WindowJSExport: JSExport {
     var topLeft: CGPoint { get }
     var size: CGSize { get }
 
+    var isStandard: Bool { get }
+    var isMain: Bool { get }
+    var isMinimized: Bool { get }
+
     func setFrame(_ frame: CGRect)
     func setTopLeft(_ topLeft: CGPoint)
     func setSize(_ size: CGSize)
@@ -29,16 +33,14 @@ protocol WindowJSExport: JSExport {
     func unminimize()
 
     func focus()
-
-    var isStandard: Bool { get }
-    var isMain: Bool { get }
-    var isMinimized: Bool { get }
 }
 
 public class Window: NSObject, WindowJSExport {
+    /// Static Variables
+
     private static let systemWideElement = AXUIElementCreateSystemWide()
 
-    private var element: AXUIElement
+    /// Static Functions
 
     public static func all() -> [Window] {
         return Application.all().flatMap { $0.windows() }
@@ -79,9 +81,9 @@ public class Window: NSObject, WindowJSExport {
         return Window(element: window as! AXUIElement)
     }
 
-    init(element: AXUIElement) {
-        self.element = element
-    }
+    /// Instance Variables
+
+    private var element: AXUIElement
 
     public var identifier: CGWindowID {
         var identifier: CGWindowID = 0
@@ -163,47 +165,6 @@ public class Window: NSObject, WindowJSExport {
         return size
     }
 
-    public func setFrame(_ frame: CGRect) {
-        setTopLeft(frame.origin)
-        setSize(frame.size)
-    }
-
-    public func setTopLeft(_ topLeft: CGPoint) {
-        var val = topLeft
-        let value = AXValueCreate(AXValueType(rawValue: kAXValueCGPointType)!, &val)!
-        AXUIElementSetAttributeValue(element, kAXPositionAttribute as CFString, value)
-    }
-
-    public func setSize(_ size: CGSize) {
-        var val = size
-        let value = AXValueCreate(AXValueType(rawValue: kAXValueCGSizeType)!, &val)!
-        AXUIElementSetAttributeValue(element, kAXSizeAttribute as CFString, value)
-    }
-
-    public func maximize() {
-        setFrame(screen.frameIncludingDockAndMenu)
-    }
-
-    public func minimize() {
-        AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, true as CFTypeRef)
-    }
-
-    public func unminimize() {
-        AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, false as CFTypeRef)
-    }
-
-    public func focus() {
-        let result = AXUIElementSetAttributeValue(element, kAXMainAttribute as CFString, kCFBooleanTrue)
-
-        if result != .success {
-            return
-        }
-
-        if let app = NSRunningApplication(processIdentifier: pid()) {
-            app.activate(options: NSApplication.ActivationOptions.activateIgnoringOtherApps)
-        }
-    }
-
     public var isMain: Bool {
         var value: AnyObject?
         let result = AXUIElementCopyAttributeValue(element, kAXMainAttribute as CFString, &value)
@@ -247,6 +208,53 @@ public class Window: NSObject, WindowJSExport {
         }
 
         return false
+    }
+
+    /// Instance Functions
+
+    init(element: AXUIElement) {
+        self.element = element
+    }
+
+    public func setFrame(_ frame: CGRect) {
+        setTopLeft(frame.origin)
+        setSize(frame.size)
+    }
+
+    public func setTopLeft(_ topLeft: CGPoint) {
+        var val = topLeft
+        let value = AXValueCreate(AXValueType(rawValue: kAXValueCGPointType)!, &val)!
+        AXUIElementSetAttributeValue(element, kAXPositionAttribute as CFString, value)
+    }
+
+    public func setSize(_ size: CGSize) {
+        var val = size
+        let value = AXValueCreate(AXValueType(rawValue: kAXValueCGSizeType)!, &val)!
+        AXUIElementSetAttributeValue(element, kAXSizeAttribute as CFString, value)
+    }
+
+    public func maximize() {
+        setFrame(screen.frameIncludingDockAndMenu)
+    }
+
+    public func minimize() {
+        AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, true as CFTypeRef)
+    }
+
+    public func unminimize() {
+        AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, false as CFTypeRef)
+    }
+
+    public func focus() {
+        let result = AXUIElementSetAttributeValue(element, kAXMainAttribute as CFString, kCFBooleanTrue)
+
+        if result != .success {
+            return
+        }
+
+        if let app = NSRunningApplication(processIdentifier: pid()) {
+            app.activate(options: NSApplication.ActivationOptions.activateIgnoringOtherApps)
+        }
     }
 
     private func pid() -> pid_t {
