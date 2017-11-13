@@ -14,7 +14,7 @@ protocol SpaceJSExport: JSExport {
 }
 
 open class Space: NSObject, SpaceJSExport {
-    private var identifier: CGSSpaceID
+    /// Static Functions
 
     open static func active() -> Space {
         return Space(identifier: CGSGetActiveSpace(CGSMainConnectionID()))
@@ -55,6 +55,12 @@ open class Space: NSObject, SpaceJSExport {
         let identifiers = CGSCopySpacesForWindows(CGSMainConnectionID(), kCGSAllSpacesMask, [window.identifier] as CFArray).takeRetainedValue() as NSArray
         return all().filter { identifiers.contains($0.identifier) }
     }
+
+    /// Instance Variables
+
+    private var identifier: CGSSpaceID
+
+    /// Instance Functions
 
     init(identifier: CGSSpaceID) {
         self.identifier = identifier
