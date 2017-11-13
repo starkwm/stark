@@ -56,13 +56,13 @@ open class Space: NSObject, SpaceJSExport {
         return all().filter { identifiers.contains($0.identifier) }
     }
 
-    /// Instance Variables
-
-    private var identifier: CGSSpaceID
-
-    /// Instance Functions
+    /// Initializers
 
     init(identifier: CGSSpaceID) {
         self.identifier = identifier
     }
+
+    /// Instance Variables
+
+    private var identifier: CGSSpaceID
 }
