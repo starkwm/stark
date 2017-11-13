@@ -9,6 +9,13 @@ protocol StarkJSExport: JSExport {
 }
 
 public class Stark: NSObject, StarkJSExport {
+    /// Initializers
+
+    init(config: Config, context: Context) {
+        self.config = config
+        self.context = context
+    }
+
     /// Instance Variables
 
     private var config: Config
@@ -16,11 +23,6 @@ public class Stark: NSObject, StarkJSExport {
     private var context: Context
 
     /// Instance Functions
-
-    init(config: Config, context: Context) {
-        self.config = config
-        self.context = context
-    }
 
     public func log(_ message: String) {
         LogHelper.log(message: message)
