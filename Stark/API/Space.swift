@@ -14,7 +14,7 @@ protocol SpaceJSExport: JSExport {
 }
 
 open class Space: NSObject, SpaceJSExport {
-    public var identifier: CGSSpaceID
+    private var identifier: CGSSpaceID
 
     open static func active() -> Space {
         return Space(identifier: CGSGetActiveSpace(CGSMainConnectionID()))
