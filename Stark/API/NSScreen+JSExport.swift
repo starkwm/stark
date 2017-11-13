@@ -18,6 +18,8 @@ protocol NSScreenJSExport: JSExport {
 }
 
 extension NSScreen: NSScreenJSExport {
+    /// Static Functions
+
     public static func all() -> [NSScreen] {
         return screens
     }
@@ -25,6 +27,8 @@ extension NSScreen: NSScreenJSExport {
     public static func focused() -> NSScreen? {
         return main
     }
+
+    /// Instance Variables
 
     public var identifier: String {
         guard let number = deviceDescription[NSScreenNumberKey] as? NSNumber else {
