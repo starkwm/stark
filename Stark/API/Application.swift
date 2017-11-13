@@ -60,6 +60,18 @@ public class Application: NSObject, ApplicationJSExport {
         return nil
     }
 
+    /// Initializers
+
+    init(pid: pid_t) {
+        self.element = AXUIElementCreateApplication(pid)
+        self.app = NSRunningApplication(processIdentifier: pid)!
+    }
+
+    init(app: NSRunningApplication) {
+        self.element = AXUIElementCreateApplication(app.processIdentifier)
+        self.app = app
+    }
+
     /// Instance Variables
 
     private var element: AXUIElement
@@ -94,16 +106,6 @@ public class Application: NSObject, ApplicationJSExport {
     }
 
     /// Instance Functions
-
-    init(pid: pid_t) {
-        self.element = AXUIElementCreateApplication(pid)
-        self.app = NSRunningApplication(processIdentifier: pid)!
-    }
-
-    init(app: NSRunningApplication) {
-        self.element = AXUIElementCreateApplication(app.processIdentifier)
-        self.app = app
-    }
 
     public func windows() -> [Window] {
         var values: CFArray?
