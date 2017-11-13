@@ -52,19 +52,8 @@ open class Space: NSObject, SpaceJSExport {
     }
 
     open static func spaces(for window: Window) -> [Space] {
-        var spaces = [Space]()
-
         let identifiers = CGSCopySpacesForWindows(CGSMainConnectionID(), kCGSAllSpacesMask, [window.identifier] as CFArray).takeRetainedValue() as NSArray
-
-        for space in all() {
-            let identifier = space.identifier
-
-            if identifiers.contains(identifier) {
-                spaces.append(Space(identifier: identifier))
-            }
-        }
-
-        return spaces
+        return all().filter { identifiers.contains($0.identifier) }
     }
 
     init(identifier: CGSSpaceID) {
