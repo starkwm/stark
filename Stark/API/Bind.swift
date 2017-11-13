@@ -7,11 +7,10 @@ protocol BindJSExport: JSExport {
 
     var key: String { get }
     var modifiers: [String] { get }
+    var isEnabled: Bool { get }
 
     func enable() -> Bool
     func disable() -> Bool
-
-    var isEnabled: Bool { get }
 }
 
 private var bindIdentifierSequence: UInt = 0
@@ -20,6 +19,8 @@ private let starkHotKeyIdentifier = "starkHotKeyIdentifier"
 private let starkHotKeyKeyDownNotification = "starkHotKeyKeyDownNotification"
 
 public class Bind: Handler, BindJSExport, HashableJSExport {
+    /// Static Variables
+
     // swiftlint:disable:next variable_name
     private static var __once: () = {
         let callback: EventHandlerUPP = { (_, event, _) -> OSStatus in
@@ -51,24 +52,33 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
         InstallEventHandler(GetEventDispatcherTarget(), callback, 1, &keyDown, nil, nil)
     }()
 
-    public override var hashValue: Int { return Bind.hashForKey(key, modifiers: modifiers) }
+    /// Static Functions
 
-    public var key: String = ""
-    public var modifiers: [String] = []
+    public static func hashForKey(_ key: String, modifiers: [String]) -> Int {
+        return String(format: "%@[%@]", key, modifiers.joined(separator: "|")).hashValue
+    }
 
-    private var identifier: UInt = 0
+    /// Instance Variables
 
-    private var keyCode: UInt32 = 0
-    private var modifierFlags: UInt32 = 0
+    private var identifier: UInt
+
+    private var keyCode: UInt32
+
+    private var modifierFlags: UInt32
 
     private var eventHotKeyRef: EventHotKeyRef?
 
     private var enabled = false
 
-    public static func hashForKey(_ key: String, modifiers: [String]) -> Int {
-        let key = String(format: "%@[%@]", key, modifiers.joined(separator: "|"))
-        return key.hashValue
-    }
+    public override var hashValue: Int { return Bind.hashForKey(key, modifiers: modifiers) }
+
+    public var key: String = ""
+
+    public var modifiers: [String] = []
+
+    public var isEnabled: Bool { return enabled }
+
+    /// Instance Functions
 
     public required init(key: String, modifiers: [String], callback: JSValue) {
         _ = Bind.__once
@@ -76,11 +86,11 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
         self.key = key
         self.modifiers = modifiers
 
-        keyCode = UInt32(KeyCodeHelper.keyCode(for: key))
-        modifierFlags = UInt32(KeyCodeHelper.modifierFlags(for: modifiers))
+        self.keyCode = UInt32(KeyCodeHelper.keyCode(for: key))
+        self.modifierFlags = UInt32(KeyCodeHelper.modifierFlags(for: modifiers))
 
         bindIdentifierSequence += 1
-        identifier = bindIdentifierSequence
+        self.identifier = bindIdentifierSequence
 
         super.init()
 
@@ -130,10 +140,6 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
         enabled = false
 
         return true
-    }
-
-    public var isEnabled: Bool {
-        return enabled
     }
 
     @objc
