@@ -66,11 +66,11 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
         self.key = key
         self.modifiers = modifiers
 
-        self.keyCode = UInt32(KeyCodeHelper.keyCode(for: key))
-        self.modifierFlags = UInt32(KeyCodeHelper.modifierFlags(for: modifiers))
+        keyCode = UInt32(KeyCodeHelper.keyCode(for: key))
+        modifierFlags = UInt32(KeyCodeHelper.modifierFlags(for: modifiers))
 
         bindIdentifierSequence += 1
-        self.identifier = bindIdentifierSequence
+        identifier = bindIdentifierSequence
 
         super.init()
 
