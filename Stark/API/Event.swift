@@ -11,15 +11,7 @@ protocol EventJSExport: JSExport {
 }
 
 public class Event: Handler, EventJSExport, HashableJSExport {
-    /// Instance Variables
-
-    private var notification: String
-
-    private var notificationCenter: NotificationCenter
-
-    public var name: String
-
-    /// Instance Functions
+    /// Initializers
 
     public required init(event: String, callback: JSValue) {
         name = event
@@ -37,6 +29,16 @@ public class Event: Handler, EventJSExport, HashableJSExport {
     deinit {
         disable()
     }
+
+    /// Instance Variables
+
+    private var notification: String
+
+    private var notificationCenter: NotificationCenter
+
+    public var name: String
+
+    /// Instance Functions
 
     public func disable() {
         notificationCenter.removeObserver(self, name: NSNotification.Name(rawValue: notification), object: nil)
