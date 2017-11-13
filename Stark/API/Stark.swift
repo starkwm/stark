@@ -9,8 +9,13 @@ protocol StarkJSExport: JSExport {
 }
 
 public class Stark: NSObject, StarkJSExport {
+    /// Instance Variables
+
     private var config: Config
+
     private var context: Context
+
+    /// Instance Functions
 
     init(config: Config, context: Context) {
         self.config = config
