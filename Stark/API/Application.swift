@@ -63,12 +63,12 @@ public class Application: NSObject, ApplicationJSExport {
     /// Initializers
 
     init(pid: pid_t) {
-        self.element = AXUIElementCreateApplication(pid)
-        self.app = NSRunningApplication(processIdentifier: pid)!
+        element = AXUIElementCreateApplication(pid)
+        app = NSRunningApplication(processIdentifier: pid)!
     }
 
     init(app: NSRunningApplication) {
-        self.element = AXUIElementCreateApplication(app.processIdentifier)
+        element = AXUIElementCreateApplication(app.processIdentifier)
         self.app = app
     }
 
