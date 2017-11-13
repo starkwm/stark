@@ -9,11 +9,7 @@ protocol TimerJSExport: JSExport {
 }
 
 public class Timer: Handler, TimerJSExport, HashableJSExport {
-    /// Instance Variables
-
-    private var timer: Foundation.Timer?
-
-    /// Instance Functions
+    /// Initializers
 
     public required init(interval: TimeInterval, repeats: Bool, callback: JSValue) {
         super.init()
@@ -22,6 +18,12 @@ public class Timer: Handler, TimerJSExport, HashableJSExport {
 
         manageCallback(callback)
     }
+
+    /// Instance Variables
+
+    private var timer: Foundation.Timer?
+
+    /// Instance Functions
 
     public func stop() {
         timer?.invalidate()
