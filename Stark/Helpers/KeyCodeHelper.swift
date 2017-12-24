@@ -140,7 +140,7 @@ class KeyCodeHelper {
             flags |= controlKey
         }
 
-        if mods.contains("ALT") {
+        if mods.contains("ALT") || mods.contains("OPT") {
             flags |= optionKey
         }
 
