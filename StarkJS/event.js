@@ -1,6 +1,6 @@
 /* global Event */
 
-(function (Event) {
+(function setup(Event) {
   const events = {};
 
   // eslint-disable-next-line no-param-reassign
