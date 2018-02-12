@@ -1,6 +1,6 @@
 /* global Timer */
 
-(function (Timer) {
+(function setup(Timer) {
   const timers = {};
 
   // eslint-disable-next-line no-param-reassign
