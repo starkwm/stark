@@ -31,6 +31,6 @@ public class Timer: Handler, TimerJSExport, HashableJSExport {
 
     @objc
     func timerDidFire() {
-        call()
+        call(withArguments: [callback!])
     }
 }

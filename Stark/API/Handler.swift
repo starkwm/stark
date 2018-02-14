@@ -4,7 +4,7 @@ import JavaScriptCore
 public class Handler: NSObject {
     /// Instance Variables
 
-    private var callback: JSManagedValue?
+    internal var callback: JSManagedValue?
 
     /// Instance Functions
 

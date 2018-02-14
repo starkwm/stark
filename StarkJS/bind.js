@@ -1,6 +1,6 @@
 /* global Bind */
 
-(function (Bind) {
+(function setup(Bind) {
   const binds = {};
 
   // eslint-disable-next-line no-param-reassign
