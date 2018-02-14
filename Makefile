@@ -1,26 +1,27 @@
 XCODEFLAGS=-project "Stark.xcodeproj" -scheme "Stark"
 
-BUILDDIR=$(PWD)/Build
-ARCHIVE=$(BUILDDIR)/Stark.xcarchive
-EXPORT_OPTIONS=$(PWD)/exportPlist.plist
+BUILD_DIR=$(PWD)/Build
+STARK_ACHIVE=$(BUILD_DIR)/Stark.xcarchive
+EXPORT_PLIST=$(PWD)/exportPlist.plist
 
-JAVASCRIPTDIR=$(PWD)/StarkJS
+JAVASCRIPT_DIR=$(PWD)/StarkJS
 
-build: bootstrap
+all: build
+
+build:
 	@xcodebuild $(XCODEFLAGS) build
 
-archive: bootstrap
-	@xcodebuild $(XCODEFLAGS) clean archive -archivePath $(ARCHIVE)
-	@xcodebuild -exportArchive -archivePath $(ARCHIVE) -exportPath $(BUILDDIR) -exportOptionsPlist $(EXPORT_OPTIONS)
+archive:
+	@xcodebuild $(XCODEFLAGS) clean archive -archivePath $(STARK_ACHIVE)
+	@xcodebuild -exportArchive -archivePath $(STARK_ACHIVE) -exportPath $(BUILD_DIR) -exportOptionsPlist $(EXPORT_PLIST)
 
 bootstrap:
-	@cd $(JAVASCRIPTDIR) && npm install
-	@brew install swiftlint
+	@cd $(JAVASCRIPT_DIR) && npm install
 
-lint: bootstrap
-	@cd $(JAVASCRIPTDIR) && npm run lint
+lint:
+	@cd $(JAVASCRIPT_DIR) && npm run lint
 
-concat: bootstrap
-	@cd $(JAVASCRIPTDIR) && npm run build
+concat:
+	@cd $(JAVASCRIPT_DIR) && npm run build
 
-.PHONY: build archive bootstrap lint concat
+.PHONY: all build archive bootstrap lint concat
