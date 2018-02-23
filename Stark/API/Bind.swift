@@ -48,10 +48,9 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
                     return
                 }
 
-                NotificationCenter
-                    .default.post(name: Notification.Name(rawValue: starkHotKeyKeyDownNotification),
-                                  object: nil,
-                                  userInfo: [starkHotKeyIdentifier: UInt(identifier.id)])
+                NotificationCenter.default.post(name: Notification.Name(rawValue: starkHotKeyKeyDownNotification),
+                                                object: nil,
+                                                userInfo: [starkHotKeyIdentifier: UInt(identifier.id)])
             }
 
             return noErr
@@ -97,11 +96,9 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
     }
 
     deinit {
-        NotificationCenter
-            .default
-            .removeObserver(self,
-                            name: NSNotification.Name(rawValue: starkHotKeyKeyDownNotification),
-                            object: nil)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: NSNotification.Name(rawValue: starkHotKeyKeyDownNotification),
+                                                  object: nil)
 
         _ = disable()
     }

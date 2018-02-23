@@ -24,11 +24,9 @@ private let observerCallback: AXObserverCallback = { _, element, notification, _
     autoreleasepool {
         let window = Window(element: element)
 
-        NotificationCenter
-            .default
-            .post(name: Notification.Name(rawValue: notification as String),
-                  object: nil,
-                  userInfo: [appObserverWindowKey: window])
+        NotificationCenter.default.post(name: Notification.Name(rawValue: notification as String),
+                                        object: nil,
+                                        userInfo: [appObserverWindowKey: window])
     }
 }
 
