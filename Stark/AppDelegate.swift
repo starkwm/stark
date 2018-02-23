@@ -1,3 +1,11 @@
+//
+//  AppDelegate.swift
+//  Stark
+//
+//  Created by Tom Bell on 22/02/2018.
+//  Copyright © 2018 Rusty Robots. All rights reserved.
+//
+
 import Cocoa
 
 @NSApplicationMain
@@ -38,7 +46,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.highlightMode = true
         statusItem.image = image
 
-        let loginMenuItem = NSMenuItem(title: "Run at login", action: #selector(AppDelegate.toggleRunAtLogin), keyEquivalent: "")
+        let loginMenuItem = NSMenuItem(title: "Run at login",
+                                       action: #selector(AppDelegate.toggleRunAtLogin),
+                                       keyEquivalent: "")
 
         let menu = NSMenu()
         menu.addItem(withTitle: "Reload config file", action: #selector(AppDelegate.reloadConfig), keyEquivalent: "")

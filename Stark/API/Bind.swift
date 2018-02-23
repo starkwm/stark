@@ -1,3 +1,11 @@
+//
+//  Bind.swift
+//  Stark
+//
+//  Created by Tom Bell on 22/02/2018.
+//  Copyright © 2018 Rusty Robots. All rights reserved.
+//
+
 import Carbon
 import JavaScriptCore
 
@@ -20,9 +28,8 @@ private let starkHotKeyIdentifier = "starkHotKeyIdentifier"
 private let starkHotKeyKeyDownNotification = "starkHotKeyKeyDownNotification"
 
 public class Bind: Handler, BindJSExport, HashableJSExport {
-    // swiftlint:disable:next variable_name
-    private static var __once: () = {
-        let callback: EventHandlerUPP = { (_, event, _) -> OSStatus in
+    private static var once: () = {
+        let callback: EventHandlerUPP = { _, event, _ -> OSStatus in
             autoreleasepool {
                 var identifier = EventHotKeyID()
 
@@ -40,7 +47,10 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
                     return
                 }
 
-                NotificationCenter.default.post(name: Notification.Name(rawValue: starkHotKeyKeyDownNotification), object: nil, userInfo: [starkHotKeyIdentifier: UInt(identifier.id)])
+                NotificationCenter
+                    .default.post(name: Notification.Name(rawValue: starkHotKeyKeyDownNotification),
+                                  object: nil,
+                                  userInfo: [starkHotKeyIdentifier: UInt(identifier.id)])
             }
 
             return noErr
@@ -71,7 +81,7 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
     }
 
     public required init(key: String, modifiers: [String], callback: JSValue) {
-        _ = Bind.__once
+        _ = Bind.once
 
         self.key = key
         self.modifiers = modifiers
@@ -86,13 +96,22 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
 
         manageCallback(callback)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(Bind.keyDown(notification:)), name: NSNotification.Name(rawValue: starkHotKeyKeyDownNotification), object: nil)
+        NotificationCenter
+            .default
+            .addObserver(self,
+                         selector: #selector(Bind.keyDown(notification:)),
+                         name: NSNotification.Name(rawValue: starkHotKeyKeyDownNotification),
+                         object: nil)
 
         _ = enable()
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: starkHotKeyKeyDownNotification), object: nil)
+        NotificationCenter
+            .default
+            .removeObserver(self,
+                            name: NSNotification.Name(rawValue: starkHotKeyKeyDownNotification),
+                            object: nil)
 
         _ = disable()
     }
@@ -104,7 +123,12 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
 
         let eventHotKeyID = EventHotKeyID(signature: UTGetOSTypeFromString("STRK" as CFString), id: UInt32(identifier))
 
-        let status = RegisterEventHotKey(keyCode, modifierFlags, eventHotKeyID, GetEventDispatcherTarget(), 0, &eventHotKeyRef)
+        let status = RegisterEventHotKey(keyCode,
+                                         modifierFlags,
+                                         eventHotKeyID,
+                                         GetEventDispatcherTarget(),
+                                         0,
+                                         &eventHotKeyRef)
 
         if status != noErr {
             return false
