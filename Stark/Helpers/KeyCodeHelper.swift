@@ -103,18 +103,16 @@ class KeyCodeHelper {
             var length = 0
             var chars = [UniChar](repeating: 0, count: maxLength)
 
-            UCKeyTranslate(
-                layoutData,
-                UInt16(keyCode),
-                UInt16(kUCKeyActionDisplay),
-                0,
-                UInt32(LMGetKbdType()),
-                OptionBits(kUCKeyTranslateNoDeadKeysBit),
-                &deadKeyState,
-                maxLength,
-                &length,
-                &chars
-            )
+            UCKeyTranslate(layoutData,
+                           UInt16(keyCode),
+                           UInt16(kUCKeyActionDisplay),
+                           0,
+                           UInt32(LMGetKbdType()),
+                           OptionBits(kUCKeyTranslateNoDeadKeysBit),
+                           &deadKeyState,
+                           maxLength,
+                           &length,
+                           &chars)
 
             if length == 0 {
                 continue

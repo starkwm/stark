@@ -10,8 +10,10 @@ import Foundation
 
 class LaunchAgentHelper {
     static var launchAgentDirectory: URL? {
-        let libDir = try? FileManager.default
-            .url(for: .libraryDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+        let libDir = try? FileManager.default.url(for: .libraryDirectory,
+                                                  in: .userDomainMask,
+                                                  appropriateFor: nil,
+                                                  create: false)
 
         return libDir?.appendingPathComponent("LaunchAgents")
     }
@@ -32,8 +34,9 @@ class LaunchAgentHelper {
         }
 
         if (launchAgentDirectory as NSURL).checkResourceIsReachableAndReturnError(nil) == false {
-            _ = try? FileManager.default
-                .createDirectory(at: launchAgentDirectory, withIntermediateDirectories: false, attributes: nil)
+            _ = try? FileManager.default.createDirectory(at: launchAgentDirectory,
+                                                         withIntermediateDirectories: false,
+                                                         attributes: nil)
         }
 
         guard let execPath = Bundle.main.executablePath else {
