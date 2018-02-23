@@ -1,3 +1,11 @@
+//
+//  Event.swift
+//  Stark
+//
+//  Created by Tom Bell on 22/02/2018.
+//  Copyright © 2018 Rusty Robots. All rights reserved.
+//
+
 import AppKit
 import JavaScriptCore
 
@@ -23,7 +31,11 @@ public class Event: Handler, EventJSExport, HashableJSExport {
 
         manageCallback(callback)
 
-        notificationCenter.addObserver(self, selector: #selector(Event.didReceiveNotification(_:)), name: NSNotification.Name(rawValue: notification), object: nil)
+        notificationCenter
+            .addObserver(self,
+                         selector: #selector(Event.didReceiveNotification(_:)),
+                         name: NSNotification.Name(rawValue: notification),
+                         object: nil)
     }
 
     deinit {

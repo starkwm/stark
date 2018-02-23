@@ -1,3 +1,11 @@
+//
+//  Space.swift
+//  Stark
+//
+//  Created by Tom Bell on 23/02/2018.
+//  Copyright © 2018 Rusty Robots. All rights reserved.
+//
+
 import AppKit
 import JavaScriptCore
 
@@ -52,7 +60,10 @@ open class Space: NSObject, SpaceJSExport {
     }
 
     open static func spaces(for window: Window) -> [Space] {
-        let identifiers = CGSCopySpacesForWindows(CGSMainConnectionID(), kCGSAllSpacesMask, [window.identifier] as CFArray).takeRetainedValue() as NSArray
+        let identifiers = CGSCopySpacesForWindows(CGSMainConnectionID(),
+                                                  kCGSAllSpacesMask,
+                                                  [window.identifier] as CFArray).takeRetainedValue() as NSArray
+
         return all().filter { identifiers.contains($0.identifier) }
     }
 

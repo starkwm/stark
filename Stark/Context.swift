@@ -1,3 +1,11 @@
+//
+//  Context.swift
+//  Stark
+//
+//  Created by Tom Bell on 22/02/2018.
+//  Copyright © 2018 Rusty Robots. All rights reserved.
+//
+
 import AppKit
 import JavaScriptCore
 
@@ -43,7 +51,9 @@ class Context {
             self?.handleJSException(exception: err!)
         }
 
-        context.setObject(Stark.self(config: config, context: self), forKeyedSubscript: "Stark" as (NSCopying & NSObjectProtocol)!)
+        context.setObject(Stark.self(config: config, context: self),
+                          forKeyedSubscript: "Stark" as (NSCopying & NSObjectProtocol)!)
+
         context.setObject(NSScreen.self, forKeyedSubscript: "Screen" as (NSCopying & NSObjectProtocol)!)
         context.setObject(Application.self, forKeyedSubscript: "App" as (NSCopying & NSObjectProtocol)!)
         context.setObject(Window.self, forKeyedSubscript: "Window" as (NSCopying & NSObjectProtocol)!)
