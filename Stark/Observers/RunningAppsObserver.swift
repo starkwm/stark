@@ -1,60 +1,40 @@
+//
+//  RunningAppsObserver.swift
+//  Stark
+//
+//  Created by Tom Bell on 22/02/2018.
+//  Copyright © 2018 Rusty Robots. All rights reserved.
+//
+
 import AppKit
 
-private let NSWorkspaceRunningApplicationsKeyPath = "runningApplications"
+class RunningAppsObserver {
+    var observer: NSKeyValueObservation?
 
-class RunningAppsObserver: NSObject {
     var observers = [pid_t: AppObserver]()
 
-    override init() {
-        super.init()
-
-        NSWorkspace
-            .shared
-            .addObserver(self, forKeyPath: NSWorkspaceRunningApplicationsKeyPath, options: [.old, .new], context: nil)
-
-        observe(applications: NSWorkspace.shared.runningApplications)
-    }
-
-    deinit {
-        NSWorkspace
-            .shared
-            .removeObserver(self, forKeyPath: NSWorkspaceRunningApplicationsKeyPath)
-    }
-
-    override func observeValue(forKeyPath keyPath: String?, of _: Any?, change: [NSKeyValueChangeKey: Any]?, context _: UnsafeMutableRawPointer?) {
-        if keyPath != NSWorkspaceRunningApplicationsKeyPath {
-            return
-        }
-
-        guard let change = change else {
-            return
-        }
-
-        var apps: [NSRunningApplication]?
-
-        if let rv = change[NSKeyValueChangeKey.kindKey] as? UInt, let kind = NSKeyValueChange(rawValue: rv) {
-            switch kind {
+    init() {
+        observer = NSWorkspace.shared.observe(\.runningApplications, options: [.old, .new]) { _, change in
+            switch change.kind {
             case .insertion:
-                apps = change[NSKeyValueChangeKey.newKey] as? [NSRunningApplication]
-                observe(applications: apps ?? [])
+                let apps = change.newValue as [NSRunningApplication]?
+                self.observe(applications: apps ?? [])
             case .removal:
-                apps = change[NSKeyValueChangeKey.oldKey] as? [NSRunningApplication]
-                unobserve(applications: apps ?? [])
+                let apps = change.oldValue as [NSRunningApplication]?
+                self.unobserve(applications: apps ?? [])
             default:
                 return
             }
         }
+
+        observe(applications: NSWorkspace.shared.runningApplications)
     }
 
     private func observe(applications: [NSRunningApplication]) {
-        for app in applications {
-            observers[app.processIdentifier] = AppObserver(app: app)
-        }
+        applications.forEach { observers[$0.processIdentifier] = AppObserver(app: $0) }
     }
 
     private func unobserve(applications: [NSRunningApplication]) {
-        for app in applications {
-            observers.removeValue(forKey: app.processIdentifier)
-        }
+        applications.forEach { observers.removeValue(forKey: $0.processIdentifier) }
     }
 }

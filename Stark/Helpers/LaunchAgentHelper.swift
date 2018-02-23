@@ -1,3 +1,11 @@
+//
+//  LaunchAgentHelper.swift
+//  Stark
+//
+//  Created by Tom Bell on 22/02/2018.
+//  Copyright © 2018 Rusty Robots. All rights reserved.
+//
+
 import Foundation
 
 class LaunchAgentHelper {
@@ -35,7 +43,7 @@ class LaunchAgentHelper {
         let plist: NSDictionary = [
             "Label": "co.rustyrobots.Stark",
             "Program": execPath,
-            "RunAtLoad": true,
+            "RunAtLoad": true
         ]
 
         plist.write(to: launchAgentFile, atomically: true)
