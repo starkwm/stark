@@ -1,10 +1,18 @@
+//
+//  Config.swift
+//  Stark
+//
+//  Created by Tom Bell on 22/02/2018.
+//  Copyright © 2018 Rusty Robots. All rights reserved.
+//
+
 import AppKit
 
 class Config {
     static let primaryConfigPaths: [String] = [
         "~/.stark.js",
         "~/Library/Application Support/Stark/stark.js",
-        "~/.config/stark/stark.js",
+        "~/.config/stark/stark.js"
     ]
 
     let primaryConfigPath = Config.resolvePrimaryConfigPath()
@@ -30,7 +38,13 @@ class Config {
             return
         }
 
-        if !FileManager.default.createFile(atPath: path, contents: try? Data(contentsOf: URL(fileURLWithPath: example)), attributes: nil) {
+        let written = FileManager
+            .default
+            .createFile(atPath: path,
+                        contents: try? Data(contentsOf: URL(fileURLWithPath: example)),
+                        attributes: nil)
+
+        if !written {
             LogHelper.log(message: String(format: "Unable to create configuration file: %@", path))
         }
     }

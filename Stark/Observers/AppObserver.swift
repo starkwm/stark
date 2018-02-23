@@ -1,3 +1,11 @@
+//
+//  AppObserver.swift
+//  Stark
+//
+//  Created by Tom Bell on 22/02/2018.
+//  Copyright © 2018 Rusty Robots. All rights reserved.
+//
+
 import AppKit
 
 let appObserverWindowKey = "observerWindowKey"
@@ -9,14 +17,18 @@ private let notifications = [
     NSAccessibilityNotificationName.windowMoved,
     NSAccessibilityNotificationName.windowResized,
     NSAccessibilityNotificationName.windowMiniaturized,
-    NSAccessibilityNotificationName.windowDeminiaturized,
+    NSAccessibilityNotificationName.windowDeminiaturized
 ]
 
 private let observerCallback: AXObserverCallback = { _, element, notification, _ in
     autoreleasepool {
         let window = Window(element: element)
 
-        NotificationCenter.default.post(name: Notification.Name(rawValue: notification as String), object: nil, userInfo: [appObserverWindowKey: window])
+        NotificationCenter
+            .default
+            .post(name: Notification.Name(rawValue: notification as String),
+                  object: nil,
+                  userInfo: [appObserverWindowKey: window])
     }
 }
 
@@ -32,7 +44,10 @@ class AppObserver: NSObject {
 
         super.init()
 
-        notificationCenter.addObserver(self, selector: #selector(AppObserver.didReceiveNotification(_:)), name: NSWorkspace.didLaunchApplicationNotification, object: nil)
+        notificationCenter.addObserver(self,
+                                       selector: #selector(AppObserver.didReceiveNotification(_:)),
+                                       name: NSWorkspace.didLaunchApplicationNotification,
+                                       object: nil)
 
         AXObserverCreate(app.processIdentifier, observerCallback, &observer)
     }
@@ -41,7 +56,9 @@ class AppObserver: NSObject {
         if observer != nil {
             notifications.forEach { remove(notification: $0.rawValue) }
 
-            CFRunLoopRemoveSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(observer!), CFRunLoopMode.defaultMode)
+            CFRunLoopRemoveSource(CFRunLoopGetCurrent(),
+                                  AXObserverGetRunLoopSource(observer!),
+                                  CFRunLoopMode.defaultMode)
         }
 
         notificationCenter.removeObserver(self, name: NSWorkspace.didLaunchApplicationNotification, object: nil)

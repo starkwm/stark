@@ -1,3 +1,11 @@
+//
+//  EventHelper.swift
+//  Stark
+//
+//  Created by Tom Bell on 22/02/2018.
+//  Copyright © 2018 Rusty Robots. All rights reserved.
+//
+
 import AppKit
 
 let starkStartNotification = "starkStartNotification"
@@ -11,7 +19,7 @@ class EventHelper {
             NSWorkspace.didTerminateApplicationNotification.rawValue: workspaceNotificationCenter,
             NSWorkspace.didActivateApplicationNotification.rawValue: workspaceNotificationCenter,
             NSWorkspace.didHideApplicationNotification.rawValue: workspaceNotificationCenter,
-            NSWorkspace.didUnhideApplicationNotification.rawValue: workspaceNotificationCenter,
+            NSWorkspace.didUnhideApplicationNotification.rawValue: workspaceNotificationCenter
         ]
     }()
 
@@ -32,7 +40,7 @@ class EventHelper {
         "windowDidMove": NSAccessibilityNotificationName.windowMoved.rawValue,
         "windowDidResize": NSAccessibilityNotificationName.windowResized.rawValue,
         "windowDidMinimize": NSAccessibilityNotificationName.windowMiniaturized.rawValue,
-        "windowDidUnminimize": NSAccessibilityNotificationName.windowDeminiaturized.rawValue,
+        "windowDidUnminimize": NSAccessibilityNotificationName.windowDeminiaturized.rawValue
     ]
 
     static func notificationCenter(for notification: String) -> NotificationCenter {
