@@ -34,11 +34,10 @@ public class Event: Handler, EventJSExport, HashableJSExport {
 
         manageCallback(callback)
 
-        notificationCenter
-            .addObserver(self,
-                         selector: #selector(Event.didReceiveNotification(_:)),
-                         name: NSNotification.Name(rawValue: notification),
-                         object: nil)
+        notificationCenter.addObserver(self,
+                                       selector: #selector(Event.didReceiveNotification(_:)),
+                                       name: NSNotification.Name(rawValue: notification),
+                                       object: nil)
     }
 
     deinit {

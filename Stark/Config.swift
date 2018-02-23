@@ -38,11 +38,9 @@ class Config {
             return
         }
 
-        let written = FileManager
-            .default
-            .createFile(atPath: path,
-                        contents: try? Data(contentsOf: URL(fileURLWithPath: example)),
-                        attributes: nil)
+        let written = FileManager.default.createFile(atPath: path,
+                                                     contents: try? Data(contentsOf: URL(fileURLWithPath: example)),
+                                                     attributes: nil)
 
         if !written {
             LogHelper.log(message: String(format: "Unable to create configuration file: %@", path))
