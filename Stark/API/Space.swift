@@ -19,6 +19,8 @@ private let CGSSpacesKey = "Spaces"
 protocol SpaceJSExport: JSExport {
     static func active() -> Space
     static func all() -> [Space]
+
+    func screens() -> [NSScreen]
 }
 
 public class Space: NSObject, SpaceJSExport {
@@ -80,5 +82,50 @@ public class Space: NSObject, SpaceJSExport {
 
     public var isFullscreen: Bool {
         return CGSSpaceGetType(CGSMainConnectionID(), identifier) == kCGSSpaceFullScreen
+    }
+
+    public func screens() -> [NSScreen] {
+        if !NSScreen.screensHaveSeparateSpaces {
+            return NSScreen.screens
+        }
+
+        let displaySpacesInfo = CGSCopyManagedDisplaySpaces(CGSMainConnectionID()).takeRetainedValue() as NSArray
+
+        var screen: NSScreen?
+
+        displaySpacesInfo.forEach {
+            guard let spacesInfo = $0 as? [String: AnyObject] else {
+                return
+            }
+
+            guard let screenIdentifier = spacesInfo[CGSScreenIDKey] as? String else {
+                return
+            }
+
+            guard let identifiers = spacesInfo[CGSSpacesKey] as? [[String: AnyObject]] else {
+                return
+            }
+
+            identifiers.forEach {
+                guard let identifier = $0[CGSSpaceIDKey] as? CGSSpaceID else {
+                    return
+                }
+
+                NSLog("Screen ID: %@, Looking for ID: %@", self.identifier, identifier)
+
+                if identifier == self.identifier {
+                    NSLog("Looking for screen ID: %@", screenIdentifier)
+
+                    screen = NSScreen.screen(for: screenIdentifier)
+                }
+            }
+
+        }
+
+        if screen == nil {
+            return []
+        }
+
+        return [screen!]
     }
 }
