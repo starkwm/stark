@@ -96,12 +96,4 @@ extension NSScreen: NSScreenJSExport {
 
         return nil
     }
-
-    public func currentSpace() -> Space? {
-        return Space.currentSpace(for: self)
-    }
-
-    public func spaces() -> [Space]? {
-        return Space.all().filter { $0.screens().contains(self) }
-    }
 }
