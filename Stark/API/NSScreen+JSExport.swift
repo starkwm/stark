@@ -36,6 +36,10 @@ extension NSScreen: NSScreenJSExport {
         return main
     }
 
+    public static func screen(for identifier: String) -> NSScreen? {
+        return screens.first(where: { $0.identifier == identifier })
+    }
+
     /// Instance Variables
 
     public var identifier: String {
@@ -91,5 +95,13 @@ extension NSScreen: NSScreenJSExport {
         }
 
         return nil
+    }
+
+    public func currentSpace() -> Space? {
+        return Space.currentSpace(for: self)
+    }
+
+    public func spaces() -> [Space]? {
+        return Space.all().filter { $0.screens().contains(self) }
     }
 }

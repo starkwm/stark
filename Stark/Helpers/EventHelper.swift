@@ -15,6 +15,7 @@ class EventHelper {
         let workspaceNotificationCenter = NSWorkspace.shared.notificationCenter
 
         return [
+            NSWorkspace.activeSpaceDidChangeNotification.rawValue: workspaceNotificationCenter,
             NSWorkspace.didLaunchApplicationNotification.rawValue: workspaceNotificationCenter,
             NSWorkspace.didTerminateApplicationNotification.rawValue: workspaceNotificationCenter,
             NSWorkspace.didActivateApplicationNotification.rawValue: workspaceNotificationCenter,
@@ -27,6 +28,8 @@ class EventHelper {
         "starkDidLaunch": starkStartNotification,
 
         "screensDidChange": NSApplication.didChangeScreenParametersNotification.rawValue,
+
+        "spaceDidChange": NSWorkspace.activeSpaceDidChangeNotification.rawValue,
 
         "applicationDidLaunch": NSWorkspace.didLaunchApplicationNotification.rawValue,
         "applicationDidTerminate": NSWorkspace.didTerminateApplicationNotification.rawValue,

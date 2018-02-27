@@ -267,6 +267,10 @@ public class Window: NSObject, WindowJSExport {
         }
     }
 
+    public func spaces() -> [Space] {
+        return Space.spaces(for: self)
+    }
+
     private func pid() -> pid_t {
         var pid: pid_t = 0
         let result = AXUIElementGetPid(element, &pid)
