@@ -96,11 +96,11 @@ public class Window: NSObject, WindowJSExport {
     }
 
     override public func isEqual(_ object: Any?) -> Bool {
-        if let window = object as? Window {
-            return identifier == window.identifier
+        guard let window = object as? Window else {
+            return false
         }
 
-        return false
+        return identifier == window.identifier
     }
 
     /// Instance Variables

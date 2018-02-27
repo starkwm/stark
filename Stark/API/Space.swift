@@ -77,11 +77,11 @@ public class Space: NSObject, SpaceJSExport {
     }
 
     override public func isEqual(_ object: Any?) -> Bool {
-        if let space = object as? Space {
-            return identifier == space.identifier
+        guard let space = object as? Space else {
+            return false
         }
 
-        return false
+        return identifier == space.identifier
     }
 
     /// Instance Variables
