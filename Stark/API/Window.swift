@@ -41,6 +41,8 @@ protocol WindowJSExport: JSExport {
     func unminimize()
 
     func focus()
+
+    func spaces() -> [Space]
 }
 
 public class Window: NSObject, WindowJSExport {
@@ -273,6 +275,10 @@ public class Window: NSObject, WindowJSExport {
         if let app = NSRunningApplication(processIdentifier: pid()) {
             app.activate(options: NSApplication.ActivationOptions.activateIgnoringOtherApps)
         }
+    }
+
+    public func spaces() -> [Space] {
+        return Space.spaces(for: self)
     }
 
     private func pid() -> pid_t {
