@@ -76,6 +76,14 @@ public class Space: NSObject, SpaceJSExport {
         self.identifier = identifier
     }
 
+    override public func isEqual(_ object: Any?) -> Bool {
+        if let space = object as? Space {
+            return identifier == space.identifier
+        }
+
+        return false
+    }
+
     /// Instance Variables
 
     private var identifier: CGSSpaceID

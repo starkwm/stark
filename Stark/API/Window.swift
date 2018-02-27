@@ -95,6 +95,14 @@ public class Window: NSObject, WindowJSExport {
         self.element = element
     }
 
+    override public func isEqual(_ object: Any?) -> Bool {
+        if let window = object as? Window {
+            return identifier == window.identifier
+        }
+
+        return false
+    }
+
     /// Instance Variables
 
     private var element: AXUIElement
