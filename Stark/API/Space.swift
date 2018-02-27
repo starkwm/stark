@@ -111,11 +111,7 @@ public class Space: NSObject, SpaceJSExport {
                     return
                 }
 
-                NSLog("Screen ID: %@, Looking for ID: %@", self.identifier, identifier)
-
                 if identifier == self.identifier {
-                    NSLog("Looking for screen ID: %@", screenIdentifier)
-
                     screen = NSScreen.screen(for: screenIdentifier)
                 }
             }
