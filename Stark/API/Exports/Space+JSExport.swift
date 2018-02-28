@@ -15,4 +15,6 @@ protocol SpaceJSExport: JSExport {
     static func all() -> [Space]
 
     func screens() -> [NSScreen]
+    func windows() -> [Window]
+    func windows(_ options: [String: AnyObject]) -> [Window]
 }
