@@ -128,12 +128,12 @@
 		F6792C371C404EF3007D9DF9 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				F6A0DB63204724AF00471843 /* Extensions */,
 				F6A0DB52204648D700471843 /* Exports */,
 				F6792C401C405598007D9DF9 /* Application.swift */,
 				F66C39C51C6AD73E0008FDD5 /* Bind.swift */,
 				F60894E01C6D9E310079D7B5 /* Event.swift */,
 				F6942ECC1C6A8EEF00D2C0D4 /* Handler.swift */,
-				F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */,
 				F644DFF51FB5110B00944C6B /* Space.swift */,
 				F649A3CC1C68E3C600A3C81A /* Stark.swift */,
 				F6270F8D1CF9D10500E6F679 /* Timer.swift */,
@@ -179,6 +179,14 @@
 				F6A0DB612047203E00471843 /* Window+JSExport.swift */,
 			);
 			path = Exports;
+			sourceTree = "<group>";
+		};
+		F6A0DB63204724AF00471843 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		F6AB3A721C723C3300A5EEDB /* Observers */ = {
