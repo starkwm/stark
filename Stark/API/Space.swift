@@ -138,4 +138,16 @@ public class Space: NSObject, SpaceJSExport {
 
         return windows()
     }
+
+    public func addWindows(_ windows: [Window]) {
+        CGSAddWindowsToSpaces(CGSMainConnectionID(),
+                              windows.map { $0.identifier } as CFArray,
+                              [identifier] as CFArray)
+    }
+
+    public func removeWindows(_ windows: [Window]) {
+        CGSRemoveWindowsFromSpaces(CGSMainConnectionID(),
+                                   windows.map { $0.identifier } as CFArray,
+                                   [identifier] as CFArray)
+    }
 }
