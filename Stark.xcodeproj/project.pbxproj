@@ -128,8 +128,8 @@
 		F6792C371C404EF3007D9DF9 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				F6A0DB63204724AF00471843 /* Extensions */,
 				F6A0DB52204648D700471843 /* Exports */,
+				F6A0DB63204724AF00471843 /* Extensions */,
 				F6792C401C405598007D9DF9 /* Application.swift */,
 				F66C39C51C6AD73E0008FDD5 /* Bind.swift */,
 				F60894E01C6D9E310079D7B5 /* Event.swift */,
