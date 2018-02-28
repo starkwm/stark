@@ -7,41 +7,10 @@
 //
 
 import AppKit
-import JavaScriptCore
 
 private let starkVisibilityOptionsKey = "visible"
 
-@objc
-protocol ApplicationJSExport: JSExport {
-    static func find(_ name: String) -> Application?
-    static func launch(_ name: String)
-
-    static func all() -> [Application]
-    static func focused() -> Application?
-
-    var name: String { get }
-    var bundleId: String { get }
-    var processId: pid_t { get }
-
-    var isActive: Bool { get }
-    var isHidden: Bool { get }
-    var isTerminated: Bool { get }
-
-    func windows() -> [Window]
-    func windows(_ options: [String: AnyObject]) -> [Window]
-
-    func activate() -> Bool
-    func focus() -> Bool
-
-    func show() -> Bool
-    func hide() -> Bool
-
-    func terminate() -> Bool
-}
-
 public class Application: NSObject, ApplicationJSExport {
-    /// Static Functions
-
     public static func find(_ name: String) -> Application? {
         let app = NSWorkspace.shared.runningApplications.first(where: { $0.localizedName == name })
 
@@ -68,8 +37,6 @@ public class Application: NSObject, ApplicationJSExport {
         return nil
     }
 
-    /// Initializers
-
     init(pid: pid_t) {
         element = AXUIElementCreateApplication(pid)
         app = NSRunningApplication(processIdentifier: pid)!
@@ -79,8 +46,6 @@ public class Application: NSObject, ApplicationJSExport {
         element = AXUIElementCreateApplication(app.processIdentifier)
         self.app = app
     }
-
-    /// Instance Variables
 
     private var element: AXUIElement
 
@@ -112,8 +77,6 @@ public class Application: NSObject, ApplicationJSExport {
     public var isTerminated: Bool {
         return app.isTerminated
     }
-
-    /// Instance Functions
 
     public func windows() -> [Window] {
         var values: CFArray?

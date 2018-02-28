@@ -11,46 +11,8 @@ import JavaScriptCore
 
 private let starkVisibilityOptionsKey = "visible"
 
-@objc
-protocol WindowJSExport: JSExport {
-    static func all() -> [Window]
-    static func all(_ options: [String: AnyObject]) -> [Window]
-
-    static func focused() -> Window?
-
-    var app: Application { get }
-
-    var screen: NSScreen { get }
-
-    var title: String { get }
-
-    var frame: CGRect { get }
-    var topLeft: CGPoint { get }
-    var size: CGSize { get }
-
-    var isStandard: Bool { get }
-    var isMain: Bool { get }
-    var isMinimized: Bool { get }
-
-    func setFrame(_ frame: CGRect)
-    func setTopLeft(_ topLeft: CGPoint)
-    func setSize(_ size: CGSize)
-
-    func maximize()
-    func minimize()
-    func unminimize()
-
-    func focus()
-
-    func spaces() -> [Space]
-}
-
 public class Window: NSObject, WindowJSExport {
-    /// Static Variables
-
     private static let systemWideElement = AXUIElementCreateSystemWide()
-
-    /// Static Functions
 
     public static func all() -> [Window] {
         return Application.all().flatMap { $0.windows() }
@@ -91,8 +53,6 @@ public class Window: NSObject, WindowJSExport {
         return Window(element: window as! AXUIElement)
     }
 
-    /// Initializers
-
     init(element: AXUIElement) {
         self.element = element
     }
@@ -104,8 +64,6 @@ public class Window: NSObject, WindowJSExport {
 
         return identifier == window.identifier
     }
-
-    /// Instance Variables
 
     private var element: AXUIElement
 
@@ -233,8 +191,6 @@ public class Window: NSObject, WindowJSExport {
 
         return false
     }
-
-    /// Instance Functions
 
     public func setFrame(_ frame: CGRect) {
         setTopLeft(frame.origin)

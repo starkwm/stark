@@ -10,11 +10,7 @@ import Foundation
 import JavaScriptCore
 
 public class Handler: NSObject {
-    /// Instance Variables
-
     internal var callback: JSManagedValue?
-
-    /// Instance Functions
 
     func manageCallback(_ callback: JSValue) {
         self.callback = JSManagedValue(value: callback, andOwner: self)

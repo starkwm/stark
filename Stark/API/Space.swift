@@ -15,17 +15,7 @@ private let CGSScreenIDKey = "Display Identifier"
 private let CGSSpaceIDKey = "ManagedSpaceID"
 private let CGSSpacesKey = "Spaces"
 
-@objc
-protocol SpaceJSExport: JSExport {
-    static func active() -> Space
-    static func all() -> [Space]
-
-    func screens() -> [NSScreen]
-}
-
 public class Space: NSObject, SpaceJSExport {
-    /// Static Functions
-
     public static func active() -> Space {
         return Space(identifier: CGSGetActiveSpace(CGSMainConnectionID()))
     }
@@ -72,8 +62,6 @@ public class Space: NSObject, SpaceJSExport {
         return spaces
     }
 
-    /// Initializers
-
     init(identifier: CGSSpaceID) {
         self.identifier = identifier
     }
@@ -86,11 +74,7 @@ public class Space: NSObject, SpaceJSExport {
         return identifier == space.identifier
     }
 
-    /// Instance Variables
-
     private var identifier: CGSSpaceID
-
-    /// Instance Functions
 
     public var isNormal: Bool {
         return CGSSpaceGetType(CGSMainConnectionID(), identifier) == kCGSSpaceUser

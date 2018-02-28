@@ -9,26 +9,12 @@
 import Carbon
 import JavaScriptCore
 
-@objc
-protocol BindJSExport: JSExport {
-    init(key: String, modifiers: [String], callback: JSValue)
-
-    var key: String { get }
-    var modifiers: [String] { get }
-    var isEnabled: Bool { get }
-
-    func enable() -> Bool
-    func disable() -> Bool
-}
-
-private var bindIdentifierSequence: UInt = 0
-
 private let starkHotKeyIdentifier = "starkHotKeyIdentifier"
 private let starkHotKeyKeyDownNotification = "starkHotKeyKeyDownNotification"
 
-public class Bind: Handler, BindJSExport, HashableJSExport {
-    /// Static Variables
+private var bindIdentifierSequence: UInt = 0
 
+public class Bind: Handler, BindJSExport, HashableJSExport {
     private static var once: () = {
         let callback: EventHandlerUPP = { _, event, _ -> OSStatus in
             autoreleasepool {
@@ -60,14 +46,6 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
 
         InstallEventHandler(GetEventDispatcherTarget(), callback, 1, &keyDown, nil, nil)
     }()
-
-    /// Static Functions
-
-    public static func hashForKey(_ key: String, modifiers: [String]) -> Int {
-        return String(format: "%@[%@]", key, modifiers.joined(separator: "|")).hashValue
-    }
-
-    /// Initializers
 
     public required init(key: String, modifiers: [String], callback: JSValue) {
         _ = Bind.once
@@ -103,8 +81,6 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
         _ = disable()
     }
 
-    /// Instance Variables
-
     private var identifier: UInt
 
     private var keyCode: UInt32
@@ -115,15 +91,15 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
 
     private var enabled = false
 
-    public override var hashValue: Int { return Bind.hashForKey(key, modifiers: modifiers) }
+    public override var hashValue: Int {
+        return String(format: "%@[%@]", key, modifiers.joined(separator: "|")).hashValue
+    }
 
     public var key: String = ""
 
     public var modifiers: [String] = []
 
     public var isEnabled: Bool { return enabled }
-
-    /// Instance Functions
 
     public func enable() -> Bool {
         if enabled {

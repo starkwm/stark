@@ -7,27 +7,10 @@
 //
 
 import AppKit
-import JavaScriptCore
 
 private let NSScreenNumberKey = NSDeviceDescriptionKey("NSScreenNumber")
 
-@objc
-protocol NSScreenJSExport: JSExport {
-    static func all() -> [NSScreen]
-    static func focused() -> NSScreen?
-
-    var identifier: String { get }
-
-    var frameIncludingDockAndMenu: CGRect { get }
-    var frameWithoutDockOrMenu: CGRect { get }
-
-    var next: NSScreen? { get }
-    var previous: NSScreen? { get }
-}
-
 extension NSScreen: NSScreenJSExport {
-    /// Static Functions
-
     public static func all() -> [NSScreen] {
         return screens
     }
@@ -39,8 +22,6 @@ extension NSScreen: NSScreenJSExport {
     public static func screen(for identifier: String) -> NSScreen? {
         return screens.first(where: { $0.identifier == identifier })
     }
-
-    /// Instance Variables
 
     public var identifier: String {
         guard let number = deviceDescription[NSScreenNumberKey] as? NSNumber else {
