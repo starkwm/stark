@@ -19,4 +19,7 @@ protocol NSScreenJSExport: JSExport {
     var frameWithoutDockOrMenu: CGRect { get }
     var next: NSScreen? { get }
     var previous: NSScreen? { get }
+
+    func currentSpace() -> Space?
+    func spaces() -> [Space]
 }
