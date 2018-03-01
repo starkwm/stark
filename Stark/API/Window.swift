@@ -9,6 +9,9 @@
 import AppKit
 import JavaScriptCore
 
+// XXX: Undocumented private attribute for full screen mode
+private let kAXFullscreenAttribute = "AXFullScreen"
+
 private let starkVisibilityOptionsKey = "visible"
 
 public class Window: NSObject, WindowJSExport {
@@ -172,6 +175,21 @@ public class Window: NSObject, WindowJSExport {
 
         if let subrole = value as? String {
             return subrole == kAXStandardWindowSubrole
+        }
+
+        return false
+    }
+
+    public var isFullscreen: Bool {
+        var value: AnyObject?
+        let result = AXUIElementCopyAttributeValue(element, kAXFullscreenAttribute as CFString, &value)
+
+        if result != .success {
+            return false
+        }
+
+        if let number = value as? NSNumber {
+            return number.boolValue
         }
 
         return false

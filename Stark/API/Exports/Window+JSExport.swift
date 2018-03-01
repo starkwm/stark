@@ -23,6 +23,7 @@ protocol WindowJSExport: JSExport {
     var size: CGSize { get }
     var isStandard: Bool { get }
     var isMain: Bool { get }
+    var isFullscreen: Bool { get }
     var isMinimized: Bool { get }
 
     func setFrame(_ frame: CGRect)
