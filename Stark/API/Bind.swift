@@ -9,23 +9,10 @@
 import Carbon
 import JavaScriptCore
 
-@objc
-protocol BindJSExport: JSExport {
-    init(key: String, modifiers: [String], callback: JSValue)
-
-    var key: String { get }
-    var modifiers: [String] { get }
-
-    func enable() -> Bool
-    func disable() -> Bool
-
-    var isEnabled: Bool { get }
-}
-
-private var bindIdentifierSequence: UInt = 0
-
 private let starkHotKeyIdentifier = "starkHotKeyIdentifier"
 private let starkHotKeyKeyDownNotification = "starkHotKeyKeyDownNotification"
+
+private var bindIdentifierSequence: UInt = 0
 
 public class Bind: Handler, BindJSExport, HashableJSExport {
     private static var once: () = {
@@ -60,25 +47,6 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
         InstallEventHandler(GetEventDispatcherTarget(), callback, 1, &keyDown, nil, nil)
     }()
 
-    public override var hashValue: Int { return Bind.hashForKey(key, modifiers: modifiers) }
-
-    public var key: String = ""
-    public var modifiers: [String] = []
-
-    private var identifier: UInt = 0
-
-    private var keyCode: UInt32 = 0
-    private var modifierFlags: UInt32 = 0
-
-    private var eventHotKeyRef: EventHotKeyRef?
-
-    private var enabled = false
-
-    public static func hashForKey(_ key: String, modifiers: [String]) -> Int {
-        let key = String(format: "%@[%@]", key, modifiers.joined(separator: "|"))
-        return key.hashValue
-    }
-
     public required init(key: String, modifiers: [String], callback: JSValue) {
         _ = Bind.once
 
@@ -112,6 +80,26 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
 
         _ = disable()
     }
+
+    private var identifier: UInt
+
+    private var keyCode: UInt32
+
+    private var modifierFlags: UInt32
+
+    private var eventHotKeyRef: EventHotKeyRef?
+
+    private var enabled = false
+
+    public override var hashValue: Int {
+        return String(format: "%@[%@]", key, modifiers.joined(separator: "|")).hashValue
+    }
+
+    public var key: String = ""
+
+    public var modifiers: [String] = []
+
+    public var isEnabled: Bool { return enabled }
 
     public func enable() -> Bool {
         if enabled {
@@ -151,10 +139,6 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
         enabled = false
 
         return true
-    }
-
-    public var isEnabled: Bool {
-        return enabled
     }
 
     @objc

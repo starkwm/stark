@@ -7,19 +7,8 @@
 //
 
 import AppKit
-import JavaScriptCore
 
-@objc
-protocol NSScreenJSExport: JSExport {
-    static func all() -> [NSScreen]
-    static func focused() -> NSScreen?
-
-    var frameIncludingDockAndMenu: CGRect { get }
-    var frameWithoutDockOrMenu: CGRect { get }
-
-    var next: NSScreen? { get }
-    var previous: NSScreen? { get }
-}
+private let NSScreenNumberKey = NSDeviceDescriptionKey("NSScreenNumber")
 
 extension NSScreen: NSScreenJSExport {
     public static func all() -> [NSScreen] {
@@ -28,6 +17,19 @@ extension NSScreen: NSScreenJSExport {
 
     public static func focused() -> NSScreen? {
         return main
+    }
+
+    public static func screen(for identifier: String) -> NSScreen? {
+        return screens.first(where: { $0.identifier == identifier })
+    }
+
+    public var identifier: String {
+        guard let number = deviceDescription[NSScreenNumberKey] as? NSNumber else {
+            return ""
+        }
+
+        let uuid = CGDisplayCreateUUIDFromDisplayID(number.uint32Value).takeRetainedValue()
+        return CFUUIDCreateString(nil, uuid) as String
     }
 
     public var frameIncludingDockAndMenu: CGRect {
@@ -74,5 +76,13 @@ extension NSScreen: NSScreenJSExport {
         }
 
         return nil
+    }
+
+    public func currentSpace() -> Space? {
+        return Space.currentSpace(for: self)
+    }
+
+    public func spaces() -> [Space] {
+        return Space.all().filter { $0.screens().contains(self) }
     }
 }

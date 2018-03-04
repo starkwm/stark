@@ -9,16 +9,7 @@
 import AppKit
 import JavaScriptCore
 
-@objc
-protocol TimerJSExport: JSExport {
-    init(interval: TimeInterval, repeats: Bool, callback: JSValue)
-
-    func stop()
-}
-
 public class Timer: Handler, TimerJSExport, HashableJSExport {
-    private var timer: Foundation.Timer?
-
     public required init(interval: TimeInterval, repeats: Bool, callback: JSValue) {
         super.init()
 
@@ -30,6 +21,8 @@ public class Timer: Handler, TimerJSExport, HashableJSExport {
 
         manageCallback(callback)
     }
+
+    private var timer: Foundation.Timer?
 
     public func stop() {
         timer?.invalidate()

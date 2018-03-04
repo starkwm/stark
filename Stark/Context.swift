@@ -55,8 +55,11 @@ class Context {
                           forKeyedSubscript: "Stark" as (NSCopying & NSObjectProtocol)!)
 
         context.setObject(NSScreen.self, forKeyedSubscript: "Screen" as (NSCopying & NSObjectProtocol)!)
+
         context.setObject(Application.self, forKeyedSubscript: "App" as (NSCopying & NSObjectProtocol)!)
         context.setObject(Window.self, forKeyedSubscript: "Window" as (NSCopying & NSObjectProtocol)!)
+        context.setObject(Space.self, forKeyedSubscript: "Space" as (NSCopying & NSObjectProtocol)!)
+
         context.setObject(Bind.self, forKeyedSubscript: "Bind" as (NSCopying & NSObjectProtocol)!)
         context.setObject(Event.self, forKeyedSubscript: "Event" as (NSCopying & NSObjectProtocol)!)
         context.setObject(Timer.self, forKeyedSubscript: "Timer" as (NSCopying & NSObjectProtocol)!)

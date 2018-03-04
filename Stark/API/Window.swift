@@ -9,44 +9,13 @@
 import AppKit
 import JavaScriptCore
 
+// XXX: Undocumented private attribute for full screen mode
+private let kAXFullscreenAttribute = "AXFullScreen"
+
 private let starkVisibilityOptionsKey = "visible"
-
-@objc
-protocol WindowJSExport: JSExport {
-    static func all() -> [Window]
-    static func all(_ options: [String: AnyObject]) -> [Window]
-
-    static func focused() -> Window?
-
-    var app: Application { get }
-
-    var screen: NSScreen { get }
-
-    var title: String { get }
-
-    var frame: CGRect { get }
-    var topLeft: CGPoint { get }
-    var size: CGSize { get }
-
-    func setFrame(_ frame: CGRect)
-    func setTopLeft(_ topLeft: CGPoint)
-    func setSize(_ size: CGSize)
-
-    func maximize()
-    func minimize()
-    func unminimize()
-
-    func focus()
-
-    var isStandard: Bool { get }
-    var isMain: Bool { get }
-    var isMinimized: Bool { get }
-}
 
 public class Window: NSObject, WindowJSExport {
     private static let systemWideElement = AXUIElementCreateSystemWide()
-
-    private var element: AXUIElement
 
     public static func all() -> [Window] {
         return Application.all().flatMap { $0.windows() }
@@ -89,6 +58,22 @@ public class Window: NSObject, WindowJSExport {
 
     init(element: AXUIElement) {
         self.element = element
+    }
+
+    override public func isEqual(_ object: Any?) -> Bool {
+        guard let window = object as? Window else {
+            return false
+        }
+
+        return identifier == window.identifier
+    }
+
+    private var element: AXUIElement
+
+    public var identifier: CGWindowID {
+        var identifier: CGWindowID = 0
+        _AXUIElementGetWindow(element, &identifier)
+        return identifier
     }
 
     public var app: Application {
@@ -165,6 +150,66 @@ public class Window: NSObject, WindowJSExport {
         return size
     }
 
+    public var isMain: Bool {
+        var value: AnyObject?
+        let result = AXUIElementCopyAttributeValue(element, kAXMainAttribute as CFString, &value)
+
+        if result != .success {
+            return false
+        }
+
+        if let number = value as? NSNumber {
+            return number.boolValue
+        }
+
+        return false
+    }
+
+    public var isStandard: Bool {
+        var value: AnyObject?
+        let result = AXUIElementCopyAttributeValue(element, kAXSubroleAttribute as CFString, &value)
+
+        if result != .success {
+            return false
+        }
+
+        if let subrole = value as? String {
+            return subrole == kAXStandardWindowSubrole
+        }
+
+        return false
+    }
+
+    public var isFullscreen: Bool {
+        var value: AnyObject?
+        let result = AXUIElementCopyAttributeValue(element, kAXFullscreenAttribute as CFString, &value)
+
+        if result != .success {
+            return false
+        }
+
+        if let number = value as? NSNumber {
+            return number.boolValue
+        }
+
+        return false
+    }
+
+    public var isMinimized: Bool {
+        var value: AnyObject?
+        let result = AXUIElementCopyAttributeValue(element, kAXMinimizedAttribute as CFString, &value)
+
+        if result != .success {
+            return false
+        }
+
+        if let number = value as? NSNumber {
+            return number.boolValue
+        }
+
+        return false
+    }
+
     public func setFrame(_ frame: CGRect) {
         setTopLeft(frame.origin)
         setSize(frame.size)
@@ -206,49 +251,8 @@ public class Window: NSObject, WindowJSExport {
         }
     }
 
-    public var isMain: Bool {
-        var value: AnyObject?
-        let result = AXUIElementCopyAttributeValue(element, kAXMainAttribute as CFString, &value)
-
-        if result != .success {
-            return false
-        }
-
-        if let number = value as? NSNumber {
-            return number.boolValue
-        }
-
-        return false
-    }
-
-    public var isStandard: Bool {
-        var value: AnyObject?
-        let result = AXUIElementCopyAttributeValue(element, kAXSubroleAttribute as CFString, &value)
-
-        if result != .success {
-            return false
-        }
-
-        if let subrole = value as? String {
-            return subrole == kAXStandardWindowSubrole
-        }
-
-        return false
-    }
-
-    public var isMinimized: Bool {
-        var value: AnyObject?
-        let result = AXUIElementCopyAttributeValue(element, kAXMinimizedAttribute as CFString, &value)
-
-        if result != .success {
-            return false
-        }
-
-        if let number = value as? NSNumber {
-            return number.boolValue
-        }
-
-        return false
+    public func spaces() -> [Space] {
+        return Space.spaces(for: self)
     }
 
     private func pid() -> pid_t {

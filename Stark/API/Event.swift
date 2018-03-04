@@ -9,21 +9,7 @@
 import AppKit
 import JavaScriptCore
 
-@objc
-protocol EventJSExport: JSExport {
-    init(event: String, callback: JSValue)
-
-    var name: String { get }
-
-    func disable()
-}
-
 public class Event: Handler, EventJSExport, HashableJSExport {
-    public var name: String
-
-    private var notification: String
-    private var notificationCenter: NotificationCenter
-
     public required init(event: String, callback: JSValue) {
         name = event
 
@@ -43,6 +29,12 @@ public class Event: Handler, EventJSExport, HashableJSExport {
     deinit {
         disable()
     }
+
+    private var notification: String
+
+    private var notificationCenter: NotificationCenter
+
+    public var name: String
 
     public func disable() {
         notificationCenter.removeObserver(self, name: NSNotification.Name(rawValue: notification), object: nil)
