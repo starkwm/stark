@@ -14,6 +14,7 @@ protocol BindJSExport: JSExport {
 
     var key: String { get }
     var modifiers: [String] { get }
+
     var isEnabled: Bool { get }
 
     func enable() -> Bool
