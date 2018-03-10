@@ -46,13 +46,13 @@ public class Space: NSObject, SpaceJSExport {
         return spaces
     }
 
-    public static func currentSpace(for screen: NSScreen) -> Space? {
+    static func currentSpace(for screen: NSScreen) -> Space? {
         let identifier = CGSManagedDisplayGetCurrentSpace(CGSMainConnectionID(), screen.identifier as CFString)
 
         return Space(identifier: identifier)
     }
 
-    public static func spaces(for window: Window) -> [Space] {
+    static func spaces(for window: Window) -> [Space] {
         var spaces: [Space] = []
 
         let identifiers = CGSCopySpacesForWindows(CGSMainConnectionID(),
