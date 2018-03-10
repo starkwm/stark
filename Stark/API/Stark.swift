@@ -35,7 +35,7 @@ public class Stark: NSObject, StarkJSExport {
 
         let task = Process()
         task.launchPath = command
-        task.arguments = arguments
+        task.arguments = arguments ?? []
         task.launch()
     }
 }
