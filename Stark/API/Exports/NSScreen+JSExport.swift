@@ -15,8 +15,10 @@ protocol NSScreenJSExport: JSExport {
     static func focused() -> NSScreen?
 
     var identifier: String { get }
+
     var frameIncludingDockAndMenu: CGRect { get }
     var frameWithoutDockOrMenu: CGRect { get }
+
     var next: NSScreen? { get }
     var previous: NSScreen? { get }
 
