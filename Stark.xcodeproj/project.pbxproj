@@ -223,7 +223,7 @@
 			buildPhases = (
 				F620B8771E382F6C0090EB11 /* Lint JavaScript */,
 				F6D6F2261EC746D000ACAF35 /* Concatenate JavaScript */,
-				F66FB78E1E08EDCB006A0430 /* Lint Swift */,
+				F66FB78E1E08EDCB006A0430 /* Run SwiftLint */,
 				F6792C231C404B53007D9DF9 /* Sources */,
 				F6FFF1A61E1219B20023D78C /* Frameworks */,
 				F6792C251C404B53007D9DF9 /* Resources */,
@@ -249,7 +249,9 @@
 				TargetAttributes = {
 					F6792C261C404B53007D9DF9 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = Y54Z78V9M7;
 						LastSwiftMigration = 0900;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -301,14 +303,14 @@
 			shellPath = /bin/sh;
 			shellScript = "make lint";
 		};
-		F66FB78E1E08EDCB006A0430 /* Lint Swift */ = {
+		F66FB78E1E08EDCB006A0430 /* Run SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Lint Swift";
+			name = "Run SwiftLint";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -472,8 +474,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Y54Z78V9M7;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Stark/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
@@ -493,8 +498,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Y54Z78V9M7;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = "Stark/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
