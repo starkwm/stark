@@ -31,10 +31,6 @@ public class Window: NSObject, WindowJSExport {
         return all()
     }
 
-    public static func visible() -> [Window] {
-        return all().filter { !$0.app.isHidden && !$0.isMinimized && $0.isStandard }
-    }
-
     public static func focused() -> Window? {
         var app: AnyObject?
         AXUIElementCopyAttributeValue(systemWideElement, kAXFocusedApplicationAttribute as CFString, &app)
