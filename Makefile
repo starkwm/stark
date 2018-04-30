@@ -19,9 +19,9 @@ bootstrap:
 	@cd $(JAVASCRIPT_DIR) && npm install
 
 lint:
-	@cd $(JAVASCRIPT_DIR) && npm run lint
+	@cd $(JAVASCRIPT_DIR) && npx eslint *.js
 
 concat:
-	@cd $(JAVASCRIPT_DIR) && npm run build
+	@cd $(JAVASCRIPT_DIR) && npx concat *.js -o ../Stark/Resources/stark-lib.js
 
 .PHONY: all build archive bootstrap lint concat

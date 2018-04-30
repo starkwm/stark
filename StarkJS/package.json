@@ -1,10 +1,6 @@
 {
   "name": "stark.js",
   "private": true,
-  "scripts": {
-    "lint": "eslint *.js",
-    "build": "concat *.js -o ../Stark/Resources/stark-lib.js"
-  },
   "devDependencies": {
     "concat": "^1.0.3",
     "eslint": "^4.19.1",
