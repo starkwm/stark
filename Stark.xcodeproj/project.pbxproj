@@ -223,7 +223,7 @@
 			buildPhases = (
 				F620B8771E382F6C0090EB11 /* Lint JavaScript */,
 				F6D6F2261EC746D000ACAF35 /* Concatenate JavaScript */,
-				F66FB78E1E08EDCB006A0430 /* Run SwiftLint */,
+				F66FB78E1E08EDCB006A0430 /* Lint Swift */,
 				F6792C231C404B53007D9DF9 /* Sources */,
 				F6FFF1A61E1219B20023D78C /* Frameworks */,
 				F6792C251C404B53007D9DF9 /* Resources */,
@@ -303,14 +303,14 @@
 			shellPath = /bin/sh;
 			shellScript = "make lint";
 		};
-		F66FB78E1E08EDCB006A0430 /* Run SwiftLint */ = {
+		F66FB78E1E08EDCB006A0430 /* Lint Swift */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Run SwiftLint";
+			name = "Lint Swift";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
