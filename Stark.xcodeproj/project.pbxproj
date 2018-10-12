@@ -301,7 +301,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "make lint";
+			shellScript = "make lint\n";
 		};
 		F66FB78E1E08EDCB006A0430 /* Lint Swift */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -315,7 +315,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		F6D6F2261EC746D000ACAF35 /* Concatenate JavaScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -329,7 +329,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "make concat";
+			shellScript = "make concat\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
