@@ -34,16 +34,16 @@ extension NSScreen: NSScreenJSExport {
 
     public var frameIncludingDockAndMenu: CGRect {
         let primaryScreen = NSScreen.screens.first
-        var adjusted = frame
-        adjusted.origin.y = primaryScreen!.frame.height - adjusted.height - adjusted.origin.y
-        return adjusted
+        var frame = self.frame
+        frame.origin.y = primaryScreen!.frame.height - frame.height - frame.origin.y
+        return frame
     }
 
     public var frameWithoutDockOrMenu: CGRect {
         let primaryScreen = NSScreen.screens.first
-        var adjusted = visibleFrame
-        adjusted.origin.y = primaryScreen!.frame.height - adjusted.height - adjusted.origin.y
-        return adjusted
+        var frame = visibleFrame
+        frame.origin.y = primaryScreen!.frame.height - frame.height - frame.origin.y
+        return frame
     }
 
     public var next: NSScreen? {
