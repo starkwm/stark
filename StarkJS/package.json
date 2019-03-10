@@ -2,9 +2,9 @@
   "name": "stark.js",
   "private": true,
   "devDependencies": {
-    "concat": "1.0.3",
-    "eslint": "5.6.1",
-    "eslint-config-airbnb-base": "13.1.0",
-    "eslint-plugin-import": "2.14.0"
+    "concat": "^1.0.3",
+    "eslint": "^5.15.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0"
   }
 }
