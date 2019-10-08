@@ -16,8 +16,8 @@ public class Handler: NSObject {
                 LogHelper.log(message: String(format: "JavaScript exception: %@", exception!))
             }
 
-            let fn = JSValue(object: callback, in: scope)
-            _ = fn?.call(withArguments: arguments)
+            let function = JSValue(object: callback, in: scope)
+            _ = function?.call(withArguments: arguments)
         }
     }
 
