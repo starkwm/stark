@@ -32,3 +32,5 @@ identifier_name:
 line_length: 120
 number_separator:
   minimum_length: 5
+object_literal:
+  image_literal: false
