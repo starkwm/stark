@@ -37,7 +37,6 @@
 		F6CBE6081C418D6300C962A7 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6071C418D6300C962A7 /* Config.swift */; };
 		F6D00B671E0E03F30087F68D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6D00B661E0E03F30087F68D /* MainMenu.xib */; };
 		F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */; };
-		F6F9B8291C45D8D7007928D0 /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F9B8281C45D8D7007928D0 /* AlertHelper.swift */; };
 		F6FC1C661CBAE8E10070ED3B /* stark-example.js in Resources */ = {isa = PBXBuildFile; fileRef = F6FC1C651CBAE8E10070ED3B /* stark-example.js */; };
 /* End PBXBuildFile section */
 
@@ -75,7 +74,6 @@
 		F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Stark-Bridging-Header.h"; sourceTree = "<group>"; };
 		F6D00B661E0E03F30087F68D /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchAgentHelper.swift; sourceTree = "<group>"; };
-		F6F9B8281C45D8D7007928D0 /* AlertHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
 		F6FC1C651CBAE8E10070ED3B /* stark-example.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "stark-example.js"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -159,7 +157,6 @@
 		F6792C381C404EF8007D9DF9 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				F6F9B8281C45D8D7007928D0 /* AlertHelper.swift */,
 				F60894E21C6DA0090079D7B5 /* EventHelper.swift */,
 				F6002D6E1C47086100C958F5 /* KeyCodeHelper.swift */,
 				F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */,
@@ -346,7 +343,6 @@
 				F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */,
 				F66454FB1C703DD000B6371C /* AppObserver.swift in Sources */,
 				F6A0DB5420471EE700471843 /* NSScreen+JSExport.swift in Sources */,
-				F6F9B8291C45D8D7007928D0 /* AlertHelper.swift in Sources */,
 				F66454F91C70107F00B6371C /* RunningAppsObserver.swift in Sources */,
 				F6CBE6081C418D6300C962A7 /* Config.swift in Sources */,
 				F6A0DB5A2047200300471843 /* Event+JSExport.swift in Sources */,
