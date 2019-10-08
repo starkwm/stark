@@ -49,7 +49,7 @@ extension NSScreen: NSScreenJSExport {
     public var next: NSScreen? {
         let screens = NSScreen.screens
 
-        if var index = screens.index(of: self) {
+        if var index = screens.firstIndex(of: self) {
             index += 1
 
             if index == screens.count {
@@ -65,7 +65,7 @@ extension NSScreen: NSScreenJSExport {
     public var previous: NSScreen? {
         let screens = NSScreen.screens
 
-        if var index = screens.index(of: self) {
+        if var index = screens.firstIndex(of: self) {
             index -= 1
 
             if index == -1 {
