@@ -12,7 +12,7 @@ extension NSScreen: NSScreenJSExport {
     }
 
     public static func screen(for identifier: String) -> NSScreen? {
-        return screens.first(where: { $0.identifier == identifier })
+        return screens.first { $0.identifier == identifier }
     }
 
     public var identifier: String {

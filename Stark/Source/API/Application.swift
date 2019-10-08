@@ -4,7 +4,7 @@ private let starkVisibilityOptionsKey = "visible"
 
 public class Application: NSObject, ApplicationJSExport {
     public static func find(_ name: String) -> Application? {
-        let app = NSWorkspace.shared.runningApplications.first(where: { $0.localizedName == name })
+        let app = NSWorkspace.shared.runningApplications.first { $0.localizedName == name }
 
         guard app != nil else {
             return nil
