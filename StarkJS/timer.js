@@ -7,18 +7,18 @@
   Timer.after = (interval, callback) => {
     const timer = new Timer(interval, false, (handler) => {
       callback(handler);
-      Timer.off(handler.hashValue);
+      Timer.off(handler.id);
     });
 
-    timers[timer.hashValue] = timer;
-    return timer.hashValue;
+    timers[timer.id] = timer;
+    return timer.id;
   };
 
   // eslint-disable-next-line no-param-reassign
   Timer.every = (interval, callback) => {
     const timer = new Timer(interval, true, callback);
-    timers[timer.hashValue] = timer;
-    return timer.hashValue;
+    timers[timer.id] = timer;
+    return timer.id;
   };
 
   // eslint-disable-next-line no-param-reassign

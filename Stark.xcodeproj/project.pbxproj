@@ -37,7 +37,6 @@
 		F6CBE6081C418D6300C962A7 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6071C418D6300C962A7 /* Config.swift */; };
 		F6D00B671E0E03F30087F68D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6D00B661E0E03F30087F68D /* MainMenu.xib */; };
 		F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */; };
-		F6ED60091D71D38C007CF2A3 /* Hashable+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6ED60081D71D38C007CF2A3 /* Hashable+JSExport.swift */; };
 		F6F9B8291C45D8D7007928D0 /* AlertHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F9B8281C45D8D7007928D0 /* AlertHelper.swift */; };
 		F6FC1C661CBAE8E10070ED3B /* stark-example.js in Resources */ = {isa = PBXBuildFile; fileRef = F6FC1C651CBAE8E10070ED3B /* stark-example.js */; };
 /* End PBXBuildFile section */
@@ -76,7 +75,6 @@
 		F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Stark-Bridging-Header.h"; sourceTree = "<group>"; };
 		F6D00B661E0E03F30087F68D /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchAgentHelper.swift; sourceTree = "<group>"; };
-		F6ED60081D71D38C007CF2A3 /* Hashable+JSExport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Hashable+JSExport.swift"; sourceTree = "<group>"; };
 		F6F9B8281C45D8D7007928D0 /* AlertHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertHelper.swift; sourceTree = "<group>"; };
 		F6FC1C651CBAE8E10070ED3B /* stark-example.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "stark-example.js"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -187,7 +185,6 @@
 				F6A0DB5520471FBD00471843 /* Application+JSExport.swift */,
 				F6A0DB5720471FF900471843 /* Bind+JSExport.swift */,
 				F6A0DB592047200300471843 /* Event+JSExport.swift */,
-				F6ED60081D71D38C007CF2A3 /* Hashable+JSExport.swift */,
 				F6A0DB5320471EE700471843 /* NSScreen+JSExport.swift */,
 				F6A0DB5B2047201400471843 /* Space+JSExport.swift */,
 				F6A0DB5D2047202400471843 /* Stark+JSExport.swift */,
@@ -342,7 +339,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F6ED60091D71D38C007CF2A3 /* Hashable+JSExport.swift in Sources */,
 				F6792C411C405598007D9DF9 /* Application.swift in Sources */,
 				F6A41BD31CA7144100D1C0C5 /* LogHelper.swift in Sources */,
 				F60894E11C6D9E310079D7B5 /* Event.swift in Sources */,

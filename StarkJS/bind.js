@@ -8,8 +8,8 @@
     const handler = new Bind(key, modifiers, callback);
 
     if (handler) {
-      binds[handler.hashValue] = handler;
-      return handler.hashValue;
+      binds[handler.id] = handler;
+      return handler.id;
     }
 
     return null;

@@ -9,7 +9,7 @@
 import AppKit
 import JavaScriptCore
 
-public class Event: Handler, EventJSExport, HashableJSExport {
+public class Event: Handler, EventJSExport {
     public required init(event: String, callback: JSValue) {
         name = event
 
@@ -33,6 +33,10 @@ public class Event: Handler, EventJSExport, HashableJSExport {
     private var notification: String
 
     private var notificationCenter: NotificationCenter
+
+    public var id: Int {
+        return hashValue
+    }
 
     public var name: String
 

@@ -9,7 +9,7 @@
 import AppKit
 import JavaScriptCore
 
-public class Timer: Handler, TimerJSExport, HashableJSExport {
+public class Timer: Handler, TimerJSExport {
     public required init(interval: TimeInterval, repeats: Bool, callback: JSValue) {
         super.init()
 
@@ -23,6 +23,10 @@ public class Timer: Handler, TimerJSExport, HashableJSExport {
     }
 
     private var timer: Foundation.Timer?
+
+    public var id: Int {
+        return hashValue
+    }
 
     public func stop() {
         timer?.invalidate()
