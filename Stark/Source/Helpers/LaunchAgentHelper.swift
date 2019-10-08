@@ -14,15 +14,15 @@ class LaunchAgentHelper {
         return launchAgentDirectory?.appendingPathComponent("co.rustyrobots.Stark.plist")
     }
 
-    static func add() -> Bool {
+    static func add() {
         guard let launchAgentDirectory = launchAgentDirectory else {
             LogHelper.log(message: "Could not access launch agent directory")
-            return false
+            return
         }
 
         guard let launchAgentFile = launchAgentFile else {
             LogHelper.log(message: "Could not access launch agent file")
-            return false
+            return
         }
 
         if (launchAgentDirectory as NSURL).checkResourceIsReachableAndReturnError(nil) == false {
@@ -32,7 +32,7 @@ class LaunchAgentHelper {
         }
 
         guard let execPath = Bundle.main.executablePath else {
-            return false
+            return
         }
 
         let plist: NSDictionary = [
@@ -42,8 +42,6 @@ class LaunchAgentHelper {
         ]
 
         plist.write(to: launchAgentFile, atomically: true)
-
-        return true
     }
 
     static func remove() {

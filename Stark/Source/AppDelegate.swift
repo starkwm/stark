@@ -65,7 +65,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             LaunchAgentHelper.remove()
             sender.state = NSControl.StateValue.off
         } else {
-            _ = LaunchAgentHelper.add()
+            LaunchAgentHelper.add()
             sender.state = NSControl.StateValue.on
         }
     }
