@@ -24,14 +24,14 @@
 		F6792C431C4055A2007D9DF9 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C421C4055A2007D9DF9 /* Window.swift */; };
 		F67CFD7D1D93164000FF0F49 /* stark-lib.js in Resources */ = {isa = PBXBuildFile; fileRef = F67CFD7C1D93164000FF0F49 /* stark-lib.js */; };
 		F6942ECD1C6A8EEF00D2C0D4 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6942ECC1C6A8EEF00D2C0D4 /* Handler.swift */; };
-		F6A0DB5420471EE700471843 /* NSScreen+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5320471EE700471843 /* NSScreen+JSExport.swift */; };
-		F6A0DB5620471FBD00471843 /* Application+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5520471FBD00471843 /* Application+JSExport.swift */; };
-		F6A0DB5820471FF900471843 /* Bind+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5720471FF900471843 /* Bind+JSExport.swift */; };
-		F6A0DB5A2047200300471843 /* Event+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB592047200300471843 /* Event+JSExport.swift */; };
-		F6A0DB5C2047201400471843 /* Space+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5B2047201400471843 /* Space+JSExport.swift */; };
-		F6A0DB5E2047202400471843 /* Stark+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5D2047202400471843 /* Stark+JSExport.swift */; };
-		F6A0DB602047203500471843 /* Timer+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5F2047203500471843 /* Timer+JSExport.swift */; };
-		F6A0DB622047203E00471843 /* Window+JSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB612047203E00471843 /* Window+JSExport.swift */; };
+		F6A0DB5420471EE700471843 /* NSScreenJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5320471EE700471843 /* NSScreenJSExport.swift */; };
+		F6A0DB5620471FBD00471843 /* ApplicationJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5520471FBD00471843 /* ApplicationJSExport.swift */; };
+		F6A0DB5820471FF900471843 /* BindJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5720471FF900471843 /* BindJSExport.swift */; };
+		F6A0DB5A2047200300471843 /* EventJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB592047200300471843 /* EventJSExport.swift */; };
+		F6A0DB5C2047201400471843 /* SpaceJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5B2047201400471843 /* SpaceJSExport.swift */; };
+		F6A0DB5E2047202400471843 /* StarkJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5D2047202400471843 /* StarkJSExport.swift */; };
+		F6A0DB602047203500471843 /* TimerJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5F2047203500471843 /* TimerJSExport.swift */; };
+		F6A0DB622047203E00471843 /* WindowJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB612047203E00471843 /* WindowJSExport.swift */; };
 		F6A41BD31CA7144100D1C0C5 /* LogHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A41BD21CA7144100D1C0C5 /* LogHelper.swift */; };
 		F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */; };
 		F6CBE6081C418D6300C962A7 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6071C418D6300C962A7 /* Config.swift */; };
@@ -60,14 +60,14 @@
 		F6792C421C4055A2007D9DF9 /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
 		F67CFD7C1D93164000FF0F49 /* stark-lib.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "stark-lib.js"; sourceTree = "<group>"; };
 		F6942ECC1C6A8EEF00D2C0D4 /* Handler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Handler.swift; sourceTree = "<group>"; };
-		F6A0DB5320471EE700471843 /* NSScreen+JSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSScreen+JSExport.swift"; sourceTree = "<group>"; };
-		F6A0DB5520471FBD00471843 /* Application+JSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Application+JSExport.swift"; sourceTree = "<group>"; };
-		F6A0DB5720471FF900471843 /* Bind+JSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bind+JSExport.swift"; sourceTree = "<group>"; };
-		F6A0DB592047200300471843 /* Event+JSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Event+JSExport.swift"; sourceTree = "<group>"; };
-		F6A0DB5B2047201400471843 /* Space+JSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Space+JSExport.swift"; sourceTree = "<group>"; };
-		F6A0DB5D2047202400471843 /* Stark+JSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Stark+JSExport.swift"; sourceTree = "<group>"; };
-		F6A0DB5F2047203500471843 /* Timer+JSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Timer+JSExport.swift"; sourceTree = "<group>"; };
-		F6A0DB612047203E00471843 /* Window+JSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Window+JSExport.swift"; sourceTree = "<group>"; };
+		F6A0DB5320471EE700471843 /* NSScreenJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSScreenJSExport.swift; sourceTree = "<group>"; };
+		F6A0DB5520471FBD00471843 /* ApplicationJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationJSExport.swift; sourceTree = "<group>"; };
+		F6A0DB5720471FF900471843 /* BindJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindJSExport.swift; sourceTree = "<group>"; };
+		F6A0DB592047200300471843 /* EventJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventJSExport.swift; sourceTree = "<group>"; };
+		F6A0DB5B2047201400471843 /* SpaceJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceJSExport.swift; sourceTree = "<group>"; };
+		F6A0DB5D2047202400471843 /* StarkJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkJSExport.swift; sourceTree = "<group>"; };
+		F6A0DB5F2047203500471843 /* TimerJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerJSExport.swift; sourceTree = "<group>"; };
+		F6A0DB612047203E00471843 /* WindowJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowJSExport.swift; sourceTree = "<group>"; };
 		F6A41BD21CA7144100D1C0C5 /* LogHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogHelper.swift; sourceTree = "<group>"; };
 		F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extension.swift"; sourceTree = "<group>"; };
 		F6CBE6071C418D6300C962A7 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
@@ -179,14 +179,14 @@
 		F6A0DB52204648D700471843 /* Exports */ = {
 			isa = PBXGroup;
 			children = (
-				F6A0DB5520471FBD00471843 /* Application+JSExport.swift */,
-				F6A0DB5720471FF900471843 /* Bind+JSExport.swift */,
-				F6A0DB592047200300471843 /* Event+JSExport.swift */,
-				F6A0DB5320471EE700471843 /* NSScreen+JSExport.swift */,
-				F6A0DB5B2047201400471843 /* Space+JSExport.swift */,
-				F6A0DB5D2047202400471843 /* Stark+JSExport.swift */,
-				F6A0DB5F2047203500471843 /* Timer+JSExport.swift */,
-				F6A0DB612047203E00471843 /* Window+JSExport.swift */,
+				F6A0DB5520471FBD00471843 /* ApplicationJSExport.swift */,
+				F6A0DB5720471FF900471843 /* BindJSExport.swift */,
+				F6A0DB592047200300471843 /* EventJSExport.swift */,
+				F6A0DB5320471EE700471843 /* NSScreenJSExport.swift */,
+				F6A0DB5B2047201400471843 /* SpaceJSExport.swift */,
+				F6A0DB5D2047202400471843 /* StarkJSExport.swift */,
+				F6A0DB5F2047203500471843 /* TimerJSExport.swift */,
+				F6A0DB612047203E00471843 /* WindowJSExport.swift */,
 			);
 			path = Exports;
 			sourceTree = "<group>";
@@ -339,28 +339,28 @@
 				F6A41BD31CA7144100D1C0C5 /* LogHelper.swift in Sources */,
 				F60894E11C6D9E310079D7B5 /* Event.swift in Sources */,
 				F6002D6F1C47086100C958F5 /* KeyCodeHelper.swift in Sources */,
-				F6A0DB5C2047201400471843 /* Space+JSExport.swift in Sources */,
+				F6A0DB5C2047201400471843 /* SpaceJSExport.swift in Sources */,
 				F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */,
 				F66454FB1C703DD000B6371C /* AppObserver.swift in Sources */,
-				F6A0DB5420471EE700471843 /* NSScreen+JSExport.swift in Sources */,
+				F6A0DB5420471EE700471843 /* NSScreenJSExport.swift in Sources */,
 				F66454F91C70107F00B6371C /* RunningAppsObserver.swift in Sources */,
 				F6CBE6081C418D6300C962A7 /* Config.swift in Sources */,
-				F6A0DB5A2047200300471843 /* Event+JSExport.swift in Sources */,
-				F6A0DB5620471FBD00471843 /* Application+JSExport.swift in Sources */,
-				F6A0DB622047203E00471843 /* Window+JSExport.swift in Sources */,
+				F6A0DB5A2047200300471843 /* EventJSExport.swift in Sources */,
+				F6A0DB5620471FBD00471843 /* ApplicationJSExport.swift in Sources */,
+				F6A0DB622047203E00471843 /* WindowJSExport.swift in Sources */,
 				F644DFF61FB5110B00944C6B /* Space.swift in Sources */,
 				F60894E31C6DA0090079D7B5 /* EventHelper.swift in Sources */,
-				F6A0DB5E2047202400471843 /* Stark+JSExport.swift in Sources */,
+				F6A0DB5E2047202400471843 /* StarkJSExport.swift in Sources */,
 				F6942ECD1C6A8EEF00D2C0D4 /* Handler.swift in Sources */,
 				F667BCA61CFB972A008B4B83 /* Context.swift in Sources */,
 				F649A3CD1C68E3C600A3C81A /* Stark.swift in Sources */,
 				F66C39C61C6AD73E0008FDD5 /* Bind.swift in Sources */,
 				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
 				F6270F8E1CF9D10500E6F679 /* Timer.swift in Sources */,
-				F6A0DB5820471FF900471843 /* Bind+JSExport.swift in Sources */,
+				F6A0DB5820471FF900471843 /* BindJSExport.swift in Sources */,
 				F6792C431C4055A2007D9DF9 /* Window.swift in Sources */,
 				F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */,
-				F6A0DB602047203500471843 /* Timer+JSExport.swift in Sources */,
+				F6A0DB602047203500471843 /* TimerJSExport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

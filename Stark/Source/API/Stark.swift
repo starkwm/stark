@@ -19,7 +19,7 @@ public class Stark: NSObject, StarkJSExport {
         context.setup()
     }
 
-    public func run(_ command: String, _ arguments: [String]?) {
+    public func run(_ command: String, _ arguments: [String] = []) {
         if !FileManager.default.fileExists(atPath: command) {
             LogHelper.log(message: String(format: "Binary '%@' doesn't exist", command))
             return
@@ -27,7 +27,7 @@ public class Stark: NSObject, StarkJSExport {
 
         let task = Process()
         task.launchPath = command
-        task.arguments = arguments ?? []
+        task.arguments = arguments
         task.launch()
     }
 }

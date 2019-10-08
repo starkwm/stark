@@ -113,7 +113,6 @@ public class Space: NSObject, SpaceJSExport {
                     screen = NSScreen.screen(for: screenIdentifier)
                 }
             }
-
         }
 
         if screen == nil {
