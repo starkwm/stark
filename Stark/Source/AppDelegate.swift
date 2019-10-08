@@ -32,7 +32,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func setupStatusItem() {
-        // swiftlint:disable:next object_literal
         let image = NSImage(named: "StatusItemIcon")
         image?.isTemplate = true
 
