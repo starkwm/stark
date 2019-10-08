@@ -43,8 +43,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let image = NSImage(named: "StatusItemIcon")
         image?.isTemplate = true
 
-        statusItem.highlightMode = true
-        statusItem.image = image
+        statusItem.button?.image = image
 
         let loginMenuItem = NSMenuItem(title: "Launch at login",
                                        action: #selector(AppDelegate.toggleRunAtLogin),
