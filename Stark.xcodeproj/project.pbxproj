@@ -217,7 +217,8 @@
 			buildPhases = (
 				F620B8771E382F6C0090EB11 /* Lint JavaScript */,
 				F6D6F2261EC746D000ACAF35 /* Concatenate JavaScript */,
-				F66FB78E1E08EDCB006A0430 /* Lint Swift */,
+				F6B4BB8D234D3FDE00B4CC61 /* SwiftFormat */,
+				F66FB78E1E08EDCB006A0430 /* SwiftLint */,
 				F6792C231C404B53007D9DF9 /* Sources */,
 				F6FFF1A61E1219B20023D78C /* Frameworks */,
 				F6792C251C404B53007D9DF9 /* Resources */,
@@ -298,20 +299,38 @@
 			shellScript = "make lint\n";
 			showEnvVarsInLog = 0;
 		};
-		F66FB78E1E08EDCB006A0430 /* Lint Swift */ = {
+		F66FB78E1E08EDCB006A0430 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Lint Swift";
+			name = SwiftLint;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"SwiftLint does not exist, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"Please install SwiftLint.\"\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		F6B4BB8D234D3FDE00B4CC61 /* SwiftFormat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftFormat;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftformat >/dev/null; then\n    swiftformat .\nelse\n    echo \"Please install SwiftFormat.\"\nfi\n";
 		};
 		F6D6F2261EC746D000ACAF35 /* Concatenate JavaScript */ = {
 			isa = PBXShellScriptBuildPhase;
