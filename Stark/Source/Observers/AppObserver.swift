@@ -11,13 +11,13 @@ import AppKit
 let appObserverWindowKey = "observerWindowKey"
 
 private let notifications = [
-    NSAccessibilityNotificationName.windowCreated,
-    NSAccessibilityNotificationName.uiElementDestroyed,
-    NSAccessibilityNotificationName.focusedWindowChanged,
-    NSAccessibilityNotificationName.windowMoved,
-    NSAccessibilityNotificationName.windowResized,
-    NSAccessibilityNotificationName.windowMiniaturized,
-    NSAccessibilityNotificationName.windowDeminiaturized
+    NSAccessibility.Notification.windowCreated,
+    NSAccessibility.Notification.uiElementDestroyed,
+    NSAccessibility.Notification.focusedWindowChanged,
+    NSAccessibility.Notification.windowMoved,
+    NSAccessibility.Notification.windowResized,
+    NSAccessibility.Notification.windowMiniaturized,
+    NSAccessibility.Notification.windowDeminiaturized
 ]
 
 private let observerCallback: AXObserverCallback = { _, element, notification, _ in

@@ -37,13 +37,13 @@ class EventHelper {
         "applicationDidHide": NSWorkspace.didHideApplicationNotification.rawValue,
         "applicationDidShow": NSWorkspace.didUnhideApplicationNotification.rawValue,
 
-        "windowDidOpen": NSAccessibilityNotificationName.windowCreated.rawValue,
-        "windowDidClose": NSAccessibilityNotificationName.uiElementDestroyed.rawValue,
-        "windowDidFocus": NSAccessibilityNotificationName.focusedWindowChanged.rawValue,
-        "windowDidMove": NSAccessibilityNotificationName.windowMoved.rawValue,
-        "windowDidResize": NSAccessibilityNotificationName.windowResized.rawValue,
-        "windowDidMinimize": NSAccessibilityNotificationName.windowMiniaturized.rawValue,
-        "windowDidUnminimize": NSAccessibilityNotificationName.windowDeminiaturized.rawValue
+        "windowDidOpen": NSAccessibility.Notification.windowCreated.rawValue,
+        "windowDidClose": NSAccessibility.Notification.uiElementDestroyed.rawValue,
+        "windowDidFocus": NSAccessibility.Notification.focusedWindowChanged.rawValue,
+        "windowDidMove": NSAccessibility.Notification.windowMoved.rawValue,
+        "windowDidResize": NSAccessibility.Notification.windowResized.rawValue,
+        "windowDidMinimize": NSAccessibility.Notification.windowMiniaturized.rawValue,
+        "windowDidUnminimize": NSAccessibility.Notification.windowDeminiaturized.rawValue
     ]
 
     static func notificationCenter(for notification: String) -> NotificationCenter {

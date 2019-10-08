@@ -40,7 +40,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func setupStatusItem() {
-        let image = NSImage(named: NSImage.Name(rawValue: "StatusItemIcon"))
+        let image = NSImage(named: "StatusItemIcon")
         image?.isTemplate = true
 
         statusItem.highlightMode = true
