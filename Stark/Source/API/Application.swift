@@ -1,11 +1,3 @@
-//
-//  Application.swift
-//  Stark
-//
-//  Created by Tom Bell on 22/02/2018.
-//  Copyright © 2018 Rusty Robots. All rights reserved.
-//
-
 import AppKit
 
 private let starkVisibilityOptionsKey = "visible"
