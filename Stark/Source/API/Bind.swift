@@ -14,7 +14,7 @@ private let starkHotKeyKeyDownNotification = "starkHotKeyKeyDownNotification"
 
 private var bindIdentifierSequence: UInt = 0
 
-public class Bind: Handler, BindJSExport, HashableJSExport {
+public class Bind: Handler, BindJSExport {
     private static var once: () = {
         let callback: EventHandlerUPP = { _, event, _ -> OSStatus in
             autoreleasepool {
@@ -91,7 +91,7 @@ public class Bind: Handler, BindJSExport, HashableJSExport {
 
     private var enabled = false
 
-    public override var hashValue: Int {
+    public var id: Int {
         return String(format: "%@[%@]", key, modifiers.joined(separator: "|")).hashValue
     }
 

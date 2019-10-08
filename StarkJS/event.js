@@ -8,8 +8,8 @@
     const handler = new Event(event, callback);
 
     if (handler) {
-      events[handler.hashValue] = handler;
-      return handler.hashValue;
+      events[handler.id] = handler;
+      return handler.id;
     }
 
     return null;
