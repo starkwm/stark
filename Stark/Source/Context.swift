@@ -8,7 +8,7 @@ class Context {
     var config: Config
 
     init(config: Config) {
-        self.context = JSContext(virtualMachine: JSVirtualMachine())
+        context = JSContext(virtualMachine: JSVirtualMachine())
         self.config = config
     }
 
