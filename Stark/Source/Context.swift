@@ -54,6 +54,7 @@ class Context {
 
         context.setObject(Bind.self, forKeyedSubscript: "Bind" as (NSCopying & NSObjectProtocol))
         context.setObject(Event.self, forKeyedSubscript: "Event" as (NSCopying & NSObjectProtocol))
+        context.setObject(Task.self, forKeyedSubscript: "Task" as (NSCopying & NSObjectProtocol))
         context.setObject(Timer.self, forKeyedSubscript: "Timer" as (NSCopying & NSObjectProtocol))
     }
 

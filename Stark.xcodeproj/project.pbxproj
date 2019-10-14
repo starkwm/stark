@@ -14,6 +14,8 @@
 		F6270F8E1CF9D10500E6F679 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6270F8D1CF9D10500E6F679 /* Timer.swift */; };
 		F644DFF61FB5110B00944C6B /* Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = F644DFF51FB5110B00944C6B /* Space.swift */; };
 		F649A3CD1C68E3C600A3C81A /* Stark.swift in Sources */ = {isa = PBXBuildFile; fileRef = F649A3CC1C68E3C600A3C81A /* Stark.swift */; };
+		F65D267523550A3B00A9EE5F /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65D267423550A3B00A9EE5F /* Task.swift */; };
+		F65D267723550EC000A9EE5F /* TaskJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65D267623550EC000A9EE5F /* TaskJSExport.swift */; };
 		F66454F91C70107F00B6371C /* RunningAppsObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66454F81C70107F00B6371C /* RunningAppsObserver.swift */; };
 		F66454FB1C703DD000B6371C /* AppObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66454FA1C703DD000B6371C /* AppObserver.swift */; };
 		F667BCA61CFB972A008B4B83 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = F667BCA51CFB972A008B4B83 /* Context.swift */; };
@@ -48,6 +50,8 @@
 		F6270F8D1CF9D10500E6F679 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		F644DFF51FB5110B00944C6B /* Space.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Space.swift; sourceTree = "<group>"; };
 		F649A3CC1C68E3C600A3C81A /* Stark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stark.swift; sourceTree = "<group>"; };
+		F65D267423550A3B00A9EE5F /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		F65D267623550EC000A9EE5F /* TaskJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskJSExport.swift; sourceTree = "<group>"; };
 		F66454F81C70107F00B6371C /* RunningAppsObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunningAppsObserver.swift; sourceTree = "<group>"; };
 		F66454FA1C703DD000B6371C /* AppObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppObserver.swift; sourceTree = "<group>"; };
 		F667BCA51CFB972A008B4B83 /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
@@ -101,14 +105,6 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
-		F6723AF8205DEC6900E5DF7C /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				F6D00B661E0E03F30087F68D /* MainMenu.xib */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
 		F6792C1E1C404B53007D9DF9 = {
 			isa = PBXGroup;
 			children = (
@@ -130,7 +126,6 @@
 			children = (
 				F6792C391C404F01007D9DF9 /* Resources */,
 				F64EB38C2060672C00C1838A /* Source */,
-				F6723AF8205DEC6900E5DF7C /* UI */,
 				F6792C311C404B53007D9DF9 /* Info.plist */,
 				F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */,
 			);
@@ -148,6 +143,7 @@
 				F6942ECC1C6A8EEF00D2C0D4 /* Handler.swift */,
 				F644DFF51FB5110B00944C6B /* Space.swift */,
 				F649A3CC1C68E3C600A3C81A /* Stark.swift */,
+				F65D267423550A3B00A9EE5F /* Task.swift */,
 				F6270F8D1CF9D10500E6F679 /* Timer.swift */,
 				F6792C421C4055A2007D9DF9 /* Window.swift */,
 			);
@@ -169,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				F6792C2C1C404B53007D9DF9 /* Assets.xcassets */,
+				F6D00B661E0E03F30087F68D /* MainMenu.xib */,
 				F607840B1CDE70E6001DAFA2 /* lodash-min.js */,
 				F6FC1C651CBAE8E10070ED3B /* stark-example.js */,
 				F67CFD7C1D93164000FF0F49 /* stark-lib.js */,
@@ -185,6 +182,7 @@
 				F6A0DB5320471EE700471843 /* NSScreenJSExport.swift */,
 				F6A0DB5B2047201400471843 /* SpaceJSExport.swift */,
 				F6A0DB5D2047202400471843 /* StarkJSExport.swift */,
+				F65D267623550EC000A9EE5F /* TaskJSExport.swift */,
 				F6A0DB5F2047203500471843 /* TimerJSExport.swift */,
 				F6A0DB612047203E00471843 /* WindowJSExport.swift */,
 			);
@@ -377,9 +375,11 @@
 				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
 				F6270F8E1CF9D10500E6F679 /* Timer.swift in Sources */,
 				F6A0DB5820471FF900471843 /* BindJSExport.swift in Sources */,
+				F65D267523550A3B00A9EE5F /* Task.swift in Sources */,
 				F6792C431C4055A2007D9DF9 /* Window.swift in Sources */,
 				F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */,
 				F6A0DB602047203500471843 /* TimerJSExport.swift in Sources */,
+				F65D267723550EC000A9EE5F /* TaskJSExport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
