@@ -32,10 +32,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func setupStatusItem() {
-        let image = NSImage(named: "StatusItemIcon")
-        image?.isTemplate = true
-
-        statusItem.button?.image = image
+        statusItem.button?.image = NSImage(named: "StatusItemIcon")
 
         let loginMenuItem = NSMenuItem(title: "Launch at login",
                                        action: #selector(AppDelegate.toggleRunAtLogin),
