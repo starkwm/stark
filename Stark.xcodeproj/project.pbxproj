@@ -101,14 +101,6 @@
 			path = Source;
 			sourceTree = "<group>";
 		};
-		F6723AF8205DEC6900E5DF7C /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				F6D00B661E0E03F30087F68D /* MainMenu.xib */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
 		F6792C1E1C404B53007D9DF9 = {
 			isa = PBXGroup;
 			children = (
@@ -130,7 +122,6 @@
 			children = (
 				F6792C391C404F01007D9DF9 /* Resources */,
 				F64EB38C2060672C00C1838A /* Source */,
-				F6723AF8205DEC6900E5DF7C /* UI */,
 				F6792C311C404B53007D9DF9 /* Info.plist */,
 				F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */,
 			);
@@ -169,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				F6792C2C1C404B53007D9DF9 /* Assets.xcassets */,
+				F6D00B661E0E03F30087F68D /* MainMenu.xib */,
 				F607840B1CDE70E6001DAFA2 /* lodash-min.js */,
 				F6FC1C651CBAE8E10070ED3B /* stark-example.js */,
 				F67CFD7C1D93164000FF0F49 /* stark-lib.js */,
