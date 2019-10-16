@@ -4,11 +4,11 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
-    var config: Config
+    let config = Config()
+
     var context: Context
 
     override init() {
-        config = Config()
         context = Context(config: config)
     }
 
