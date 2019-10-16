@@ -2,16 +2,6 @@ import AppKit
 import JavaScriptCore
 
 public class Task: Handler, TaskJSExport {
-    private var task: Process?
-    private var outputData = Data()
-    private var errorData = Data()
-
-    public var id: Int { return hashValue }
-
-    public var status: Int = -1
-    public var standardOutput: String?
-    public var standardError: String?
-
     public required init(path: String, arguments: [String]?, callback: JSValue?) {
         super.init()
 
@@ -28,6 +18,16 @@ public class Task: Handler, TaskJSExport {
 
         launch()
     }
+
+    private var task: Process?
+    private var outputData = Data()
+    private var errorData = Data()
+
+    public var id: Int { return hashValue }
+
+    public var status: Int = -1
+    public var standardOutput: String?
+    public var standardError: String?
 
     public func terminate() {
         task?.terminate()
