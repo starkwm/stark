@@ -6,14 +6,10 @@ public class Task: Handler, TaskJSExport {
     private var outputData = Data()
     private var errorData = Data()
 
-    public var id: Int {
-        return hashValue
-    }
+    public var id: Int { return hashValue }
 
     public var status: Int = -1
-
     public var standardOutput: String?
-
     public var standardError: String?
 
     public required init(path: String, arguments: [String]?, callback: JSValue?) {
@@ -22,7 +18,6 @@ public class Task: Handler, TaskJSExport {
         manageCallback(callback)
 
         task = Process()
-
         task?.executableURL = URL(fileURLWithPath: path)
         task?.arguments = arguments ?? []
         task?.standardOutput = Pipe()
