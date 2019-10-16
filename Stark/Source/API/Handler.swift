@@ -14,7 +14,7 @@ public class Handler: NSObject {
             let scope = JSContext(virtualMachine: callback.context.virtualMachine)
 
             scope?.exceptionHandler = { _, exception in
-                LogHelper.log(message: String(format: "JavaScript exception: %@", exception!))
+                LogHelper.log(message: String(format: "Error: JavaScript exception (%@)", exception!))
             }
 
             let function = JSValue(object: callback, in: scope)

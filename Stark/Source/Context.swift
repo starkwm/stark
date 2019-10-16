@@ -14,12 +14,12 @@ class Context {
 
     func setup() {
         guard let lodashPath = Bundle.main.path(forResource: "lodash-min", ofType: "js") else {
-            LogHelper.log(message: "Unable to setup context, could not find lodash-min.js")
+            LogHelper.log(message: "Error: unable to setup context, could not find lodash-min.js")
             return
         }
 
         guard let starklibPath = Bundle.main.path(forResource: "stark-lib", ofType: "js") else {
-            LogHelper.log(message: "Unable to setup context, could not find stark-lib.js")
+            LogHelper.log(message: "Error: unable to setup context, could not find stark-lib.js")
             return
         }
 
@@ -33,7 +33,7 @@ class Context {
     }
 
     func handleJSException(exception: JSValue) {
-        LogHelper.log(message: String(format: "Unhandled JavaScript Exception: %@", exception))
+        LogHelper.log(message: String(format: "Error: unhandled JavaScript exception (%@)", exception))
     }
 
     func setupAPI() {
@@ -60,7 +60,7 @@ class Context {
 
     func loadJSFile(path: String) {
         guard let scriptContents = try? String(contentsOfFile: path) else {
-            LogHelper.log(message: String(format: "Unable to read script: %@", path))
+            LogHelper.log(message: String(format: "Error: unable to read script: %@", path))
             return
         }
 
