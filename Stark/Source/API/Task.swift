@@ -25,7 +25,6 @@ public class Task: Handler, TaskJSExport {
 
         task?.executableURL = URL(fileURLWithPath: path)
         task?.arguments = arguments ?? []
-
         task?.standardOutput = Pipe()
         task?.standardError = Pipe()
 
