@@ -76,7 +76,6 @@ public class Bind: Handler, BindJSExport {
     private var identifier: UInt
 
     private var keyCode: UInt32
-
     private var modifierFlags: UInt32
 
     private var eventHotKeyRef: EventHotKeyRef?
@@ -88,7 +87,6 @@ public class Bind: Handler, BindJSExport {
     }
 
     public var key: String = ""
-
     public var modifiers: [String] = []
 
     public var isEnabled: Bool { return enabled }

@@ -23,7 +23,6 @@ public class Event: Handler, EventJSExport {
     }
 
     private var notification: String
-
     private var notificationCenter: NotificationCenter
 
     public var id: Int {

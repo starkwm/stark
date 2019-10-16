@@ -8,7 +8,6 @@ public class Stark: NSObject, StarkJSExport {
     }
 
     private var config: Config
-
     private var context: Context
 
     public func log(_ message: String) {
