@@ -10,7 +10,7 @@ public class Task: Handler, TaskJSExport {
 
     public var status: Int = -1
 
-    public required init(path: String, arguments: [String]?, callback: JSValue) {
+    public required init(path: String, arguments: [String]?, callback: JSValue?) {
         super.init()
 
         manageCallback(callback)

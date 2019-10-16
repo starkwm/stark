@@ -4,7 +4,8 @@ import JavaScriptCore
 public class Handler: NSObject {
     internal var callback: JSManagedValue?
 
-    func manageCallback(_ callback: JSValue) {
+    func manageCallback(_ callback: JSValue?) {
+        guard callback != nil else { return }
         self.callback = JSManagedValue(value: callback, andOwner: self)
     }
 

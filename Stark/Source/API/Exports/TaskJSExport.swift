@@ -3,7 +3,7 @@ import JavaScriptCore
 
 @objc
 protocol TaskJSExport: JSExport {
-    init(path: String, arguments: [String]?, callback: JSValue)
+    init(path: String, arguments: [String]?, callback: JSValue?)
 
     var id: Int { get }
 
