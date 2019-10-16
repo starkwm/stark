@@ -8,6 +8,8 @@ protocol TaskJSExport: JSExport {
     var id: Int { get }
 
     var status: Int { get }
+    var standardOutput: String? { get }
+    var standardError: String? { get }
 
     func terminate()
 }
