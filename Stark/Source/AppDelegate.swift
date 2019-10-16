@@ -35,15 +35,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.button?.image = NSImage(named: "StatusItemIcon")
 
         let loginMenuItem = NSMenuItem(title: "Launch at login",
-                                       action: #selector(AppDelegate.toggleRunAtLogin),
+                                       action: #selector(toggleRunAtLogin(sender:)),
                                        keyEquivalent: "")
 
         let menu = NSMenu()
-        menu.addItem(withTitle: "Reload config file", action: #selector(AppDelegate.reloadConfig), keyEquivalent: "")
+        menu.addItem(withTitle: "Reload config file", action: #selector(reloadConfig(sender:)), keyEquivalent: "")
         menu.addItem(NSMenuItem.separator())
         menu.addItem(loginMenuItem)
         menu.addItem(NSMenuItem.separator())
-        menu.addItem(withTitle: "Quit Stark", action: #selector(AppDelegate.quit), keyEquivalent: "")
+        menu.addItem(withTitle: "Quit Stark", action: #selector(quit(sender:)), keyEquivalent: "")
 
         loginMenuItem.state = LaunchAgentHelper.enabled() ? NSControl.StateValue.on : NSControl.StateValue.off
 

@@ -35,7 +35,7 @@ class AppObserver: NSObject {
         super.init()
 
         notificationCenter.addObserver(self,
-                                       selector: #selector(AppObserver.didReceiveNotification(_:)),
+                                       selector: #selector(didReceiveNotification(_:)),
                                        name: NSWorkspace.didLaunchApplicationNotification,
                                        object: nil)
 
