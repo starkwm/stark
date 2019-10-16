@@ -1,6 +1,6 @@
 import AppKit
 
-let starkStartNotification = "starkStartNotification"
+let starkDidStartLaunch = "starkDidLauncbNotification"
 
 class EventHelper {
     static let notificationToNotificationCenter: [String: NotificationCenter] = {
@@ -17,7 +17,7 @@ class EventHelper {
     }()
 
     static let eventToNotification: [String: String] = [
-        "starkDidLaunch": starkStartNotification,
+        "starkDidLaunch": starkDidStartLaunch,
 
         "screensDidChange": NSApplication.didChangeScreenParametersNotification.rawValue,
 

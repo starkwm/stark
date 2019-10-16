@@ -18,7 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         context.setup()
 
-        NotificationCenter.default.post(name: Notification.Name(rawValue: starkStartNotification), object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: starkDidStartLaunch), object: self)
     }
 
     func askForAccessibilityIfNeeded() {
