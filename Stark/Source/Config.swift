@@ -35,7 +35,7 @@ class Config {
                                                      attributes: nil)
 
         if !written {
-            LogHelper.log(message: String(format: "Unable to create configuration file: %@", path))
+            LogHelper.log(message: String(format: "Error: unable to create configuration file: %@", path))
         }
     }
 }
