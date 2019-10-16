@@ -3,8 +3,8 @@ import AppKit
 class Config {
     static let primaryConfigPaths: [String] = [
         "~/.stark.js",
-        "~/Library/Application Support/Stark/stark.js",
-        "~/.config/stark/stark.js"
+        "~/.config/stark/stark.js",
+        "~/Library/Application Support/Stark/stark.js"
     ]
 
     let primaryConfigPath = Config.resolvePrimaryConfigPath()
@@ -26,16 +26,12 @@ class Config {
             return
         }
 
-        guard let example = Bundle.main.path(forResource: "stark-example", ofType: "js") else {
-            return
+        guard let examplePath = Bundle.main.path(forResource: "stark-example", ofType: "js") else {
+            fatalError("Could not find stark-example.js")
         }
 
-        let written = FileManager.default.createFile(atPath: path,
-                                                     contents: try? Data(contentsOf: URL(fileURLWithPath: example)),
-                                                     attributes: nil)
-
-        if !written {
-            LogHelper.log(message: String(format: "Error: unable to create configuration file: %@", path))
-        }
+        FileManager.default.createFile(atPath: path,
+                                       contents: try? Data(contentsOf: URL(fileURLWithPath: examplePath)),
+                                       attributes: nil)
     }
 }
