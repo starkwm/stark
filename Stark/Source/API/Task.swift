@@ -10,8 +10,10 @@ public class Task: Handler, TaskJSExport {
 
     public var status: Int = -1
 
-    public required init(path: String, arguments: [String]?, callback _: JSValue) {
+    public required init(path: String, arguments: [String]?, callback: JSValue) {
         super.init()
+
+        manageCallback(callback)
 
         task = Process()
 
@@ -19,10 +21,19 @@ public class Task: Handler, TaskJSExport {
         task?.arguments = arguments
 
         task?.terminationHandler = { process in
-            print("didFinish: \(!process.isRunning) - \(process.terminationStatus)")
             self.status = Int(process.terminationStatus)
+            self.taskDidTerminate()
         }
 
         task?.launch()
+    }
+
+    public func terminate() {
+        task?.terminate()
+    }
+
+    @objc
+    func taskDidTerminate() {
+        perform(#selector(call(withArguments:)), on: Thread.main, with: [self], waitUntilDone: false)
     }
 }
