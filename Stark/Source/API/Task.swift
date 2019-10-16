@@ -20,16 +20,32 @@ public class Task: Handler, TaskJSExport {
         task?.executableURL = URL(fileURLWithPath: path)
         task?.arguments = arguments
 
-        task?.terminationHandler = { process in
-            self.status = Int(process.terminationStatus)
-            self.taskDidTerminate()
-        }
+        setupTerminationHandler()
 
-        task?.launch()
+        launch()
     }
 
     public func terminate() {
         task?.terminate()
+    }
+
+    private func setupTerminationHandler() {
+        task?.terminationHandler = { process in
+            self.status = Int(process.terminationStatus)
+            self.taskDidTerminate()
+        }
+    }
+
+    private func launch() {
+        do {
+            try task?.run()
+        } catch {
+            let message = String(format: "Error: task run failed running %@ with arguments '%@' (%@)",
+                                 task?.executableURL?.path ?? "",
+                                 task?.arguments?.joined(separator: " ") ?? [],
+                                 error.localizedDescription)
+            LogHelper.log(message: message)
+        }
     }
 
     @objc
