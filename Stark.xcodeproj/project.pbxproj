@@ -13,6 +13,7 @@
 		F60894E31C6DA0090079D7B5 /* EventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60894E21C6DA0090079D7B5 /* EventHelper.swift */; };
 		F6270F8E1CF9D10500E6F679 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6270F8D1CF9D10500E6F679 /* Timer.swift */; };
 		F644DFF61FB5110B00944C6B /* Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = F644DFF51FB5110B00944C6B /* Space.swift */; };
+		F64945862357B6B8009E423B /* StarkStatusItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64945852357B6B8009E423B /* StarkStatusItem.swift */; };
 		F649A3CD1C68E3C600A3C81A /* Stark.swift in Sources */ = {isa = PBXBuildFile; fileRef = F649A3CC1C68E3C600A3C81A /* Stark.swift */; };
 		F65D267523550A3B00A9EE5F /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65D267423550A3B00A9EE5F /* Task.swift */; };
 		F65D267723550EC000A9EE5F /* TaskJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65D267623550EC000A9EE5F /* TaskJSExport.swift */; };
@@ -49,6 +50,7 @@
 		F60894E21C6DA0090079D7B5 /* EventHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHelper.swift; sourceTree = "<group>"; };
 		F6270F8D1CF9D10500E6F679 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		F644DFF51FB5110B00944C6B /* Space.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Space.swift; sourceTree = "<group>"; };
+		F64945852357B6B8009E423B /* StarkStatusItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkStatusItem.swift; sourceTree = "<group>"; };
 		F649A3CC1C68E3C600A3C81A /* Stark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stark.swift; sourceTree = "<group>"; };
 		F65D267423550A3B00A9EE5F /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		F65D267623550EC000A9EE5F /* TaskJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskJSExport.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				F6CBE6071C418D6300C962A7 /* Config.swift */,
 				F667BCA51CFB972A008B4B83 /* Context.swift */,
 				F66454F81C70107F00B6371C /* RunningAppsObserver.swift */,
+				F64945852357B6B8009E423B /* StarkStatusItem.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				F66C39C61C6AD73E0008FDD5 /* Bind.swift in Sources */,
 				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
 				F6270F8E1CF9D10500E6F679 /* Timer.swift in Sources */,
+				F64945862357B6B8009E423B /* StarkStatusItem.swift in Sources */,
 				F6A0DB5820471FF900471843 /* BindJSExport.swift in Sources */,
 				F65D267523550A3B00A9EE5F /* Task.swift in Sources */,
 				F6792C431C4055A2007D9DF9 /* Window.swift in Sources */,
