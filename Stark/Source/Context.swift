@@ -4,23 +4,20 @@ import JavaScriptCore
 class Context {
     let observer = RunningAppsObserver()
 
-    var context: JSContext
+    var context: JSContext?
     var config: Config
 
     init(config: Config) {
-        context = JSContext(virtualMachine: JSVirtualMachine())
         self.config = config
     }
 
     func setup() {
         guard let lodashPath = Bundle.main.path(forResource: "lodash-min", ofType: "js") else {
-            LogHelper.log(message: "Error: unable to setup context, could not find lodash-min.js")
-            return
+            fatalError("Could not find lodash-min.js")
         }
 
         guard let starklibPath = Bundle.main.path(forResource: "stark-lib", ofType: "js") else {
-            LogHelper.log(message: "Error: unable to setup context, could not find stark-lib.js")
-            return
+            fatalError("Could not find stark-lib.js")
         }
 
         config.createUnlessExists(path: config.primaryConfigPath)
@@ -32,15 +29,15 @@ class Context {
         loadJSFile(path: config.primaryConfigPath)
     }
 
-    func handleJSException(exception: JSValue) {
-        LogHelper.log(message: String(format: "Error: unhandled JavaScript exception (%@)", exception))
-    }
-
     func setupAPI() {
         context = JSContext(virtualMachine: JSVirtualMachine())
 
-        context.exceptionHandler = { [weak self] _, err in
-            self?.handleJSException(exception: err!)
+        guard let context = context else {
+            fatalError("Could JavaScript virtual machine not setup")
+        }
+
+        context.exceptionHandler = { _, err in
+            LogHelper.log(message: String(format: "Error: unhandled JavaScript exception (%@)", err!))
         }
 
         context.setObject(Stark.self(config: config, context: self),
@@ -60,8 +57,11 @@ class Context {
 
     func loadJSFile(path: String) {
         guard let scriptContents = try? String(contentsOfFile: path) else {
-            LogHelper.log(message: String(format: "Error: unable to read script: %@", path))
-            return
+            fatalError(String(format: "Could not read script (%@)", path))
+        }
+
+        guard let context = context else {
+            fatalError("Could JavaScript virtual machine not setup")
         }
 
         context.evaluateScript(scriptContents)
