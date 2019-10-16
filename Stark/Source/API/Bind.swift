@@ -58,7 +58,7 @@ public class Bind: Handler, BindJSExport {
         NotificationCenter
             .default
             .addObserver(self,
-                         selector: #selector(Bind.keyDown(notification:)),
+                         selector: #selector(keyDown(notification:)),
                          name: NSNotification.Name(rawValue: starkHotKeyKeyDownNotification),
                          object: nil)
 

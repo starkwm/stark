@@ -13,7 +13,7 @@ public class Event: Handler, EventJSExport {
         manageCallback(callback)
 
         notificationCenter.addObserver(self,
-                                       selector: #selector(Event.didReceiveNotification(_:)),
+                                       selector: #selector(didReceiveNotification(_:)),
                                        name: NSNotification.Name(rawValue: notification),
                                        object: nil)
     }
