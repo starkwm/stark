@@ -75,11 +75,11 @@ public class Space: NSObject, SpaceJSExport {
     private var identifier: CGSSpaceID
 
     public var isNormal: Bool {
-        return CGSSpaceGetType(CGSMainConnectionID(), identifier) == kCGSSpaceUser
+        return CGSSpaceGetType(CGSMainConnectionID(), identifier) == CGSSpaceTypeUser
     }
 
     public var isFullscreen: Bool {
-        return CGSSpaceGetType(CGSMainConnectionID(), identifier) == kCGSSpaceFullScreen
+        return CGSSpaceGetType(CGSMainConnectionID(), identifier) == CGSSpaceTypeFullscreen
     }
 
     public func screens() -> [NSScreen] {
