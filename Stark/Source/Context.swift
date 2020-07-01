@@ -12,10 +12,6 @@ class Context {
     }
 
     func setup() {
-        guard let lodashPath = Bundle.main.path(forResource: "lodash-min", ofType: "js") else {
-            fatalError("Could not find lodash-min.js")
-        }
-
         guard let starklibPath = Bundle.main.path(forResource: "stark-lib", ofType: "js") else {
             fatalError("Could not find stark-lib.js")
         }
@@ -24,7 +20,6 @@ class Context {
 
         setupAPI()
 
-        loadJSFile(path: lodashPath)
         loadJSFile(path: starklibPath)
         loadJSFile(path: config.primaryConfigPath)
     }
