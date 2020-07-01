@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		F6002D6F1C47086100C958F5 /* KeyCodeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6002D6E1C47086100C958F5 /* KeyCodeHelper.swift */; };
-		F607840C1CDE70E6001DAFA2 /* lodash-min.js in Resources */ = {isa = PBXBuildFile; fileRef = F607840B1CDE70E6001DAFA2 /* lodash-min.js */; };
 		F60894E11C6D9E310079D7B5 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60894E01C6D9E310079D7B5 /* Event.swift */; };
 		F60894E31C6DA0090079D7B5 /* EventHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60894E21C6DA0090079D7B5 /* EventHelper.swift */; };
 		F6270F8E1CF9D10500E6F679 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6270F8D1CF9D10500E6F679 /* Timer.swift */; };
@@ -45,7 +44,6 @@
 
 /* Begin PBXFileReference section */
 		F6002D6E1C47086100C958F5 /* KeyCodeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCodeHelper.swift; sourceTree = "<group>"; };
-		F607840B1CDE70E6001DAFA2 /* lodash-min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "lodash-min.js"; sourceTree = "<group>"; };
 		F60894E01C6D9E310079D7B5 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		F60894E21C6DA0090079D7B5 /* EventHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventHelper.swift; sourceTree = "<group>"; };
 		F6270F8D1CF9D10500E6F679 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
@@ -170,7 +168,6 @@
 			children = (
 				F6792C2C1C404B53007D9DF9 /* Assets.xcassets */,
 				F6D00B661E0E03F30087F68D /* MainMenu.xib */,
-				F607840B1CDE70E6001DAFA2 /* lodash-min.js */,
 				F6FC1C651CBAE8E10070ED3B /* stark-example.js */,
 				F67CFD7C1D93164000FF0F49 /* stark-lib.js */,
 			);
@@ -266,7 +263,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F607840C1CDE70E6001DAFA2 /* lodash-min.js in Resources */,
 				F6FC1C661CBAE8E10070ED3B /* stark-example.js in Resources */,
 				F67CFD7D1D93164000FF0F49 /* stark-lib.js in Resources */,
 				F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */,
