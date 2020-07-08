@@ -28,7 +28,7 @@ class Context {
         context = JSContext(virtualMachine: JSVirtualMachine())
 
         guard let context = context else {
-            fatalError("Could JavaScript virtual machine not setup")
+            fatalError("Could not setup JavaScript virtual machine")
         }
 
         context.exceptionHandler = { _, err in
@@ -56,7 +56,7 @@ class Context {
         }
 
         guard let context = context else {
-            fatalError("Could JavaScript virtual machine not setup")
+            fatalError("Could not setup JavaScript virtual machine")
         }
 
         context.evaluateScript(scriptContents)
