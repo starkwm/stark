@@ -71,7 +71,7 @@ extension NSScreen: NSScreenJSExport {
     }
 
     public func currentSpace() -> Space? {
-        return Space.currentSpace(for: self)
+        return Space.current(for: self)
     }
 
     public func spaces() -> [Space] {
