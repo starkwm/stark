@@ -9,7 +9,7 @@ private let notifications = [
     NSAccessibility.Notification.windowMoved,
     NSAccessibility.Notification.windowResized,
     NSAccessibility.Notification.windowMiniaturized,
-    NSAccessibility.Notification.windowDeminiaturized
+    NSAccessibility.Notification.windowDeminiaturized,
 ]
 
 private let observerCallback: AXObserverCallback = { _, element, notification, _ in

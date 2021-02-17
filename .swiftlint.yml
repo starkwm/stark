@@ -3,6 +3,8 @@ included:
 analyzer_rules:
   - unused_declaration
   - unused_import
+disabled_rules:
+  - trailing_comma
 opt_in_rules:
   - anyobject_protocol
   - array_init
@@ -24,6 +26,7 @@ opt_in_rules:
   - file_header
   - file_name
   - first_where
+  - flatmap_over_map_reduce
   - identical_operands
   - joined_default_parameter
   - legacy_random
@@ -69,8 +72,6 @@ opt_in_rules:
 identifier_name:
   excluded:
     - id
+
 number_separator:
   minimum_length: 5
-
-object_literal:
-  image_literal: false

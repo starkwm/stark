@@ -4,7 +4,7 @@ class Config {
     static let primaryConfigPaths: [String] = [
         "~/.stark.js",
         "~/.config/stark/stark.js",
-        "~/Library/Application Support/Stark/stark.js"
+        "~/Library/Application Support/Stark/stark.js",
     ]
 
     let primaryConfigPath = Config.resolvePrimaryConfigPath()
