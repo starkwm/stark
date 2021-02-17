@@ -1,6 +1,6 @@
 import Foundation
 
-class LaunchAgentHelper {
+enum LaunchAgentHelper {
     static var launchAgentDirectory: URL? {
         let libDir = try? FileManager.default.url(for: .libraryDirectory,
                                                   in: .userDomainMask,

@@ -2,7 +2,7 @@ import AppKit
 
 let starkDidStartLaunch = "starkDidLauncbNotification"
 
-class EventHelper {
+enum EventHelper {
     static let notificationToNotificationCenter: [String: NotificationCenter] = {
         let workspaceNotificationCenter = NSWorkspace.shared.notificationCenter
 

@@ -80,7 +80,7 @@ let keyToCode = [
     "DOWN": kVK_DownArrow
 ]
 
-class KeyCodeHelper {
+enum KeyCodeHelper {
     static let relocatableKeys: [String: Int] = {
         var keys = [String: Int]()
 

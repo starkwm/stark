@@ -1,6 +1,6 @@
 import Foundation
 
-class LogHelper {
+enum LogHelper {
     static func log(message: String) {
         NSLog("%@", message)
 
