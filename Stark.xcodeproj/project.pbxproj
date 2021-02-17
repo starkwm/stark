@@ -205,7 +205,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F6792C341C404B53007D9DF9 /* Build configuration list for PBXNativeTarget "Stark" */;
 			buildPhases = (
-				F620B8771E382F6C0090EB11 /* Lint JavaScript */,
 				F6D6F2261EC746D000ACAF35 /* Concatenate JavaScript */,
 				F6B4BB8D234D3FDE00B4CC61 /* SwiftFormat */,
 				F66FB78E1E08EDCB006A0430 /* SwiftLint */,
@@ -273,21 +272,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		F620B8771E382F6C0090EB11 /* Lint JavaScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Lint JavaScript";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "make lint\n";
-			showEnvVarsInLog = 0;
-		};
 		F66FB78E1E08EDCB006A0430 /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

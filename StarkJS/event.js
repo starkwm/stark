@@ -1,9 +1,6 @@
-/* global Event */
-
 (function setup(Event) {
   const events = {};
 
-  // eslint-disable-next-line no-param-reassign
   Event.on = (event, callback) => {
     const handler = new Event(event, callback);
 
@@ -15,7 +12,6 @@
     return null;
   };
 
-  // eslint-disable-next-line no-param-reassign
   Event.off = (identifier) => {
     const handler = events[identifier];
 
