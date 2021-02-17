@@ -12,7 +12,7 @@ enum EventHelper {
             NSWorkspace.didTerminateApplicationNotification.rawValue: workspaceNotificationCenter,
             NSWorkspace.didActivateApplicationNotification.rawValue: workspaceNotificationCenter,
             NSWorkspace.didHideApplicationNotification.rawValue: workspaceNotificationCenter,
-            NSWorkspace.didUnhideApplicationNotification.rawValue: workspaceNotificationCenter
+            NSWorkspace.didUnhideApplicationNotification.rawValue: workspaceNotificationCenter,
         ]
     }()
 
@@ -35,7 +35,7 @@ enum EventHelper {
         "windowDidMove": NSAccessibility.Notification.windowMoved.rawValue,
         "windowDidResize": NSAccessibility.Notification.windowResized.rawValue,
         "windowDidMinimize": NSAccessibility.Notification.windowMiniaturized.rawValue,
-        "windowDidUnminimize": NSAccessibility.Notification.windowDeminiaturized.rawValue
+        "windowDidUnminimize": NSAccessibility.Notification.windowDeminiaturized.rawValue,
     ]
 
     static func notificationCenter(for notification: String) -> NotificationCenter {

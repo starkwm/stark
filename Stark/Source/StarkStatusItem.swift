@@ -13,7 +13,7 @@ class StarkStatusItem {
     }
 
     func setup() {
-        statusItem.button?.image = NSImage(named: "StatusItemIcon")
+        statusItem.button?.image = NSImage(named: NSImage.Name("StatusItemIcon"))
 
         let menu = NSMenu()
 

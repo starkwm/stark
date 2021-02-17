@@ -19,7 +19,7 @@ let relocatableKeyCodes = [
     kVK_ANSI_Backslash,
     kVK_ANSI_Comma,
     kVK_ANSI_Slash,
-    kVK_ANSI_Period
+    kVK_ANSI_Period,
 ]
 
 let keyToCode = [
@@ -77,7 +77,7 @@ let keyToCode = [
     "LEFT": kVK_LeftArrow,
     "RIGHT": kVK_RightArrow,
     "UP": kVK_UpArrow,
-    "DOWN": kVK_DownArrow
+    "DOWN": kVK_DownArrow,
 ]
 
 enum KeyCodeHelper {
