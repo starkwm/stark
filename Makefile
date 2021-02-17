@@ -15,13 +15,7 @@ archive:
 	@xcodebuild $(XCODEFLAGS) clean archive -archivePath $(STARK_ACHIVE)
 	@xcodebuild -exportArchive -archivePath $(STARK_ACHIVE) -exportPath $(BUILD_DIR) -exportOptionsPlist $(EXPORT_PLIST)
 
-bootstrap:
-	@cd $(JAVASCRIPT_DIR) && npm install
-
-lint:
-	@cd $(JAVASCRIPT_DIR) && npx eslint *.js
-
 concat:
-	@cd $(JAVASCRIPT_DIR) && npx concat *.js -o ../Stark/Resources/stark-lib.js
+	@cd $(JAVASCRIPT_DIR) && cat *.js > ../Stark/Resources/stark-lib.js
 
-.PHONY: all build archive bootstrap lint concat
+.PHONY: all build archive concat

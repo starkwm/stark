@@ -1,9 +1,6 @@
-/* global Bind */
-
 (function setup(Bind) {
   const binds = {};
 
-  // eslint-disable-next-line no-param-reassign
   Bind.on = (key, modifiers, callback) => {
     const handler = new Bind(key, modifiers, callback);
 
@@ -15,7 +12,6 @@
     return null;
   };
 
-  // eslint-disable-next-line no-param-reassign
   Bind.off = (identifier) => {
     const handler = binds[identifier];
 

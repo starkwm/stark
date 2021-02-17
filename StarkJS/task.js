@@ -1,9 +1,6 @@
-/* global Task */
-
 (function setup(Task) {
   const tasks = {};
 
-  // eslint-disable-next-line no-param-reassign
   Task.run = (path, args, callback) => {
     const task = new Task(path, args, (handler) => {
       if (callback) {
@@ -21,7 +18,6 @@
     return null;
   };
 
-  // eslint-disable-next-line no-param-reassign
   Task.terminate = (identifier) => {
     const task = tasks[identifier];
 
