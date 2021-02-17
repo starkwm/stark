@@ -2,7 +2,7 @@ XCODEFLAGS=-project "Stark.xcodeproj" -scheme "Stark"
 
 BUILD_DIR=$(PWD)/Build
 STARK_ACHIVE=$(BUILD_DIR)/Stark.xcarchive
-EXPORT_PLIST=$(PWD)/ExportPlist.plist
+EXPORT_PLIST=$(PWD)/Export.plist
 
 JAVASCRIPT_DIR=$(PWD)/StarkJS
 
