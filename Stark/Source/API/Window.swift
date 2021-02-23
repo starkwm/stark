@@ -10,7 +10,7 @@ public class Window: NSObject, WindowJSExport {
     private static let systemWideElement = AXUIElementCreateSystemWide()
 
     public static func all(_ options: [String: AnyObject] = [:]) -> [Window] {
-        return Application.all().flatMap { $0.windows(options) }
+        Application.all().flatMap { $0.windows(options) }
     }
 
     public static func focused() -> Window? {
@@ -55,7 +55,7 @@ public class Window: NSObject, WindowJSExport {
     }
 
     public var app: Application {
-        return Application(pid: pid())
+        Application(pid: pid())
     }
 
     public var screen: NSScreen {
@@ -93,7 +93,7 @@ public class Window: NSObject, WindowJSExport {
     }
 
     public var frame: CGRect {
-        return CGRect(origin: topLeft, size: size)
+        CGRect(origin: topLeft, size: size)
     }
 
     public var topLeft: CGPoint {
@@ -230,7 +230,7 @@ public class Window: NSObject, WindowJSExport {
     }
 
     public func spaces() -> [Space] {
-        return Space.spaces(for: self)
+        Space.spaces(for: self)
     }
 
     private func pid() -> pid_t {

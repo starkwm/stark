@@ -35,7 +35,7 @@ public class Space: NSObject, SpaceJSExport {
     }
 
     public static func active() -> Space {
-        return Space(identifier: CGSGetActiveSpace(CGSMainConnectionID()))
+        Space(identifier: CGSGetActiveSpace(CGSMainConnectionID()))
     }
 
     static func current(for screen: NSScreen) -> Space? {
@@ -75,11 +75,11 @@ public class Space: NSObject, SpaceJSExport {
     private var identifier: CGSSpaceID
 
     public var isNormal: Bool {
-        return CGSSpaceGetType(CGSMainConnectionID(), identifier) == CGSSpaceTypeUser
+        CGSSpaceGetType(CGSMainConnectionID(), identifier) == CGSSpaceTypeUser
     }
 
     public var isFullscreen: Bool {
-        return CGSSpaceGetType(CGSMainConnectionID(), identifier) == CGSSpaceTypeFullscreen
+        CGSSpaceGetType(CGSMainConnectionID(), identifier) == CGSSpaceTypeFullscreen
     }
 
     public func screens() -> [NSScreen] {
@@ -123,7 +123,7 @@ public class Space: NSObject, SpaceJSExport {
     }
 
     public func windows() -> [Window] {
-        return Window.all().filter { $0.spaces().contains(self) }
+        Window.all().filter { $0.spaces().contains(self) }
     }
 
     public func windows(_ options: [String: AnyObject]) -> [Window] {
@@ -138,13 +138,13 @@ public class Space: NSObject, SpaceJSExport {
 
     public func addWindows(_ windows: [Window]) {
         CGSAddWindowsToSpaces(CGSMainConnectionID(),
-                              windows.map { $0.identifier } as CFArray,
+                              windows.map(\.identifier) as CFArray,
                               [identifier] as CFArray)
     }
 
     public func removeWindows(_ windows: [Window]) {
         CGSRemoveWindowsFromSpaces(CGSMainConnectionID(),
-                                   windows.map { $0.identifier } as CFArray,
+                                   windows.map(\.identifier) as CFArray,
                                    [identifier] as CFArray)
     }
 }

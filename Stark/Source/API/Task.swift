@@ -23,7 +23,7 @@ public class Task: Handler, TaskJSExport {
     private var outputData = Data()
     private var errorData = Data()
 
-    public var id: Int { return hashValue }
+    public var id: Int { hashValue }
 
     public var status: Int = -1
     public var standardOutput: String?

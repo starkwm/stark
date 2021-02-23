@@ -83,13 +83,13 @@ public class Bind: Handler, BindJSExport {
     private var enabled = false
 
     public var id: Int {
-        return String(format: "%@[%@]", key, modifiers.joined(separator: "|")).hashValue
+        String(format: "%@[%@]", key, modifiers.joined(separator: "|")).hashValue
     }
 
     public var key: String = ""
     public var modifiers: [String] = []
 
-    public var isEnabled: Bool { return enabled }
+    public var isEnabled: Bool { enabled }
 
     public func enable() -> Bool {
         if enabled {

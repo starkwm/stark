@@ -17,7 +17,7 @@ public class Timer: Handler, TimerJSExport {
     private var timer: Foundation.Timer?
 
     public var id: Int {
-        return hashValue
+        hashValue
     }
 
     public func stop() {

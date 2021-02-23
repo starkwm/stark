@@ -4,15 +4,15 @@ private let NSScreenNumberKey = NSDeviceDescriptionKey("NSScreenNumber")
 
 extension NSScreen: NSScreenJSExport {
     public static func all() -> [NSScreen] {
-        return screens
+        screens
     }
 
     public static func focused() -> NSScreen? {
-        return main
+        main
     }
 
     public static func screen(for identifier: String) -> NSScreen? {
-        return screens.first { $0.identifier == identifier }
+        screens.first { $0.identifier == identifier }
     }
 
     public var identifier: String {
@@ -71,10 +71,10 @@ extension NSScreen: NSScreenJSExport {
     }
 
     public func currentSpace() -> Space? {
-        return Space.current(for: self)
+        Space.current(for: self)
     }
 
     public func spaces() -> [Space] {
-        return Space.all().filter { $0.screens().contains(self) }
+        Space.all().filter { $0.screens().contains(self) }
     }
 }

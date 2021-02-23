@@ -14,7 +14,7 @@ public class Application: NSObject, ApplicationJSExport {
     }
 
     public static func all() -> [Application] {
-        return NSWorkspace.shared.runningApplications.map { Application(pid: $0.processIdentifier) }
+        NSWorkspace.shared.runningApplications.map { Application(pid: $0.processIdentifier) }
     }
 
     public static func focused() -> Application? {
@@ -39,13 +39,13 @@ public class Application: NSObject, ApplicationJSExport {
 
     private var app: NSRunningApplication
 
-    public var name: String { return app.localizedName ?? "" }
+    public var name: String { app.localizedName ?? "" }
 
-    public var bundleId: String { return app.bundleIdentifier ?? "" }
+    public var bundleId: String { app.bundleIdentifier ?? "" }
 
-    public var processId: pid_t { return app.processIdentifier }
+    public var processId: pid_t { app.processIdentifier }
 
-    public var isActive: Bool { return app.isActive }
+    public var isActive: Bool { app.isActive }
 
     public var isHidden: Bool {
         var value: AnyObject?
@@ -63,7 +63,7 @@ public class Application: NSObject, ApplicationJSExport {
     }
 
     public var isTerminated: Bool {
-        return app.isTerminated
+        app.isTerminated
     }
 
     public func windows() -> [Window] {
@@ -91,22 +91,22 @@ public class Application: NSObject, ApplicationJSExport {
     }
 
     public func activate() -> Bool {
-        return app.activate(options: .activateAllWindows)
+        app.activate(options: .activateAllWindows)
     }
 
     public func focus() -> Bool {
-        return app.activate(options: .activateIgnoringOtherApps)
+        app.activate(options: .activateIgnoringOtherApps)
     }
 
     public func show() -> Bool {
-        return app.unhide()
+        app.unhide()
     }
 
     public func hide() -> Bool {
-        return app.hide()
+        app.hide()
     }
 
     public func terminate() -> Bool {
-        return app.terminate()
+        app.terminate()
     }
 }

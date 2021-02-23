@@ -11,7 +11,7 @@ enum LaunchAgentHelper {
     }
 
     static var launchAgentFile: URL? {
-        return launchAgentDirectory?.appendingPathComponent("co.rustyrobots.Stark.plist")
+        launchAgentDirectory?.appendingPathComponent("co.rustyrobots.Stark.plist")
     }
 
     static func add() {
