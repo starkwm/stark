@@ -8,10 +8,6 @@ private let CGSSpaceIDKey = "ManagedSpaceID"
 private let CGSSpacesKey = "Spaces"
 
 public class Space: NSObject, SpaceJSExport {
-    public static func active() -> Space {
-        return Space(identifier: CGSGetActiveSpace(CGSMainConnectionID()))
-    }
-
     public static func all() -> [Space] {
         var spaces: [Space] = []
 
@@ -36,6 +32,10 @@ public class Space: NSObject, SpaceJSExport {
         }
 
         return spaces
+    }
+
+    public static func active() -> Space {
+        return Space(identifier: CGSGetActiveSpace(CGSMainConnectionID()))
     }
 
     static func current(for screen: NSScreen) -> Space? {

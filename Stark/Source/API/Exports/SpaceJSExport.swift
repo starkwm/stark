@@ -3,8 +3,8 @@ import JavaScriptCore
 
 @objc
 protocol SpaceJSExport: JSExport {
-    static func active() -> Space
     static func all() -> [Space]
+    static func active() -> Space
 
     var isNormal: Bool { get }
     var isFullscreen: Bool { get }
