@@ -17,18 +17,19 @@ enum EventHelper {
     }()
 
     static let eventToNotification: [String: String] = [
+        // Stark
         "starkDidLaunch": starkDidStartLaunch,
-
+        // Screens
         "screensDidChange": NSApplication.didChangeScreenParametersNotification.rawValue,
-
+        // Spaces
         "spaceDidChange": NSWorkspace.activeSpaceDidChangeNotification.rawValue,
-
+        // Applications
         "applicationDidLaunch": NSWorkspace.didLaunchApplicationNotification.rawValue,
         "applicationDidTerminate": NSWorkspace.didTerminateApplicationNotification.rawValue,
         "applicationDidActivate": NSWorkspace.didActivateApplicationNotification.rawValue,
         "applicationDidHide": NSWorkspace.didHideApplicationNotification.rawValue,
         "applicationDidShow": NSWorkspace.didUnhideApplicationNotification.rawValue,
-
+        // Windows
         "windowDidOpen": NSAccessibility.Notification.windowCreated.rawValue,
         "windowDidClose": NSAccessibility.Notification.uiElementDestroyed.rawValue,
         "windowDidFocus": NSAccessibility.Notification.focusedWindowChanged.rawValue,

@@ -45,8 +45,7 @@ enum LaunchAgentHelper {
     }
 
     static func remove() {
-        _ = try? FileManager.default
-            .removeItem(at: launchAgentFile!)
+        _ = try? FileManager.default.removeItem(at: launchAgentFile!)
     }
 
     static func enabled() -> Bool {
