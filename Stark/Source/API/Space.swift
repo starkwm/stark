@@ -11,7 +11,7 @@ public class Space: NSObject, SpaceJSExport {
     public static func all() -> [Space] {
         var spaces: [Space] = []
 
-        let displaySpacesInfo = CGSCopyManagedDisplaySpaces(CGSMainConnectionID()).takeRetainedValue() as NSArray
+        let displaySpacesInfo = SLSCopyManagedDisplaySpaces(SLSMainConnectionID()).takeRetainedValue() as NSArray
 
         displaySpacesInfo.forEach {
             guard let spacesInfo = $0 as? [String: AnyObject] else {
@@ -23,7 +23,7 @@ public class Space: NSObject, SpaceJSExport {
             }
 
             identifiers.forEach {
-                guard let identifier = $0[CGSSpaceIDKey] as? CGSSpaceID else {
+                guard let identifier = $0[CGSSpaceIDKey] as? uint64 else {
                     return
                 }
 
@@ -35,11 +35,11 @@ public class Space: NSObject, SpaceJSExport {
     }
 
     public static func active() -> Space {
-        Space(identifier: CGSGetActiveSpace(CGSMainConnectionID()))
+        Space(identifier: SLSGetActiveSpace(SLSMainConnectionID()))
     }
 
     static func current(for screen: NSScreen) -> Space? {
-        let identifier = CGSManagedDisplayGetCurrentSpace(CGSMainConnectionID(), screen.identifier as CFString)
+        let identifier = SLSManagedDisplayGetCurrentSpace(SLSMainConnectionID(), screen.identifier as CFString)
 
         return Space(identifier: identifier)
     }
@@ -47,8 +47,8 @@ public class Space: NSObject, SpaceJSExport {
     static func spaces(for window: Window) -> [Space] {
         var spaces: [Space] = []
 
-        let identifiers = CGSCopySpacesForWindows(CGSMainConnectionID(),
-                                                  kCGSAllSpacesMask,
+        let identifiers = SLSCopySpacesForWindows(SLSMainConnectionID(),
+                                                  7,
                                                   [window.identifier] as CFArray).takeRetainedValue() as NSArray
 
         all().forEach {
@@ -60,7 +60,7 @@ public class Space: NSObject, SpaceJSExport {
         return spaces
     }
 
-    init(identifier: CGSSpaceID) {
+    init(identifier: uint64) {
         self.identifier = identifier
     }
 
@@ -72,14 +72,14 @@ public class Space: NSObject, SpaceJSExport {
         return identifier == space.identifier
     }
 
-    private var identifier: CGSSpaceID
+    private var identifier: uint64
 
     public var isNormal: Bool {
-        CGSSpaceGetType(CGSMainConnectionID(), identifier) == CGSSpaceTypeUser
+        SLSSpaceGetType(SLSMainConnectionID(), identifier) == 0
     }
 
     public var isFullscreen: Bool {
-        CGSSpaceGetType(CGSMainConnectionID(), identifier) == CGSSpaceTypeFullscreen
+        SLSSpaceGetType(SLSMainConnectionID(), identifier) == 4
     }
 
     public func screens() -> [NSScreen] {
@@ -87,7 +87,7 @@ public class Space: NSObject, SpaceJSExport {
             return NSScreen.screens
         }
 
-        let displaySpacesInfo = CGSCopyManagedDisplaySpaces(CGSMainConnectionID()).takeRetainedValue() as NSArray
+        let displaySpacesInfo = SLSCopyManagedDisplaySpaces(SLSMainConnectionID()).takeRetainedValue() as NSArray
 
         var screen: NSScreen?
 
@@ -105,7 +105,7 @@ public class Space: NSObject, SpaceJSExport {
             }
 
             identifiers.forEach {
-                guard let identifier = $0[CGSSpaceIDKey] as? CGSSpaceID else {
+                guard let identifier = $0[CGSSpaceIDKey] as? uint64 else {
                     return
                 }
 
@@ -137,13 +137,13 @@ public class Space: NSObject, SpaceJSExport {
     }
 
     public func addWindows(_ windows: [Window]) {
-        CGSAddWindowsToSpaces(CGSMainConnectionID(),
+        SLSAddWindowsToSpaces(SLSMainConnectionID(),
                               windows.map(\.identifier) as CFArray,
                               [identifier] as CFArray)
     }
 
     public func removeWindows(_ windows: [Window]) {
-        CGSRemoveWindowsFromSpaces(CGSMainConnectionID(),
+        SLSRemoveWindowsFromSpaces(SLSMainConnectionID(),
                                    windows.map(\.identifier) as CFArray,
                                    [identifier] as CFArray)
     }
