@@ -46,7 +46,7 @@ class AppObserver: NSObject {
         if observer != nil {
             notifications.forEach { remove(notification: $0.rawValue) }
 
-            CFRunLoopRemoveSource(CFRunLoopGetCurrent(),
+            CFRunLoopRemoveSource(CFRunLoopGetMain(),
                                   AXObserverGetRunLoopSource(observer!),
                                   CFRunLoopMode.defaultMode)
         }
@@ -69,7 +69,7 @@ class AppObserver: NSObject {
     @objc
     func didReceiveNotification(_: Notification) {
         if observer != nil {
-            CFRunLoopAddSource(CFRunLoopGetCurrent(), AXObserverGetRunLoopSource(observer!), CFRunLoopMode.defaultMode)
+            CFRunLoopAddSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(observer!), CFRunLoopMode.defaultMode)
 
             notifications.forEach { add(notification: $0.rawValue) }
         }
