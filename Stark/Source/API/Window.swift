@@ -9,18 +9,8 @@ private let starkVisibilityOptionsKey = "visible"
 public class Window: NSObject, WindowJSExport {
     private static let systemWideElement = AXUIElementCreateSystemWide()
 
-    public static func all() -> [Window] {
-        return Application.all().flatMap { $0.windows() }
-    }
-
-    public static func all(_ options: [String: AnyObject]) -> [Window] {
-        let visible = options[starkVisibilityOptionsKey] as? Bool ?? false
-
-        if visible {
-            return all().filter { !$0.app.isHidden && $0.isStandard && !$0.isMinimized }
-        }
-
-        return all()
+    public static func all(_ options: [String: AnyObject] = [:]) -> [Window] {
+        return Application.all().flatMap { $0.windows(options) }
     }
 
     public static func focused() -> Window? {

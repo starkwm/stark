@@ -3,7 +3,6 @@ import JavaScriptCore
 
 @objc
 protocol WindowJSExport: JSExport {
-    static func all() -> [Window]
     static func all(_ options: [String: AnyObject]) -> [Window]
     static func focused() -> Window?
 
