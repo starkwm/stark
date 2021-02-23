@@ -80,7 +80,7 @@ public class Application: NSObject, ApplicationJSExport {
         return elements.map { Window(element: $0 as! AXUIElement) }
     }
 
-    public func windows(_ options: [String: AnyObject]) -> [Window] {
+    public func windows(_ options: [String: AnyObject] = [:]) -> [Window] {
         let visible = options[starkVisibilityOptionsKey] as? Bool ?? false
 
         if visible {

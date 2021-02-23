@@ -15,7 +15,6 @@ protocol ApplicationJSExport: JSExport {
     var isHidden: Bool { get }
     var isTerminated: Bool { get }
 
-    func windows() -> [Window]
     func windows(_ options: [String: AnyObject]) -> [Window]
 
     func activate() -> Bool
