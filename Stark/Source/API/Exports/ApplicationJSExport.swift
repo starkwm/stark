@@ -3,7 +3,6 @@ import JavaScriptCore
 @objc
 protocol ApplicationJSExport: JSExport {
     static func find(_ name: String) -> Application?
-    static func launch(_ name: String)
     static func all() -> [Application]
     static func focused() -> Application?
 

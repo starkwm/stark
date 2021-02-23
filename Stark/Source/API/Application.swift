@@ -13,10 +13,6 @@ public class Application: NSObject, ApplicationJSExport {
         return Application(pid: app!.processIdentifier)
     }
 
-    public static func launch(_ name: String) {
-        NSWorkspace.shared.launchApplication(name)
-    }
-
     public static func all() -> [Application] {
         return NSWorkspace.shared.runningApplications.map { Application(pid: $0.processIdentifier) }
     }
