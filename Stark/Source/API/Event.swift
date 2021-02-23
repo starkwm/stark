@@ -26,7 +26,7 @@ public class Event: Handler, EventJSExport {
     private var notificationCenter: NotificationCenter
 
     public var id: Int {
-        return hashValue
+        hashValue
     }
 
     public var name: String
