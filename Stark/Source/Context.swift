@@ -16,7 +16,7 @@ class Context {
             fatalError("Could not find stark-lib.js")
         }
 
-        config.createUnlessExists(path: config.primaryConfigPath)
+        config.createUnlessExists()
 
         setupAPI()
 
