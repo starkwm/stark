@@ -122,18 +122,8 @@ public class Space: NSObject, SpaceJSExport {
         return [screen!]
     }
 
-    public func windows() -> [Window] {
-        Window.all().filter { $0.spaces().contains(self) }
-    }
-
-    public func windows(_ options: [String: AnyObject]) -> [Window] {
-        let visible = options[starkVisibilityOptionsKey] as? Bool ?? false
-
-        if visible {
-            return windows().filter { !$0.app.isHidden && $0.isStandard && !$0.isMinimized }
-        }
-
-        return windows()
+    public func windows(_ options: [String: AnyObject] = [:]) -> [Window] {
+        Window.all(options).filter { $0.spaces().contains(self) }
     }
 
     public func addWindows(_ windows: [Window]) {
