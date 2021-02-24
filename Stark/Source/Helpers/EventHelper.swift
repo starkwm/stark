@@ -48,10 +48,6 @@ enum EventHelper {
     }
 
     static func notification(for event: String) -> String {
-        if let notifiction = eventToNotification[event] {
-            return notifiction
-        }
-
-        return ""
+        eventToNotification[event] ?? ""
     }
 }
