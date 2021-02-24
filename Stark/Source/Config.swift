@@ -26,7 +26,7 @@ class Config {
             return
         }
 
-        guard let examplePath = Bundle.main.path(forResource: "stark-example", ofType: "js") else {
+        guard let examplePath = Bundle.main.path(forResource: "JavaScript/stark-example", ofType: "js") else {
             fatalError("Could not find stark-example.js")
         }
 

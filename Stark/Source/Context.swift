@@ -12,15 +12,30 @@ class Context {
     }
 
     func setup() {
-        guard let starklibPath = Bundle.main.path(forResource: "stark-lib", ofType: "js") else {
-            fatalError("Could not find stark-lib.js")
+        guard let bindLibPath = Bundle.main.path(forResource: "bind", ofType: "js") else {
+            fatalError("Could not find bind.js")
+        }
+
+        guard let eventLibPath = Bundle.main.path(forResource: "event", ofType: "js") else {
+            fatalError("Could not find event.js")
+        }
+
+        guard let taskLibPath = Bundle.main.path(forResource: "task", ofType: "js") else {
+            fatalError("Could not find task.js")
+        }
+
+        guard let timerLibPath = Bundle.main.path(forResource: "timer", ofType: "js") else {
+            fatalError("Could not find timer.js")
         }
 
         config.createUnlessExists()
 
         setupAPI()
 
-        loadJSFile(path: starklibPath)
+        loadJSFile(path: bindLibPath)
+        loadJSFile(path: eventLibPath)
+        loadJSFile(path: taskLibPath)
+        loadJSFile(path: timerLibPath)
         loadJSFile(path: config.primaryConfigPath)
     }
 
