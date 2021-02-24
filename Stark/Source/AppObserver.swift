@@ -22,8 +22,6 @@ private let observerCallback: AXObserverCallback = { _, element, notification, _
     }
 }
 
-private let notificationCenter = NSWorkspace.shared.notificationCenter
-
 class AppObserver: NSObject {
     private var element: AXUIElement
 
@@ -34,49 +32,44 @@ class AppObserver: NSObject {
 
         super.init()
 
-        notificationCenter.addObserver(self,
-                                       selector: #selector(didReceiveNotification(_:)),
-                                       name: NSWorkspace.didLaunchApplicationNotification,
-                                       object: nil)
-
         AXObserverCreate(app.processIdentifier, observerCallback, &observer)
+
+        NSWorkspace
+            .shared
+            .notificationCenter
+            .addObserver(self,
+                         selector: #selector(didReceiveNotification(_:)),
+                         name: NSWorkspace.didLaunchApplicationNotification,
+                         object: nil)
+
         register()
     }
 
     deinit {
-        if observer != nil {
-            notifications.forEach { remove(notification: $0.rawValue) }
-
-            CFRunLoopRemoveSource(CFRunLoopGetMain(),
-                                  AXObserverGetRunLoopSource(observer!),
-                                  CFRunLoopMode.defaultMode)
+        if let observer = observer {
+            notifications.forEach { AXObserverRemoveNotification(observer, element, $0.rawValue as CFString) }
         }
 
-        notificationCenter.removeObserver(self, name: NSWorkspace.didLaunchApplicationNotification, object: nil)
-    }
-
-    private func add(notification: String) {
-        if observer != nil {
-            AXObserverAddNotification(observer!, element, notification as CFString, nil)
-        }
-    }
-
-    private func remove(notification: String) {
-        if observer != nil {
-            AXObserverRemoveNotification(observer!, element, notification as CFString)
-        }
+        NSWorkspace
+            .shared
+            .notificationCenter
+            .removeObserver(self, name: NSWorkspace.didLaunchApplicationNotification, object: nil)
     }
 
     private func register() {
-        if observer != nil {
-            CFRunLoopAddSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(observer!), CFRunLoopMode.defaultMode)
+        if let observer = observer {
+            CFRunLoopAddSource(CFRunLoopGetCurrent(),
+                               AXObserverGetRunLoopSource(observer),
+                               CFRunLoopMode.defaultMode)
 
-            notifications.forEach { add(notification: $0.rawValue) }
+            notifications.forEach { AXObserverAddNotification(observer, element, $0.rawValue as CFString, nil) }
         }
     }
 
     @objc
     func didReceiveNotification(_: Notification) {
-        register()
+        if observer != nil {
+            register()
+        }
     }
 }
