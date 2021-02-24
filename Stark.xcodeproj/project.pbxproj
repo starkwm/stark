@@ -24,7 +24,6 @@
 		F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2C1C404B53007D9DF9 /* Assets.xcassets */; };
 		F6792C411C405598007D9DF9 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C401C405598007D9DF9 /* Application.swift */; };
 		F6792C431C4055A2007D9DF9 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C421C4055A2007D9DF9 /* Window.swift */; };
-		F67CFD7D1D93164000FF0F49 /* stark-lib.js in Resources */ = {isa = PBXBuildFile; fileRef = F67CFD7C1D93164000FF0F49 /* stark-lib.js */; };
 		F6942ECD1C6A8EEF00D2C0D4 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6942ECC1C6A8EEF00D2C0D4 /* Handler.swift */; };
 		F6A0DB5420471EE700471843 /* NSScreenJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5320471EE700471843 /* NSScreenJSExport.swift */; };
 		F6A0DB5620471FBD00471843 /* ApplicationJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5520471FBD00471843 /* ApplicationJSExport.swift */; };
@@ -38,8 +37,12 @@
 		F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */; };
 		F6CBE6081C418D6300C962A7 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6071C418D6300C962A7 /* Config.swift */; };
 		F6D00B671E0E03F30087F68D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6D00B661E0E03F30087F68D /* MainMenu.xib */; };
+		F6E86E9B25E68D81006BC172 /* stark-example.js in Resources */ = {isa = PBXBuildFile; fileRef = F6E86E9625E68D81006BC172 /* stark-example.js */; };
+		F6E86E9C25E68D81006BC172 /* event.js in Resources */ = {isa = PBXBuildFile; fileRef = F6E86E9725E68D81006BC172 /* event.js */; };
+		F6E86E9D25E68D81006BC172 /* bind.js in Resources */ = {isa = PBXBuildFile; fileRef = F6E86E9825E68D81006BC172 /* bind.js */; };
+		F6E86E9E25E68D81006BC172 /* timer.js in Resources */ = {isa = PBXBuildFile; fileRef = F6E86E9925E68D81006BC172 /* timer.js */; };
+		F6E86E9F25E68D81006BC172 /* task.js in Resources */ = {isa = PBXBuildFile; fileRef = F6E86E9A25E68D81006BC172 /* task.js */; };
 		F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */; };
-		F6FC1C661CBAE8E10070ED3B /* stark-example.js in Resources */ = {isa = PBXBuildFile; fileRef = F6FC1C651CBAE8E10070ED3B /* stark-example.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,7 +65,6 @@
 		F6792C311C404B53007D9DF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F6792C401C405598007D9DF9 /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		F6792C421C4055A2007D9DF9 /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
-		F67CFD7C1D93164000FF0F49 /* stark-lib.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "stark-lib.js"; sourceTree = "<group>"; };
 		F6942ECC1C6A8EEF00D2C0D4 /* Handler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Handler.swift; sourceTree = "<group>"; };
 		F6A0DB5320471EE700471843 /* NSScreenJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSScreenJSExport.swift; sourceTree = "<group>"; };
 		F6A0DB5520471FBD00471843 /* ApplicationJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationJSExport.swift; sourceTree = "<group>"; };
@@ -77,8 +79,12 @@
 		F6CBE6071C418D6300C962A7 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Stark-Bridging-Header.h"; sourceTree = "<group>"; };
 		F6D00B661E0E03F30087F68D /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		F6E86E9625E68D81006BC172 /* stark-example.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "stark-example.js"; sourceTree = "<group>"; };
+		F6E86E9725E68D81006BC172 /* event.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = event.js; sourceTree = "<group>"; };
+		F6E86E9825E68D81006BC172 /* bind.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = bind.js; sourceTree = "<group>"; };
+		F6E86E9925E68D81006BC172 /* timer.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = timer.js; sourceTree = "<group>"; };
+		F6E86E9A25E68D81006BC172 /* task.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = task.js; sourceTree = "<group>"; };
 		F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchAgentHelper.swift; sourceTree = "<group>"; };
-		F6FC1C651CBAE8E10070ED3B /* stark-example.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "stark-example.js"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,10 +172,9 @@
 		F6792C391C404F01007D9DF9 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F6E86E8825E68D3F006BC172 /* JavaScript */,
 				F6792C2C1C404B53007D9DF9 /* Assets.xcassets */,
 				F6D00B661E0E03F30087F68D /* MainMenu.xib */,
-				F6FC1C651CBAE8E10070ED3B /* stark-example.js */,
-				F67CFD7C1D93164000FF0F49 /* stark-lib.js */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -198,6 +203,18 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		F6E86E8825E68D3F006BC172 /* JavaScript */ = {
+			isa = PBXGroup;
+			children = (
+				F6E86E9825E68D81006BC172 /* bind.js */,
+				F6E86E9725E68D81006BC172 /* event.js */,
+				F6E86E9625E68D81006BC172 /* stark-example.js */,
+				F6E86E9A25E68D81006BC172 /* task.js */,
+				F6E86E9925E68D81006BC172 /* timer.js */,
+			);
+			path = JavaScript;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -205,7 +222,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F6792C341C404B53007D9DF9 /* Build configuration list for PBXNativeTarget "Stark" */;
 			buildPhases = (
-				F6D6F2261EC746D000ACAF35 /* Concatenate JavaScript */,
 				F6B4BB8D234D3FDE00B4CC61 /* SwiftFormat */,
 				F66FB78E1E08EDCB006A0430 /* SwiftLint */,
 				F6792C231C404B53007D9DF9 /* Sources */,
@@ -262,9 +278,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F6FC1C661CBAE8E10070ED3B /* stark-example.js in Resources */,
-				F67CFD7D1D93164000FF0F49 /* stark-lib.js in Resources */,
+				F6E86E9E25E68D81006BC172 /* timer.js in Resources */,
 				F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */,
+				F6E86E9C25E68D81006BC172 /* event.js in Resources */,
+				F6E86E9F25E68D81006BC172 /* task.js in Resources */,
+				F6E86E9D25E68D81006BC172 /* bind.js in Resources */,
+				F6E86E9B25E68D81006BC172 /* stark-example.js in Resources */,
 				F6D00B671E0E03F30087F68D /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -304,21 +323,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "if which swiftformat >/dev/null; then\n    swiftformat .\nelse\n    echo \"Please install SwiftFormat.\"\nfi\n";
-		};
-		F6D6F2261EC746D000ACAF35 /* Concatenate JavaScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Concatenate JavaScript";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "make concat\n";
-			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 

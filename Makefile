@@ -4,12 +4,7 @@ BUILD_DIR=$(PWD)/Build
 STARK_ACHIVE=$(BUILD_DIR)/Stark.xcarchive
 EXPORT_PLIST=$(PWD)/Export.plist
 
-JAVASCRIPT_DIR=$(PWD)/StarkJS
-
 all: build
-
-format:
-	@swiftformat Stark/Source
 
 build:
 	@xcodebuild $(XCODEFLAGS) build
@@ -18,7 +13,4 @@ archive:
 	@xcodebuild $(XCODEFLAGS) clean archive -archivePath $(STARK_ACHIVE)
 	@xcodebuild -exportArchive -archivePath $(STARK_ACHIVE) -exportPath $(BUILD_DIR) -exportOptionsPlist $(EXPORT_PLIST)
 
-concat:
-	@cd $(JAVASCRIPT_DIR) && cat *.js > ../Stark/Resources/stark-lib.js
-
-.PHONY: all format build archive concat
+.PHONY: all build archive
