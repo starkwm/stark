@@ -40,6 +40,7 @@ class AppObserver: NSObject {
                                        object: nil)
 
         AXObserverCreate(app.processIdentifier, observerCallback, &observer)
+        register()
     }
 
     deinit {
@@ -66,12 +67,16 @@ class AppObserver: NSObject {
         }
     }
 
-    @objc
-    func didReceiveNotification(_: Notification) {
+    private func register() {
         if observer != nil {
             CFRunLoopAddSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(observer!), CFRunLoopMode.defaultMode)
 
             notifications.forEach { add(notification: $0.rawValue) }
         }
+    }
+
+    @objc
+    func didReceiveNotification(_: Notification) {
+        register()
     }
 }
