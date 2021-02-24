@@ -2,9 +2,13 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
+    var observer: RunningAppsObserver?
+
     let statusItem = StarkStatusItem()
 
     func applicationDidFinishLaunching(_: Notification) {
+        observer = RunningAppsObserver()
+
         askForAccessibilityIfNeeded()
 
         statusItem.setup()

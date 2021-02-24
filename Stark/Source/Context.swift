@@ -2,8 +2,6 @@ import AppKit
 import JavaScriptCore
 
 class Context {
-    let observer = RunningAppsObserver()
-
     var context: JSContext?
     var config: Config
 
