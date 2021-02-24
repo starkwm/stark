@@ -72,7 +72,7 @@ public class Space: NSObject, SpaceJSExport {
         return identifier == space.identifier
     }
 
-    private var identifier: uint64
+    public var identifier: uint64
 
     public var isNormal: Bool {
         SLSSpaceGetType(SLSMainConnectionID(), identifier) == 0

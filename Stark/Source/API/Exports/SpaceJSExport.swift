@@ -6,6 +6,8 @@ protocol SpaceJSExport: JSExport {
     static func all() -> [Space]
     static func active() -> Space
 
+    var identifier: uint64 { get }
+
     var isNormal: Bool { get }
     var isFullscreen: Bool { get }
 
