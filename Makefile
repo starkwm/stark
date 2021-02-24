@@ -8,6 +8,9 @@ JAVASCRIPT_DIR=$(PWD)/StarkJS
 
 all: build
 
+format:
+	@swiftformat Stark/Source
+
 build:
 	@xcodebuild $(XCODEFLAGS) build
 
@@ -18,4 +21,4 @@ archive:
 concat:
 	@cd $(JAVASCRIPT_DIR) && cat *.js > ../Stark/Resources/stark-lib.js
 
-.PHONY: all build archive concat
+.PHONY: all format build archive concat
