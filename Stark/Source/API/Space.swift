@@ -3,27 +3,29 @@ import JavaScriptCore
 
 private let starkVisibilityOptionsKey = "visible"
 
-private let CGSScreenIDKey = "Display Identifier"
-private let CGSSpaceIDKey = "ManagedSpaceID"
-private let CGSSpacesKey = "Spaces"
+private let SLSScreenIDKey = "Display Identifier"
+private let SLSSpaceIDKey = "ManagedSpaceID"
+private let SLSSpacesKey = "Spaces"
 
 public class Space: NSObject, SpaceJSExport {
+    private static let connectionID = SLSMainConnectionID()
+
     public static func all() -> [Space] {
         var spaces: [Space] = []
 
-        let displaySpacesInfo = SLSCopyManagedDisplaySpaces(SLSMainConnectionID()).takeRetainedValue() as NSArray
+        let displaySpacesInfo = SLSCopyManagedDisplaySpaces(connectionID).takeRetainedValue() as NSArray
 
         displaySpacesInfo.forEach {
             guard let spacesInfo = $0 as? [String: AnyObject] else {
                 return
             }
 
-            guard let identifiers = spacesInfo[CGSSpacesKey] as? [[String: AnyObject]] else {
+            guard let identifiers = spacesInfo[SLSSpacesKey] as? [[String: AnyObject]] else {
                 return
             }
 
             identifiers.forEach {
-                guard let identifier = $0[CGSSpaceIDKey] as? uint64 else {
+                guard let identifier = $0[SLSSpaceIDKey] as? uint64 else {
                     return
                 }
 
@@ -35,11 +37,11 @@ public class Space: NSObject, SpaceJSExport {
     }
 
     public static func active() -> Space {
-        Space(identifier: SLSGetActiveSpace(SLSMainConnectionID()))
+        Space(identifier: SLSGetActiveSpace(connectionID))
     }
 
     static func current(for screen: NSScreen) -> Space? {
-        let identifier = SLSManagedDisplayGetCurrentSpace(SLSMainConnectionID(), screen.identifier as CFString)
+        let identifier = SLSManagedDisplayGetCurrentSpace(connectionID, screen.identifier as CFString)
 
         return Space(identifier: identifier)
     }
@@ -47,7 +49,7 @@ public class Space: NSObject, SpaceJSExport {
     static func spaces(for window: Window) -> [Space] {
         var spaces: [Space] = []
 
-        let identifiers = SLSCopySpacesForWindows(SLSMainConnectionID(),
+        let identifiers = SLSCopySpacesForWindows(connectionID,
                                                   7,
                                                   [window.identifier] as CFArray).takeRetainedValue() as NSArray
 
@@ -75,11 +77,11 @@ public class Space: NSObject, SpaceJSExport {
     public var identifier: uint64
 
     public var isNormal: Bool {
-        SLSSpaceGetType(SLSMainConnectionID(), identifier) == 0
+        SLSSpaceGetType(Space.connectionID, identifier) == 0
     }
 
     public var isFullscreen: Bool {
-        SLSSpaceGetType(SLSMainConnectionID(), identifier) == 4
+        SLSSpaceGetType(Space.connectionID, identifier) == 4
     }
 
     public func screens() -> [NSScreen] {
@@ -87,7 +89,7 @@ public class Space: NSObject, SpaceJSExport {
             return NSScreen.screens
         }
 
-        let displaySpacesInfo = SLSCopyManagedDisplaySpaces(SLSMainConnectionID()).takeRetainedValue() as NSArray
+        let displaySpacesInfo = SLSCopyManagedDisplaySpaces(Space.connectionID).takeRetainedValue() as NSArray
 
         var screen: NSScreen?
 
@@ -96,16 +98,16 @@ public class Space: NSObject, SpaceJSExport {
                 return
             }
 
-            guard let screenIdentifier = spacesInfo[CGSScreenIDKey] as? String else {
+            guard let screenIdentifier = spacesInfo[SLSScreenIDKey] as? String else {
                 return
             }
 
-            guard let identifiers = spacesInfo[CGSSpacesKey] as? [[String: AnyObject]] else {
+            guard let identifiers = spacesInfo[SLSSpacesKey] as? [[String: AnyObject]] else {
                 return
             }
 
             identifiers.forEach {
-                guard let identifier = $0[CGSSpaceIDKey] as? uint64 else {
+                guard let identifier = $0[SLSSpaceIDKey] as? uint64 else {
                     return
                 }
 
@@ -127,14 +129,10 @@ public class Space: NSObject, SpaceJSExport {
     }
 
     public func addWindows(_ windows: [Window]) {
-        SLSAddWindowsToSpaces(SLSMainConnectionID(),
-                              windows.map(\.identifier) as CFArray,
-                              [identifier] as CFArray)
+        SLSAddWindowsToSpaces(Space.connectionID, windows.map(\.identifier) as CFArray, [identifier] as CFArray)
     }
 
     public func removeWindows(_ windows: [Window]) {
-        SLSRemoveWindowsFromSpaces(SLSMainConnectionID(),
-                                   windows.map(\.identifier) as CFArray,
-                                   [identifier] as CFArray)
+        SLSRemoveWindowsFromSpaces(Space.connectionID, windows.map(\.identifier) as CFArray, [identifier] as CFArray)
     }
 }
