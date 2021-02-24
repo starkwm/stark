@@ -3,12 +3,9 @@ import AppKit
 class StarkStatusItem {
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
-    var config: Config
-    var context: Context
+    let context = Context(config: Config())
 
     init() {
-        config = Config()
-        context = Context(config: config)
         context.setup()
     }
 
