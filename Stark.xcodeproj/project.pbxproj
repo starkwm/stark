@@ -107,11 +107,10 @@
 			children = (
 				F6792C371C404EF3007D9DF9 /* API */,
 				F6792C381C404EF8007D9DF9 /* Helpers */,
+				F66B8CF025F0194A00747DDE /* Observers */,
 				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
-				F66454FA1C703DD000B6371C /* AppObserver.swift */,
 				F6CBE6071C418D6300C962A7 /* Config.swift */,
 				F667BCA51CFB972A008B4B83 /* Context.swift */,
-				F66454F81C70107F00B6371C /* RunningAppsObserver.swift */,
 				F64945852357B6B8009E423B /* StarkStatusItem.swift */,
 			);
 			path = Source;
@@ -125,12 +124,21 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		F66B8CF025F0194A00747DDE /* Observers */ = {
+			isa = PBXGroup;
+			children = (
+				F66454FA1C703DD000B6371C /* AppObserver.swift */,
+				F66454F81C70107F00B6371C /* RunningAppsObserver.swift */,
+			);
+			path = Observers;
+			sourceTree = "<group>";
+		};
 		F6792C1E1C404B53007D9DF9 = {
 			isa = PBXGroup;
 			children = (
+				F66509D925E594F0006C0C19 /* Frameworks */,
 				F6792C281C404B53007D9DF9 /* Products */,
 				F6792C291C404B53007D9DF9 /* Stark */,
-				F66509D925E594F0006C0C19 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -148,8 +156,8 @@
 				F6792C391C404F01007D9DF9 /* Resources */,
 				F64EB38C2060672C00C1838A /* Source */,
 				F6792C311C404B53007D9DF9 /* Info.plist */,
-				F66509DD25E5975C006C0C19 /* extern.h */,
 				F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */,
+				F66509DD25E5975C006C0C19 /* extern.h */,
 			);
 			path = Stark;
 			sourceTree = "<group>";
