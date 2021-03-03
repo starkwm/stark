@@ -133,6 +133,14 @@
 			path = Observers;
 			sourceTree = "<group>";
 		};
+		F66B8CF325F01D5F00747DDE /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				F6792C311C404B53007D9DF9 /* Info.plist */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
 		F6792C1E1C404B53007D9DF9 = {
 			isa = PBXGroup;
 			children = (
@@ -155,7 +163,7 @@
 			children = (
 				F6792C391C404F01007D9DF9 /* Resources */,
 				F64EB38C2060672C00C1838A /* Source */,
-				F6792C311C404B53007D9DF9 /* Info.plist */,
+				F66B8CF325F01D5F00747DDE /* Support */,
 				F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */,
 				F66509DD25E5975C006C0C19 /* extern.h */,
 			);
@@ -505,7 +513,7 @@
 				DEVELOPMENT_TEAM = Y54Z78V9M7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Stark/Info.plist;
+				INFOPLIST_FILE = Stark/Support/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.4.0;
@@ -532,7 +540,7 @@
 				DEVELOPMENT_TEAM = Y54Z78V9M7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Stark/Info.plist;
+				INFOPLIST_FILE = Stark/Support/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.4.0;
