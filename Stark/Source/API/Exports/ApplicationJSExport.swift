@@ -2,9 +2,9 @@ import JavaScriptCore
 
 @objc
 protocol ApplicationJSExport: JSExport {
-    static func find(_ name: String) -> Application?
-    static func all() -> [Application]
-    static func focused() -> Application?
+    static func find(_ name: String) -> App?
+    static func all() -> [App]
+    static func focused() -> App?
 
     var name: String { get }
 

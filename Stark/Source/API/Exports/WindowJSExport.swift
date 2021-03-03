@@ -6,7 +6,7 @@ protocol WindowJSExport: JSExport {
     static func all(_ options: [String: AnyObject]) -> [Window]
     static func focused() -> Window?
 
-    var app: Application { get }
+    var app: App { get }
     var screen: NSScreen { get }
 
     var title: String { get }

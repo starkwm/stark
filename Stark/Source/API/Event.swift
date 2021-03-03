@@ -43,7 +43,7 @@ public class Event: Handler, EventJSExport {
         }
 
         if let runningApp = userInfo[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication {
-            let app = Application(app: runningApp)
+            let app = App(app: runningApp)
             call(withArguments: [app])
             return
         }

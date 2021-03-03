@@ -23,7 +23,7 @@
 		F66C39C61C6AD73E0008FDD5 /* Bind.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66C39C51C6AD73E0008FDD5 /* Bind.swift */; };
 		F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */; };
 		F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2C1C404B53007D9DF9 /* Assets.xcassets */; };
-		F6792C411C405598007D9DF9 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C401C405598007D9DF9 /* Application.swift */; };
+		F6792C411C405598007D9DF9 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C401C405598007D9DF9 /* App.swift */; };
 		F6792C431C4055A2007D9DF9 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C421C4055A2007D9DF9 /* Window.swift */; };
 		F6942ECD1C6A8EEF00D2C0D4 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6942ECC1C6A8EEF00D2C0D4 /* Handler.swift */; };
 		F6A0DB5420471EE700471843 /* NSScreenJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5320471EE700471843 /* NSScreenJSExport.swift */; };
@@ -66,7 +66,7 @@
 		F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6792C2C1C404B53007D9DF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F6792C311C404B53007D9DF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F6792C401C405598007D9DF9 /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
+		F6792C401C405598007D9DF9 /* App.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		F6792C421C4055A2007D9DF9 /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
 		F6942ECC1C6A8EEF00D2C0D4 /* Handler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Handler.swift; sourceTree = "<group>"; };
 		F6A0DB5320471EE700471843 /* NSScreenJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSScreenJSExport.swift; sourceTree = "<group>"; };
@@ -175,7 +175,7 @@
 			children = (
 				F6A0DB52204648D700471843 /* Exports */,
 				F6A0DB63204724AF00471843 /* Extensions */,
-				F6792C401C405598007D9DF9 /* Application.swift */,
+				F6792C401C405598007D9DF9 /* App.swift */,
 				F66C39C51C6AD73E0008FDD5 /* Bind.swift */,
 				F60894E01C6D9E310079D7B5 /* Event.swift */,
 				F6942ECC1C6A8EEF00D2C0D4 /* Handler.swift */,
@@ -361,7 +361,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F6792C411C405598007D9DF9 /* Application.swift in Sources */,
+				F6792C411C405598007D9DF9 /* App.swift in Sources */,
 				F6A41BD31CA7144100D1C0C5 /* LogHelper.swift in Sources */,
 				F60894E11C6D9E310079D7B5 /* Event.swift in Sources */,
 				F6002D6F1C47086100C958F5 /* KeyCodeHelper.swift in Sources */,

@@ -10,7 +10,7 @@ public class Window: NSObject, WindowJSExport {
     private static let systemWideElement = AXUIElementCreateSystemWide()
 
     public static func all(_ options: [String: AnyObject] = [:]) -> [Window] {
-        Application.all().flatMap { $0.windows(options) }
+        App.all().flatMap { $0.windows(options) }
     }
 
     public static func focused() -> Window? {
@@ -54,8 +54,8 @@ public class Window: NSObject, WindowJSExport {
         return identifier
     }
 
-    public var app: Application {
-        Application(pid: pid())
+    public var app: App {
+        App(pid: pid())
     }
 
     public var screen: NSScreen {

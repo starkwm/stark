@@ -53,7 +53,7 @@ class Context {
 
         context.setObject(NSScreen.self, forKeyedSubscript: "Screen" as (NSCopying & NSObjectProtocol))
 
-        context.setObject(Application.self, forKeyedSubscript: "App" as (NSCopying & NSObjectProtocol))
+        context.setObject(App.self, forKeyedSubscript: "App" as (NSCopying & NSObjectProtocol))
         context.setObject(Window.self, forKeyedSubscript: "Window" as (NSCopying & NSObjectProtocol))
         context.setObject(Space.self, forKeyedSubscript: "Space" as (NSCopying & NSObjectProtocol))
 
