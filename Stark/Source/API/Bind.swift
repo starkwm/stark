@@ -96,7 +96,10 @@ public class Bind: Handler, BindJSExport {
             return true
         }
 
-        let eventHotKeyID = EventHotKeyID(signature: UTGetOSTypeFromString("STRK" as CFString), id: UInt32(identifier))
+        let eventHotKeyID = EventHotKeyID(
+            signature: "strk".utf16.reduce(0) { ($0 << 8) + OSType($1) },
+            id: UInt32(identifier)
+        )
 
         let status = RegisterEventHotKey(keyCode,
                                          modifierFlags,
