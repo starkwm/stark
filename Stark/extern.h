@@ -1,3 +1,5 @@
+#import <AppKit/AppKit.h>
+
 #ifndef extern_h
 #define extern_h
 
