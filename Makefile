@@ -9,8 +9,14 @@ all: build
 build:
 	@xcodebuild $(XCODEFLAGS) build
 
+lint:
+	@swiftlint lint --quiet
+
+format:
+	@swiftformat --quiet Stark/Source/**/*
+
 archive:
 	@xcodebuild $(XCODEFLAGS) clean archive -archivePath $(STARK_ACHIVE)
 	@xcodebuild -exportArchive -archivePath $(STARK_ACHIVE) -exportPath $(BUILD_DIR) -exportOptionsPlist $(EXPORT_PLIST)
 
-.PHONY: all build archive
+.PHONY: all build lint format archive
