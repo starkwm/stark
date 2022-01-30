@@ -14,10 +14,6 @@ class Context {
             fatalError("Could not find bind.js")
         }
 
-        guard let eventLibPath = Bundle.main.path(forResource: "event", ofType: "js") else {
-            fatalError("Could not find event.js")
-        }
-
         guard let taskLibPath = Bundle.main.path(forResource: "task", ofType: "js") else {
             fatalError("Could not find task.js")
         }
@@ -31,7 +27,6 @@ class Context {
         setupAPI()
 
         loadJSFile(path: bindLibPath)
-        loadJSFile(path: eventLibPath)
         loadJSFile(path: taskLibPath)
         loadJSFile(path: timerLibPath)
         loadJSFile(path: config.primaryConfigPath)
