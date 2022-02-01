@@ -135,4 +135,8 @@ public class Space: NSObject, SpaceJSExport {
     public func removeWindows(_ windows: [Window]) {
         SLSRemoveWindowsFromSpaces(Space.connectionID, windows.map(\.identifier) as CFArray, [identifier] as CFArray)
     }
+
+    public func moveWindows(_ windows: [Window]) {
+        SLSMoveWindowsToManagedSpace(Space.connectionID, windows.map(\.identifier) as CFArray, identifier)
+    }
 }
