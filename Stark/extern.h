@@ -21,4 +21,6 @@ extern void SLSAddWindowsToSpaces(int cid, CFArrayRef windows, CFArrayRef spaces
 
 extern void SLSRemoveWindowsFromSpaces(int cid, CFArrayRef windows, CFArrayRef spaces);
 
+extern void SLSMoveWindowsToManagedSpace(int cid, CFArrayRef windows, uint64 sid);
+
 #endif
