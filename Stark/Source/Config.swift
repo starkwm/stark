@@ -20,18 +20,4 @@ class Config {
 
         return (primaryConfigPaths.first! as NSString).resolvingSymlinksInPath
     }
-
-    func createUnlessExists() {
-        if FileManager.default.fileExists(atPath: primaryConfigPath) {
-            return
-        }
-
-        guard let examplePath = Bundle.main.path(forResource: "JavaScript/stark-example", ofType: "js") else {
-            fatalError("Could not find stark-example.js")
-        }
-
-        FileManager.default.createFile(atPath: primaryConfigPath,
-                                       contents: try? Data(contentsOf: URL(fileURLWithPath: examplePath)),
-                                       attributes: nil)
-    }
 }

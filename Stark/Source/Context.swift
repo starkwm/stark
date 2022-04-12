@@ -22,14 +22,15 @@ class Context {
             fatalError("Could not find timer.js")
         }
 
-        config.createUnlessExists()
-
         setupAPI()
 
         loadJSFile(path: bindLibPath)
         loadJSFile(path: taskLibPath)
         loadJSFile(path: timerLibPath)
-        loadJSFile(path: config.primaryConfigPath)
+
+        if FileManager.default.fileExists(atPath: config.primaryConfigPath) {
+            loadJSFile(path: config.primaryConfigPath)
+        }
     }
 
     func setupAPI() {

@@ -33,7 +33,6 @@
 		F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */; };
 		F6CBE6081C418D6300C962A7 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6071C418D6300C962A7 /* Config.swift */; };
 		F6D00B671E0E03F30087F68D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6D00B661E0E03F30087F68D /* MainMenu.xib */; };
-		F6E86E9B25E68D81006BC172 /* stark-example.js in Resources */ = {isa = PBXBuildFile; fileRef = F6E86E9625E68D81006BC172 /* stark-example.js */; };
 		F6E86E9D25E68D81006BC172 /* bind.js in Resources */ = {isa = PBXBuildFile; fileRef = F6E86E9825E68D81006BC172 /* bind.js */; };
 		F6E86E9E25E68D81006BC172 /* timer.js in Resources */ = {isa = PBXBuildFile; fileRef = F6E86E9925E68D81006BC172 /* timer.js */; };
 		F6E86E9F25E68D81006BC172 /* task.js in Resources */ = {isa = PBXBuildFile; fileRef = F6E86E9A25E68D81006BC172 /* task.js */; };
@@ -71,7 +70,6 @@
 		F6CBE6071C418D6300C962A7 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Stark-Bridging-Header.h"; sourceTree = "<group>"; };
 		F6D00B661E0E03F30087F68D /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
-		F6E86E9625E68D81006BC172 /* stark-example.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = "stark-example.js"; sourceTree = "<group>"; };
 		F6E86E9825E68D81006BC172 /* bind.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = bind.js; sourceTree = "<group>"; };
 		F6E86E9925E68D81006BC172 /* timer.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = timer.js; sourceTree = "<group>"; };
 		F6E86E9A25E68D81006BC172 /* task.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = task.js; sourceTree = "<group>"; };
@@ -212,7 +210,6 @@
 			isa = PBXGroup;
 			children = (
 				F6E86E9825E68D81006BC172 /* bind.js */,
-				F6E86E9625E68D81006BC172 /* stark-example.js */,
 				F6E86E9A25E68D81006BC172 /* task.js */,
 				F6E86E9925E68D81006BC172 /* timer.js */,
 			);
@@ -286,7 +283,6 @@
 				F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */,
 				F6E86E9F25E68D81006BC172 /* task.js in Resources */,
 				F6E86E9D25E68D81006BC172 /* bind.js in Resources */,
-				F6E86E9B25E68D81006BC172 /* stark-example.js in Resources */,
 				F6D00B671E0E03F30087F68D /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
