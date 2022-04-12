@@ -1,5 +1,7 @@
 import AppKit
 
+let logJavaScriptExceptionsKey = "logJavaScriptExceptions"
+
 class StarkStatusItem {
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
@@ -25,6 +27,15 @@ class StarkStatusItem {
         loginItem.target = self
         loginItem.state = LaunchAgentHelper.enabled() ? .on : .off
 
+        let logExceptionsItem = NSMenuItem(title: "Log JavaScript exceptions",
+                                           action: #selector(toggleLogJavaScriptExceptions(sender:)),
+                                           keyEquivalent: "")
+
+        let logExceptions = UserDefaults.standard.bool(forKey: logJavaScriptExceptionsKey)
+
+        logExceptionsItem.target = self
+        logExceptionsItem.state = logExceptions ? .on : .off
+
         let quitItem = NSMenuItem(title: "Quit Stark",
                                   action: #selector(NSApplication.terminate(_:)),
                                   keyEquivalent: "")
@@ -32,6 +43,7 @@ class StarkStatusItem {
         menu.addItem(reloadConfigItem)
         menu.addItem(NSMenuItem.separator())
         menu.addItem(loginItem)
+        menu.addItem(logExceptionsItem)
         menu.addItem(NSMenuItem.separator())
         menu.addItem(quitItem)
 
@@ -52,5 +64,19 @@ class StarkStatusItem {
             LaunchAgentHelper.add()
             sender.state = .on
         }
+    }
+
+    @objc
+    func toggleLogJavaScriptExceptions(sender: NSMenuItem) {
+        if sender.state == .on {
+            UserDefaults.standard.set(false, forKey: logJavaScriptExceptionsKey)
+            sender.state = .off
+        } else {
+            UserDefaults.standard.set(true, forKey: logJavaScriptExceptionsKey)
+            sender.state = .on
+        }
+
+        UserDefaults.standard.synchronize()
+        context.setup()
     }
 }

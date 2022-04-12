@@ -39,8 +39,10 @@ class Context {
             fatalError("Could not setup JavaScript virtual machine")
         }
 
-        context.exceptionHandler = { _, err in
-            LogHelper.log(message: String(format: "Error: unhandled JavaScript exception (%@)", err!))
+        if UserDefaults.standard.bool(forKey: logJavaScriptExceptionsKey) {
+            context.exceptionHandler = { _, err in
+                LogHelper.log(message: String(format: "Error: unhandled JavaScript exception (%@)", err!))
+            }
         }
 
         context.setObject(Stark.self(config: config, context: self),
