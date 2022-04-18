@@ -40,7 +40,7 @@ public class Bind: Handler, BindJSExport {
     }()
 
     public required init(key: String, modifiers: [String], callback: JSValue) {
-        _ = Bind.once
+        _ = Self.once
 
         self.key = key
         self.modifiers = modifiers

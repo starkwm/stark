@@ -77,11 +77,11 @@ public class Space: NSObject, SpaceJSExport {
     public var identifier: uint64
 
     public var isNormal: Bool {
-        SLSSpaceGetType(Space.connectionID, identifier) == 0
+        SLSSpaceGetType(Self.connectionID, identifier) == 0
     }
 
     public var isFullscreen: Bool {
-        SLSSpaceGetType(Space.connectionID, identifier) == 4
+        SLSSpaceGetType(Self.connectionID, identifier) == 4
     }
 
     public func screens() -> [NSScreen] {
@@ -89,7 +89,7 @@ public class Space: NSObject, SpaceJSExport {
             return NSScreen.screens
         }
 
-        let displaySpacesInfo = SLSCopyManagedDisplaySpaces(Space.connectionID).takeRetainedValue() as NSArray
+        let displaySpacesInfo = SLSCopyManagedDisplaySpaces(Self.connectionID).takeRetainedValue() as NSArray
 
         var screen: NSScreen?
 
@@ -129,14 +129,14 @@ public class Space: NSObject, SpaceJSExport {
     }
 
     public func addWindows(_ windows: [Window]) {
-        SLSAddWindowsToSpaces(Space.connectionID, windows.map(\.identifier) as CFArray, [identifier] as CFArray)
+        SLSAddWindowsToSpaces(Self.connectionID, windows.map(\.identifier) as CFArray, [identifier] as CFArray)
     }
 
     public func removeWindows(_ windows: [Window]) {
-        SLSRemoveWindowsFromSpaces(Space.connectionID, windows.map(\.identifier) as CFArray, [identifier] as CFArray)
+        SLSRemoveWindowsFromSpaces(Self.connectionID, windows.map(\.identifier) as CFArray, [identifier] as CFArray)
     }
 
     public func moveWindows(_ windows: [Window]) {
-        SLSMoveWindowsToManagedSpace(Space.connectionID, windows.map(\.identifier) as CFArray, identifier)
+        SLSMoveWindowsToManagedSpace(Self.connectionID, windows.map(\.identifier) as CFArray, identifier)
     }
 }
