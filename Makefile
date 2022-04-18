@@ -1,4 +1,4 @@
-XCODEFLAGS=-project "Stark.xcodeproj" -scheme "Stark"
+XCODEFLAGS=-project "Stark.xcodeproj" -scheme "Stark" -destination "platform=macOS"
 
 BUILD_DIR=$(PWD)/Build
 STARK_ACHIVE=$(BUILD_DIR)/Stark.xcarchive
