@@ -26,7 +26,7 @@ extension NSScreen: NSScreenJSExport {
 
     public var frameIncludingDockAndMenu: CGRect {
         let primaryScreen = NSScreen.screens.first
-        var frame = self.frame
+        var frame = frame
         frame.origin.y = primaryScreen!.frame.height - frame.height - frame.origin.y
         return frame
     }
