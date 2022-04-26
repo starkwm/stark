@@ -10,23 +10,13 @@ class Context {
     }
 
     func setup() {
-        guard let bindLibPath = Bundle.main.path(forResource: "bind", ofType: "js") else {
-            fatalError("Could not find bind.js")
-        }
-
-        guard let taskLibPath = Bundle.main.path(forResource: "task", ofType: "js") else {
-            fatalError("Could not find task.js")
-        }
-
-        guard let timerLibPath = Bundle.main.path(forResource: "timer", ofType: "js") else {
-            fatalError("Could not find timer.js")
+        guard let libPath = Bundle.main.path(forResource: "library", ofType: "js") else {
+            fatalError("Could not find library.js")
         }
 
         setupAPI()
 
-        loadJSFile(path: bindLibPath)
-        loadJSFile(path: taskLibPath)
-        loadJSFile(path: timerLibPath)
+        loadJSFile(path: libPath)
 
         if FileManager.default.fileExists(atPath: config.primaryConfigPath) {
             loadJSFile(path: config.primaryConfigPath)
