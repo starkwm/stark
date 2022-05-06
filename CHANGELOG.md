@@ -10,6 +10,8 @@ adheres to [Semantic Versioning][semver].
 
 ## [Unreleased]
 
+## [2.1.4] - 2022-05-07
+
 ### Changed
 
 - Changed to use `Self` instead of class name for static references
