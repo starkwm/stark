@@ -188,10 +188,20 @@ public class Window: NSObject, WindowJSExport {
         return false
     }
 
-    public func setFrame(_: CGRect) {
+    public func setFrame(_ frame: CGRect) {
+        let enhancedUserInterfaceEnabled = app.isEnhancedUserInterfaceEnabled()
+
+        if enhancedUserInterfaceEnabled == true {
+            app.disableEnhancedUserInterface()
+        }
+
         setSize(frame.size)
         setTopLeft(frame.origin)
         setSize(frame.size)
+
+        if enhancedUserInterfaceEnabled == true {
+            app.enableEnhancedUserInterface()
+        }
     }
 
     public func setTopLeft(_ topLeft: CGPoint) {

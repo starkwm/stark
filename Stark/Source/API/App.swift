@@ -1,5 +1,8 @@
 import AppKit
 
+// XXX: Undocumented private attribute for enhanced user interface
+private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
+
 private let starkVisibilityOptionsKey = "visible"
 
 public class App: NSObject, ApplicationJSExport {
@@ -108,5 +111,26 @@ public class App: NSObject, ApplicationJSExport {
 
     public func terminate() -> Bool {
         app.terminate()
+    }
+
+    public func isEnhancedUserInterfaceEnabled() -> Bool? {
+        var value: AnyObject?
+        let result = AXUIElementCopyAttributeValue(element, kAXEnhancedUserInterface as CFString, &value)
+
+        if result == .success, CFGetTypeID(value) == CFBooleanGetTypeID() {
+            // swiftlint:disable:next force_cast
+            let bool = value as! CFBoolean
+            return CFBooleanGetValue(bool)
+        }
+
+        return nil
+    }
+
+    public func enableEnhancedUserInterface() {
+        AXUIElementSetAttributeValue(element, kAXEnhancedUserInterface as CFString, kCFBooleanTrue)
+    }
+
+    public func disableEnhancedUserInterface() {
+        AXUIElementSetAttributeValue(element, kAXEnhancedUserInterface as CFString, kCFBooleanFalse)
     }
 }
