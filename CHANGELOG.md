@@ -15,6 +15,7 @@ adheres to [Semantic Versioning][semver].
 - Changed to use `Self` instead of class name for static references
 - Changed the resources `bind.js`, `task.js`, and `timer.js` into a single
   `library.js`
+- Changed `setFrame` to call `setSize`, then `setTopLeft`, and finally `setSize`
 
 ## [2.1.3] - 2022-04-14
 
