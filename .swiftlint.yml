@@ -6,7 +6,6 @@ analyzer_rules:
   - unused_declaration
   - unused_import
 opt_in_rules:
-  - anyobject_protocol
   - array_init
   - attributes
   - closure_end_indentation
@@ -58,6 +57,7 @@ opt_in_rules:
   - reduce_into
   - redundant_nil_coalescing
   - redundant_type_annotation
+  - return_value_from_void_function
   - single_test_class
   - sorted_first_last
   - sorted_imports
@@ -78,5 +78,6 @@ opt_in_rules:
 identifier_name:
   excluded:
     - id
+
 number_separator:
   minimum_length: 5
