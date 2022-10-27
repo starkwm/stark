@@ -11,7 +11,7 @@ enum LaunchAgentHelper {
     }
 
     static var launchAgentFile: URL? {
-        launchAgentDirectory?.appendingPathComponent("co.rustyrobots.Stark.plist")
+        launchAgentDirectory?.appendingPathComponent("app.usestark.Stark.plist")
     }
 
     static func add() {
@@ -36,7 +36,7 @@ enum LaunchAgentHelper {
         }
 
         let plist: NSDictionary = [
-            "Label": "co.rustyrobots.Stark",
+            "Label": "app.usestark.Stark",
             "Program": execPath,
             "RunAtLoad": true,
         ]
