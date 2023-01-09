@@ -10,6 +10,12 @@ adheres to [Semantic Versioning][semver].
 
 ## [Unreleased]
 
+## [2.1.5] - 2023-01-09
+
+### Added
+
+- Added `⇧`, `⌃`, `⌥`, and `⌘` as strings for modifiers
+
 ## [2.1.4] - 2022-05-07
 
 ### Changed
