@@ -126,24 +126,28 @@ enum KeyCodeHelper {
     }
 
     static func modifierFlags(for modifiers: [String]) -> Int {
-        let mods = modifiers.map { $0.uppercased() }
+        let mods = Set(modifiers.map { $0.lowercased() })
 
         var flags = 0
 
-        if mods.contains("SHIFT") {
+        if !mods.intersection(Set(["⇧", "shift"])).isEmpty {
             flags |= shiftKey
         }
 
-        if mods.contains("CTRL") {
+        if !mods.intersection(Set(["⌃", "ctrl", "control"])).isEmpty {
             flags |= controlKey
         }
 
-        if mods.contains("ALT") || mods.contains("OPT") {
+        if !mods.intersection(Set(["⌥", "alt", "opt", "option"])).isEmpty {
             flags |= optionKey
         }
 
-        if mods.contains("CMD") {
+        if !mods.intersection(Set(["⌘", "cmd", "command"])).isEmpty {
             flags |= cmdKey
+        }
+
+        if mods.contains("hyper") {
+            flags |= cmdKey | optionKey | shiftKey | controlKey
         }
 
         return flags
