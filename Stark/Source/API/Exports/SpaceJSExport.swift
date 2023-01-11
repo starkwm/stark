@@ -4,6 +4,7 @@ import JavaScriptCore
 @objc
 protocol SpaceJSExport: JSExport {
     static func all() -> [Space]
+    static func at(_ index: Int) -> Space?
     static func active() -> Space
 
     var identifier: uint64 { get }

@@ -36,6 +36,10 @@ public class Space: NSObject, SpaceJSExport {
         return spaces
     }
 
+    public static func at(_ index: Int) -> Space? {
+        all()[index]
+    }
+
     public static func active() -> Space {
         Space(identifier: SLSGetActiveSpace(connectionID))
     }
