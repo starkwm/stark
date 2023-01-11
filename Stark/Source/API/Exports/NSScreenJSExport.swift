@@ -11,6 +11,9 @@ protocol NSScreenJSExport: JSExport {
     var frameIncludingDockAndMenu: CGRect { get }
     var frameWithoutDockOrMenu: CGRect { get }
 
+    var flippedFrame: CGRect { get }
+    var flippedVisibleFrame: CGRect { get }
+
     var next: NSScreen? { get }
     var previous: NSScreen? { get }
 
