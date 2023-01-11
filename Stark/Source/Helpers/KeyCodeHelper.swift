@@ -130,19 +130,19 @@ enum KeyCodeHelper {
 
         var flags = 0
 
-        if !mods.intersection(Set(["⇧", "shift"])).isEmpty {
+        if !mods.isDisjoint(with: Set(["⇧", "shift"])) {
             flags |= shiftKey
         }
 
-        if !mods.intersection(Set(["⌃", "ctrl", "control"])).isEmpty {
+        if !mods.isDisjoint(with: Set(["⌃", "ctrl", "control"])) {
             flags |= controlKey
         }
 
-        if !mods.intersection(Set(["⌥", "alt", "opt", "option"])).isEmpty {
+        if !mods.isDisjoint(with: Set(["⌥", "alt", "opt", "option"])) {
             flags |= optionKey
         }
 
-        if !mods.intersection(Set(["⌘", "cmd", "command"])).isEmpty {
+        if !mods.isDisjoint(with: Set(["⌘", "cmd", "command"])) {
             flags |= cmdKey
         }
 
