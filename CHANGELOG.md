@@ -10,6 +10,15 @@ adheres to [Semantic Versioning][semver].
 
 ## [Unreleased]
 
+### Added
+
+- Added `flippedFrame` and `flippedVisibleFrame` to `Screen`
+
+### Changed
+
+- Deprecated `frameIncludingDockAndMenu`
+- Deprecated `frameWithoutDockOrMenu`
+
 ## [2.1.5] - 2023-01-09
 
 ### Added
