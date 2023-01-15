@@ -10,6 +10,8 @@ adheres to [Semantic Versioning][semver].
 
 ## [Unreleased]
 
+## [2.1.6] - 2023-01-14
+
 ### Added
 
 - Added `flippedFrame` and `flippedVisibleFrame` to `Screen`
