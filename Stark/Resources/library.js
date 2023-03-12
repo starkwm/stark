@@ -20,7 +20,7 @@
       delete binds[identifier];
     }
   };
-}(Bind));
+})(Bind);
 
 (function setup(Task) {
   const tasks = {};
@@ -50,7 +50,7 @@
       delete tasks[identifier];
     }
   };
-}(Task));
+})(Task);
 
 (function setup(Timer) {
   const timers = {};
@@ -79,7 +79,7 @@
       delete timers[identifier];
     }
   };
-}(Timer));
+})(Timer);
 
 this.clearTimeout = Timer.off;
 this.clearInterval = Timer.off;
