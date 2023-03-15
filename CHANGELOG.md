@@ -10,6 +10,13 @@ adheres to [Semantic Versioning][semver].
 
 ## [Unreleased]
 
+## [2.2.0] - 2023-03-15
+
+### Changed
+
+- Changed the app icon to use a better macOS icon template
+- Changed minimum macOS version to 13.0
+
 ## [2.1.6] - 2023-01-14
 
 ### Added
