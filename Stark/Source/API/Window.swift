@@ -39,7 +39,7 @@ public class Window: NSObject, WindowJSExport {
     }
 
     override public func isEqual(_ object: Any?) -> Bool {
-        guard let window = object as? Window else {
+        guard let window = object as? Self else {
             return false
         }
 

@@ -71,7 +71,7 @@ public class Space: NSObject, SpaceJSExport {
     }
 
     override public func isEqual(_ object: Any?) -> Bool {
-        guard let space = object as? Space else {
+        guard let space = object as? Self else {
             return false
         }
 

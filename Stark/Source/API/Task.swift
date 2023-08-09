@@ -72,7 +72,7 @@ public class Task: Handler, TaskJSExport {
         } catch {
             let message = String(format: "Error: task run failed running %@ with arguments '%@' (%@)",
                                  task?.executableURL?.path ?? "",
-                                 task?.arguments?.joined(separator: " ") ?? [],
+                                 task?.arguments?.joined(separator: " ") ?? [] as [String],
                                  error.localizedDescription)
             LogHelper.log(message: message)
         }
