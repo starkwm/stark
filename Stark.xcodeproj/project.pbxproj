@@ -230,8 +230,9 @@
 		F6792C1F1C404B53007D9DF9 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 1400;
+				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = "Tom Bell";
 				TargetAttributes = {
 					F6792C261C404B53007D9DF9 = {
