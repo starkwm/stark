@@ -5,24 +5,24 @@ private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
 
 private let starkVisibilityOptionsKey = "visible"
 
-public class App: NSObject, ApplicationJSExport {
-    public static func find(_ name: String) -> App? {
+public class Application: NSObject, ApplicationJSExport {
+    public static func find(_ name: String) -> Application? {
         let app = NSWorkspace.shared.runningApplications.first { $0.localizedName == name }
 
         guard app != nil else {
             return nil
         }
 
-        return App(pid: app!.processIdentifier)
+        return Application(pid: app!.processIdentifier)
     }
 
-    public static func all() -> [App] {
-        NSWorkspace.shared.runningApplications.map { App(pid: $0.processIdentifier) }
+    public static func all() -> [Application] {
+        NSWorkspace.shared.runningApplications.map { Application(pid: $0.processIdentifier) }
     }
 
-    public static func focused() -> App? {
+    public static func focused() -> Application? {
         if let app = NSWorkspace.shared.frontmostApplication {
-            return App(pid: app.processIdentifier)
+            return Application(pid: app.processIdentifier)
         }
 
         return nil
