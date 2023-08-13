@@ -8,9 +8,6 @@ protocol NSScreenJSExport: JSExport {
 
     var identifier: String { get }
 
-    var frameIncludingDockAndMenu: CGRect { get }
-    var frameWithoutDockOrMenu: CGRect { get }
-
     var flippedFrame: CGRect { get }
     var flippedVisibleFrame: CGRect { get }
 
