@@ -24,21 +24,11 @@ extension NSScreen: NSScreenJSExport {
         return CFUUIDCreateString(nil, uuid) as String
     }
 
-    @available(*, deprecated, message: "please use flippedFrame instead")
-    public var frameIncludingDockAndMenu: CGRect {
-        flippedFrame
-    }
-
     public var flippedFrame: CGRect {
         let primaryScreen = NSScreen.screens.first
         var frame = frame
         frame.origin.y = primaryScreen!.frame.height - frame.height - frame.origin.y
         return frame
-    }
-
-    @available(*, deprecated, message: "please use flippedVisibleFrame instead")
-    public var frameWithoutDockOrMenu: CGRect {
-        flippedVisibleFrame
     }
 
     public var flippedVisibleFrame: CGRect {
