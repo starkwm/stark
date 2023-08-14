@@ -2,7 +2,7 @@ import Foundation
 import JavaScriptCore
 
 public class Handler: NSObject {
-    internal var callback: JSManagedValue?
+    var callback: JSManagedValue?
 
     func manageCallback(_ callback: JSValue?) {
         guard callback != nil else { return }
