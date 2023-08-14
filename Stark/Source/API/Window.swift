@@ -2,7 +2,7 @@ import AppKit
 import JavaScriptCore
 
 // XXX: Undocumented private attribute for full screen mode
-private let kAXFullscreenAttribute = "AXFullScreen"
+private let kAXFullScreenAttribute = "AXFullScreen"
 
 private let starkVisibilityOptionsKey = "visible"
 
@@ -160,7 +160,7 @@ public class Window: NSObject, WindowJSExport {
 
     public var isFullscreen: Bool {
         var value: AnyObject?
-        let result = AXUIElementCopyAttributeValue(element, kAXFullscreenAttribute as CFString, &value)
+        let result = AXUIElementCopyAttributeValue(element, kAXFullScreenAttribute as CFString, &value)
 
         if result != .success {
             return false
@@ -214,6 +214,10 @@ public class Window: NSObject, WindowJSExport {
         var val = size
         let value = AXValueCreate(AXValueType(rawValue: kAXValueCGSizeType)!, &val)!
         AXUIElementSetAttributeValue(element, kAXSizeAttribute as CFString, value)
+    }
+
+    public func setFullScreen(_ value: Bool) {
+        AXUIElementSetAttributeValue(element, kAXFullScreenAttribute as CFString, value as CFTypeRef)
     }
 
     public func minimize() {

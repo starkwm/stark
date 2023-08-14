@@ -23,6 +23,7 @@ protocol WindowJSExport: JSExport {
     func setFrame(_ frame: CGRect)
     func setTopLeft(_ topLeft: CGPoint)
     func setSize(_ size: CGSize)
+    func setFullScreen(_ value: Bool)
 
     func minimize()
     func unminimize()
