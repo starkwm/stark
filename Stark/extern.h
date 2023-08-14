@@ -23,4 +23,6 @@ extern void SLSRemoveWindowsFromSpaces(int cid, CFArrayRef windows, CFArrayRef s
 
 extern void SLSMoveWindowsToManagedSpace(int cid, CFArrayRef windows, uint64 sid);
 
+extern CFArrayRef SLSCopyWindowsWithOptionsAndTags(int cid, uint32_t owner, CFArrayRef spaces, uint32_t options, uint64_t *set_tags, uint64_t *clear_tags);
+
 #endif

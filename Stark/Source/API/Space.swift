@@ -132,6 +132,28 @@ public class Space: NSObject, SpaceJSExport {
         Window.all(options).filter { $0.spaces().contains(self) }
     }
 
+    public func windowsTest() -> [Window] {
+        var setTags: uint64 = 1
+        var clearTags: uint64 = 0
+
+        let spaces = [identifier] as NSArray
+
+        let windows = SLSCopyWindowsWithOptionsAndTags(
+            Self.connectionID,
+            0,
+            spaces as CFArray,
+            0x7,
+            &setTags,
+            &clearTags
+        ).takeUnretainedValue() as NSArray
+
+        windows.forEach {
+            print("window id: \($0)")
+        }
+
+        return []
+    }
+
     public func addWindows(_ windows: [Window]) {
         SLSAddWindowsToSpaces(Self.connectionID, windows.map(\.identifier) as CFArray, [identifier] as CFArray)
     }

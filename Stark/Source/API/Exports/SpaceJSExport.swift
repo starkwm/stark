@@ -15,6 +15,7 @@ protocol SpaceJSExport: JSExport {
     func screens() -> [NSScreen]
 
     func windows(_ options: [String: AnyObject]) -> [Window]
+    func windowsTest() -> [Window]
 
     func addWindows(_ windows: [Window])
     func removeWindows(_ windows: [Window])
