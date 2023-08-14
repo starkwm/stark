@@ -24,7 +24,6 @@ protocol WindowJSExport: JSExport {
     func setTopLeft(_ topLeft: CGPoint)
     func setSize(_ size: CGSize)
 
-    func maximize()
     func minimize()
     func unminimize()
 

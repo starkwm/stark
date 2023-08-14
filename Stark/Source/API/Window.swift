@@ -216,10 +216,6 @@ public class Window: NSObject, WindowJSExport {
         AXUIElementSetAttributeValue(element, kAXSizeAttribute as CFString, value)
     }
 
-    public func maximize() {
-        setFrame(screen.flippedFrame)
-    }
-
     public func minimize() {
         AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, true as CFTypeRef)
     }
