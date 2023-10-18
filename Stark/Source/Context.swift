@@ -26,7 +26,7 @@ class Context {
     func setupAPI() {
         context = JSContext(virtualMachine: JSVirtualMachine())
 
-        guard let context = context else {
+        guard let context else {
             fatalError("Could not setup JavaScript virtual machine")
         }
 
@@ -55,7 +55,7 @@ class Context {
             fatalError(String(format: "Could not read script (%@)", path))
         }
 
-        guard let context = context else {
+        guard let context else {
             fatalError("Could not setup JavaScript virtual machine")
         }
 
