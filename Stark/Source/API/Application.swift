@@ -7,13 +7,11 @@ private let starkVisibilityOptionsKey = "visible"
 
 public class Application: NSObject, ApplicationJSExport {
     public static func find(_ name: String) -> Application? {
-        let app = NSWorkspace.shared.runningApplications.first { $0.localizedName == name }
-
-        guard app != nil else {
-            return nil
+        if let app = NSWorkspace.shared.runningApplications.first(where: { $0.localizedName == name }) {
+            return Application(pid: app.processIdentifier)
         }
 
-        return Application(pid: app!.processIdentifier)
+        return nil
     }
 
     public static func all() -> [Application] {
@@ -52,14 +50,11 @@ public class Application: NSObject, ApplicationJSExport {
 
     public var isHidden: Bool {
         var value: AnyObject?
-        let result = AXUIElementCopyAttributeValue(element, kAXHiddenAttribute as CFString, &value)
 
-        if result != .success {
-            return false
-        }
-
-        if let number = value as? NSNumber {
-            return number.boolValue
+        if AXUIElementCopyAttributeValue(element, kAXHiddenAttribute as CFString, &value) == .success {
+            if let number = value as? NSNumber {
+                return number.boolValue
+            }
         }
 
         return false
@@ -71,16 +66,12 @@ public class Application: NSObject, ApplicationJSExport {
 
     public func windows() -> [Window] {
         var values: CFArray?
-        let result = AXUIElementCopyAttributeValues(element, kAXWindowsAttribute as CFString, 0, 100, &values)
 
-        if result != .success {
+        if AXUIElementCopyAttributeValues(element, kAXWindowsAttribute as CFString, 0, 100, &values) != .success {
             return []
         }
 
-        let elements = values! as [AnyObject]
-
-        // swiftlint:disable:next force_cast
-        return elements.map { Window(element: $0 as! AXUIElement) }
+        return (values as? [AXUIElement] ?? []).map { Window(element: $0) }
     }
 
     public func windows(_ options: [String: AnyObject] = [:]) -> [Window] {
@@ -119,8 +110,7 @@ public class Application: NSObject, ApplicationJSExport {
 
         if result == .success, CFGetTypeID(value) == CFBooleanGetTypeID() {
             // swiftlint:disable:next force_cast
-            let bool = value as! CFBoolean
-            return CFBooleanGetValue(bool)
+            return CFBooleanGetValue((value as! CFBoolean))
         }
 
         return nil
