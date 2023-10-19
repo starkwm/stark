@@ -10,6 +10,25 @@ adheres to [Semantic Versioning][semver].
 
 ## [Unreleased]
 
+## [2.3.0] - 2023-10-19
+
+### Added
+
+- Added `setFullScreen` method to `Window`
+
+### Removed
+
+- Removed deprecated API methods
+- Removed `maximize` method from `Window`
+
+### Changed
+
+- Changed `@NSApplication` to `@main`
+- Changed `App` to `Application` in the API
+- Changed implementation of certain `Application` methods
+- Changed implementation of certain `Window` methods
+- Changed minimum macOS version to 13.5
+
 ## [2.2.0] - 2023-03-15
 
 ### Changed
