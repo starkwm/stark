@@ -46,8 +46,6 @@ class Context {
         context.setObject(Space.self, forKeyedSubscript: "Space" as (NSCopying & NSObjectProtocol))
 
         context.setObject(Bind.self, forKeyedSubscript: "Bind" as (NSCopying & NSObjectProtocol))
-        context.setObject(Task.self, forKeyedSubscript: "Task" as (NSCopying & NSObjectProtocol))
-        context.setObject(Timer.self, forKeyedSubscript: "Timer" as (NSCopying & NSObjectProtocol))
     }
 
     func loadJSFile(path: String) {

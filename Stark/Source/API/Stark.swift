@@ -17,8 +17,4 @@ public class Stark: NSObject, StarkJSExport {
     public func reload() {
         context.setup()
     }
-
-    public func run(_ command: String, _ arguments: [String] = []) {
-        _ = Task(path: command, arguments: arguments, callback: nil)
-    }
 }

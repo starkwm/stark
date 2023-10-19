@@ -8,13 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		F6002D6F1C47086100C958F5 /* KeyCodeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6002D6E1C47086100C958F5 /* KeyCodeHelper.swift */; };
-		F6270F8E1CF9D10500E6F679 /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6270F8D1CF9D10500E6F679 /* Timer.swift */; };
 		F641B2BA2818AF9D00A2453A /* library.js in Resources */ = {isa = PBXBuildFile; fileRef = F641B2B92818AF9D00A2453A /* library.js */; };
 		F644DFF61FB5110B00944C6B /* Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = F644DFF51FB5110B00944C6B /* Space.swift */; };
 		F64945862357B6B8009E423B /* StarkStatusItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64945852357B6B8009E423B /* StarkStatusItem.swift */; };
 		F649A3CD1C68E3C600A3C81A /* Stark.swift in Sources */ = {isa = PBXBuildFile; fileRef = F649A3CC1C68E3C600A3C81A /* Stark.swift */; };
-		F65D267523550A3B00A9EE5F /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65D267423550A3B00A9EE5F /* Task.swift */; };
-		F65D267723550EC000A9EE5F /* TaskJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F65D267623550EC000A9EE5F /* TaskJSExport.swift */; };
 		F66509DB25E594F0006C0C19 /* SkyLight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F66509DA25E594F0006C0C19 /* SkyLight.framework */; };
 		F667BCA61CFB972A008B4B83 /* Context.swift in Sources */ = {isa = PBXBuildFile; fileRef = F667BCA51CFB972A008B4B83 /* Context.swift */; };
 		F66C39C61C6AD73E0008FDD5 /* Bind.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66C39C51C6AD73E0008FDD5 /* Bind.swift */; };
@@ -28,7 +25,6 @@
 		F6A0DB5820471FF900471843 /* BindJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5720471FF900471843 /* BindJSExport.swift */; };
 		F6A0DB5C2047201400471843 /* SpaceJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5B2047201400471843 /* SpaceJSExport.swift */; };
 		F6A0DB5E2047202400471843 /* StarkJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5D2047202400471843 /* StarkJSExport.swift */; };
-		F6A0DB602047203500471843 /* TimerJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5F2047203500471843 /* TimerJSExport.swift */; };
 		F6A0DB622047203E00471843 /* WindowJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB612047203E00471843 /* WindowJSExport.swift */; };
 		F6A41BD31CA7144100D1C0C5 /* LogHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A41BD21CA7144100D1C0C5 /* LogHelper.swift */; };
 		F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */; };
@@ -39,13 +35,10 @@
 
 /* Begin PBXFileReference section */
 		F6002D6E1C47086100C958F5 /* KeyCodeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyCodeHelper.swift; sourceTree = "<group>"; };
-		F6270F8D1CF9D10500E6F679 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		F641B2B92818AF9D00A2453A /* library.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = library.js; sourceTree = "<group>"; };
 		F644DFF51FB5110B00944C6B /* Space.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Space.swift; sourceTree = "<group>"; };
 		F64945852357B6B8009E423B /* StarkStatusItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkStatusItem.swift; sourceTree = "<group>"; };
 		F649A3CC1C68E3C600A3C81A /* Stark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stark.swift; sourceTree = "<group>"; };
-		F65D267423550A3B00A9EE5F /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
-		F65D267623550EC000A9EE5F /* TaskJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskJSExport.swift; sourceTree = "<group>"; };
 		F66509DA25E594F0006C0C19 /* SkyLight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SkyLight.framework; path = ../../../../System/Library/PrivateFrameworks/SkyLight.framework; sourceTree = "<group>"; };
 		F66509DD25E5975C006C0C19 /* extern.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = extern.h; sourceTree = "<group>"; };
 		F667BCA51CFB972A008B4B83 /* Context.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Context.swift; sourceTree = "<group>"; };
@@ -62,7 +55,6 @@
 		F6A0DB5720471FF900471843 /* BindJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindJSExport.swift; sourceTree = "<group>"; };
 		F6A0DB5B2047201400471843 /* SpaceJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceJSExport.swift; sourceTree = "<group>"; };
 		F6A0DB5D2047202400471843 /* StarkJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkJSExport.swift; sourceTree = "<group>"; };
-		F6A0DB5F2047203500471843 /* TimerJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerJSExport.swift; sourceTree = "<group>"; };
 		F6A0DB612047203E00471843 /* WindowJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowJSExport.swift; sourceTree = "<group>"; };
 		F6A41BD21CA7144100D1C0C5 /* LogHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogHelper.swift; sourceTree = "<group>"; };
 		F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extension.swift"; sourceTree = "<group>"; };
@@ -152,8 +144,6 @@
 				F6942ECC1C6A8EEF00D2C0D4 /* Handler.swift */,
 				F644DFF51FB5110B00944C6B /* Space.swift */,
 				F649A3CC1C68E3C600A3C81A /* Stark.swift */,
-				F65D267423550A3B00A9EE5F /* Task.swift */,
-				F6270F8D1CF9D10500E6F679 /* Timer.swift */,
 				F6792C421C4055A2007D9DF9 /* Window.swift */,
 			);
 			path = API;
@@ -187,8 +177,6 @@
 				F6A0DB5320471EE700471843 /* NSScreenJSExport.swift */,
 				F6A0DB5B2047201400471843 /* SpaceJSExport.swift */,
 				F6A0DB5D2047202400471843 /* StarkJSExport.swift */,
-				F65D267623550EC000A9EE5F /* TaskJSExport.swift */,
-				F6A0DB5F2047203500471843 /* TimerJSExport.swift */,
 				F6A0DB612047203E00471843 /* WindowJSExport.swift */,
 			);
 			path = Exports;
@@ -334,14 +322,10 @@
 				F649A3CD1C68E3C600A3C81A /* Stark.swift in Sources */,
 				F66C39C61C6AD73E0008FDD5 /* Bind.swift in Sources */,
 				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
-				F6270F8E1CF9D10500E6F679 /* Timer.swift in Sources */,
 				F64945862357B6B8009E423B /* StarkStatusItem.swift in Sources */,
 				F6A0DB5820471FF900471843 /* BindJSExport.swift in Sources */,
-				F65D267523550A3B00A9EE5F /* Task.swift in Sources */,
 				F6792C431C4055A2007D9DF9 /* Window.swift in Sources */,
 				F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */,
-				F6A0DB602047203500471843 /* TimerJSExport.swift in Sources */,
-				F65D267723550EC000A9EE5F /* TaskJSExport.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
