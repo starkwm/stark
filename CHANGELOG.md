@@ -10,6 +10,10 @@ adheres to [Semantic Versioning][semver].
 
 ## [Unreleased]
 
+### Removed
+
+- Removed `window()` from `Application`
+
 ## [2.4.0] - 2023-10-19
 
 ### Removed
