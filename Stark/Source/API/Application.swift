@@ -64,24 +64,22 @@ public class Application: NSObject, ApplicationJSExport {
         app.isTerminated
     }
 
-    public func windows() -> [Window] {
+    public func windows(_ options: [String: AnyObject] = [:]) -> [Window] {
         var values: CFArray?
 
         if AXUIElementCopyAttributeValues(element, kAXWindowsAttribute as CFString, 0, 100, &values) != .success {
             return []
         }
 
-        return (values as? [AXUIElement] ?? []).map { Window(element: $0) }
-    }
+        let windows = (values as? [AXUIElement] ?? []).map { Window(element: $0) }
 
-    public func windows(_ options: [String: AnyObject] = [:]) -> [Window] {
         let visible = options[starkVisibilityOptionsKey] as? Bool ?? false
 
         if visible {
-            return windows().filter { !$0.app.isHidden && $0.isStandard && !$0.isMinimized }
+            return windows.filter { !$0.app.isHidden && $0.isStandard && !$0.isMinimized }
         }
 
-        return windows()
+        return windows
     }
 
     public func activate() -> Bool {
