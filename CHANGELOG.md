@@ -14,6 +14,10 @@ adheres to [Semantic Versioning][semver].
 
 - Removed `window()` from `Application`
 
+### Changed
+
+- Changed `Bind` to `Keymap` in the API
+
 ## [2.4.0] - 2023-10-19
 
 ### Removed
