@@ -6,7 +6,7 @@ private let starkHotKeyKeyDownNotification = "starkHotKeyKeyDownNotification"
 
 private var bindIdentifierSequence: UInt = 0
 
-public class Bind: Handler, BindJSExport {
+public class Keymap: Handler, KeymapJSExport {
     private static var once: () = {
         let callback: EventHandlerUPP = { _, event, _ -> OSStatus in
             autoreleasepool {

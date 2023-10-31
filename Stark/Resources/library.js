@@ -1,8 +1,8 @@
-(function setup(Bind) {
+(function setup(Keymap) {
   const binds = {};
 
-  Bind.on = (key, modifiers, callback) => {
-    const handler = new Bind(key, modifiers, callback);
+  Keymap.on = (key, modifiers, callback) => {
+    const handler = new Keymap(key, modifiers, callback);
 
     if (handler) {
       binds[handler.id] = handler;
@@ -12,7 +12,7 @@
     return null;
   };
 
-  Bind.off = (identifier) => {
+  Keymap.off = (identifier) => {
     const handler = binds[identifier];
 
     if (handler) {
@@ -20,4 +20,4 @@
       delete binds[identifier];
     }
   };
-})(Bind);
+})(Keymap);

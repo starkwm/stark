@@ -1,7 +1,7 @@
 import JavaScriptCore
 
 @objc
-protocol BindJSExport: JSExport {
+protocol KeymapJSExport: JSExport {
     init(key: String, modifiers: [String], callback: JSValue)
 
     var id: Int { get }

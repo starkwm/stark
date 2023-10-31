@@ -45,7 +45,7 @@ class Context {
         context.setObject(Window.self, forKeyedSubscript: "Window" as (NSCopying & NSObjectProtocol))
         context.setObject(Space.self, forKeyedSubscript: "Space" as (NSCopying & NSObjectProtocol))
 
-        context.setObject(Bind.self, forKeyedSubscript: "Bind" as (NSCopying & NSObjectProtocol))
+        context.setObject(Keymap.self, forKeyedSubscript: "Keymap" as (NSCopying & NSObjectProtocol))
     }
 
     func loadJSFile(path: String) {
