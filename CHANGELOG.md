@@ -17,6 +17,7 @@ adheres to [Semantic Versioning][semver].
 ### Changed
 
 - Changed `Bind` to `Keymap` in the API
+- Changed minimum required macOS version to 14.0
 
 ## [2.4.0] - 2023-10-19
 
