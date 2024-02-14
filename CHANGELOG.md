@@ -13,6 +13,7 @@ adheres to [Semantic Versioning][semver].
 ### Removed
 
 - Removed `window()` from `Application`
+- Removed deprecated `.activateIgnoringOtherApps` option from application `focus()`
 
 ### Changed
 
