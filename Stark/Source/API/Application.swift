@@ -87,7 +87,7 @@ public class Application: NSObject, ApplicationJSExport {
     }
 
     public func focus() -> Bool {
-        app.activate(options: .activateIgnoringOtherApps)
+        app.activate(options: [])
     }
 
     public func show() -> Bool {
