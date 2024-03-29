@@ -227,7 +227,7 @@ public class Window: NSObject, WindowJSExport {
         }
 
         if let app = NSRunningApplication(processIdentifier: pid()) {
-            app.activate(options: NSApplication.ActivationOptions.activateIgnoringOtherApps)
+            app.activate()
         }
     }
 
