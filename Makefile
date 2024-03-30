@@ -10,10 +10,10 @@ build:
 	@xcodebuild $(XCODEFLAGS) build
 
 lint:
-	@swiftlint lint --quiet
+	@swift-format lint -r Stark/Source
 
 format:
-	@swiftformat --quiet Stark/Source/**/*
+	@swift-format format -r -i Stark/Source
 
 archive:
 	@xcodebuild $(XCODEFLAGS) clean archive -archivePath $(STARK_ACHIVE)
