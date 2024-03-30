@@ -1,3 +1,4 @@
+import Alicia
 import Cocoa
 
 @main
@@ -7,6 +8,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_: Notification) {
     askForAccessibilityIfNeeded()
     statusItem.setup()
+  }
+
+  func applicationWillTerminate(_: Notification) {
+    Alicia.stop()
   }
 
   func askForAccessibilityIfNeeded() {

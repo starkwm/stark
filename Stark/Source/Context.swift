@@ -1,3 +1,4 @@
+import Alicia
 import AppKit
 import JavaScriptCore
 
@@ -18,9 +19,14 @@ class Context {
 
     loadJSFile(path: libPath)
 
+    Alicia.stop()
+    Alicia.reset()
+
     if FileManager.default.fileExists(atPath: config.primaryPath) {
       loadJSFile(path: config.primaryPath)
     }
+
+    Alicia.start()
   }
 
   func setupAPI() {
