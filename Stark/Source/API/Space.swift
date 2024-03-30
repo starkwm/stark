@@ -3,144 +3,147 @@ import JavaScriptCore
 
 private let starkVisibilityOptionsKey = "visible"
 
-private let SLSScreenIDKey = "Display Identifier"
-private let SLSSpaceIDKey = "ManagedSpaceID"
-private let SLSSpacesKey = "Spaces"
+private let screenIDKey = "Display Identifier"
+private let spaceIDKey = "ManagedSpaceID"
+private let spacesKey = "Spaces"
 
 public class Space: NSObject, SpaceJSExport {
-    private static let connectionID = SLSMainConnectionID()
+  private static let connectionID = SLSMainConnectionID()
 
-    public static func all() -> [Space] {
-        var spaces: [Space] = []
+  public static func all() -> [Space] {
+    var spaces: [Space] = []
 
-        let displaySpacesInfo = SLSCopyManagedDisplaySpaces(connectionID).takeRetainedValue() as NSArray
+    let displaySpacesInfo = SLSCopyManagedDisplaySpaces(connectionID).takeRetainedValue() as NSArray
 
-        displaySpacesInfo.forEach {
-            guard let spacesInfo = $0 as? [String: AnyObject] else {
-                return
-            }
+    for info in displaySpacesInfo {
+      guard let spacesInfo = info as? [String: AnyObject] else {
+        continue
+      }
 
-            guard let identifiers = spacesInfo[SLSSpacesKey] as? [[String: AnyObject]] else {
-                return
-            }
+      guard let identifiers = spacesInfo[spacesKey] as? [[String: AnyObject]] else {
+        continue
+      }
 
-            identifiers.forEach {
-                guard let identifier = $0[SLSSpaceIDKey] as? uint64 else {
-                    return
-                }
-
-                spaces.append(Space(identifier: identifier))
-            }
+      for identifier in identifiers {
+        guard let identifier = identifier[spaceIDKey] as? uint64 else {
+          continue
         }
 
-        return spaces
+        spaces.append(Space(identifier: identifier))
+      }
     }
 
-    public static func at(_ index: Int) -> Space? {
-        all()[index]
+    return spaces
+  }
+
+  public static func at(_ index: Int) -> Space? {
+    all()[index]
+  }
+
+  public static func active() -> Space {
+    Space(identifier: SLSGetActiveSpace(connectionID))
+  }
+
+  static func current(for screen: NSScreen) -> Space? {
+    let identifier = SLSManagedDisplayGetCurrentSpace(connectionID, screen.identifier as CFString)
+
+    return Space(identifier: identifier)
+  }
+
+  static func spaces(for window: Window) -> [Space] {
+    var spaces: [Space] = []
+
+    let identifiers =
+      SLSCopySpacesForWindows(
+        connectionID,
+        7,
+        [window.identifier] as CFArray
+      ).takeRetainedValue() as NSArray
+
+    for space in all() {
+      if identifiers.contains(space.identifier) {
+        spaces.append(Space(identifier: space.identifier))
+      }
     }
 
-    public static func active() -> Space {
-        Space(identifier: SLSGetActiveSpace(connectionID))
+    return spaces
+  }
+
+  init(identifier: uint64) {
+    self.identifier = identifier
+  }
+
+  override public func isEqual(_ object: Any?) -> Bool {
+    guard let space = object as? Self else {
+      return false
     }
 
-    static func current(for screen: NSScreen) -> Space? {
-        let identifier = SLSManagedDisplayGetCurrentSpace(connectionID, screen.identifier as CFString)
+    return identifier == space.identifier
+  }
 
-        return Space(identifier: identifier)
+  public var identifier: uint64
+
+  public var isNormal: Bool {
+    SLSSpaceGetType(Self.connectionID, identifier) == 0
+  }
+
+  public var isFullscreen: Bool {
+    SLSSpaceGetType(Self.connectionID, identifier) == 4
+  }
+
+  public func screens() -> [NSScreen] {
+    if !NSScreen.screensHaveSeparateSpaces {
+      return NSScreen.screens
     }
 
-    static func spaces(for window: Window) -> [Space] {
-        var spaces: [Space] = []
+    let displaySpacesInfo = SLSCopyManagedDisplaySpaces(Self.connectionID).takeRetainedValue() as NSArray
 
-        let identifiers = SLSCopySpacesForWindows(connectionID,
-                                                  7,
-                                                  [window.identifier] as CFArray).takeRetainedValue() as NSArray
+    var screen: NSScreen?
 
-        all().forEach {
-            if identifiers.contains($0.identifier) {
-                spaces.append(Space(identifier: $0.identifier))
-            }
+    for info in displaySpacesInfo {
+      guard let spacesInfo = info as? [String: AnyObject] else {
+        continue
+      }
+
+      guard let screenIdentifier = spacesInfo[screenIDKey] as? String else {
+        continue
+      }
+
+      guard let identifiers = spacesInfo[spacesKey] as? [[String: AnyObject]] else {
+        continue
+      }
+
+      for identifier in identifiers {
+        guard let identifier = identifier[spaceIDKey] as? uint64 else {
+          continue
         }
 
-        return spaces
-    }
-
-    init(identifier: uint64) {
-        self.identifier = identifier
-    }
-
-    override public func isEqual(_ object: Any?) -> Bool {
-        guard let space = object as? Self else {
-            return false
+        if identifier == self.identifier {
+          screen = NSScreen.screen(for: screenIdentifier)
         }
-
-        return identifier == space.identifier
+      }
     }
 
-    public var identifier: uint64
-
-    public var isNormal: Bool {
-        SLSSpaceGetType(Self.connectionID, identifier) == 0
+    if screen == nil {
+      return []
     }
 
-    public var isFullscreen: Bool {
-        SLSSpaceGetType(Self.connectionID, identifier) == 4
-    }
+    return [screen!]
+  }
 
-    public func screens() -> [NSScreen] {
-        if !NSScreen.screensHaveSeparateSpaces {
-            return NSScreen.screens
-        }
+  public func windows(_ options: [String: AnyObject] = [:]) -> [Window] {
+    Window.all(options).filter { $0.spaces().contains(self) }
+  }
 
-        let displaySpacesInfo = SLSCopyManagedDisplaySpaces(Self.connectionID).takeRetainedValue() as NSArray
+  public func addWindows(_ windows: [Window]) {
+    SLSAddWindowsToSpaces(Self.connectionID, windows.map(\.identifier) as CFArray, [identifier] as CFArray)
+  }
 
-        var screen: NSScreen?
+  public func removeWindows(_ windows: [Window]) {
+    SLSRemoveWindowsFromSpaces(Self.connectionID, windows.map(\.identifier) as CFArray, [identifier] as CFArray)
+  }
 
-        displaySpacesInfo.forEach {
-            guard let spacesInfo = $0 as? [String: AnyObject] else {
-                return
-            }
-
-            guard let screenIdentifier = spacesInfo[SLSScreenIDKey] as? String else {
-                return
-            }
-
-            guard let identifiers = spacesInfo[SLSSpacesKey] as? [[String: AnyObject]] else {
-                return
-            }
-
-            identifiers.forEach {
-                guard let identifier = $0[SLSSpaceIDKey] as? uint64 else {
-                    return
-                }
-
-                if identifier == self.identifier {
-                    screen = NSScreen.screen(for: screenIdentifier)
-                }
-            }
-        }
-
-        if screen == nil {
-            return []
-        }
-
-        return [screen!]
-    }
-
-    public func windows(_ options: [String: AnyObject] = [:]) -> [Window] {
-        Window.all(options).filter { $0.spaces().contains(self) }
-    }
-
-    public func addWindows(_ windows: [Window]) {
-        SLSAddWindowsToSpaces(Self.connectionID, windows.map(\.identifier) as CFArray, [identifier] as CFArray)
-    }
-
-    public func removeWindows(_ windows: [Window]) {
-        SLSRemoveWindowsFromSpaces(Self.connectionID, windows.map(\.identifier) as CFArray, [identifier] as CFArray)
-    }
-
-    public func moveWindows(_ windows: [Window]) {
-        SLSMoveWindowsToManagedSpace(Self.connectionID, windows.map(\.identifier) as CFArray, identifier)
-    }
+  public func moveWindows(_ windows: [Window]) {
+    SLSMoveWindowsToManagedSpace(Self.connectionID, windows.map(\.identifier) as CFArray, identifier)
+  }
 }

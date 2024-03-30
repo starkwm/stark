@@ -3,32 +3,32 @@ import JavaScriptCore
 
 @objc
 protocol WindowJSExport: JSExport {
-    static func all(_ options: [String: AnyObject]) -> [Window]
-    static func focused() -> Window?
+  static func all(_ options: [String: AnyObject]) -> [Window]
+  static func focused() -> Window?
 
-    var app: Application { get }
-    var screen: NSScreen { get }
+  var app: Application { get }
+  var screen: NSScreen { get }
 
-    var title: String { get }
+  var title: String { get }
 
-    var frame: CGRect { get }
-    var topLeft: CGPoint { get }
-    var size: CGSize { get }
+  var frame: CGRect { get }
+  var topLeft: CGPoint { get }
+  var size: CGSize { get }
 
-    var isStandard: Bool { get }
-    var isMain: Bool { get }
-    var isFullscreen: Bool { get }
-    var isMinimized: Bool { get }
+  var isStandard: Bool { get }
+  var isMain: Bool { get }
+  var isFullscreen: Bool { get }
+  var isMinimized: Bool { get }
 
-    func setFrame(_ frame: CGRect)
-    func setTopLeft(_ topLeft: CGPoint)
-    func setSize(_ size: CGSize)
-    func setFullScreen(_ value: Bool)
+  func setFrame(_ frame: CGRect)
+  func setTopLeft(_ topLeft: CGPoint)
+  func setSize(_ size: CGSize)
+  func setFullScreen(_ value: Bool)
 
-    func minimize()
-    func unminimize()
+  func minimize()
+  func unminimize()
 
-    func focus()
+  func focus()
 
-    func spaces() -> [Space]
+  func spaces() -> [Space]
 }
