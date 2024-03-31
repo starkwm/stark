@@ -107,7 +107,6 @@ public class Application: NSObject, ApplicationJSExport {
     let result = AXUIElementCopyAttributeValue(element, kAXEnhancedUserInterface as CFString, &value)
 
     if result == .success, CFGetTypeID(value) == CFBooleanGetTypeID() {
-      // swiftlint:disable:next force_cast
       return CFBooleanGetValue((value as! CFBoolean))
     }
 

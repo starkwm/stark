@@ -25,7 +25,6 @@ public class Window: NSObject, WindowJSExport {
     var window: AnyObject?
 
     if AXUIElementCopyAttributeValue(
-      // swiftlint:disable:next force_cast
       app as! AXUIElement,
       kAXFocusedWindowAttribute as CFString,
       &window
@@ -33,7 +32,6 @@ public class Window: NSObject, WindowJSExport {
       return nil
     }
 
-    // swiftlint:disable:next force_cast
     return Window(element: window as! AXUIElement)
   }
 
@@ -103,7 +101,6 @@ public class Window: NSObject, WindowJSExport {
     var topLeft = CGPoint.zero
 
     if AXUIElementCopyAttributeValue(element, kAXPositionAttribute as CFString, &value) == .success {
-      // swiftlint:disable:next force_cast
       if !AXValueGetValue(value as! AXValue, AXValueType.cgPoint, &topLeft) {
         topLeft = CGPoint.zero
       }
@@ -117,7 +114,6 @@ public class Window: NSObject, WindowJSExport {
     var size = CGSize.zero
 
     if AXUIElementCopyAttributeValue(element, kAXSizeAttribute as CFString, &value) == .success {
-      // swiftlint:disable:next force_cast
       if !AXValueGetValue(value as! AXValue, AXValueType.cgSize, &size) {
         size = CGSize.zero
       }
