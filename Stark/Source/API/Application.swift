@@ -102,7 +102,7 @@ public class Application: NSObject, ApplicationJSExport {
     app.terminate()
   }
 
-  public func isEnhancedUserInterfaceEnabled() -> Bool? {
+  public func isEnhancedUserInterfaceEnabled() -> Bool {
     var value: AnyObject?
     let result = AXUIElementCopyAttributeValue(element, kAXEnhancedUserInterface as CFString, &value)
 
@@ -110,7 +110,7 @@ public class Application: NSObject, ApplicationJSExport {
       return CFBooleanGetValue((value as! CFBoolean))
     }
 
-    return nil
+    return false
   }
 
   public func enableEnhancedUserInterface() {

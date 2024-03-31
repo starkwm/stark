@@ -237,7 +237,7 @@ public class Window: NSObject, WindowJSExport {
   }
 
   private func enhancedUIWorkaround(callback: () -> Void) {
-    let enhancedUserInterfaceEnabled = app.isEnhancedUserInterfaceEnabled() ?? false
+    let enhancedUserInterfaceEnabled = app.isEnhancedUserInterfaceEnabled()
 
     if enhancedUserInterfaceEnabled {
       app.disableEnhancedUserInterface()
