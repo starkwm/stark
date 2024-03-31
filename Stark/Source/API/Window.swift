@@ -179,30 +179,24 @@ public class Window: NSObject, WindowJSExport {
   }
 
   public func setFrame(_ frame: CGRect) {
-    let enhancedUserInterfaceEnabled = app.isEnhancedUserInterfaceEnabled() ?? false
-
-    if enhancedUserInterfaceEnabled {
-      app.disableEnhancedUserInterface()
-    }
-
     setTopLeft(frame.origin)
     setSize(frame.size)
-
-    if enhancedUserInterfaceEnabled {
-      app.enableEnhancedUserInterface()
-    }
   }
 
   public func setTopLeft(_ topLeft: CGPoint) {
-    var val = topLeft
-    let value = AXValueCreate(AXValueType(rawValue: kAXValueCGPointType)!, &val)!
-    AXUIElementSetAttributeValue(element, kAXPositionAttribute as CFString, value)
+    enhancedUIWorkaround {
+      var val = topLeft
+      let value = AXValueCreate(AXValueType(rawValue: kAXValueCGPointType)!, &val)!
+      AXUIElementSetAttributeValue(element, kAXPositionAttribute as CFString, value)
+    }
   }
 
   public func setSize(_ size: CGSize) {
-    var val = size
-    let value = AXValueCreate(AXValueType(rawValue: kAXValueCGSizeType)!, &val)!
-    AXUIElementSetAttributeValue(element, kAXSizeAttribute as CFString, value)
+    enhancedUIWorkaround {
+      var val = size
+      let value = AXValueCreate(AXValueType(rawValue: kAXValueCGSizeType)!, &val)!
+      AXUIElementSetAttributeValue(element, kAXSizeAttribute as CFString, value)
+    }
   }
 
   public func setFullScreen(_ value: Bool) {
@@ -240,5 +234,19 @@ public class Window: NSObject, WindowJSExport {
     }
 
     return pid
+  }
+
+  private func enhancedUIWorkaround(callback: () -> Void) {
+    let enhancedUserInterfaceEnabled = app.isEnhancedUserInterfaceEnabled() ?? false
+
+    if enhancedUserInterfaceEnabled {
+      app.disableEnhancedUserInterface()
+    }
+
+    callback()
+
+    if enhancedUserInterfaceEnabled {
+      app.enableEnhancedUserInterface()
+    }
   }
 }
