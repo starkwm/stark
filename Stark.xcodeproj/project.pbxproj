@@ -76,8 +76,8 @@
 			isa = PBXGroup;
 			children = (
 				F6792C371C404EF3007D9DF9 /* API */,
-				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
 				F6792C381C404EF8007D9DF9 /* Helpers */,
+				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
 				F667BCA51CFB972A008B4B83 /* JavaScriptContext.swift */,
 				F64945852357B6B8009E423B /* StarkStatusItem.swift */,
 			);
@@ -120,11 +120,11 @@
 		F6792C291C404B53007D9DF9 /* Stark */ = {
 			isa = PBXGroup;
 			children = (
-				F66509DD25E5975C006C0C19 /* extern.h */,
+				F66B8CF325F01D5F00747DDE /* Support */,
 				F6792C391C404F01007D9DF9 /* Resources */,
 				F64EB38C2060672C00C1838A /* Source */,
+				F66509DD25E5975C006C0C19 /* extern.h */,
 				F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */,
-				F66B8CF325F01D5F00747DDE /* Support */,
 			);
 			path = Stark;
 			sourceTree = "<group>";
@@ -132,9 +132,9 @@
 		F6792C371C404EF3007D9DF9 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				F6792C401C405598007D9DF9 /* Application.swift */,
 				F6A0DB52204648D700471843 /* Exports */,
 				F6A0DB63204724AF00471843 /* Extensions */,
+				F6792C401C405598007D9DF9 /* Application.swift */,
 				F66C39C51C6AD73E0008FDD5 /* Keymap.swift */,
 				F644DFF51FB5110B00944C6B /* Space.swift */,
 				F6792C421C4055A2007D9DF9 /* Window.swift */,
