@@ -37,10 +37,10 @@ public class Window: NSObject, WindowJSExport {
 
   private var element: AXUIElement
 
-  public var identifier: CGWindowID {
-    var identifier: CGWindowID = 0
-    _AXUIElementGetWindow(element, &identifier)
-    return identifier
+  public var id: CGWindowID {
+    var id: CGWindowID = 0
+    _AXUIElementGetWindow(element, &id)
+    return id
   }
 
   public var app: Application {
@@ -175,7 +175,7 @@ public class Window: NSObject, WindowJSExport {
       return false
     }
 
-    return identifier == window.identifier
+    return id == window.id
   }
 
   public func setFrame(_ frame: CGRect) {

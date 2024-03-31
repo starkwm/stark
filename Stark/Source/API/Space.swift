@@ -57,7 +57,7 @@ public class Space: NSObject, SpaceJSExport {
       SLSCopySpacesForWindows(
         connectionID,
         7,
-        [window.identifier] as CFArray
+        [window.id] as CFArray
       ).takeRetainedValue() as NSArray
 
     for space in all() {
@@ -140,6 +140,6 @@ public class Space: NSObject, SpaceJSExport {
   }
 
   public func moveWindows(_ windows: [Window]) {
-    SLSMoveWindowsToManagedSpace(Self.connectionID, windows.map(\.identifier) as CFArray, identifier)
+    SLSMoveWindowsToManagedSpace(Self.connectionID, windows.map(\.id) as CFArray, identifier)
   }
 }
