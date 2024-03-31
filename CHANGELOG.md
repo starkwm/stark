@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated the internal key map support to use the Alicia package
 - Updated to initialise internal classes in `AppDelegate`
 - Updated the enhanced user interface work around to use a function with callback
+- Renamed `identifier` to `id` on `Window`
 
 ## [2.5.0] - 2024-02-29
 
