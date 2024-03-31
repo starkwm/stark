@@ -49,15 +49,15 @@ public class Keymap: NSObject, KeymapJSExport {
       return
     }
 
-    let scope = JSContext(virtualMachine: callback.context.virtualMachine)
+    let context = JSContext(virtualMachine: callback.context.virtualMachine)
 
     if UserDefaults.standard.bool(forKey: logJavaScriptExceptionsKey) {
-      scope?.exceptionHandler = { _, exception in
-        LogHelper.log(message: String(format: "Error: JavaScript exception (%@)", exception!))
+      context?.exceptionHandler = { _, err in
+        LogHelper.log(message: "\(err!)")
       }
     }
 
-    let function = JSValue(object: callback, in: scope)
+    let function = JSValue(object: callback, in: context)
     function?.call(withArguments: [])
   }
 }

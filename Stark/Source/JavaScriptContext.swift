@@ -43,7 +43,7 @@ class JavaScriptContext {
 
     if UserDefaults.standard.bool(forKey: logJavaScriptExceptionsKey) {
       context.exceptionHandler = { _, err in
-        LogHelper.log(message: String(format: "Error: unhandled JavaScript exception (%@)", err!))
+        LogHelper.log(message: "\(err!)")
       }
     }
 
