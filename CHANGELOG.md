@@ -27,6 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed `identifier` to `id` on `Space`
 - Renamed `Id` to `ID` in variables
 - Updated JavaScript exception log messages to not include the fact it's an exception.
+- Updated the status item icon
 
 ## [2.5.0] - 2024-02-29
 
