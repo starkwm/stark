@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated to initialise internal classes in `AppDelegate`
 - Updated the enhanced user interface work around to use a function with callback
 - Renamed `identifier` to `id` on `Window`
+- Renamed `identifier` to `id` on `NSScreen` extension
 
 ## [2.5.0] - 2024-02-29
 
