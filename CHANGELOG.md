@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added `moveWindow` function to `Space`
+
 ### Changed
 
 - Updated the internal key map support to use the Alicia package
