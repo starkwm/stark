@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed `identifier` to `id` on `Window`
 - Renamed `identifier` to `id` on `NSScreen` extension
 - Renamed `identifier` to `id` on `Space`
+- Renamed `Id` to `ID` in variables
 
 ## [2.5.0] - 2024-02-29
 
