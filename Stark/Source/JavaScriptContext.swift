@@ -47,18 +47,22 @@ class JavaScriptContext {
       }
     }
 
-    context.setObject(
-      Stark.self(context: self),
-      forKeyedSubscript: "Stark" as (NSCopying & NSObjectProtocol)
-    )
+    let print: @convention(block) (String) -> () = { message in
+      LogHelper.log(message: message)
+    }
 
-    context.setObject(NSScreen.self, forKeyedSubscript: "Screen" as (NSCopying & NSObjectProtocol))
+    let reload: @convention(block) () -> () = {
+      self.execute()
+    }
 
-    context.setObject(Application.self, forKeyedSubscript: "Application" as (NSCopying & NSObjectProtocol))
-    context.setObject(Window.self, forKeyedSubscript: "Window" as (NSCopying & NSObjectProtocol))
-    context.setObject(Space.self, forKeyedSubscript: "Space" as (NSCopying & NSObjectProtocol))
+    context.setObject(print, forKeyedSubscript: "print" as NSString)
+    context.setObject(reload, forKeyedSubscript: "reload" as NSString)
 
-    context.setObject(Keymap.self, forKeyedSubscript: "Keymap" as (NSCopying & NSObjectProtocol))
+    context.setObject(Keymap.self, forKeyedSubscript: "Keymap" as NSString)
+    context.setObject(NSScreen.self, forKeyedSubscript: "Screen" as NSString)
+    context.setObject(Space.self, forKeyedSubscript: "Space" as NSString)
+    context.setObject(Application.self, forKeyedSubscript: "Application" as NSString)
+    context.setObject(Window.self, forKeyedSubscript: "Window" as NSString)
   }
 
   /// Evaluate the given JavaScript file in the JavaScript context.

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		F644DFF61FB5110B00944C6B /* Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = F644DFF51FB5110B00944C6B /* Space.swift */; };
 		F64945862357B6B8009E423B /* StarkStatusItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64945852357B6B8009E423B /* StarkStatusItem.swift */; };
-		F649A3CD1C68E3C600A3C81A /* Stark.swift in Sources */ = {isa = PBXBuildFile; fileRef = F649A3CC1C68E3C600A3C81A /* Stark.swift */; };
 		F66509DB25E594F0006C0C19 /* SkyLight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F66509DA25E594F0006C0C19 /* SkyLight.framework */; };
 		F667BCA61CFB972A008B4B83 /* JavaScriptContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F667BCA51CFB972A008B4B83 /* JavaScriptContext.swift */; };
 		F66C39C61C6AD73E0008FDD5 /* Keymap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66C39C51C6AD73E0008FDD5 /* Keymap.swift */; };
@@ -35,7 +34,6 @@
 /* Begin PBXFileReference section */
 		F644DFF51FB5110B00944C6B /* Space.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Space.swift; sourceTree = "<group>"; };
 		F64945852357B6B8009E423B /* StarkStatusItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkStatusItem.swift; sourceTree = "<group>"; };
-		F649A3CC1C68E3C600A3C81A /* Stark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stark.swift; sourceTree = "<group>"; };
 		F66509DA25E594F0006C0C19 /* SkyLight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SkyLight.framework; path = ../../../../System/Library/PrivateFrameworks/SkyLight.framework; sourceTree = "<group>"; };
 		F66509DD25E5975C006C0C19 /* extern.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = extern.h; sourceTree = "<group>"; };
 		F667BCA51CFB972A008B4B83 /* JavaScriptContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JavaScriptContext.swift; sourceTree = "<group>"; };
@@ -139,7 +137,6 @@
 				F6A0DB63204724AF00471843 /* Extensions */,
 				F66C39C51C6AD73E0008FDD5 /* Keymap.swift */,
 				F644DFF51FB5110B00944C6B /* Space.swift */,
-				F649A3CC1C68E3C600A3C81A /* Stark.swift */,
 				F6792C421C4055A2007D9DF9 /* Window.swift */,
 			);
 			path = API;
@@ -278,7 +275,6 @@
 				F644DFF61FB5110B00944C6B /* Space.swift in Sources */,
 				F6A0DB5E2047202400471843 /* StarkJSExport.swift in Sources */,
 				F667BCA61CFB972A008B4B83 /* JavaScriptContext.swift in Sources */,
-				F649A3CD1C68E3C600A3C81A /* Stark.swift in Sources */,
 				F66C39C61C6AD73E0008FDD5 /* Keymap.swift in Sources */,
 				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
 				F64945862357B6B8009E423B /* StarkStatusItem.swift in Sources */,
