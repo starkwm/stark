@@ -32,7 +32,7 @@ class JavaScriptContext {
 
     Alicia.start()
   }
-  
+
   /// Set up the public API for the configuration file environment.
   private func setupAPI() {
     context = JSContext(virtualMachine: JSVirtualMachine())
@@ -47,11 +47,11 @@ class JavaScriptContext {
       }
     }
 
-    let print: @convention(block) (String) -> () = { message in
+    let print: @convention(block) (String) -> Void = { message in
       LogHelper.log(message: message)
     }
 
-    let reload: @convention(block) () -> () = {
+    let reload: @convention(block) () -> Void = {
       self.execute()
     }
 
