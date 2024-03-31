@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/starkwm/alicia",
       "state" : {
-        "branch" : "main",
-        "revision" : "f5305dfd9bafffaa5cfe3cfc099eea87a539e6ee"
+        "revision" : "f5305dfd9bafffaa5cfe3cfc099eea87a539e6ee",
+        "version" : "2.0.5"
       }
     }
   ],
