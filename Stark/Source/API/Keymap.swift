@@ -3,6 +3,15 @@ import Carbon
 import JavaScriptCore
 
 public class Keymap: Handler, KeymapJSExport {
+  private var shortcut: Shortcut
+
+  public var id: Int {
+    String(format: "%@[%@]", key, modifiers.joined(separator: "|")).hashValue
+  }
+
+  public var key: String = ""
+  public var modifiers: [String] = []
+
   public required init(key: String, modifiers: [String], callback: JSValue) {
     shortcut = Shortcut()
 
@@ -23,13 +32,4 @@ public class Keymap: Handler, KeymapJSExport {
   deinit {
     Alicia.unregister(shortcut: shortcut)
   }
-
-  private var shortcut: Shortcut
-
-  public var id: Int {
-    String(format: "%@[%@]", key, modifiers.joined(separator: "|")).hashValue
-  }
-
-  public var key: String = ""
-  public var modifiers: [String] = []
 }
