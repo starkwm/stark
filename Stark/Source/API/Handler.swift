@@ -10,17 +10,19 @@ public class Handler: NSObject {
   }
 
   func call() {
-    if let callback = callback?.value {
-      let scope = JSContext(virtualMachine: callback.context.virtualMachine)
-
-      if UserDefaults.standard.bool(forKey: logJavaScriptExceptionsKey) {
-        scope?.exceptionHandler = { _, exception in
-          LogHelper.log(message: String(format: "Error: JavaScript exception (%@)", exception!))
-        }
-      }
-
-      let function = JSValue(object: callback, in: scope)
-      _ = function?.call(withArguments: [])
+    guard let callback = callback?.value else {
+      return
     }
+
+    let scope = JSContext(virtualMachine: callback.context.virtualMachine)
+
+    if UserDefaults.standard.bool(forKey: logJavaScriptExceptionsKey) {
+      scope?.exceptionHandler = { _, exception in
+        LogHelper.log(message: String(format: "Error: JavaScript exception (%@)", exception!))
+      }
+    }
+
+    let function = JSValue(object: callback, in: scope)
+    _ = function?.call(withArguments: [])
   }
 }
