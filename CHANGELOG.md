@@ -14,6 +14,7 @@ adheres to [Semantic Versioning][semver].
 
 - Updated the internal key map support to use the Alicia package
 - Updated to initialise internal classes in `AppDelegate`
+- Updated the enhanced user interface work around to use a function with callback
 
 ## [2.5.0] - 2024-02-29
 
