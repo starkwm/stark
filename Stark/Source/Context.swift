@@ -3,8 +3,8 @@ import AppKit
 import JavaScriptCore
 
 class Context {
-  var context: JSContext?
   var config: Config
+  var context: JSContext?
 
   init(config: Config) {
     self.config = config

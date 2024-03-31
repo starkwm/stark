@@ -3,10 +3,19 @@ import Cocoa
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
-  let statusItem = StarkStatusItem()
+  var config: Config
+  var context: Context
+  var statusItem: StarkStatusItem
+
+  override init() {
+    config = Config()
+    context = Context(config: config)
+    statusItem = StarkStatusItem(context: context)
+  }
 
   func applicationDidFinishLaunching(_: Notification) {
     askForAccessibilityIfNeeded()
+    context.setup()
     statusItem.setup()
   }
 

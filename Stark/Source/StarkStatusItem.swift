@@ -5,10 +5,10 @@ let logJavaScriptExceptionsKey = "logJavaScriptExceptions"
 class StarkStatusItem {
   let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
-  let context = Context(config: Config())
+  var context: Context
 
-  init() {
-    context.setup()
+  init(context: Context) {
+    self.context = context
   }
 
   func setup() {
