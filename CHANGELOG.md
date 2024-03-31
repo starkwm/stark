@@ -13,6 +13,7 @@ adheres to [Semantic Versioning][semver].
 ### Changed
 
 - Updated the internal key map support to use the Alicia package
+- Updated to initialise internal classes in `AppDelegate`
 
 ## [2.5.0] - 2024-02-29
 
