@@ -28,7 +28,7 @@ public class Application: NSObject, ApplicationJSExport {
 
   public var name: String { app.localizedName ?? "" }
 
-  public var bundleId: String { app.bundleIdentifier ?? "" }
+  public var bundleID: String { app.bundleIdentifier ?? "" }
 
   public var processId: pid_t { app.processIdentifier }
 
