@@ -3,14 +3,14 @@ import JavaScriptCore
 
 /// The context for the JavaScript API for Stark.
 class JavaScriptContext {
-  var config: Config
+  var configPath: String
 
   /// The context for executed the JavaScript configuration file.
   var context: JSContext?
 
-  /// Initialise with the configuration file.
-  init(config: Config) {
-    self.config = config
+  /// Initialise with the configuration file path.
+  init(configPath: String) {
+    self.configPath = configPath
   }
 
   /// Load the JavaScript library and configuration files into the JavaScript environment.
@@ -26,8 +26,8 @@ class JavaScriptContext {
     Alicia.stop()
     Alicia.reset()
 
-    if FileManager.default.fileExists(atPath: config.primaryPath) {
-      loadJSFile(path: config.primaryPath)
+    if FileManager.default.fileExists(atPath: configPath) {
+      loadJSFile(path: configPath)
     }
 
     Alicia.start()

@@ -1,4 +1,4 @@
-class Config {
+enum ConfigHelper {
   /// An array of primary locations of the configuration file.
   static let primaryPaths: [String] = [
     "~/.stark.js",
@@ -18,7 +18,4 @@ class Config {
 
     return (primaryPaths.first! as NSString).resolvingSymlinksInPath
   }
-
-  /// The path the configuration file is resolved to.
-  let primaryPath = Config.resolvePrimaryPath()
 }
