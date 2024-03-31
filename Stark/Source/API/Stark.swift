@@ -17,6 +17,6 @@ public class Stark: NSObject, StarkJSExport {
 
   /// Reload the configuration file and setup the JavaScriptCore runtime.
   public func reload() {
-    context.setup()
+    context.execute()
   }
 }

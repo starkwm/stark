@@ -12,7 +12,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   func applicationDidFinishLaunching(_: Notification) {
     askForAccessibilityIfNeeded()
-    context.setup()
+    context.execute()
     statusItem.setup()
   }
 

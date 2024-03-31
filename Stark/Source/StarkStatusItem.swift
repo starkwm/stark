@@ -65,7 +65,7 @@ class StarkStatusItem {
   /// Reload the configuration file.
   @objc
   func reloadConfig(sender _: AnyObject?) {
-    context.setup()
+    context.execute()
   }
 
   /// Toggle running at login.
@@ -92,6 +92,6 @@ class StarkStatusItem {
     }
 
     UserDefaults.standard.synchronize()
-    context.setup()
+    context.execute()
   }
 }

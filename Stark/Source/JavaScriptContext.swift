@@ -13,8 +13,8 @@ class JavaScriptContext {
     self.configPath = configPath
   }
 
-  /// Load the JavaScript library and configuration files into the JavaScript environment.
-  func setup() {
+  /// Exevute the configuration files in the JavaScript execution environment.
+  func execute() {
     guard let libPath = Bundle.main.path(forResource: "library", ofType: "js") else {
       fatalError("Could not find library.js")
     }
