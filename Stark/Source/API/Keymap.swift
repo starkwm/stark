@@ -1,5 +1,4 @@
 import Alicia
-import Carbon
 import JavaScriptCore
 
 /// Keymap is a shortcut key combination that has a callback that is called when the shortcut is pressed.

@@ -1,4 +1,3 @@
-import AppKit
 import JavaScriptCore
 
 /// The accessibility attribute for if a window is full screen.

@@ -1,15 +1,14 @@
 import Alicia
-import Cocoa
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
   var config: Config
-  var context: Context
+  var context: JavaScriptContext
   var statusItem: StarkStatusItem
 
   override init() {
     config = Config()
-    context = Context(config: config)
+    context = JavaScriptContext(config: config)
     statusItem = StarkStatusItem(context: context)
   }
 

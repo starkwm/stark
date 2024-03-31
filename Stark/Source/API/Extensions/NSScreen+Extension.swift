@@ -1,20 +1,23 @@
-import AppKit
-
 private let screenNumberKey = NSDeviceDescriptionKey("NSScreenNumber")
 
+/// Extends the NSScreen class.
 extension NSScreen: NSScreenJSExport {
+  /// Get all the screens.
   public static func all() -> [NSScreen] {
     screens
   }
 
+  /// Get the focused screen.
   public static func focused() -> NSScreen? {
     main
   }
 
-  public static func screen(for id: String) -> NSScreen? {
+  /// Get the screen with the given identifier.
+  static func screen(for id: String) -> NSScreen? {
     screens.first { $0.id == id }
   }
 
+  /// The identifier for the screen.
   public var id: String {
     guard let number = deviceDescription[screenNumberKey] as? NSNumber else {
       return ""
@@ -24,6 +27,7 @@ extension NSScreen: NSScreenJSExport {
     return CFUUIDCreateString(nil, uuid) as String
   }
 
+  /// The frame for screen with the top left point at 0,0.
   public var flippedFrame: CGRect {
     let primaryScreen = NSScreen.screens.first
     var frame = frame
@@ -31,6 +35,7 @@ extension NSScreen: NSScreenJSExport {
     return frame
   }
 
+  /// The frame for the screen with the top left point at 0,0, but excluding the menu bar and dock space.
   public var flippedVisibleFrame: CGRect {
     let primaryScreen = NSScreen.screens.first
     var frame = visibleFrame
@@ -38,6 +43,7 @@ extension NSScreen: NSScreenJSExport {
     return frame
   }
 
+  /// The next screen.
   public var next: NSScreen? {
     let screens = NSScreen.screens
 
@@ -54,6 +60,7 @@ extension NSScreen: NSScreenJSExport {
     return nil
   }
 
+  /// The previous screen.
   public var previous: NSScreen? {
     let screens = NSScreen.screens
 
@@ -70,10 +77,12 @@ extension NSScreen: NSScreenJSExport {
     return nil
   }
 
+  /// Get the current space for the screen.
   public func currentSpace() -> Space? {
     Space.current(for: self)
   }
 
+  /// Get all the spaces for the screen.
   public func spaces() -> [Space] {
     Space.all().filter { $0.screens().contains(self) }
   }

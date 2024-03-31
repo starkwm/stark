@@ -1,5 +1,3 @@
-import AppKit
-
 /// The accessibility attribute for enhanced user interface.
 ///
 /// - Note: This is undocumented.

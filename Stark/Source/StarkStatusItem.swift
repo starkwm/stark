@@ -1,16 +1,20 @@
-import AppKit
-
+/// The key of the user defaults option for logging exceptions from the JavaScript context.
 let logJavaScriptExceptionsKey = "logJavaScriptExceptions"
 
+/// Manages the status bar item.
 class StarkStatusItem {
+  /// The status item in the status bar.
   let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
-  var context: Context
+  /// The context for the JavaScript environment, used for reloading the configuration.
+  var context: JavaScriptContext
 
-  init(context: Context) {
+  /// Initialise with the JavaScript context.
+  init(context: JavaScriptContext) {
     self.context = context
   }
 
+  /// Set up the status bar item and menu.
   func setup() {
     statusItem.button?.image = NSImage(named: NSImage.Name("StatusItemIcon"))
 
@@ -58,11 +62,13 @@ class StarkStatusItem {
     statusItem.menu = menu
   }
 
+  /// Reload the configuration file.
   @objc
   func reloadConfig(sender _: AnyObject?) {
     context.setup()
   }
 
+  /// Toggle running at login.
   @objc
   func toggleRunAtLogin(sender: NSMenuItem) {
     if sender.state == .on {
@@ -74,6 +80,7 @@ class StarkStatusItem {
     }
   }
 
+  /// Toggle whether JavaScript exceptions are logged to the log file.
   @objc
   func toggleLogJavaScriptExceptions(sender: NSMenuItem) {
     if sender.state == .on {

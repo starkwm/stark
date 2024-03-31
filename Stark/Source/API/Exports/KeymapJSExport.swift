@@ -1,6 +1,7 @@
 import JavaScriptCore
 
 @objc
+/// The API for Keymap exported to the JavaScript environment.
 protocol KeymapJSExport: JSExport {
   var id: Int { get }
 

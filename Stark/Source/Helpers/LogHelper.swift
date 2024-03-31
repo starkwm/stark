@@ -1,6 +1,6 @@
-import Foundation
-
+/// Helper for logging messages to the log file.
 enum LogHelper {
+  /// Log a message to the log file.
   static func log(message: String) {
     NSLog("%@", message)
 
@@ -15,16 +15,10 @@ enum LogHelper {
     _ = try? stringAppendLineToURL(message: log, fileURL: file)
   }
 
+  /// Write the message to the given file URL.
   static func stringAppendLineToURL(message: String, fileURL: URL) throws {
-    try stringAppendToURL(message: message + "\n", fileURL: fileURL)
-  }
+    let data = (message + "\n").data(using: String.Encoding.utf8)!
 
-  static func stringAppendToURL(message: String, fileURL: URL) throws {
-    let data = message.data(using: String.Encoding.utf8)!
-    try dataAppendToURL(data: data, fileURL: fileURL)
-  }
-
-  static func dataAppendToURL(data: Data, fileURL: URL) throws {
     if let fileHandle = try? FileHandle(forWritingTo: fileURL) {
       defer {
         fileHandle.closeFile()

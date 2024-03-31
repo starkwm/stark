@@ -3,10 +3,10 @@ import JavaScriptCore
 /// Stark is used for utility functions that are used in the JavaScriptCore runtime.
 public class Stark: NSObject, StarkJSExport {
   /// The context for the JavaScriptCore runtime.
-  private var context: Context
+  private var context: JavaScriptContext
 
   /// Iniitliase with the given context.
-  init(context: Context) {
+  init(context: JavaScriptContext) {
     self.context = context
   }
 

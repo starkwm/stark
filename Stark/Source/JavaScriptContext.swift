@@ -1,15 +1,19 @@
 import Alicia
-import AppKit
 import JavaScriptCore
 
-class Context {
+/// The context for the JavaScript API for Stark.
+class JavaScriptContext {
   var config: Config
+
+  /// The context for executed the JavaScript configuration file.
   var context: JSContext?
 
+  /// Initialise with the configuration file.
   init(config: Config) {
     self.config = config
   }
 
+  /// Load the JavaScript library and configuration files into the JavaScript environment.
   func setup() {
     guard let libPath = Bundle.main.path(forResource: "library", ofType: "js") else {
       fatalError("Could not find library.js")
@@ -28,8 +32,9 @@ class Context {
 
     Alicia.start()
   }
-
-  func setupAPI() {
+  
+  /// Set up the public API for the configuration file environment.
+  private func setupAPI() {
     context = JSContext(virtualMachine: JSVirtualMachine())
 
     guard let context else {
@@ -56,7 +61,8 @@ class Context {
     context.setObject(Keymap.self, forKeyedSubscript: "Keymap" as (NSCopying & NSObjectProtocol))
   }
 
-  func loadJSFile(path: String) {
+  /// Evaluate the given JavaScript file in the JavaScript context.
+  private func loadJSFile(path: String) {
     guard let scriptContents = try? String(contentsOfFile: path) else {
       fatalError(String(format: "Could not read script (%@)", path))
     }

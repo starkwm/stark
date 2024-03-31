@@ -1,7 +1,7 @@
-import AppKit
 import JavaScriptCore
 
 @objc
+/// The API for Space exported to the JavaScript environment.
 protocol SpaceJSExport: JSExport {
   static func all() -> [Space]
   static func at(_ index: Int) -> Space?

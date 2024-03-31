@@ -1,7 +1,7 @@
-import AppKit
 import JavaScriptCore
 
 @objc
+/// The API for NSScreen exported to the JavaScript environment.
 protocol NSScreenJSExport: JSExport {
   static func all() -> [NSScreen]
   static func focused() -> NSScreen?

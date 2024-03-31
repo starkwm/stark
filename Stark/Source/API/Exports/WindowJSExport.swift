@@ -1,7 +1,7 @@
-import AppKit
 import JavaScriptCore
 
 @objc
+/// The API for Window exported to the JavaScript environment.
 protocol WindowJSExport: JSExport {
   static func all(_ options: [String: AnyObject]) -> [Window]
   static func focused() -> Window?

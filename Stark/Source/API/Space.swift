@@ -1,4 +1,3 @@
-import AppKit
 import JavaScriptCore
 
 /// The key for the screen identifier in the key/value results for display spaces.

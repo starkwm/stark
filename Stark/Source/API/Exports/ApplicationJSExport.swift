@@ -1,6 +1,7 @@
 import JavaScriptCore
 
 @objc
+/// The API for Application exported to the JavaScript environment.
 protocol ApplicationJSExport: JSExport {
   static func find(_ name: String) -> Application?
   static func all() -> [Application]
