@@ -7,7 +7,7 @@ protocol SpaceJSExport: JSExport {
   static func at(_ index: Int) -> Space?
   static func active() -> Space
 
-  var identifier: uint64 { get }
+  var id: uint64 { get }
 
   var isNormal: Bool { get }
   var isFullscreen: Bool { get }

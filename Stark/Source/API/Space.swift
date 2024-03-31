@@ -15,21 +15,21 @@ public class Space: NSObject, SpaceJSExport {
 
     let displaySpacesInfo = SLSCopyManagedDisplaySpaces(connectionID).takeRetainedValue() as NSArray
 
-    for info in displaySpacesInfo {
-      guard let spacesInfo = info as? [String: AnyObject] else {
+    for item in displaySpacesInfo {
+      guard let info = item as? [String: AnyObject] else {
         continue
       }
 
-      guard let identifiers = spacesInfo[spacesKey] as? [[String: AnyObject]] else {
+      guard let spacesInfo = info[spacesKey] as? [[String: AnyObject]] else {
         continue
       }
 
-      for identifier in identifiers {
-        guard let identifier = identifier[spaceIDKey] as? uint64 else {
+      for spaceInfo in spacesInfo {
+        guard let id = spaceInfo[spaceIDKey] as? uint64 else {
           continue
         }
 
-        spaces.append(Space(identifier: identifier))
+        spaces.append(Space(id: id))
       }
     }
 
@@ -41,13 +41,13 @@ public class Space: NSObject, SpaceJSExport {
   }
 
   public static func active() -> Space {
-    Space(identifier: SLSGetActiveSpace(connectionID))
+    Space(id: SLSGetActiveSpace(connectionID))
   }
 
   static func current(for screen: NSScreen) -> Space? {
-    let identifier = SLSManagedDisplayGetCurrentSpace(connectionID, screen.id as CFString)
+    let id = SLSManagedDisplayGetCurrentSpace(connectionID, screen.id as CFString)
 
-    return Space(identifier: identifier)
+    return Space(id: id)
   }
 
   static func spaces(for window: Window) -> [Space] {
@@ -56,31 +56,31 @@ public class Space: NSObject, SpaceJSExport {
     let identifiers =
       SLSCopySpacesForWindows(
         connectionID,
-        7,
+        0x7,
         [window.id] as CFArray
       ).takeRetainedValue() as NSArray
 
     for space in all() {
-      if identifiers.contains(space.identifier) {
-        spaces.append(Space(identifier: space.identifier))
+      if identifiers.contains(space.id) {
+        spaces.append(Space(id: space.id))
       }
     }
 
     return spaces
   }
 
-  public var identifier: uint64
+  public var id: uint64
 
   public var isNormal: Bool {
-    SLSSpaceGetType(Self.connectionID, identifier) == 0
+    SLSSpaceGetType(Self.connectionID, id) == 0
   }
 
   public var isFullscreen: Bool {
-    SLSSpaceGetType(Self.connectionID, identifier) == 4
+    SLSSpaceGetType(Self.connectionID, id) == 4
   }
 
-  init(identifier: uint64) {
-    self.identifier = identifier
+  init(id: uint64) {
+    self.id = id
   }
 
   override public func isEqual(_ object: Any?) -> Bool {
@@ -88,7 +88,7 @@ public class Space: NSObject, SpaceJSExport {
       return false
     }
 
-    return identifier == space.identifier
+    return id == space.id
   }
 
   public func screens() -> [NSScreen] {
@@ -100,26 +100,26 @@ public class Space: NSObject, SpaceJSExport {
 
     var screen: NSScreen?
 
-    for info in displaySpacesInfo {
-      guard let spacesInfo = info as? [String: AnyObject] else {
+    for item in displaySpacesInfo {
+      guard let info = item as? [String: AnyObject] else {
         continue
       }
 
-      guard let screenIdentifier = spacesInfo[screenIDKey] as? String else {
+      guard let screenID = info[screenIDKey] as? String else {
         continue
       }
 
-      guard let identifiers = spacesInfo[spacesKey] as? [[String: AnyObject]] else {
+      guard let spacesInfo = info[spacesKey] as? [[String: AnyObject]] else {
         continue
       }
 
-      for identifier in identifiers {
-        guard let identifier = identifier[spaceIDKey] as? uint64 else {
+      for spaceInfo in spacesInfo {
+        guard let id = spaceInfo[spaceIDKey] as? uint64 else {
           continue
         }
 
-        if identifier == self.identifier {
-          screen = NSScreen.screen(for: screenIdentifier)
+        if id == self.id {
+          screen = NSScreen.screen(for: screenID)
         }
       }
     }
@@ -140,6 +140,6 @@ public class Space: NSObject, SpaceJSExport {
   }
 
   public func moveWindows(_ windows: [Window]) {
-    SLSMoveWindowsToManagedSpace(Self.connectionID, windows.map(\.id) as CFArray, identifier)
+    SLSMoveWindowsToManagedSpace(Self.connectionID, windows.map(\.id) as CFArray, id)
   }
 }
