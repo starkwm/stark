@@ -1,18 +1,25 @@
 import AppKit
 import JavaScriptCore
 
-// XXX: Undocumented private attribute for full screen mode
+/// The accessibility attribute for if a window is full screen.
+///
+/// - Note: This is undocumented.
 private let kAXFullScreenAttribute = "AXFullScreen"
 
-private let starkVisibilityOptionsKey = "visible"
+/// The options key for visible windows only for functions that get windows.
+let starkVisibilityOptionsKey = "visible"
 
+/// Window represents a window belonging to a running application.
 public class Window: NSObject, WindowJSExport {
+  /// A system wide accessibility object for access to system attributes.
   private static let systemWideElement = AXUIElementCreateSystemWide()
 
+  /// Get windows for all running applications.
   public static func all(_ options: [String: AnyObject] = [:]) -> [Window] {
     Application.all().flatMap { $0.windows(options) }
   }
 
+  /// Get the currently focused window.
   public static func focused() -> Window? {
     var app: AnyObject?
 
@@ -35,18 +42,22 @@ public class Window: NSObject, WindowJSExport {
     return Window(element: window as! AXUIElement)
   }
 
+  /// The accessibility object for the window.
   private var element: AXUIElement
 
+  /// The identifier for the window.
   public var id: CGWindowID {
     var id: CGWindowID = 0
     _AXUIElementGetWindow(element, &id)
     return id
   }
 
+  /// The application the window belongs to.
   public var app: Application {
     Application(pid: pid())
   }
 
+  /// The screen that contains the window.
   public var screen: NSScreen {
     let windowFrame = frame
     var lastVolume: CGFloat = 0
@@ -66,6 +77,7 @@ public class Window: NSObject, WindowJSExport {
     return lastScreen
   }
 
+  /// The title of the window.
   public var title: String {
     var value: AnyObject?
 
@@ -80,10 +92,12 @@ public class Window: NSObject, WindowJSExport {
     return ""
   }
 
+  /// The frame of the window. This is the coordinates of the top left point, and the width and height of the window.
   public var frame: CGRect {
     CGRect(origin: topLeft, size: size)
   }
 
+  /// The coordinates of the top left point of the window.
   public var topLeft: CGPoint {
     var value: AnyObject?
     var topLeft = CGPoint.zero
@@ -97,6 +111,7 @@ public class Window: NSObject, WindowJSExport {
     return topLeft
   }
 
+  /// The width and height of the window.
   public var size: CGSize {
     var value: AnyObject?
     var size = CGSize.zero
@@ -110,6 +125,7 @@ public class Window: NSObject, WindowJSExport {
     return size
   }
 
+  /// Indicates if this window is the main window of the application.
   public var isMain: Bool {
     var value: AnyObject?
 
@@ -124,6 +140,7 @@ public class Window: NSObject, WindowJSExport {
     return false
   }
 
+  /// Indicates if this window is a standard window with a titlebar.
   public var isStandard: Bool {
     var value: AnyObject?
 
@@ -138,6 +155,7 @@ public class Window: NSObject, WindowJSExport {
     return false
   }
 
+  /// Indicates if this window is a full screen window.
   public var isFullscreen: Bool {
     var value: AnyObject?
 
@@ -152,6 +170,7 @@ public class Window: NSObject, WindowJSExport {
     return false
   }
 
+  /// Indicates if this window is minimised in the dock.
   public var isMinimized: Bool {
     var value: AnyObject?
 
@@ -166,10 +185,12 @@ public class Window: NSObject, WindowJSExport {
     return false
   }
 
+  /// Initialise with the given accessibility object.
   init(element: AXUIElement) {
     self.element = element
   }
 
+  /// Check if the given variable matches this window instance.
   override public func isEqual(_ object: Any?) -> Bool {
     guard let window = object as? Self else {
       return false
@@ -178,11 +199,13 @@ public class Window: NSObject, WindowJSExport {
     return id == window.id
   }
 
+  /// Set the position and size of the window.
   public func setFrame(_ frame: CGRect) {
     setTopLeft(frame.origin)
     setSize(frame.size)
   }
 
+  /// Set the top left position of the window.
   public func setTopLeft(_ topLeft: CGPoint) {
     enhancedUIWorkaround {
       var val = topLeft
@@ -191,6 +214,7 @@ public class Window: NSObject, WindowJSExport {
     }
   }
 
+  /// Set the width and height of the window.
   public func setSize(_ size: CGSize) {
     enhancedUIWorkaround {
       var val = size
@@ -199,18 +223,22 @@ public class Window: NSObject, WindowJSExport {
     }
   }
 
+  /// Set the window to be full screen.
   public func setFullScreen(_ value: Bool) {
     AXUIElementSetAttributeValue(element, kAXFullScreenAttribute as CFString, value as CFTypeRef)
   }
 
+  /// Minimise the window.
   public func minimize() {
     AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, true as CFTypeRef)
   }
 
+  /// Unminimise the window.
   public func unminimize() {
     AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, false as CFTypeRef)
   }
 
+  /// Focus the window.
   public func focus() {
     if AXUIElementSetAttributeValue(element, kAXMainAttribute as CFString, kCFBooleanTrue) != .success {
       return
@@ -221,10 +249,12 @@ public class Window: NSObject, WindowJSExport {
     }
   }
 
+  /// Get the spaces that contain the window.
   public func spaces() -> [Space] {
     Space.spaces(for: self)
   }
 
+  /// The process identifier of the process the window belongs to.
   private func pid() -> pid_t {
     var pid: pid_t = 0
     let result = AXUIElementGetPid(element, &pid)
@@ -236,6 +266,7 @@ public class Window: NSObject, WindowJSExport {
     return pid
   }
 
+  /// Temporarily disable the enhanced user interface accessibility attribute for the app then runs the callback.
   private func enhancedUIWorkaround(callback: () -> Void) {
     let enhancedUserInterfaceEnabled = app.isEnhancedUserInterfaceEnabled()
 

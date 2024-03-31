@@ -17,7 +17,6 @@
 		F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2C1C404B53007D9DF9 /* Assets.xcassets */; };
 		F6792C411C405598007D9DF9 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C401C405598007D9DF9 /* Application.swift */; };
 		F6792C431C4055A2007D9DF9 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C421C4055A2007D9DF9 /* Window.swift */; };
-		F6942ECD1C6A8EEF00D2C0D4 /* Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6942ECC1C6A8EEF00D2C0D4 /* Handler.swift */; };
 		F6A0DB5420471EE700471843 /* NSScreenJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5320471EE700471843 /* NSScreenJSExport.swift */; };
 		F6A0DB5620471FBD00471843 /* ApplicationJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5520471FBD00471843 /* ApplicationJSExport.swift */; };
 		F6A0DB5820471FF900471843 /* KeymapJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5720471FF900471843 /* KeymapJSExport.swift */; };
@@ -47,7 +46,6 @@
 		F6792C311C404B53007D9DF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F6792C401C405598007D9DF9 /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		F6792C421C4055A2007D9DF9 /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
-		F6942ECC1C6A8EEF00D2C0D4 /* Handler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Handler.swift; sourceTree = "<group>"; };
 		F6A0DB5320471EE700471843 /* NSScreenJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSScreenJSExport.swift; sourceTree = "<group>"; };
 		F6A0DB5520471FBD00471843 /* ApplicationJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationJSExport.swift; sourceTree = "<group>"; };
 		F6A0DB5720471FF900471843 /* KeymapJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeymapJSExport.swift; sourceTree = "<group>"; };
@@ -140,7 +138,6 @@
 				F6792C401C405598007D9DF9 /* Application.swift */,
 				F6A0DB52204648D700471843 /* Exports */,
 				F6A0DB63204724AF00471843 /* Extensions */,
-				F6942ECC1C6A8EEF00D2C0D4 /* Handler.swift */,
 				F66C39C51C6AD73E0008FDD5 /* Keymap.swift */,
 				F644DFF51FB5110B00944C6B /* Space.swift */,
 				F649A3CC1C68E3C600A3C81A /* Stark.swift */,
@@ -280,7 +277,6 @@
 				F6A0DB622047203E00471843 /* WindowJSExport.swift in Sources */,
 				F644DFF61FB5110B00944C6B /* Space.swift in Sources */,
 				F6A0DB5E2047202400471843 /* StarkJSExport.swift in Sources */,
-				F6942ECD1C6A8EEF00D2C0D4 /* Handler.swift in Sources */,
 				F667BCA61CFB972A008B4B83 /* Context.swift in Sources */,
 				F649A3CD1C68E3C600A3C81A /* Stark.swift in Sources */,
 				F66C39C61C6AD73E0008FDD5 /* Keymap.swift in Sources */,

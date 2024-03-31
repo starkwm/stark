@@ -43,7 +43,7 @@ class Context {
     }
 
     context.setObject(
-      Stark.self(config: config, context: self),
+      Stark.self(context: self),
       forKeyedSubscript: "Stark" as (NSCopying & NSObjectProtocol)
     )
 
