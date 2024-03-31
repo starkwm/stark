@@ -69,6 +69,16 @@ public class Space: NSObject, SpaceJSExport {
     return spaces
   }
 
+  public var identifier: uint64
+
+  public var isNormal: Bool {
+    SLSSpaceGetType(Self.connectionID, identifier) == 0
+  }
+
+  public var isFullscreen: Bool {
+    SLSSpaceGetType(Self.connectionID, identifier) == 4
+  }
+
   init(identifier: uint64) {
     self.identifier = identifier
   }
@@ -79,16 +89,6 @@ public class Space: NSObject, SpaceJSExport {
     }
 
     return identifier == space.identifier
-  }
-
-  public var identifier: uint64
-
-  public var isNormal: Bool {
-    SLSSpaceGetType(Self.connectionID, identifier) == 0
-  }
-
-  public var isFullscreen: Bool {
-    SLSSpaceGetType(Self.connectionID, identifier) == 4
   }
 
   public func screens() -> [NSScreen] {
@@ -135,12 +135,8 @@ public class Space: NSObject, SpaceJSExport {
     Window.all(options).filter { $0.spaces().contains(self) }
   }
 
-  public func addWindows(_ windows: [Window]) {
-    SLSAddWindowsToSpaces(Self.connectionID, windows.map(\.identifier) as CFArray, [identifier] as CFArray)
-  }
-
-  public func removeWindows(_ windows: [Window]) {
-    SLSRemoveWindowsFromSpaces(Self.connectionID, windows.map(\.identifier) as CFArray, [identifier] as CFArray)
+  public func moveWindow(_ window: Window) {
+    moveWindows([window])
   }
 
   public func moveWindows(_ windows: [Window]) {

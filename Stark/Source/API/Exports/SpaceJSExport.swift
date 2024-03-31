@@ -16,7 +16,6 @@ protocol SpaceJSExport: JSExport {
 
   func windows(_ options: [String: AnyObject]) -> [Window]
 
-  func addWindows(_ windows: [Window])
-  func removeWindows(_ windows: [Window])
+  func moveWindow(_ window: Window)
   func moveWindows(_ windows: [Window])
 }
