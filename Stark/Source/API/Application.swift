@@ -30,7 +30,7 @@ public class Application: NSObject, ApplicationJSExport {
 
   public var bundleID: String { app.bundleIdentifier ?? "" }
 
-  public var processId: pid_t { app.processIdentifier }
+  public var processID: pid_t { app.processIdentifier }
 
   public var isActive: Bool { app.isActive }
 

@@ -9,7 +9,7 @@ protocol ApplicationJSExport: JSExport {
   var name: String { get }
 
   var bundleID: String { get }
-  var processId: pid_t { get }
+  var processID: pid_t { get }
 
   var isActive: Bool { get }
   var isHidden: Bool { get }
