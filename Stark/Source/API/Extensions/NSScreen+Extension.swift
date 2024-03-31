@@ -11,11 +11,11 @@ extension NSScreen: NSScreenJSExport {
     main
   }
 
-  public static func screen(for identifier: String) -> NSScreen? {
-    screens.first { $0.identifier == identifier }
+  public static func screen(for id: String) -> NSScreen? {
+    screens.first { $0.id == id }
   }
 
-  public var identifier: String {
+  public var id: String {
     guard let number = deviceDescription[screenNumberKey] as? NSNumber else {
       return ""
     }

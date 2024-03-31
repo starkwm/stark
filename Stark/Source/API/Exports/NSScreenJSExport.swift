@@ -6,7 +6,7 @@ protocol NSScreenJSExport: JSExport {
   static func all() -> [NSScreen]
   static func focused() -> NSScreen?
 
-  var identifier: String { get }
+  var id: String { get }
 
   var flippedFrame: CGRect { get }
   var flippedVisibleFrame: CGRect { get }

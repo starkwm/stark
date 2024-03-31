@@ -45,7 +45,7 @@ public class Space: NSObject, SpaceJSExport {
   }
 
   static func current(for screen: NSScreen) -> Space? {
-    let identifier = SLSManagedDisplayGetCurrentSpace(connectionID, screen.identifier as CFString)
+    let identifier = SLSManagedDisplayGetCurrentSpace(connectionID, screen.id as CFString)
 
     return Space(identifier: identifier)
   }
