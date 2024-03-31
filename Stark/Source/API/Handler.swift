@@ -9,7 +9,7 @@ public class Handler: NSObject {
     self.callback = JSManagedValue(value: callback, andOwner: self)
   }
 
-  func call(withArguments arguments: [AnyObject]!) {
+  func call() {
     if let callback = callback?.value {
       let scope = JSContext(virtualMachine: callback.context.virtualMachine)
 
@@ -20,11 +20,7 @@ public class Handler: NSObject {
       }
 
       let function = JSValue(object: callback, in: scope)
-      _ = function?.call(withArguments: arguments)
+      _ = function?.call(withArguments: [])
     }
-  }
-
-  func call() {
-    call(withArguments: [])
   }
 }
