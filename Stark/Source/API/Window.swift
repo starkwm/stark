@@ -35,18 +35,6 @@ public class Window: NSObject, WindowJSExport {
     return Window(element: window as! AXUIElement)
   }
 
-  init(element: AXUIElement) {
-    self.element = element
-  }
-
-  override public func isEqual(_ object: Any?) -> Bool {
-    guard let window = object as? Self else {
-      return false
-    }
-
-    return identifier == window.identifier
-  }
-
   private var element: AXUIElement
 
   public var identifier: CGWindowID {
@@ -176,6 +164,18 @@ public class Window: NSObject, WindowJSExport {
     }
 
     return false
+  }
+
+  init(element: AXUIElement) {
+    self.element = element
+  }
+
+  override public func isEqual(_ object: Any?) -> Bool {
+    guard let window = object as? Self else {
+      return false
+    }
+
+    return identifier == window.identifier
   }
 
   public func setFrame(_ frame: CGRect) {
