@@ -7,11 +7,9 @@ private let starkVisibilityOptionsKey = "visible"
 
 public class Application: NSObject, ApplicationJSExport {
   public static func find(_ name: String) -> Application? {
-    if let app = NSWorkspace.shared.runningApplications.first(where: { $0.localizedName == name }) {
-      return Application(pid: app.processIdentifier)
+    return NSWorkspace.shared.runningApplications.first { $0.localizedName == name }.map { app in
+      Application(pid: app.processIdentifier)
     }
-
-    return nil
   }
 
   public static func all() -> [Application] {
@@ -19,21 +17,9 @@ public class Application: NSObject, ApplicationJSExport {
   }
 
   public static func focused() -> Application? {
-    if let app = NSWorkspace.shared.frontmostApplication {
-      return Application(pid: app.processIdentifier)
+    return NSWorkspace.shared.frontmostApplication.map { app in
+      Application(pid: app.processIdentifier)
     }
-
-    return nil
-  }
-
-  init(pid: pid_t) {
-    element = AXUIElementCreateApplication(pid)
-    app = NSRunningApplication(processIdentifier: pid)!
-  }
-
-  init(app: NSRunningApplication) {
-    element = AXUIElementCreateApplication(app.processIdentifier)
-    self.app = app
   }
 
   private var element: AXUIElement
@@ -51,17 +37,27 @@ public class Application: NSObject, ApplicationJSExport {
   public var isHidden: Bool {
     var value: AnyObject?
 
-    if AXUIElementCopyAttributeValue(element, kAXHiddenAttribute as CFString, &value) == .success {
-      if let number = value as? NSNumber {
-        return number.boolValue
-      }
+    guard AXUIElementCopyAttributeValue(element, kAXHiddenAttribute as CFString, &value) == .success,
+      let number = value as? NSNumber
+    else {
+      return false
     }
 
-    return false
+    return number.boolValue
   }
 
   public var isTerminated: Bool {
     app.isTerminated
+  }
+
+  init(pid: pid_t) {
+    element = AXUIElementCreateApplication(pid)
+    app = NSRunningApplication(processIdentifier: pid)!
+  }
+
+  init(app: NSRunningApplication) {
+    element = AXUIElementCreateApplication(app.processIdentifier)
+    self.app = app
   }
 
   public func windows(_ options: [String: AnyObject] = [:]) -> [Window] {
