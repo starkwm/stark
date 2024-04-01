@@ -499,7 +499,7 @@
 			repositoryURL = "https://github.com/starkwm/alicia";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.0.0;
+				minimumVersion = 3.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
