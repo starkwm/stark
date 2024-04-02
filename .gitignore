@@ -96,3 +96,5 @@ iOSInjectionProject/
 *.xcodeproj/project.xcworkspace/xcshareddata/*.plist
 *.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/*
 !*.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+
+Brewfile.lock.json
