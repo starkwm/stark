@@ -14,7 +14,7 @@ enum LaunchAgentHelper {
 
   /// The file path for the launch agent file.
   static var launchAgentFile: URL? {
-    launchAgentDirectory?.appendingPathComponent("app.usestark.Stark.plist")
+    launchAgentDirectory?.appendingPathComponent("\(Bundle.main.bundleIdentifier!).plist")
   }
 
   /// Create the launch agent file.
@@ -42,7 +42,7 @@ enum LaunchAgentHelper {
     }
 
     let plist: NSDictionary = [
-      "Label": "app.usestark.Stark",
+      "Label": Bundle.main.bundleIdentifier!,
       "Program": execPath,
       "RunAtLoad": true,
     ]

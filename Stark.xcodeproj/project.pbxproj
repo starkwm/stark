@@ -394,7 +394,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 2.5.0;
-				PRODUCT_BUNDLE_IDENTIFIER = app.usestark.Stark;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.tombell.Stark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Stark/Stark-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -429,7 +429,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 2.5.0;
-				PRODUCT_BUNDLE_IDENTIFIER = app.usestark.Stark;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.tombell.Stark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Stark/Stark-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
