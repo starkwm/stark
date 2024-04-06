@@ -1,14 +1,20 @@
 import Alicia
 import JavaScriptCore
 
+/// The protocol for the exported attributes of Keymap.
+@objc protocol KeymapJSExport: JSExport {
+  var id: Int { get }
+
+  var key: String { get }
+  var modifiers: [String] { get }
+
+  init(key: String, modifiers: [String], callback: JSValue)
+}
+
+extension Keymap: KeymapJSExport {}
+
 /// Keymap is a shortcut key combination that has a callback that is called when the shortcut is pressed.
-public class Keymap: NSObject, KeymapJSExport {
-  /// The shortcut registered with the Alicia library.
-  private var shortcut: Shortcut
-
-  /// The managed JavaScript value for the callback function.
-  private var callback: JSManagedValue?
-
+public class Keymap: NSObject {
   /// The identifier for the keymap.
   public var id: Int {
     String(format: "%@[%@]", key, modifiers.joined(separator: "|")).hashValue
@@ -19,6 +25,12 @@ public class Keymap: NSObject, KeymapJSExport {
 
   /// The modifiers part of the keymap shortcut.
   public var modifiers: [String] = []
+
+  /// The shortcut registered with the Alicia library.
+  private var shortcut: Shortcut
+
+  /// The managed JavaScript value for the callback function.
+  private var callback: JSManagedValue?
 
   /// Initialise a new keymap.
   public required init(key: String, modifiers: [String], callback: JSValue) {

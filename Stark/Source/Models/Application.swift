@@ -1,17 +1,39 @@
+import JavaScriptCore
+
 /// The accessibility attribute for enhanced user interface.
 ///
 /// - Note: This is undocumented.
 private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
 
-/// Application represents an application that is currently running.
-public class Application: NSObject, ApplicationJSExport {
-  /// Get an Application from the running application with the given name.
-  public static func find(_ name: String) -> Application? {
-    return NSWorkspace.shared.runningApplications.first { $0.localizedName == name }.map { app in
-      Application(pid: app.processIdentifier)
-    }
-  }
+/// The protocol for the exported attributes of Application.
+@objc protocol ApplicationJSExport: JSExport {
+  static func find(_ name: String) -> Application?
+  static func all() -> [Application]
+  static func focused() -> Application?
 
+  var name: String { get }
+  var bundleID: String { get }
+  var processID: pid_t { get }
+
+  var isActive: Bool { get }
+  var isHidden: Bool { get }
+  var isTerminated: Bool { get }
+
+  func windows(_ options: [String: AnyObject]) -> [Window]
+
+  func activate() -> Bool
+  func focus() -> Bool
+
+  func show() -> Bool
+  func hide() -> Bool
+
+  func terminate() -> Bool
+}
+
+extension Application: ApplicationJSExport {}
+
+/// Application represents an application that is currently running.
+public class Application: NSObject {
   /// Get an array of Application for all the running applications.
   public static func all() -> [Application] {
     NSWorkspace.shared.runningApplications.map { Application(pid: $0.processIdentifier) }
@@ -24,11 +46,12 @@ public class Application: NSObject, ApplicationJSExport {
     }
   }
 
-  /// The accessibility object for the application.
-  private var element: AXUIElement
-
-  /// The running application instance for the application.
-  private var app: NSRunningApplication
+  /// Get an Application from the running application with the given name.
+  public static func find(_ name: String) -> Application? {
+    return NSWorkspace.shared.runningApplications.first { $0.localizedName == name }.map { app in
+      Application(pid: app.processIdentifier)
+    }
+  }
 
   /// The localised name of the application, or a blank string.
   public var name: String { app.localizedName ?? "" }
@@ -65,6 +88,12 @@ public class Application: NSObject, ApplicationJSExport {
     element = AXUIElementCreateApplication(pid)
     app = NSRunningApplication(processIdentifier: pid)!
   }
+
+  /// The running application instance for the application.
+  private var app: NSRunningApplication
+
+  /// The accessibility object for the application.
+  private var element: AXUIElement
 
   /// Initialise using the given running application.
   init(app: NSRunningApplication) {
@@ -117,7 +146,7 @@ public class Application: NSObject, ApplicationJSExport {
   }
 
   /// Indicates if the application has the accessibility enhanced user interface attribute.
-  func isEnhancedUserInterfaceEnabled() -> Bool {
+  private func isEnhancedUserInterfaceEnabled() -> Bool {
     var value: AnyObject?
     let result = AXUIElementCopyAttributeValue(element, kAXEnhancedUserInterface as CFString, &value)
 
@@ -128,13 +157,28 @@ public class Application: NSObject, ApplicationJSExport {
     return false
   }
 
+  /// Temporarily disable the enhanced user interface accessibility attribute for the app then runs the callback.
+  func enhancedUIWorkaround(callback: () -> Void) {
+    let enhancedUserInterfaceEnabled = isEnhancedUserInterfaceEnabled()
+
+    if enhancedUserInterfaceEnabled {
+      disableEnhancedUserInterface()
+    }
+
+    callback()
+
+    if enhancedUserInterfaceEnabled {
+      enableEnhancedUserInterface()
+    }
+  }
+
   /// Set the accessibility enhanced user interface attribute on the application.
-  func enableEnhancedUserInterface() {
+  private func enableEnhancedUserInterface() {
     AXUIElementSetAttributeValue(element, kAXEnhancedUserInterface as CFString, kCFBooleanTrue)
   }
 
   /// Unset the accessibility enhanced user interface attribute on the application.
-  func disableEnhancedUserInterface() {
+  private func disableEnhancedUserInterface() {
     AXUIElementSetAttributeValue(element, kAXEnhancedUserInterface as CFString, kCFBooleanFalse)
   }
 }

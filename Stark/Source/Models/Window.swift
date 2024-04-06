@@ -8,8 +8,44 @@ private let kAXFullScreenAttribute = "AXFullScreen"
 /// The options key for visible windows only for functions that get windows.
 let starkVisibilityOptionsKey = "visible"
 
+/// The protocol for the exported attributes of WIndow.
+@objc protocol WindowJSExport: JSExport {
+  static func all(_ options: [String: AnyObject]) -> [Window]
+  static func focused() -> Window?
+
+  var id: CGWindowID { get }
+
+  var app: Application { get }
+  var screen: NSScreen { get }
+
+  var title: String { get }
+
+  var frame: CGRect { get }
+  var topLeft: CGPoint { get }
+  var size: CGSize { get }
+
+  var isStandard: Bool { get }
+  var isMain: Bool { get }
+  var isFullscreen: Bool { get }
+  var isMinimized: Bool { get }
+
+  func setFrame(_ frame: CGRect)
+  func setTopLeft(_ topLeft: CGPoint)
+  func setSize(_ size: CGSize)
+  func setFullScreen(_ value: Bool)
+
+  func minimize()
+  func unminimize()
+
+  func focus()
+
+  func spaces() -> [Space]
+}
+
+extension Window: WindowJSExport {}
+
 /// Window represents a window belonging to a running application.
-public class Window: NSObject, WindowJSExport {
+public class Window: NSObject {
   /// A system wide accessibility object for access to system attributes.
   private static let systemWideElement = AXUIElementCreateSystemWide()
 
@@ -40,9 +76,6 @@ public class Window: NSObject, WindowJSExport {
 
     return Window(element: window as! AXUIElement)
   }
-
-  /// The accessibility object for the window.
-  private var element: AXUIElement
 
   /// The identifier for the window.
   public var id: CGWindowID {
@@ -184,9 +217,24 @@ public class Window: NSObject, WindowJSExport {
     return false
   }
 
+  /// The accessibility object for the window.
+  private var element: AXUIElement
+
   /// Initialise with the given accessibility object.
   init(element: AXUIElement) {
     self.element = element
+  }
+
+  /// The process identifier of the process the window belongs to.
+  private func pid() -> pid_t {
+    var pid: pid_t = 0
+    let result = AXUIElementGetPid(element, &pid)
+
+    if result != .success {
+      return 0
+    }
+
+    return pid
   }
 
   /// Check if the given variable matches this window instance.
@@ -206,7 +254,7 @@ public class Window: NSObject, WindowJSExport {
 
   /// Set the top left position of the window.
   public func setTopLeft(_ topLeft: CGPoint) {
-    enhancedUIWorkaround {
+    app.enhancedUIWorkaround {
       var val = topLeft
       let value = AXValueCreate(AXValueType(rawValue: kAXValueCGPointType)!, &val)!
       AXUIElementSetAttributeValue(element, kAXPositionAttribute as CFString, value)
@@ -215,7 +263,7 @@ public class Window: NSObject, WindowJSExport {
 
   /// Set the width and height of the window.
   public func setSize(_ size: CGSize) {
-    enhancedUIWorkaround {
+    app.enhancedUIWorkaround {
       var val = size
       let value = AXValueCreate(AXValueType(rawValue: kAXValueCGSizeType)!, &val)!
       AXUIElementSetAttributeValue(element, kAXSizeAttribute as CFString, value)
@@ -251,32 +299,5 @@ public class Window: NSObject, WindowJSExport {
   /// Get the spaces that contain the window.
   public func spaces() -> [Space] {
     Space.spaces(for: self)
-  }
-
-  /// The process identifier of the process the window belongs to.
-  private func pid() -> pid_t {
-    var pid: pid_t = 0
-    let result = AXUIElementGetPid(element, &pid)
-
-    if result != .success {
-      return 0
-    }
-
-    return pid
-  }
-
-  /// Temporarily disable the enhanced user interface accessibility attribute for the app then runs the callback.
-  private func enhancedUIWorkaround(callback: () -> Void) {
-    let enhancedUserInterfaceEnabled = app.isEnhancedUserInterfaceEnabled()
-
-    if enhancedUserInterfaceEnabled {
-      app.disableEnhancedUserInterface()
-    }
-
-    callback()
-
-    if enhancedUserInterfaceEnabled {
-      app.enableEnhancedUserInterface()
-    }
   }
 }

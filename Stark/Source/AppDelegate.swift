@@ -2,17 +2,17 @@ import Alicia
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
-  var context: JavaScriptContext
+  var config: Config
   var statusItem: StarkStatusItem
 
   override init() {
-    context = JavaScriptContext(configPath: ConfigHelper.resolvePrimaryPath())
-    statusItem = StarkStatusItem(context: context)
+    config = Config()
+    statusItem = StarkStatusItem(context: config)
   }
 
   func applicationDidFinishLaunching(_: Notification) {
     askForAccessibilityIfNeeded()
-    context.execute()
+    config.execute()
     statusItem.setup()
   }
 

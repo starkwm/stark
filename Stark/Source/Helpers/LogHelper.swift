@@ -2,8 +2,6 @@
 enum LogHelper {
   /// Log a message to the log file.
   static func log(message: String) {
-    NSLog("%@", message)
-
     let dir = URL(fileURLWithPath: NSHomeDirectory())
     let file = dir.appendingPathComponent(".stark.log")
 

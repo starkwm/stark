@@ -1,13 +1,31 @@
-private let screenNumberKey = NSDeviceDescriptionKey("NSScreenNumber")
+import JavaScriptCore
 
-/// Extends the NSScreen class.
-extension NSScreen: NSScreenJSExport {
-  /// Get all the screens.
+/// The protocol for the exported attributes of NSScreen.
+@objc protocol NSScreenJSExport: JSExport {
+  static func all() -> [NSScreen]
+  static func focused() -> NSScreen?
+
+  var id: String { get }
+
+  var flippedFrame: CGRect { get }
+  var flippedVisibleFrame: CGRect { get }
+
+  var next: NSScreen? { get }
+  var previous: NSScreen? { get }
+
+  func spaces() -> [Space]
+  func currentSpace() -> Space?
+}
+
+extension NSScreen: NSScreenJSExport {}
+
+extension NSScreen {
+  /// Get all available screens.
   public static func all() -> [NSScreen] {
     screens
   }
 
-  /// Get the focused screen.
+  /// Get the screen with keyboard focus.
   public static func focused() -> NSScreen? {
     main
   }
@@ -19,7 +37,7 @@ extension NSScreen: NSScreenJSExport {
 
   /// The identifier for the screen.
   public var id: String {
-    guard let number = deviceDescription[screenNumberKey] as? NSNumber else {
+    guard let number = deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber else {
       return ""
     }
 
@@ -27,7 +45,7 @@ extension NSScreen: NSScreenJSExport {
     return CFUUIDCreateString(nil, uuid) as String
   }
 
-  /// The frame for screen with the top left point at 0,0.
+  /// The frame for screen with the top left coords at 0,0.
   public var flippedFrame: CGRect {
     let primaryScreen = NSScreen.screens.first
     var frame = frame
@@ -35,7 +53,7 @@ extension NSScreen: NSScreenJSExport {
     return frame
   }
 
-  /// The frame for the screen with the top left point at 0,0, but excluding the menu bar and dock space.
+  /// The frame for the screen with the top left coords at 0,0, but excluding the menu bar and dock space.
   public var flippedVisibleFrame: CGRect {
     let primaryScreen = NSScreen.screens.first
     var frame = visibleFrame
@@ -77,13 +95,13 @@ extension NSScreen: NSScreenJSExport {
     return nil
   }
 
-  /// Get the current space for the screen.
-  public func currentSpace() -> Space? {
-    Space.current(for: self)
-  }
-
   /// Get all the spaces for the screen.
   public func spaces() -> [Space] {
     Space.all().filter { $0.screens().contains(self) }
+  }
+
+  /// Get the current space for the screen.
+  public func currentSpace() -> Space? {
+    Space.current(for: self)
   }
 }

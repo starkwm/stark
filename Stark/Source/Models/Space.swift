@@ -9,10 +9,56 @@ private let spaceIDKey = "ManagedSpaceID"
 /// The key for the spaces in the key/value results for display spaces.
 private let spacesKey = "Spaces"
 
+/// The protocol for the exported attributes of Space.
+@objc protocol SpaceJSExport: JSExport {
+  static func all() -> [Space]
+  static func at(_ index: Int) -> Space?
+  static func active() -> Space
+
+  var id: uint64 { get }
+
+  var isNormal: Bool { get }
+  var isFullscreen: Bool { get }
+
+  func screens() -> [NSScreen]
+
+  func windows(_ options: [String: AnyObject]) -> [Window]
+
+  func moveWindow(_ window: Window)
+  func moveWindows(_ windows: [Window])
+}
+
 /// Space represents a mission control space.
 public class Space: NSObject, SpaceJSExport {
   /// The connection identifier used to call private framework functions from SkyLight.
   private static let connectionID = SLSMainConnectionID()
+
+  /// Get the current space for the given screen.
+  static func current(for screen: NSScreen) -> Space? {
+    let id = SLSManagedDisplayGetCurrentSpace(connectionID, screen.id as CFString)
+
+    return Space(id: id)
+  }
+
+  /// Get the spaces that contain the given window.
+  static func spaces(for window: Window) -> [Space] {
+    var spaces: [Space] = []
+
+    let identifiers =
+      SLSCopySpacesForWindows(
+        connectionID,
+        0x7,
+        [window.id] as CFArray
+      ).takeRetainedValue() as NSArray
+
+    for space in all() {
+      if identifiers.contains(space.id) {
+        spaces.append(Space(id: space.id))
+      }
+    }
+
+    return spaces
+  }
 
   /// Get all spaces.
   public static func all() -> [Space] {
@@ -49,33 +95,6 @@ public class Space: NSObject, SpaceJSExport {
   /// Get the currently active space.
   public static func active() -> Space {
     Space(id: SLSGetActiveSpace(connectionID))
-  }
-
-  /// Get the current space for the given screen.
-  static func current(for screen: NSScreen) -> Space? {
-    let id = SLSManagedDisplayGetCurrentSpace(connectionID, screen.id as CFString)
-
-    return Space(id: id)
-  }
-
-  /// Get the spaces that contain the given window.
-  static func spaces(for window: Window) -> [Space] {
-    var spaces: [Space] = []
-
-    let identifiers =
-      SLSCopySpacesForWindows(
-        connectionID,
-        0x7,
-        [window.id] as CFArray
-      ).takeRetainedValue() as NSArray
-
-    for space in all() {
-      if identifiers.contains(space.id) {
-        spaces.append(Space(id: space.id))
-      }
-    }
-
-    return spaces
   }
 
   /// The identifier for the space.

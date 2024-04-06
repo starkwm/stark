@@ -10,23 +10,16 @@
 		F644DFF61FB5110B00944C6B /* Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = F644DFF51FB5110B00944C6B /* Space.swift */; };
 		F64945862357B6B8009E423B /* StarkStatusItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64945852357B6B8009E423B /* StarkStatusItem.swift */; };
 		F66509DB25E594F0006C0C19 /* SkyLight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F66509DA25E594F0006C0C19 /* SkyLight.framework */; };
-		F667BCA61CFB972A008B4B83 /* JavaScriptContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = F667BCA51CFB972A008B4B83 /* JavaScriptContext.swift */; };
+		F667BCA61CFB972A008B4B83 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F667BCA51CFB972A008B4B83 /* Config.swift */; };
 		F66C39C61C6AD73E0008FDD5 /* Keymap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66C39C51C6AD73E0008FDD5 /* Keymap.swift */; };
 		F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */; };
 		F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2C1C404B53007D9DF9 /* Assets.xcassets */; };
 		F6792C411C405598007D9DF9 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C401C405598007D9DF9 /* Application.swift */; };
 		F6792C431C4055A2007D9DF9 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C421C4055A2007D9DF9 /* Window.swift */; };
-		F6A0DB5420471EE700471843 /* NSScreenJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5320471EE700471843 /* NSScreenJSExport.swift */; };
-		F6A0DB5620471FBD00471843 /* ApplicationJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5520471FBD00471843 /* ApplicationJSExport.swift */; };
-		F6A0DB5820471FF900471843 /* KeymapJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5720471FF900471843 /* KeymapJSExport.swift */; };
-		F6A0DB5C2047201400471843 /* SpaceJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5B2047201400471843 /* SpaceJSExport.swift */; };
-		F6A0DB5E2047202400471843 /* StarkJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB5D2047202400471843 /* StarkJSExport.swift */; };
-		F6A0DB622047203E00471843 /* WindowJSExport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A0DB612047203E00471843 /* WindowJSExport.swift */; };
 		F6A41BD31CA7144100D1C0C5 /* LogHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A41BD21CA7144100D1C0C5 /* LogHelper.swift */; };
 		F6B4FCB12BB861FB0094A86F /* Alicia in Frameworks */ = {isa = PBXBuildFile; productRef = F6B4FCB02BB861FB0094A86F /* Alicia */; };
 		F6B4FCB72BB878900094A86F /* library.js in Resources */ = {isa = PBXBuildFile; fileRef = F6B4FCB62BB878900094A86F /* library.js */; };
 		F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */; };
-		F6CBE6081C418D6300C962A7 /* ConfigHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6071C418D6300C962A7 /* ConfigHelper.swift */; };
 		F6D00B671E0E03F30087F68D /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F6D00B661E0E03F30087F68D /* MainMenu.xib */; };
 		F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */; };
 /* End PBXBuildFile section */
@@ -36,7 +29,7 @@
 		F64945852357B6B8009E423B /* StarkStatusItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkStatusItem.swift; sourceTree = "<group>"; };
 		F66509DA25E594F0006C0C19 /* SkyLight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SkyLight.framework; path = ../../../../System/Library/PrivateFrameworks/SkyLight.framework; sourceTree = "<group>"; };
 		F66509DD25E5975C006C0C19 /* extern.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = extern.h; sourceTree = "<group>"; };
-		F667BCA51CFB972A008B4B83 /* JavaScriptContext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JavaScriptContext.swift; sourceTree = "<group>"; };
+		F667BCA51CFB972A008B4B83 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		F66C39C51C6AD73E0008FDD5 /* Keymap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keymap.swift; sourceTree = "<group>"; };
 		F6792C271C404B53007D9DF9 /* Stark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -44,16 +37,9 @@
 		F6792C311C404B53007D9DF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F6792C401C405598007D9DF9 /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		F6792C421C4055A2007D9DF9 /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
-		F6A0DB5320471EE700471843 /* NSScreenJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSScreenJSExport.swift; sourceTree = "<group>"; };
-		F6A0DB5520471FBD00471843 /* ApplicationJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationJSExport.swift; sourceTree = "<group>"; };
-		F6A0DB5720471FF900471843 /* KeymapJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeymapJSExport.swift; sourceTree = "<group>"; };
-		F6A0DB5B2047201400471843 /* SpaceJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceJSExport.swift; sourceTree = "<group>"; };
-		F6A0DB5D2047202400471843 /* StarkJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkJSExport.swift; sourceTree = "<group>"; };
-		F6A0DB612047203E00471843 /* WindowJSExport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowJSExport.swift; sourceTree = "<group>"; };
 		F6A41BD21CA7144100D1C0C5 /* LogHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogHelper.swift; sourceTree = "<group>"; };
 		F6B4FCB62BB878900094A86F /* library.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = library.js; sourceTree = "<group>"; };
 		F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extension.swift"; sourceTree = "<group>"; };
-		F6CBE6071C418D6300C962A7 /* ConfigHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigHelper.swift; sourceTree = "<group>"; };
 		F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Stark-Bridging-Header.h"; sourceTree = "<group>"; };
 		F6D00B661E0E03F30087F68D /* MainMenu.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchAgentHelper.swift; sourceTree = "<group>"; };
@@ -75,11 +61,11 @@
 		F64EB38C2060672C00C1838A /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				F6792C371C404EF3007D9DF9 /* API */,
+				F6A0DB63204724AF00471843 /* Extensions */,
 				F6792C381C404EF8007D9DF9 /* Helpers */,
+				F6A50A252BC076AE002689F2 /* Models */,
+				F6A50A272BC07CAA002689F2 /* UI */,
 				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
-				F667BCA51CFB972A008B4B83 /* JavaScriptContext.swift */,
-				F64945852357B6B8009E423B /* StarkStatusItem.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -129,23 +115,9 @@
 			path = Stark;
 			sourceTree = "<group>";
 		};
-		F6792C371C404EF3007D9DF9 /* API */ = {
-			isa = PBXGroup;
-			children = (
-				F6A0DB52204648D700471843 /* Exports */,
-				F6A0DB63204724AF00471843 /* Extensions */,
-				F6792C401C405598007D9DF9 /* Application.swift */,
-				F66C39C51C6AD73E0008FDD5 /* Keymap.swift */,
-				F644DFF51FB5110B00944C6B /* Space.swift */,
-				F6792C421C4055A2007D9DF9 /* Window.swift */,
-			);
-			path = API;
-			sourceTree = "<group>";
-		};
 		F6792C381C404EF8007D9DF9 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				F6CBE6071C418D6300C962A7 /* ConfigHelper.swift */,
 				F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */,
 				F6A41BD21CA7144100D1C0C5 /* LogHelper.swift */,
 			);
@@ -162,25 +134,32 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		F6A0DB52204648D700471843 /* Exports */ = {
-			isa = PBXGroup;
-			children = (
-				F6A0DB5520471FBD00471843 /* ApplicationJSExport.swift */,
-				F6A0DB5720471FF900471843 /* KeymapJSExport.swift */,
-				F6A0DB5320471EE700471843 /* NSScreenJSExport.swift */,
-				F6A0DB5B2047201400471843 /* SpaceJSExport.swift */,
-				F6A0DB5D2047202400471843 /* StarkJSExport.swift */,
-				F6A0DB612047203E00471843 /* WindowJSExport.swift */,
-			);
-			path = Exports;
-			sourceTree = "<group>";
-		};
 		F6A0DB63204724AF00471843 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F6A50A252BC076AE002689F2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F6792C401C405598007D9DF9 /* Application.swift */,
+				F667BCA51CFB972A008B4B83 /* Config.swift */,
+				F66C39C51C6AD73E0008FDD5 /* Keymap.swift */,
+				F644DFF51FB5110B00944C6B /* Space.swift */,
+				F6792C421C4055A2007D9DF9 /* Window.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F6A50A272BC07CAA002689F2 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				F64945852357B6B8009E423B /* StarkStatusItem.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,19 +245,12 @@
 			files = (
 				F6792C411C405598007D9DF9 /* Application.swift in Sources */,
 				F6A41BD31CA7144100D1C0C5 /* LogHelper.swift in Sources */,
-				F6A0DB5C2047201400471843 /* SpaceJSExport.swift in Sources */,
 				F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */,
-				F6A0DB5420471EE700471843 /* NSScreenJSExport.swift in Sources */,
-				F6CBE6081C418D6300C962A7 /* ConfigHelper.swift in Sources */,
-				F6A0DB5620471FBD00471843 /* ApplicationJSExport.swift in Sources */,
-				F6A0DB622047203E00471843 /* WindowJSExport.swift in Sources */,
 				F644DFF61FB5110B00944C6B /* Space.swift in Sources */,
-				F6A0DB5E2047202400471843 /* StarkJSExport.swift in Sources */,
-				F667BCA61CFB972A008B4B83 /* JavaScriptContext.swift in Sources */,
+				F667BCA61CFB972A008B4B83 /* Config.swift in Sources */,
 				F66C39C61C6AD73E0008FDD5 /* Keymap.swift in Sources */,
 				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
 				F64945862357B6B8009E423B /* StarkStatusItem.swift in Sources */,
-				F6A0DB5820471FF900471843 /* KeymapJSExport.swift in Sources */,
 				F6792C431C4055A2007D9DF9 /* Window.swift in Sources */,
 				F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */,
 			);

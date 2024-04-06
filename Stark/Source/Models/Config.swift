@@ -2,15 +2,35 @@ import Alicia
 import JavaScriptCore
 
 /// The context for the JavaScript API for Stark.
-class JavaScriptContext {
+class Config {
+  /// An array of primary locations of the configuration file.
+  static let primaryPaths: [String] = [
+    "~/.stark.js",
+    "~/.config/stark/stark.js",
+    "~/Library/Application Support/Stark/stark.js",
+  ]
+
+  /// Resolve the path of the configuration file to the first found location.
+  static func resolvePrimaryPath() -> String {
+    for configPath in primaryPaths {
+      let resolvedConfigPath = (configPath as NSString).resolvingSymlinksInPath
+
+      if FileManager.default.fileExists(atPath: resolvedConfigPath) {
+        return resolvedConfigPath
+      }
+    }
+
+    return (primaryPaths.first! as NSString).resolvingSymlinksInPath
+  }
+
   var configPath: String
 
   /// The context for executed the JavaScript configuration file.
   var context: JSContext?
 
   /// Initialise with the configuration file path.
-  init(configPath: String) {
-    self.configPath = configPath
+  init() {
+    self.configPath = Self.resolvePrimaryPath()
   }
 
   /// Exevute the configuration files in the JavaScript execution environment.
@@ -21,13 +41,13 @@ class JavaScriptContext {
 
     setupAPI()
 
-    loadJSFile(path: libPath)
+    loadFile(path: libPath)
 
     Alicia.stop()
     Alicia.reset()
 
     if FileManager.default.fileExists(atPath: configPath) {
-      loadJSFile(path: configPath)
+      loadFile(path: configPath)
     }
 
     Alicia.start()
@@ -66,7 +86,7 @@ class JavaScriptContext {
   }
 
   /// Evaluate the given JavaScript file in the JavaScript context.
-  private func loadJSFile(path: String) {
+  private func loadFile(path: String) {
     guard let scriptContents = try? String(contentsOfFile: path) else {
       fatalError(String(format: "Could not read script (%@)", path))
     }

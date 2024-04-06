@@ -7,11 +7,11 @@ class StarkStatusItem {
   let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
   /// The context for the JavaScript environment, used for reloading the configuration.
-  var context: JavaScriptContext
+  var config: Config
 
   /// Initialise with the JavaScript context.
-  init(context: JavaScriptContext) {
-    self.context = context
+  init(context: Config) {
+    self.config = context
   }
 
   /// Set up the status bar item and menu.
@@ -65,7 +65,7 @@ class StarkStatusItem {
   /// Reload the configuration file.
   @objc
   func reloadConfig(sender _: AnyObject?) {
-    context.execute()
+    config.execute()
   }
 
   /// Toggle running at login.
@@ -92,6 +92,6 @@ class StarkStatusItem {
     }
 
     UserDefaults.standard.synchronize()
-    context.execute()
+    config.execute()
   }
 }
