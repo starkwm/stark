@@ -14,26 +14,26 @@ import JavaScriptCore
 extension Keymap: KeymapJSExport {}
 
 /// Keymap is a shortcut key combination that has a callback that is called when the shortcut is pressed.
-public class Keymap: NSObject {
+class Keymap: NSObject {
   /// The identifier for the keymap.
-  public var id: Int {
+  var id: Int {
     String(format: "%@[%@]", key, modifiers.joined(separator: "|")).hashValue
   }
 
   /// The key part of the keymap shortcut.
-  public var key: String = ""
+  var key: String = ""
 
   /// The modifiers part of the keymap shortcut.
-  public var modifiers: [String] = []
+  var modifiers: [String] = []
 
   /// The shortcut registered with the Alicia library.
-  private var shortcut: Shortcut
+  var shortcut: Shortcut
 
   /// The managed JavaScript value for the callback function.
-  private var callback: JSManagedValue?
+  var callback: JSManagedValue?
 
   /// Initialise a new keymap.
-  public required init(key: String, modifiers: [String], callback: JSValue) {
+  required init(key: String, modifiers: [String], callback: JSValue) {
     shortcut = Shortcut()
 
     self.key = key
@@ -56,7 +56,7 @@ public class Keymap: NSObject {
   }
 
   /// Call the managed JavaScript callback function.
-  private func call() {
+  func call() {
     guard let callback = callback?.value else {
       return
     }

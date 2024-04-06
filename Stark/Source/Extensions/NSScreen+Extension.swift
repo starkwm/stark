@@ -21,12 +21,12 @@ extension NSScreen: NSScreenJSExport {}
 
 extension NSScreen {
   /// Get all available screens.
-  public static func all() -> [NSScreen] {
+  static func all() -> [NSScreen] {
     screens
   }
 
   /// Get the screen with keyboard focus.
-  public static func focused() -> NSScreen? {
+  static func focused() -> NSScreen? {
     main
   }
 
@@ -36,7 +36,7 @@ extension NSScreen {
   }
 
   /// The identifier for the screen.
-  public var id: String {
+  var id: String {
     guard let number = deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber else {
       return ""
     }
@@ -46,7 +46,7 @@ extension NSScreen {
   }
 
   /// The frame for screen with the top left coords at 0,0.
-  public var flippedFrame: CGRect {
+  var flippedFrame: CGRect {
     let primaryScreen = NSScreen.screens.first
     var frame = frame
     frame.origin.y = primaryScreen!.frame.height - frame.height - frame.origin.y
@@ -54,7 +54,7 @@ extension NSScreen {
   }
 
   /// The frame for the screen with the top left coords at 0,0, but excluding the menu bar and dock space.
-  public var flippedVisibleFrame: CGRect {
+  var flippedVisibleFrame: CGRect {
     let primaryScreen = NSScreen.screens.first
     var frame = visibleFrame
     frame.origin.y = primaryScreen!.frame.height - frame.height - frame.origin.y
@@ -62,7 +62,7 @@ extension NSScreen {
   }
 
   /// The next screen.
-  public var next: NSScreen? {
+  var next: NSScreen? {
     let screens = NSScreen.screens
 
     if var index = screens.firstIndex(of: self) {
@@ -79,7 +79,7 @@ extension NSScreen {
   }
 
   /// The previous screen.
-  public var previous: NSScreen? {
+  var previous: NSScreen? {
     let screens = NSScreen.screens
 
     if var index = screens.firstIndex(of: self) {
@@ -96,12 +96,12 @@ extension NSScreen {
   }
 
   /// Get all the spaces for the screen.
-  public func spaces() -> [Space] {
+  func spaces() -> [Space] {
     Space.all().filter { $0.screens().contains(self) }
   }
 
   /// Get the current space for the screen.
-  public func currentSpace() -> Space? {
+  func currentSpace() -> Space? {
     Space.current(for: self)
   }
 }

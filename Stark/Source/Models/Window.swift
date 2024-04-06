@@ -45,17 +45,17 @@ let starkVisibilityOptionsKey = "visible"
 extension Window: WindowJSExport {}
 
 /// Window represents a window belonging to a running application.
-public class Window: NSObject {
+class Window: NSObject {
   /// A system wide accessibility object for access to system attributes.
   private static let systemWideElement = AXUIElementCreateSystemWide()
 
   /// Get windows for all running applications.
-  public static func all(_ options: [String: AnyObject] = [:]) -> [Window] {
+  static func all(_ options: [String: AnyObject] = [:]) -> [Window] {
     Application.all().flatMap { $0.windows(options) }
   }
 
   /// Get the currently focused window.
-  public static func focused() -> Window? {
+  static func focused() -> Window? {
     var app: AnyObject?
 
     AXUIElementCopyAttributeValue(systemWideElement, kAXFocusedApplicationAttribute as CFString, &app)
@@ -78,19 +78,19 @@ public class Window: NSObject {
   }
 
   /// The identifier for the window.
-  public var id: CGWindowID {
+  var id: CGWindowID {
     var id: CGWindowID = 0
     _AXUIElementGetWindow(element, &id)
     return id
   }
 
   /// The application the window belongs to.
-  public var app: Application {
+  var app: Application {
     Application(pid: pid())
   }
 
   /// The screen that contains the window.
-  public var screen: NSScreen {
+  var screen: NSScreen {
     let windowFrame = frame
     var lastVolume: CGFloat = 0
     var lastScreen = NSScreen()
@@ -110,7 +110,7 @@ public class Window: NSObject {
   }
 
   /// The title of the window.
-  public var title: String {
+  var title: String {
     var value: AnyObject?
 
     if AXUIElementCopyAttributeValue(element, kAXTitleAttribute as CFString, &value) != .success {
@@ -125,12 +125,12 @@ public class Window: NSObject {
   }
 
   /// The frame of the window. This is the coordinates of the top left point, and the width and height of the window.
-  public var frame: CGRect {
+  var frame: CGRect {
     CGRect(origin: topLeft, size: size)
   }
 
   /// The coordinates of the top left point of the window.
-  public var topLeft: CGPoint {
+  var topLeft: CGPoint {
     var value: AnyObject?
     var topLeft = CGPoint.zero
 
@@ -144,7 +144,7 @@ public class Window: NSObject {
   }
 
   /// The width and height of the window.
-  public var size: CGSize {
+  var size: CGSize {
     var value: AnyObject?
     var size = CGSize.zero
 
@@ -158,7 +158,7 @@ public class Window: NSObject {
   }
 
   /// Indicates if this window is the main window of the application.
-  public var isMain: Bool {
+  var isMain: Bool {
     var value: AnyObject?
 
     if AXUIElementCopyAttributeValue(element, kAXMainAttribute as CFString, &value) != .success {
@@ -173,7 +173,7 @@ public class Window: NSObject {
   }
 
   /// Indicates if this window is a standard window with a titlebar.
-  public var isStandard: Bool {
+  var isStandard: Bool {
     var value: AnyObject?
 
     if AXUIElementCopyAttributeValue(element, kAXSubroleAttribute as CFString, &value) != .success {
@@ -188,7 +188,7 @@ public class Window: NSObject {
   }
 
   /// Indicates if this window is a full screen window.
-  public var isFullscreen: Bool {
+  var isFullscreen: Bool {
     var value: AnyObject?
 
     if AXUIElementCopyAttributeValue(element, kAXFullScreenAttribute as CFString, &value) != .success {
@@ -203,7 +203,7 @@ public class Window: NSObject {
   }
 
   /// Indicates if this window is minimised in the dock.
-  public var isMinimized: Bool {
+  var isMinimized: Bool {
     var value: AnyObject?
 
     if AXUIElementCopyAttributeValue(element, kAXMinimizedAttribute as CFString, &value) != .success {
@@ -238,7 +238,7 @@ public class Window: NSObject {
   }
 
   /// Check if the given variable matches this window instance.
-  override public func isEqual(_ object: Any?) -> Bool {
+  override func isEqual(_ object: Any?) -> Bool {
     guard let window = object as? Self else {
       return false
     }
@@ -247,13 +247,13 @@ public class Window: NSObject {
   }
 
   /// Set the position and size of the window.
-  public func setFrame(_ frame: CGRect) {
+  func setFrame(_ frame: CGRect) {
     setTopLeft(frame.origin)
     setSize(frame.size)
   }
 
   /// Set the top left position of the window.
-  public func setTopLeft(_ topLeft: CGPoint) {
+  func setTopLeft(_ topLeft: CGPoint) {
     app.enhancedUIWorkaround {
       var val = topLeft
       let value = AXValueCreate(AXValueType(rawValue: kAXValueCGPointType)!, &val)!
@@ -262,7 +262,7 @@ public class Window: NSObject {
   }
 
   /// Set the width and height of the window.
-  public func setSize(_ size: CGSize) {
+  func setSize(_ size: CGSize) {
     app.enhancedUIWorkaround {
       var val = size
       let value = AXValueCreate(AXValueType(rawValue: kAXValueCGSizeType)!, &val)!
@@ -271,22 +271,22 @@ public class Window: NSObject {
   }
 
   /// Set the window to be full screen.
-  public func setFullScreen(_ value: Bool) {
+  func setFullScreen(_ value: Bool) {
     AXUIElementSetAttributeValue(element, kAXFullScreenAttribute as CFString, value as CFTypeRef)
   }
 
   /// Minimise the window.
-  public func minimize() {
+  func minimize() {
     AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, true as CFTypeRef)
   }
 
   /// Unminimise the window.
-  public func unminimize() {
+  func unminimize() {
     AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, false as CFTypeRef)
   }
 
   /// Focus the window.
-  public func focus() {
+  func focus() {
     if AXUIElementSetAttributeValue(element, kAXMainAttribute as CFString, kCFBooleanTrue) != .success {
       return
     }
@@ -297,7 +297,7 @@ public class Window: NSObject {
   }
 
   /// Get the spaces that contain the window.
-  public func spaces() -> [Space] {
+  func spaces() -> [Space] {
     Space.spaces(for: self)
   }
 }

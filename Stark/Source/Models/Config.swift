@@ -53,7 +53,7 @@ class Config {
     Alicia.start()
   }
 
-  /// Set up the public API for the configuration file environment.
+  /// Set up the API for the configuration file JavaScript environment.
   private func setupAPI() {
     context = JSContext(virtualMachine: JSVirtualMachine())
 
