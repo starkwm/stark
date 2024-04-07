@@ -78,7 +78,7 @@ class Config {
     }
 
     let print: @convention(block) (String) -> Void = { message in
-      Logger.javascript.log("\(message)")
+      Logger.javascript.info("\(message)")
     }
 
     let reload: @convention(block) () -> Void = {
