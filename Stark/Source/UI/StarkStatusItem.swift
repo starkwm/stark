@@ -4,14 +4,14 @@ let logJavaScriptExceptionsKey = "logJavaScriptExceptions"
 /// Manages the status bar item.
 class StarkStatusItem {
   /// The status item in the status bar.
-  let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+  private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
   /// The context for the JavaScript environment, used for reloading the configuration.
-  var config: Config
+  private var config: Config
 
   /// Initialise with the JavaScript context.
-  init(context: Config) {
-    self.config = context
+  init(config: Config) {
+    self.config = config
   }
 
   /// Set up the status bar item and menu.
@@ -35,17 +35,6 @@ class StarkStatusItem {
     loginItem.target = self
     loginItem.state = LaunchAgentHelper.enabled() ? .on : .off
 
-    let logExceptionsItem = NSMenuItem(
-      title: "Log JavaScript exceptions",
-      action: #selector(toggleLogJavaScriptExceptions(sender:)),
-      keyEquivalent: ""
-    )
-
-    let logExceptions = UserDefaults.standard.bool(forKey: logJavaScriptExceptionsKey)
-
-    logExceptionsItem.target = self
-    logExceptionsItem.state = logExceptions ? .on : .off
-
     let quitItem = NSMenuItem(
       title: "Quit Stark",
       action: #selector(NSApplication.terminate(_:)),
@@ -55,7 +44,6 @@ class StarkStatusItem {
     menu.addItem(reloadConfigItem)
     menu.addItem(NSMenuItem.separator())
     menu.addItem(loginItem)
-    menu.addItem(logExceptionsItem)
     menu.addItem(NSMenuItem.separator())
     menu.addItem(quitItem)
 
@@ -78,20 +66,5 @@ class StarkStatusItem {
       LaunchAgentHelper.add()
       sender.state = .on
     }
-  }
-
-  /// Toggle whether JavaScript exceptions are logged to the log file.
-  @objc
-  func toggleLogJavaScriptExceptions(sender: NSMenuItem) {
-    if sender.state == .on {
-      UserDefaults.standard.set(false, forKey: logJavaScriptExceptionsKey)
-      sender.state = .off
-    } else {
-      UserDefaults.standard.set(true, forKey: logJavaScriptExceptionsKey)
-      sender.state = .on
-    }
-
-    UserDefaults.standard.synchronize()
-    config.execute()
   }
 }

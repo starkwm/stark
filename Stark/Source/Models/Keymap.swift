@@ -1,5 +1,6 @@
 import Alicia
 import JavaScriptCore
+import OSLog
 
 /// The protocol for the exported attributes of Keymap.
 @objc protocol KeymapJSExport: JSExport {
@@ -63,10 +64,8 @@ class Keymap: NSObject {
 
     let context = JSContext(virtualMachine: callback.context.virtualMachine)
 
-    if UserDefaults.standard.bool(forKey: logJavaScriptExceptionsKey) {
-      context?.exceptionHandler = { _, err in
-        LogHelper.log(message: "\(err!)")
-      }
+    context?.exceptionHandler = { _, err in
+      Logger.javascript.error("\(err)")
     }
 
     let function = JSValue(object: callback, in: context)

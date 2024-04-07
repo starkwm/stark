@@ -7,7 +7,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   override init() {
     config = Config()
-    statusItem = StarkStatusItem(context: config)
+    statusItem = StarkStatusItem(config: config)
   }
 
   func applicationDidFinishLaunching(_: Notification) {

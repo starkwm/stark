@@ -1,3 +1,5 @@
+import OSLog
+
 /// Helper for managing the run at login launch agent file.
 enum LaunchAgentHelper {
   /// The directory path for the user launch agents.
@@ -20,12 +22,12 @@ enum LaunchAgentHelper {
   /// Create the launch agent file.
   static func add() {
     guard let launchAgentDirectory else {
-      LogHelper.log(message: "Error: could not access launch agent directory")
+      Logger.launchAgent.error("could not access launch agent directory")
       return
     }
 
     guard let launchAgentFile else {
-      LogHelper.log(message: "Error: could not access launch agent file")
+      Logger.launchAgent.error("could not access launch agent plist file")
       return
     }
 
