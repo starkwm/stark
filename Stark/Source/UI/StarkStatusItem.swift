@@ -51,14 +51,12 @@ class StarkStatusItem {
   }
 
   /// Reload the configuration file.
-  @objc
-  func reloadConfig(sender _: AnyObject?) {
+  @objc func reloadConfig(sender _: AnyObject?) {
     config.execute()
   }
 
   /// Toggle running at login.
-  @objc
-  func toggleRunAtLogin(sender: NSMenuItem) {
+  @objc func toggleRunAtLogin(sender: NSMenuItem) {
     if sender.state == .on {
       LaunchAgentHelper.remove()
       sender.state = .off

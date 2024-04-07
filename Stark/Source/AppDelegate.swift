@@ -20,7 +20,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     Alicia.stop()
   }
 
-  func askForAccessibilityIfNeeded() {
+  private func askForAccessibilityIfNeeded() {
     let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true]
     AXIsProcessTrustedWithOptions(options as CFDictionary?)
   }
