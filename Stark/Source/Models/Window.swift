@@ -2,10 +2,8 @@ import JavaScriptCore
 
 private let kAXFullScreenAttribute = "AXFullScreen"
 
-let starkVisibilityOptionsKey = "visible"
-
 @objc protocol WindowJSExport: JSExport {
-  static func all(_ options: [String: AnyObject]) -> [Window]
+  static func all() -> [Window]
   static func focused() -> Window?
 
   var id: CGWindowID { get }
@@ -42,8 +40,8 @@ extension Window: WindowJSExport {}
 class Window: NSObject {
   private static let systemWideElement = AXUIElementCreateSystemWide()
 
-  static func all(_ options: [String: AnyObject] = [:]) -> [Window] {
-    Application.all().flatMap { $0.windows(options) }
+  static func all() -> [Window] {
+    Application.all().flatMap { $0.windows() }
   }
 
   static func focused() -> Window? {

@@ -16,7 +16,7 @@ private let spacesKey = "Spaces"
 
   func screens() -> [NSScreen]
 
-  func windows(_ options: [String: AnyObject]) -> [Window]
+  func windows() -> [Window]
 
   func moveWindow(_ window: Window)
   func moveWindows(_ windows: [Window])
@@ -148,8 +148,8 @@ class Space: NSObject, SpaceJSExport {
     return [screen!]
   }
 
-  func windows(_ options: [String: AnyObject] = [:]) -> [Window] {
-    Window.all(options).filter { $0.spaces().contains(self) }
+  func windows() -> [Window] {
+    Window.all().filter { $0.spaces().contains(self) }
   }
 
   func moveWindow(_ window: Window) {

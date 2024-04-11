@@ -15,7 +15,7 @@ private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
   var isHidden: Bool { get }
   var isTerminated: Bool { get }
 
-  func windows(_ options: [String: AnyObject]) -> [Window]
+  func windows() -> [Window]
 
   func activate() -> Bool
   func focus() -> Bool
@@ -83,22 +83,18 @@ class Application: NSObject {
     self.app = app
   }
 
-  func windows(_ options: [String: AnyObject] = [:]) -> [Window] {
+  func windows() -> [Window] {
     var values: CFArray?
 
     if AXUIElementCopyAttributeValues(element, kAXWindowsAttribute as CFString, 0, 100, &values) != .success {
       return []
     }
 
-    let windows = (values as? [AXUIElement] ?? []).map { Window(element: $0) }
-
-    let visible = options[starkVisibilityOptionsKey] as? Bool ?? false
-
-    if visible {
-      return windows.filter { !$0.app.isHidden && $0.isStandard && !$0.isMinimized }
+    guard let windows = values as? [AXUIElement] else {
+      return []
     }
 
-    return windows
+    return windows.map { Window(element: $0) }
   }
 
   func activate() -> Bool {
