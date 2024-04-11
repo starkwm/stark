@@ -1,11 +1,7 @@
 import JavaScriptCore
 
-/// The accessibility attribute for enhanced user interface.
-///
-/// - Note: This is undocumented.
 private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
 
-/// The protocol for the exported attributes of Application.
 @objc protocol ApplicationJSExport: JSExport {
   static func find(_ name: String) -> Application?
   static func all() -> [Application]
@@ -32,40 +28,31 @@ private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
 
 extension Application: ApplicationJSExport {}
 
-/// Application represents an application that is currently running.
 class Application: NSObject {
-  /// Get an array of Application for all the running applications.
   static func all() -> [Application] {
     NSWorkspace.shared.runningApplications.map { Application(pid: $0.processIdentifier) }
   }
 
-  /// Get an Application for the frontmost running application.
   static func focused() -> Application? {
     return NSWorkspace.shared.frontmostApplication.map { app in
       Application(pid: app.processIdentifier)
     }
   }
 
-  /// Get an Application from the running application with the given name.
   static func find(_ name: String) -> Application? {
     return NSWorkspace.shared.runningApplications.first { $0.localizedName == name }.map { app in
       Application(pid: app.processIdentifier)
     }
   }
 
-  /// The localised name of the application, or a blank string.
   var name: String { app.localizedName ?? "" }
 
-  /// The bundle identifier for the application, or a blank string.
   var bundleID: String { app.bundleIdentifier ?? "" }
 
-  /// The process identifier for the application.
   var processID: pid_t { app.processIdentifier }
 
-  /// Indicates if the application is the current frontmost application.
   var isActive: Bool { app.isActive }
 
-  /// Indicates if the application is currently hidden.
   var isHidden: Bool {
     var value: AnyObject?
 
@@ -78,30 +65,24 @@ class Application: NSObject {
     return number.boolValue
   }
 
-  /// Indicates if the application is terminated.
   var isTerminated: Bool {
     app.isTerminated
   }
 
-  /// The running application instance for the application.
   private var app: NSRunningApplication
 
-  /// The accessibility object for the application.
   private var element: AXUIElement
 
-  /// Initialise using the given process identifier.
   init(pid: pid_t) {
     element = AXUIElementCreateApplication(pid)
     app = NSRunningApplication(processIdentifier: pid)!
   }
 
-  /// Initialise using the given running application.
   init(app: NSRunningApplication) {
     element = AXUIElementCreateApplication(app.processIdentifier)
     self.app = app
   }
 
-  /// Get an array of Window for the application.
   func windows(_ options: [String: AnyObject] = [:]) -> [Window] {
     var values: CFArray?
 
@@ -120,32 +101,26 @@ class Application: NSObject {
     return windows
   }
 
-  /// Activate the application and bring all windows forward.
   func activate() -> Bool {
     app.activate(options: .activateAllWindows)
   }
 
-  /// Activate the application.
   func focus() -> Bool {
     app.activate(options: [])
   }
 
-  /// Show the application if it is hidden.
   func show() -> Bool {
     app.unhide()
   }
 
-  /// Hide the application.
   func hide() -> Bool {
     app.hide()
   }
 
-  /// Terminate the application.
   func terminate() -> Bool {
     app.terminate()
   }
 
-  /// Temporarily disable the enhanced user interface accessibility attribute for the app then runs the callback.
   func enhancedUIWorkaround(callback: () -> Void) {
     let enhancedUserInterfaceEnabled = isEnhancedUserInterfaceEnabled()
 
@@ -160,7 +135,6 @@ class Application: NSObject {
     }
   }
 
-  /// Indicates if the application has the accessibility enhanced user interface attribute.
   private func isEnhancedUserInterfaceEnabled() -> Bool {
     var value: AnyObject?
     let result = AXUIElementCopyAttributeValue(element, kAXEnhancedUserInterface as CFString, &value)
@@ -172,12 +146,10 @@ class Application: NSObject {
     return false
   }
 
-  /// Set the accessibility enhanced user interface attribute on the application.
   private func enableEnhancedUserInterface() {
     AXUIElementSetAttributeValue(element, kAXEnhancedUserInterface as CFString, kCFBooleanTrue)
   }
 
-  /// Unset the accessibility enhanced user interface attribute on the application.
   private func disableEnhancedUserInterface() {
     AXUIElementSetAttributeValue(element, kAXEnhancedUserInterface as CFString, kCFBooleanFalse)
   }

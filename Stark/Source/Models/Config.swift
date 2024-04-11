@@ -2,16 +2,13 @@ import Alicia
 import JavaScriptCore
 import OSLog
 
-/// The context for the JavaScript API for Stark.
 class Config {
-  /// An array of primary locations of the configuration file.
   static let primaryPaths: [String] = [
     "~/.stark.js",
     "~/.config/stark/stark.js",
     "~/Library/Application Support/Stark/stark.js",
   ]
 
-  /// Resolve the path of the configuration file to the first found location.
   static func resolvePrimaryPath() -> String {
     for configPath in primaryPaths {
       let resolvedConfigPath = (configPath as NSString).resolvingSymlinksInPath
@@ -26,15 +23,12 @@ class Config {
 
   var configPath: String
 
-  /// The context for executed the JavaScript configuration file.
   var context: JSContext?
 
-  /// Initialise with the configuration file path.
   init() {
     self.configPath = Self.resolvePrimaryPath()
   }
 
-  /// Exevute the configuration files in the JavaScript execution environment.
   func execute() {
     guard let libPath = Bundle.main.path(forResource: "library", ofType: "js") else {
       Logger.config.error("could not find library.js")
@@ -61,7 +55,6 @@ class Config {
     }
   }
 
-  /// Set up the API for the configuration file JavaScript environment.
   private func setupAPI() -> Bool {
     context = JSContext(virtualMachine: JSVirtualMachine())
 
@@ -94,7 +87,6 @@ class Config {
     return true
   }
 
-  /// Evaluate the given JavaScript file in the JavaScript context.
   private func loadFile(path: String) -> Bool {
     guard let scriptContents = try? String(contentsOfFile: path) else {
       Logger.config.error("could not read file \(path)")
