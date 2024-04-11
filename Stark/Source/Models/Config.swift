@@ -3,31 +3,13 @@ import JavaScriptCore
 import OSLog
 
 class Config {
-  static let primaryPaths: [String] = [
+  var context: JSContext?
+
+  private let primaryPaths: [String] = [
     "~/.stark.js",
     "~/.config/stark/stark.js",
     "~/Library/Application Support/Stark/stark.js",
   ]
-
-  static func resolvePrimaryPath() -> String {
-    for configPath in primaryPaths {
-      let resolvedConfigPath = (configPath as NSString).resolvingSymlinksInPath
-
-      if FileManager.default.fileExists(atPath: resolvedConfigPath) {
-        return resolvedConfigPath
-      }
-    }
-
-    return (primaryPaths.first! as NSString).resolvingSymlinksInPath
-  }
-
-  var configPath: String
-
-  var context: JSContext?
-
-  init() {
-    self.configPath = Self.resolvePrimaryPath()
-  }
 
   func execute() {
     guard let libPath = Bundle.main.path(forResource: "library", ofType: "js") else {
@@ -45,8 +27,10 @@ class Config {
 
     Alicia.reset()
 
+    let configPath = resolvePrimaryPath()
+
     if !FileManager.default.fileExists(atPath: configPath) {
-      Logger.config.error("configuration file does not exist \(self.configPath)")
+      Logger.config.error("configuration file does not exist \(configPath)")
       return
     }
 
@@ -100,5 +84,17 @@ class Config {
 
     context.evaluateScript(scriptContents)
     return true
+  }
+
+  private func resolvePrimaryPath() -> String {
+    for configPath in primaryPaths {
+      let resolvedConfigPath = (configPath as NSString).resolvingSymlinksInPath
+
+      if FileManager.default.fileExists(atPath: resolvedConfigPath) {
+        return resolvedConfigPath
+      }
+    }
+
+    return (primaryPaths.first! as NSString).resolvingSymlinksInPath
   }
 }
