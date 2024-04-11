@@ -49,7 +49,6 @@ class Config {
       return
     }
 
-    Alicia.stop()
     Alicia.reset()
 
     if !FileManager.default.fileExists(atPath: configPath) {
@@ -60,8 +59,6 @@ class Config {
     if !loadFile(path: configPath) {
       return
     }
-
-    Alicia.start()
   }
 
   /// Set up the API for the configuration file JavaScript environment.
