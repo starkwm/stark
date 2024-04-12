@@ -22,13 +22,15 @@ private let spacesKey = "Spaces"
   func moveWindows(_ windows: [Window])
 }
 
+extension Space: SpaceJSExport {}
+
 extension Space {
   override var description: String {
     "<Space id: \(id), type: \(type)>"
   }
 }
 
-class Space: NSObject, SpaceJSExport {
+class Space: NSObject {
   private static let connectionID = SLSMainConnectionID()
 
   static func current(for screen: NSScreen) -> Space? {
