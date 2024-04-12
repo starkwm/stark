@@ -125,13 +125,13 @@ class Application: NSObject {
     let enhancedUserInterfaceEnabled = isEnhancedUserInterfaceEnabled()
 
     if enhancedUserInterfaceEnabled {
-      disableEnhancedUserInterface()
+      AXUIElementSetAttributeValue(element, kAXEnhancedUserInterface as CFString, kCFBooleanFalse)
     }
 
     callback()
 
     if enhancedUserInterfaceEnabled {
-      enableEnhancedUserInterface()
+      AXUIElementSetAttributeValue(element, kAXEnhancedUserInterface as CFString, kCFBooleanTrue)
     }
   }
 
@@ -144,13 +144,5 @@ class Application: NSObject {
     }
 
     return false
-  }
-
-  private func enableEnhancedUserInterface() {
-    AXUIElementSetAttributeValue(element, kAXEnhancedUserInterface as CFString, kCFBooleanTrue)
-  }
-
-  private func disableEnhancedUserInterface() {
-    AXUIElementSetAttributeValue(element, kAXEnhancedUserInterface as CFString, kCFBooleanFalse)
   }
 }
