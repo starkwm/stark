@@ -1,5 +1,7 @@
 import JavaScriptCore
 
+private let systemWideElement = AXUIElementCreateSystemWide()
+
 private let kAXFullScreenAttribute = "AXFullScreen"
 
 @objc protocol WindowJSExport: JSExport {
@@ -44,8 +46,6 @@ extension Window {
 }
 
 class Window: NSObject {
-  private static let systemWideElement = AXUIElementCreateSystemWide()
-
   static func all() -> [Window] {
     Application.all().flatMap { $0.windows() }
   }
