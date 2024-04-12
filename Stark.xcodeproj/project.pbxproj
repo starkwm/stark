@@ -34,7 +34,7 @@
 		F6792C271C404B53007D9DF9 /* Stark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stark.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6792C2C1C404B53007D9DF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F6792C311C404B53007D9DF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F6792C311C404B53007D9DF9 /* Stark-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Stark-Info.plist"; sourceTree = "<group>"; };
 		F6792C401C405598007D9DF9 /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		F6792C421C4055A2007D9DF9 /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
 		F6A2E7692BC8CB250024F674 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -79,14 +79,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		F66B8CF325F01D5F00747DDE /* Support */ = {
-			isa = PBXGroup;
-			children = (
-				F6792C311C404B53007D9DF9 /* Info.plist */,
-			);
-			path = Support;
-			sourceTree = "<group>";
-		};
 		F6792C1E1C404B53007D9DF9 = {
 			isa = PBXGroup;
 			children = (
@@ -107,11 +99,11 @@
 		F6792C291C404B53007D9DF9 /* Stark */ = {
 			isa = PBXGroup;
 			children = (
-				F66B8CF325F01D5F00747DDE /* Support */,
 				F6792C391C404F01007D9DF9 /* Resources */,
 				F64EB38C2060672C00C1838A /* Source */,
 				F66509DD25E5975C006C0C19 /* extern.h */,
 				F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */,
+				F6792C311C404B53007D9DF9 /* Stark-Info.plist */,
 			);
 			path = Stark;
 			sourceTree = "<group>";
@@ -387,7 +379,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Stark/Support/Info.plist;
+				INFOPLIST_FILE = "Stark//Stark-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -422,7 +414,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = Stark/Support/Info.plist;
+				INFOPLIST_FILE = "Stark//Stark-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
