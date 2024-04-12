@@ -22,6 +22,12 @@ private let spacesKey = "Spaces"
   func moveWindows(_ windows: [Window])
 }
 
+extension Space {
+  override var description: String {
+    "<Space id: \(id), type: \(type)>"
+  }
+}
+
 class Space: NSObject, SpaceJSExport {
   private static let connectionID = SLSMainConnectionID()
 
@@ -86,18 +92,15 @@ class Space: NSObject, SpaceJSExport {
 
   var id: UInt64
 
-  var isNormal: Bool {
-    // TODO: extract magic number into variable
-    SLSSpaceGetType(Self.connectionID, id) == 0
-  }
+  var isNormal: Bool { type == 0 }
 
-  var isFullscreen: Bool {
-    // TODO: extract magic number into variable
-    SLSSpaceGetType(Self.connectionID, id) == 4
-  }
+  var isFullscreen: Bool { type == 4 }
+
+  private var type: Int32
 
   init(id: uint64) {
     self.id = id
+    type = SLSSpaceGetType(Self.connectionID, self.id)
   }
 
   override func isEqual(_ object: Any?) -> Bool {
