@@ -3,25 +3,43 @@ import JavaScriptCore
 import OSLog
 
 @objc protocol KeymapJSExport: JSExport {
-  var id: Int { get }
+  static func on(_ key: String, _ modifiers: [String], _ callback: JSValue) -> Keymap
+  static func off(_ id: String)
 
+  var id: String { get }
   var key: String { get }
   var modifiers: [String] { get }
-
-  init(key: String, modifiers: [String], callback: JSValue)
 }
 
 extension Keymap: KeymapJSExport {}
 
 extension Keymap {
   override var description: String {
-    "<Keymap key: \(key), modifiers: \(modifiers.joined(separator: "|"))>"
+    "<Keymap id: \(id), key: \(key), modifiers: \(modifiers.joined(separator: "|"))>"
   }
 }
 
 class Keymap: NSObject {
-  var id: Int {
-    String(format: "%@[%@]", key, modifiers.joined(separator: "|")).hashValue
+  static var keymaps = [String: Keymap]()
+
+  static func on(_ key: String, _ modifiers: [String], _ callback: JSValue) -> Keymap {
+    let keymap = Keymap(key: key, modifiers: modifiers, callback: callback)
+    keymaps[keymap.id] = keymap
+    callback.context.virtualMachine.addManagedReference(keymap, withOwner: self)
+    return keymap
+  }
+
+  static func off(_ id: String) {
+    guard let keymap = keymaps.removeValue(forKey: id) else {
+      return
+    }
+
+    keymap.callback?.value.context.virtualMachine.removeManagedReference(keymap, withOwner: self)
+    Alicia.unregister(shortcut: keymap.shortcut)
+  }
+
+  var id: String {
+    String(format: "%@[%@]", key, modifiers.joined(separator: "|"))
   }
 
   var key: String
@@ -32,7 +50,7 @@ class Keymap: NSObject {
 
   private var callback: JSManagedValue?
 
-  required init(key: String, modifiers: [String], callback: JSValue) {
+  init(key: String, modifiers: [String], callback: JSValue) {
     self.shortcut = Shortcut()
 
     self.key = key
@@ -47,10 +65,6 @@ class Keymap: NSObject {
     self.shortcut.handler = call
 
     Alicia.register(shortcut: shortcut)
-  }
-
-  deinit {
-    Alicia.unregister(shortcut: shortcut)
   }
 
   private func call() {

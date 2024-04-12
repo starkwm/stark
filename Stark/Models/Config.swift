@@ -16,16 +16,7 @@ class Config {
     Alicia.stop()
     Alicia.reset()
 
-    guard let libPath = Bundle.main.path(forResource: "library", ofType: "js") else {
-      Logger.config.error("could not find library.js")
-      return
-    }
-
     if !setupAPI() {
-      return
-    }
-
-    if !loadFile(path: libPath) {
       return
     }
 
@@ -76,13 +67,13 @@ class Config {
   }
 
   private func loadFile(path: String) -> Bool {
-    guard let scriptContents = try? String(contentsOfFile: path) else {
-      Logger.config.error("could not read file \(path)")
+    guard let context else {
+      Logger.config.error("javascript context is not defined")
       return false
     }
 
-    guard let context else {
-      Logger.config.error("javascript context is not defined")
+    guard let scriptContents = try? String(contentsOfFile: path) else {
+      Logger.config.error("could not read file \(path)")
       return false
     }
 

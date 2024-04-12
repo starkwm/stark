@@ -18,7 +18,6 @@
 		F6792C431C4055A2007D9DF9 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C421C4055A2007D9DF9 /* Window.swift */; };
 		F6A2E76A2BC8CB250024F674 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2E7692BC8CB250024F674 /* main.swift */; };
 		F6B4FCB12BB861FB0094A86F /* Alicia in Frameworks */ = {isa = PBXBuildFile; productRef = F6B4FCB02BB861FB0094A86F /* Alicia */; };
-		F6B4FCB72BB878900094A86F /* library.js in Resources */ = {isa = PBXBuildFile; fileRef = F6B4FCB62BB878900094A86F /* library.js */; };
 		F6C097992BC21284001E9D82 /* Logger+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C097982BC21284001E9D82 /* Logger+Extension.swift */; };
 		F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */; };
 		F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */; };
@@ -38,7 +37,6 @@
 		F6792C401C405598007D9DF9 /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		F6792C421C4055A2007D9DF9 /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
 		F6A2E7692BC8CB250024F674 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		F6B4FCB62BB878900094A86F /* library.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = library.js; sourceTree = "<group>"; };
 		F6C097982BC21284001E9D82 /* Logger+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logger+Extension.swift"; sourceTree = "<group>"; };
 		F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extension.swift"; sourceTree = "<group>"; };
 		F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchAgentHelper.swift; sourceTree = "<group>"; };
@@ -93,7 +91,6 @@
 				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
 				F6F4ECF82BC9BC13001234D4 /* Private.swift */,
 				F6A2E7692BC8CB250024F674 /* main.swift */,
-				F6B4FCB62BB878900094A86F /* library.js */,
 				F6792C2C1C404B53007D9DF9 /* Assets.xcassets */,
 				F6792C311C404B53007D9DF9 /* Stark-Info.plist */,
 			);
@@ -206,7 +203,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */,
-				F6B4FCB72BB878900094A86F /* library.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
