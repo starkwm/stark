@@ -12,6 +12,9 @@ class Config {
   ]
 
   func execute() {
+    Alicia.stop()
+    Alicia.reset()
+
     guard let libPath = Bundle.main.path(forResource: "library", ofType: "js") else {
       Logger.config.error("could not find library.js")
       return
@@ -25,8 +28,6 @@ class Config {
       return
     }
 
-    Alicia.reset()
-
     let configPath = resolvePrimaryPath()
 
     if !FileManager.default.fileExists(atPath: configPath) {
@@ -37,6 +38,8 @@ class Config {
     if !loadFile(path: configPath) {
       return
     }
+
+    Alicia.start()
   }
 
   private func setupAPI() -> Bool {

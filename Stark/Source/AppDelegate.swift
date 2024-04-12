@@ -14,8 +14,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     askForAccessibilityIfNeeded()
     config.execute()
     statusItem.setup()
-
-    Alicia.start()
   }
 
   func applicationWillTerminate(_: Notification) {
