@@ -1,3 +1,4 @@
+import AppKit
 import JavaScriptCore
 
 @objc protocol NSScreenJSExport: JSExport {

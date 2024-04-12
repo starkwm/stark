@@ -1,3 +1,5 @@
+import AppKit
+
 let logJavaScriptExceptionsKey = "logJavaScriptExceptions"
 
 class StarkStatusItem {

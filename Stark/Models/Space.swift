@@ -1,3 +1,4 @@
+import AppKit
 import JavaScriptCore
 
 private let screenIDKey = "Display Identifier"
@@ -47,7 +48,7 @@ class Space: NSObject {
         connectionID,
         0x7,
         [window.id] as CFArray
-      ).takeRetainedValue() as NSArray
+      ) as NSArray
 
     for space in all() {
       if identifiers.contains(space.id) {
@@ -61,7 +62,7 @@ class Space: NSObject {
   static func all() -> [Space] {
     var spaces: [Space] = []
 
-    let displaySpacesInfo = SLSCopyManagedDisplaySpaces(connectionID).takeRetainedValue() as NSArray
+    let displaySpacesInfo = SLSCopyManagedDisplaySpaces(connectionID) as NSArray
 
     for item in displaySpacesInfo {
       guard let info = item as? [String: AnyObject] else {
@@ -118,7 +119,7 @@ class Space: NSObject {
       return NSScreen.screens
     }
 
-    let displaySpacesInfo = SLSCopyManagedDisplaySpaces(Self.connectionID).takeRetainedValue() as NSArray
+    let displaySpacesInfo = SLSCopyManagedDisplaySpaces(Self.connectionID) as NSArray
 
     var screen: NSScreen?
 

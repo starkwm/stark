@@ -1,4 +1,5 @@
 import Alicia
+import AppKit
 
 class AppDelegate: NSObject, NSApplicationDelegate {
   var config: Config

@@ -1,3 +1,4 @@
+import AppKit
 import JavaScriptCore
 
 private let systemWideElement = AXUIElementCreateSystemWide()
