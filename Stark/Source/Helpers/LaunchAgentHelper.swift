@@ -1,7 +1,7 @@
 import OSLog
 
 enum LaunchAgentHelper {
-  static var launchAgentDirectory: URL? {
+  private static var launchAgentDirectory: URL? {
     let libDir = try? FileManager.default.url(
       for: .libraryDirectory,
       in: .userDomainMask,
@@ -12,7 +12,7 @@ enum LaunchAgentHelper {
     return libDir?.appendingPathComponent("LaunchAgents")
   }
 
-  static var launchAgentFile: URL? {
+  private static var launchAgentFile: URL? {
     launchAgentDirectory?.appendingPathComponent("\(Bundle.main.bundleIdentifier!).plist")
   }
 
