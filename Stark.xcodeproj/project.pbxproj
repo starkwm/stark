@@ -99,9 +99,10 @@
 		F6792C291C404B53007D9DF9 /* Stark */ = {
 			isa = PBXGroup;
 			children = (
-				F6792C391C404F01007D9DF9 /* Resources */,
 				F64EB38C2060672C00C1838A /* Source */,
 				F66509DD25E5975C006C0C19 /* extern.h */,
+				F6B4FCB62BB878900094A86F /* library.js */,
+				F6792C2C1C404B53007D9DF9 /* Assets.xcassets */,
 				F6CBE6101C41A50F00C962A7 /* Stark-Bridging-Header.h */,
 				F6792C311C404B53007D9DF9 /* Stark-Info.plist */,
 			);
@@ -114,15 +115,6 @@
 				F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */,
 			);
 			path = Helpers;
-			sourceTree = "<group>";
-		};
-		F6792C391C404F01007D9DF9 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				F6792C2C1C404B53007D9DF9 /* Assets.xcassets */,
-				F6B4FCB62BB878900094A86F /* library.js */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 		F6A0DB63204724AF00471843 /* Extensions */ = {
