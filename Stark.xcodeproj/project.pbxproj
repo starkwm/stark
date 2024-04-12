@@ -58,19 +58,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F64EB38C2060672C00C1838A /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				F6A0DB63204724AF00471843 /* Extensions */,
-				F6792C381C404EF8007D9DF9 /* Helpers */,
-				F6A50A252BC076AE002689F2 /* Models */,
-				F6A50A272BC07CAA002689F2 /* UI */,
-				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
-				F6A2E7692BC8CB250024F674 /* main.swift */,
-			);
-			path = Source;
-			sourceTree = "<group>";
-		};
 		F66509D925E594F0006C0C19 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -99,7 +86,12 @@
 		F6792C291C404B53007D9DF9 /* Stark */ = {
 			isa = PBXGroup;
 			children = (
-				F64EB38C2060672C00C1838A /* Source */,
+				F6A0DB63204724AF00471843 /* Extensions */,
+				F6792C381C404EF8007D9DF9 /* Helpers */,
+				F6A50A252BC076AE002689F2 /* Models */,
+				F6A50A272BC07CAA002689F2 /* UI */,
+				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
+				F6A2E7692BC8CB250024F674 /* main.swift */,
 				F66509DD25E5975C006C0C19 /* extern.h */,
 				F6B4FCB62BB878900094A86F /* library.js */,
 				F6792C2C1C404B53007D9DF9 /* Assets.xcassets */,
