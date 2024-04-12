@@ -37,6 +37,12 @@ private let kAXFullScreenAttribute = "AXFullScreen"
 
 extension Window: WindowJSExport {}
 
+extension Window {
+  override var description: String {
+    "<Window id: \(id), title: \(title)>"
+  }
+}
+
 class Window: NSObject {
   private static let systemWideElement = AXUIElementCreateSystemWide()
 
