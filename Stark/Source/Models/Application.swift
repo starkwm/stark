@@ -28,6 +28,12 @@ private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
 
 extension Application: ApplicationJSExport {}
 
+extension Application {
+  override var description: String {
+    "<Application pid: \(processID), name: \(name), bundle: \(bundleID)>"
+  }
+}
+
 class Application: NSObject {
   static func all() -> [Application] {
     NSWorkspace.shared.runningApplications.map { Application(pid: $0.processIdentifier) }
@@ -45,9 +51,9 @@ class Application: NSObject {
     }
   }
 
-  var name: String { app.localizedName ?? "" }
+  var name: String { app.localizedName ?? "nil" }
 
-  var bundleID: String { app.bundleIdentifier ?? "" }
+  var bundleID: String { app.bundleIdentifier ?? "nil" }
 
   var processID: pid_t { app.processIdentifier }
 
@@ -65,9 +71,7 @@ class Application: NSObject {
     return number.boolValue
   }
 
-  var isTerminated: Bool {
-    app.isTerminated
-  }
+  var isTerminated: Bool { app.isTerminated }
 
   private var app: NSRunningApplication
 
