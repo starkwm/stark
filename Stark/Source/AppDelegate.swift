@@ -1,6 +1,5 @@
 import Alicia
 
-@main
 class AppDelegate: NSObject, NSApplicationDelegate {
   var config: Config
   var statusItem: StarkStatusItem
