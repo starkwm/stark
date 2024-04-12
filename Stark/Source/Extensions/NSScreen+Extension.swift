@@ -55,35 +55,23 @@ extension NSScreen {
   }
 
   var next: NSScreen? {
-    let screens = NSScreen.screens
-
-    if var index = screens.firstIndex(of: self) {
-      index += 1
-
-      if index == screens.count {
-        index = 0
-      }
-
-      return screens[index]
+    guard let currentIndex = NSScreen.screens.firstIndex(of: self) else {
+      return nil
     }
 
-    return nil
+    let nextIndex = (currentIndex + 1) % NSScreen.screens.count
+
+    return NSScreen.screens[nextIndex]
   }
 
   var previous: NSScreen? {
-    let screens = NSScreen.screens
-
-    if var index = screens.firstIndex(of: self) {
-      index -= 1
-
-      if index == -1 {
-        index = screens.count - 1
-      }
-
-      return screens[index]
+    guard let currentIndex = NSScreen.screens.firstIndex(of: self) else {
+      return nil
     }
 
-    return nil
+    let previousIndex = (currentIndex == 0) ? NSScreen.screens.count - 1 : currentIndex - 1
+
+    return NSScreen.screens[previousIndex]
   }
 
   func spaces() -> [Space] {
