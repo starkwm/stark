@@ -24,13 +24,13 @@ class Keymap: NSObject {
     String(format: "%@[%@]", key, modifiers.joined(separator: "|")).hashValue
   }
 
-  var key: String = ""
+  var key: String
 
-  var modifiers: [String] = []
+  var modifiers: [String]
 
-  var shortcut: Shortcut
+  private var shortcut: Shortcut
 
-  var callback: JSManagedValue?
+  private var callback: JSManagedValue?
 
   required init(key: String, modifiers: [String], callback: JSValue) {
     shortcut = Shortcut()
@@ -53,7 +53,7 @@ class Keymap: NSObject {
     Alicia.unregister(shortcut: shortcut)
   }
 
-  func call() {
+  private func call() {
     guard let callback = callback?.value else {
       return
     }
