@@ -13,6 +13,12 @@ import OSLog
 
 extension Keymap: KeymapJSExport {}
 
+extension Keymap {
+  override var description: String {
+    "<Keymap key: \(key), modifiers: \(modifiers.joined(separator: "|"))>"
+  }
+}
+
 class Keymap: NSObject {
   var id: Int {
     String(format: "%@[%@]", key, modifiers.joined(separator: "|")).hashValue
