@@ -33,7 +33,7 @@ class Keymap: NSObject {
   private var callback: JSManagedValue?
 
   required init(key: String, modifiers: [String], callback: JSValue) {
-    shortcut = Shortcut()
+    self.shortcut = Shortcut()
 
     self.key = key
     self.modifiers = modifiers
@@ -42,9 +42,9 @@ class Keymap: NSObject {
 
     self.callback = JSManagedValue(value: callback, andOwner: self)
 
-    shortcut.keyCode = Key.code(for: key)
-    shortcut.modifierFlags = Modifier.flags(for: modifiers)
-    shortcut.handler = call
+    self.shortcut.keyCode = Key.code(for: key)
+    self.shortcut.modifierFlags = Modifier.flags(for: modifiers)
+    self.shortcut.handler = call
 
     Alicia.register(shortcut: shortcut)
   }

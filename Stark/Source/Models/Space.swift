@@ -102,7 +102,7 @@ class Space: NSObject {
 
   init(id: uint64) {
     self.id = id
-    type = SLSSpaceGetType(Self.connectionID, self.id)
+    self.type = SLSSpaceGetType(Self.connectionID, self.id)
   }
 
   override func isEqual(_ object: Any?) -> Bool {

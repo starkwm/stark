@@ -78,12 +78,12 @@ class Application: NSObject {
   private var element: AXUIElement
 
   init(pid: pid_t) {
-    element = AXUIElementCreateApplication(pid)
-    app = NSRunningApplication(processIdentifier: pid)!
+    self.element = AXUIElementCreateApplication(pid)
+    self.app = NSRunningApplication(processIdentifier: pid)!
   }
 
   init(app: NSRunningApplication) {
-    element = AXUIElementCreateApplication(app.processIdentifier)
+    self.element = AXUIElementCreateApplication(app.processIdentifier)
     self.app = app
   }
 
