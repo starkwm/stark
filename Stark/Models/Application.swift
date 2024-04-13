@@ -77,7 +77,9 @@ class Application: NSObject {
     return number.boolValue
   }
 
-  var isTerminated: Bool { app.isTerminated }
+  var isTerminated: Bool {
+    app.isTerminated
+  }
 
   private var app: NSRunningApplication
 
