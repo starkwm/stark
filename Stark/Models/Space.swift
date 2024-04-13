@@ -32,10 +32,10 @@ extension Space {
 }
 
 class Space: NSObject {
-  private static let connectionID = SLSMainConnectionID()
+  static let connection = SLSMainConnectionID()
 
   static func current(for screen: NSScreen) -> Space? {
-    let id = SLSManagedDisplayGetCurrentSpace(connectionID, screen.id as CFString)
+    let id = SLSManagedDisplayGetCurrentSpace(connection, screen.id as CFString)
 
     return Space(id: id)
   }
@@ -45,7 +45,7 @@ class Space: NSObject {
 
     let identifiers =
       SLSCopySpacesForWindows(
-        connectionID,
+        connection,
         0x7,
         [window.id] as CFArray
       ) as NSArray
@@ -62,7 +62,7 @@ class Space: NSObject {
   static func all() -> [Space] {
     var spaces: [Space] = []
 
-    let displaySpacesInfo = SLSCopyManagedDisplaySpaces(connectionID) as NSArray
+    let displaySpacesInfo = SLSCopyManagedDisplaySpaces(connection) as NSArray
 
     for item in displaySpacesInfo {
       guard let info = item as? [String: AnyObject] else {
@@ -90,7 +90,7 @@ class Space: NSObject {
   }
 
   static func active() -> Space {
-    Space(id: SLSGetActiveSpace(connectionID))
+    Space(id: SLSGetActiveSpace(connection))
   }
 
   var id: UInt64
@@ -103,7 +103,7 @@ class Space: NSObject {
 
   init(id: uint64) {
     self.id = id
-    self.type = SLSSpaceGetType(Self.connectionID, self.id)
+    self.type = SLSSpaceGetType(Space.connection, self.id)
   }
 
   override func isEqual(_ object: Any?) -> Bool {
@@ -119,7 +119,7 @@ class Space: NSObject {
       return NSScreen.screens
     }
 
-    let displaySpacesInfo = SLSCopyManagedDisplaySpaces(Self.connectionID) as NSArray
+    let displaySpacesInfo = SLSCopyManagedDisplaySpaces(Space.connection) as NSArray
 
     var screen: NSScreen?
 
@@ -163,6 +163,6 @@ class Space: NSObject {
   }
 
   func moveWindows(_ windows: [Window]) {
-    SLSMoveWindowsToManagedSpace(Self.connectionID, windows.map(\.id) as CFArray, id)
+    SLSMoveWindowsToManagedSpace(Space.connection, windows.map(\.id) as CFArray, id)
   }
 }
