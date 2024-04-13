@@ -41,8 +41,6 @@ class Space: NSObject {
   }
 
   static func spaces(for window: Window) -> [Space] {
-    var spaces: [Space] = []
-
     let identifiers =
       SLSCopySpacesForWindows(
         connection,
@@ -50,9 +48,11 @@ class Space: NSObject {
         [window.id] as CFArray
       ) as NSArray
 
+    var spaces: [Space] = []
+
     for space in all() {
       if identifiers.contains(space.id) {
-        spaces.append(Space(id: space.id))
+        spaces.append(space)
       }
     }
 
