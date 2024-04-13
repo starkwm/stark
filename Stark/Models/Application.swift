@@ -4,9 +4,9 @@ import JavaScriptCore
 private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
 
 @objc protocol ApplicationJSExport: JSExport {
-  static func find(_ name: String) -> Application?
   static func all() -> [Application]
   static func focused() -> Application?
+  static func find(_ name: String) -> Application?
 
   var name: String { get }
   var bundleID: String { get }
