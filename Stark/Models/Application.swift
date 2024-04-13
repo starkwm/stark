@@ -96,9 +96,9 @@ class Application: NSObject {
   }
 
   func windows() -> [Window] {
-    var values: CFArray?
+    var values: AnyObject?
 
-    if AXUIElementCopyAttributeValues(element, kAXWindowsAttribute as CFString, 0, 100, &values) != .success {
+    if AXUIElementCopyAttributeValue(element, kAXWindowsAttribute as CFString, &values) != .success {
       return []
     }
 
