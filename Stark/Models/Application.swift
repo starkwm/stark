@@ -12,18 +12,15 @@ private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
   var bundleID: String { get }
   var processID: pid_t { get }
 
-  var isActive: Bool { get }
+  var isFrontmost: Bool { get }
   var isHidden: Bool { get }
   var isTerminated: Bool { get }
 
   func windows() -> [Window]
-
   func activate() -> Bool
   func focus() -> Bool
-
   func show() -> Bool
   func hide() -> Bool
-
   func terminate() -> Bool
 }
 
@@ -52,13 +49,21 @@ class Application: NSObject {
     }
   }
 
-  var name: String { app.localizedName ?? "nil" }
+  var name: String {
+    app.localizedName ?? "nil"
+  }
 
-  var bundleID: String { app.bundleIdentifier ?? "nil" }
+  var bundleID: String {
+    app.bundleIdentifier ?? "nil"
+  }
 
-  var processID: pid_t { app.processIdentifier }
+  var processID: pid_t {
+    app.processIdentifier
+  }
 
-  var isActive: Bool { app.isActive }
+  var isFrontmost: Bool {
+    app.isActive
+  }
 
   var isHidden: Bool {
     var value: AnyObject?
