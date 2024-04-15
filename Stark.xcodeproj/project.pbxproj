@@ -19,6 +19,7 @@
 		F68B12212BC3182E00E3F7FF /* Process.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68B12202BC3182E00E3F7FF /* Process.swift */; };
 		F69ABF362BCDF38200881116 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69ABF352BCDF38200881116 /* String+Extension.swift */; };
 		F6A2E76A2BC8CB250024F674 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2E7692BC8CB250024F674 /* main.swift */; };
+		F6A5DFCF2BCDE914000C1630 /* Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A5DFCE2BCDE914000C1630 /* Workspace.swift */; };
 		F6B4FCB12BB861FB0094A86F /* Alicia in Frameworks */ = {isa = PBXBuildFile; productRef = F6B4FCB02BB861FB0094A86F /* Alicia */; };
 		F6C097992BC21284001E9D82 /* Logger+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C097982BC21284001E9D82 /* Logger+Extension.swift */; };
 		F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */; };
@@ -42,6 +43,7 @@
 		F68B12202BC3182E00E3F7FF /* Process.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Process.swift; sourceTree = "<group>"; };
 		F69ABF352BCDF38200881116 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		F6A2E7692BC8CB250024F674 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		F6A5DFCE2BCDE914000C1630 /* Workspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workspace.swift; sourceTree = "<group>"; };
 		F6C097982BC21284001E9D82 /* Logger+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logger+Extension.swift"; sourceTree = "<group>"; };
 		F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extension.swift"; sourceTree = "<group>"; };
 		F6EA81552BCD810400F0F68C /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				F68B12202BC3182E00E3F7FF /* Process.swift */,
 				F644DFF51FB5110B00944C6B /* Space.swift */,
 				F6792C421C4055A2007D9DF9 /* Window.swift */,
+				F6A5DFCE2BCDE914000C1630 /* Workspace.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -245,6 +248,7 @@
 				F64945862357B6B8009E423B /* StarkStatusItem.swift in Sources */,
 				F6792C431C4055A2007D9DF9 /* Window.swift in Sources */,
 				F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */,
+				F6A5DFCF2BCDE914000C1630 /* Workspace.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
