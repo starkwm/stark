@@ -16,6 +16,7 @@
 		F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2C1C404B53007D9DF9 /* Assets.xcassets */; };
 		F6792C411C405598007D9DF9 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C401C405598007D9DF9 /* Application.swift */; };
 		F6792C431C4055A2007D9DF9 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C421C4055A2007D9DF9 /* Window.swift */; };
+		F69ABF362BCDF38200881116 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F69ABF352BCDF38200881116 /* String+Extension.swift */; };
 		F6A2E76A2BC8CB250024F674 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2E7692BC8CB250024F674 /* main.swift */; };
 		F6B4FCB12BB861FB0094A86F /* Alicia in Frameworks */ = {isa = PBXBuildFile; productRef = F6B4FCB02BB861FB0094A86F /* Alicia */; };
 		F6C097992BC21284001E9D82 /* Logger+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C097982BC21284001E9D82 /* Logger+Extension.swift */; };
@@ -36,6 +37,7 @@
 		F6792C311C404B53007D9DF9 /* Stark-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Stark-Info.plist"; sourceTree = "<group>"; };
 		F6792C401C405598007D9DF9 /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		F6792C421C4055A2007D9DF9 /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
+		F69ABF352BCDF38200881116 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		F6A2E7692BC8CB250024F674 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F6C097982BC21284001E9D82 /* Logger+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logger+Extension.swift"; sourceTree = "<group>"; };
 		F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extension.swift"; sourceTree = "<group>"; };
@@ -110,6 +112,7 @@
 			children = (
 				F6C097982BC21284001E9D82 /* Logger+Extension.swift */,
 				F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */,
+				F69ABF352BCDF38200881116 /* String+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -213,6 +216,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F69ABF362BCDF38200881116 /* String+Extension.swift in Sources */,
 				F6792C411C405598007D9DF9 /* Application.swift in Sources */,
 				F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */,
 				F644DFF61FB5110B00944C6B /* Space.swift in Sources */,
