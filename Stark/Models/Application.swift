@@ -81,6 +81,8 @@ class Application: NSObject {
     app.isTerminated
   }
 
+  var connection: Int32 = -1
+
   private var app: NSRunningApplication
 
   private var element: AXUIElement
