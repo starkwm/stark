@@ -83,10 +83,6 @@ class Window: NSObject {
     Window.id(for: element)
   }
 
-  var app: Application {
-    Application(pid: pid())
-  }
-
   var screen: NSScreen {
     let windowFrame = frame
     var lastVolume: CGFloat = 0
@@ -210,10 +206,21 @@ class Window: NSObject {
     return false
   }
 
-  private var element: AXUIElement
+  var element: AXUIElement
+  var app: Application
 
   init(element: AXUIElement) {
     self.element = element
+
+    var pid: pid_t = 0
+    AXUIElementGetPid(element, &pid)
+
+    self.app = Application(pid: pid)
+  }
+
+  init(element: AXUIElement, application: Application) {
+    self.element = element
+    self.app = application
   }
 
   private func pid() -> pid_t {
