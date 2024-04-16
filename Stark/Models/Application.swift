@@ -129,6 +129,52 @@ class Application: NSObject {
     app.terminate()
   }
 
+  func windowIdentifiers() -> [CGWindowID] {
+    let spaces = Space.all().map(\.id) as CFArray
+
+    let options: UInt32 = 0x7
+    var setTags: UInt64 = 0
+    var clearTags: UInt64 = 0
+
+    let windows = SLSCopyWindowsWithOptionsAndTags(
+      Space.connection,
+      UInt32(connection),
+      spaces,
+      options,
+      &setTags,
+      &clearTags
+    )
+
+    let query = SLSWindowQueryWindows(Space.connection, windows, Int32(CFArrayGetCount(windows)))
+    let iterator = SLSWindowQueryResultCopyWindows(query)
+
+    var foundWindows = [CGWindowID]()
+
+    while SLSWindowIteratorAdvance(iterator) {
+      let attributes = SLSWindowIteratorGetAttributes(iterator)
+      let tags = SLSWindowIteratorGetTags(iterator)
+      let parentWindowID = SLSWindowIteratorGetParentID(iterator)
+      let windowID = SLSWindowIteratorGetWindowID(iterator)
+
+      if parentWindowID != 0 {
+        continue
+      }
+
+      if ((attributes & 0x2) != 0 || (tags & 0x400_0000_0000_0000) != 0)
+        && (((tags & 0x1) != 0) || ((tags & 0x2) != 0 && (tags & 0x8000_0000) != 0))
+      {
+        foundWindows.append(windowID)
+      } else if (attributes == 0x0 || attributes == 0x1)
+        && ((tags & 0x1000_0000_0000_0000) != 0 || (tags & 0x300_0000_0000_0000) != 0)
+        && (((tags & 0x1) != 0) || ((tags & 0x2) != 0 && (tags & 0x8000_0000) != 0))
+      {
+        foundWindows.append(windowID)
+      }
+    }
+
+    return foundWindows
+  }
+
   func enhancedUIWorkaround(callback: () -> Void) {
     let enhancedUserInterfaceEnabled = isEnhancedUserInterfaceEnabled()
 
