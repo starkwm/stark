@@ -92,9 +92,11 @@ class Application: NSObject {
     self.app = NSRunningApplication(processIdentifier: pid)!
   }
 
-  init(app: NSRunningApplication) {
-    self.element = AXUIElementCreateApplication(app.processIdentifier)
-    self.app = app
+  init(process: Process) {
+    self.element = AXUIElementCreateApplication(process.pid)
+    self.app = NSRunningApplication(processIdentifier: process.pid)!
+
+    SLSGetConnectionIDForPSN(Space.connection, &process.psn, &self.connection)
   }
 
   func windows() -> [Window] {
