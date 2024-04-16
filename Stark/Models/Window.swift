@@ -1,5 +1,6 @@
 import AppKit
 import JavaScriptCore
+import OSLog
 
 private let systemWideElement = AXUIElementCreateSystemWide()
 
@@ -221,6 +222,8 @@ class Window: NSObject {
   var element: AXUIElement?
   var application: Application?
 
+  private var observedNotifications = WindowNotifications(rawValue: 0)
+
   init(element: AXUIElement) {
     self.element = element
 
@@ -315,5 +318,40 @@ class Window: NSObject {
 
   func spaces() -> [Space] {
     Space.spaces(for: self)
+  }
+
+  func observe() -> Bool {
+    guard let observer = application?.observer else { return false }
+
+    guard let element = element else { return false }
+
+    let context: UnsafeMutableRawPointer? = Unmanaged.passUnretained(self).toOpaque()
+
+    for (idx, notification) in windowNotifications.enumerated() {
+      let result = AXObserverAddNotification(observer, element, notification as CFString, context)
+
+      if result == .success || result == .notificationAlreadyRegistered {
+        observedNotifications.insert(WindowNotifications(rawValue: 1 << idx))
+      } else {
+        Logger.main.debug("notification \(notification) not added \(self)")
+      }
+    }
+
+    return observedNotifications.contains(.all)
+  }
+
+  func unobserve() {
+    guard let observer = application?.observer else { return }
+
+    guard let element = element else { return }
+
+    for (idx, notification) in windowNotifications.enumerated() {
+      let notif = WindowNotifications(rawValue: 1 << idx)
+
+      if observedNotifications.contains(notif) {
+        AXObserverRemoveNotification(observer, element, notification as CFString)
+        observedNotifications.remove(notif)
+      }
+    }
   }
 }
