@@ -73,10 +73,14 @@ class Window: NSObject {
     return Window(element: window as! AXUIElement)
   }
 
-  var id: CGWindowID {
+  static func id(for element: AXUIElement) -> CGWindowID {
     var id: CGWindowID = 0
     _AXUIElementGetWindow(element, &id)
     return id
+  }
+
+  var id: CGWindowID {
+    Window.id(for: element)
   }
 
   var app: Application {
