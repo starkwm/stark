@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F63B99252BC73FB100355240 /* ApplicationNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63B99242BC73FB100355240 /* ApplicationNotifications.swift */; };
 		F644DFF61FB5110B00944C6B /* Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = F644DFF51FB5110B00944C6B /* Space.swift */; };
 		F64945862357B6B8009E423B /* StarkStatusItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64945852357B6B8009E423B /* StarkStatusItem.swift */; };
 		F66509DB25E594F0006C0C19 /* SkyLight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F66509DA25E594F0006C0C19 /* SkyLight.framework */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F63B99242BC73FB100355240 /* ApplicationNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationNotifications.swift; sourceTree = "<group>"; };
 		F644DFF51FB5110B00944C6B /* Space.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Space.swift; sourceTree = "<group>"; };
 		F64945852357B6B8009E423B /* StarkStatusItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkStatusItem.swift; sourceTree = "<group>"; };
 		F66509DA25E594F0006C0C19 /* SkyLight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SkyLight.framework; path = ../../../../System/Library/PrivateFrameworks/SkyLight.framework; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 		F63B99232BC73FA100355240 /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
+				F63B99242BC73FB100355240 /* ApplicationNotifications.swift */,
 				F6EA81552BCD810400F0F68C /* Events.swift */,
 			);
 			path = Notifications;
@@ -249,6 +252,7 @@
 				F6792C431C4055A2007D9DF9 /* Window.swift in Sources */,
 				F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */,
 				F6A5DFCF2BCDE914000C1630 /* Workspace.swift in Sources */,
+				F63B99252BC73FB100355240 /* ApplicationNotifications.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
