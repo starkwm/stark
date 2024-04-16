@@ -1,5 +1,6 @@
 import AppKit
 import JavaScriptCore
+import OSLog
 
 private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
 
@@ -82,10 +83,13 @@ class Application: NSObject {
   }
 
   var connection: Int32 = -1
+  var observer: AXObserver?
 
   private var app: NSRunningApplication
 
   private var element: AXUIElement
+  private var observedNotifications = ApplicationNotifications(rawValue: 0)
+  private var observing = false
 
   init(pid: pid_t) {
     self.element = AXUIElementCreateApplication(pid)
@@ -131,6 +135,56 @@ class Application: NSObject {
 
   func terminate() -> Bool {
     app.terminate()
+  }
+
+  func observe() -> Bool {
+    if AXObserverCreate(app.processIdentifier, accessibilityObserverCallback, &observer) == .success {
+      guard let observer = observer else {
+        return false
+      }
+
+      let context: UnsafeMutableRawPointer? = Unmanaged.passUnretained(self).toOpaque()
+
+      for (idx, notification) in applicationNotifications.enumerated() {
+        let result = AXObserverAddNotification(observer, element, notification as CFString, context)
+
+        if result == .success || result == .notificationAlreadyRegistered {
+          observedNotifications.insert(ApplicationNotifications(rawValue: 1 << idx))
+        } else {
+          Logger.main.debug("notification \(notification) not added \(self)")
+        }
+      }
+
+      observing = true
+
+      CFRunLoopAddSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(observer), CFRunLoopMode.defaultMode)
+    }
+
+    return observedNotifications.contains(.all)
+  }
+
+  func unobserve() {
+    if !observing {
+      return
+    }
+
+    guard let observer = observer else {
+      return
+    }
+
+    for (idx, notification) in applicationNotifications.enumerated() {
+      let notif = ApplicationNotifications(rawValue: 1 << idx)
+
+      if observedNotifications.contains(notif) {
+        AXObserverRemoveNotification(observer, element, notification as CFString)
+        observedNotifications.remove(notif)
+      }
+    }
+
+    CFRunLoopSourceInvalidate(AXObserverGetRunLoopSource(observer))
+
+    self.observer = nil
+    observing = false
   }
 
   func windowIdentifiers() -> [CGWindowID] {
@@ -216,5 +270,41 @@ class Application: NSObject {
     }
 
     return false
+  }
+}
+
+private func accessibilityObserverCallback(
+  _ observer: AXObserver,
+  _ element: AXUIElement,
+  _ notification: CFString,
+  _ context: UnsafeMutableRawPointer?
+) {
+  guard let context = context else {
+    return
+  }
+
+  switch notification as String {
+  case kAXCreatedNotification:
+    EventManager.shared.post(event: .windowCreated, object: element)
+  case kAXFocusedWindowChangedNotification:
+    EventManager.shared.post(event: .windowFocused, object: Window.id(for: element))
+  case kAXWindowMovedNotification:
+    EventManager.shared.post(event: .windowMoved, object: Window.id(for: element))
+  case kAXWindowResizedNotification:
+    EventManager.shared.post(event: .windowResized, object: Window.id(for: element))
+  case kAXTitleChangedNotification:
+    EventManager.shared.post(event: .windowTitleChanged, object: Window.id(for: element))
+  case kAXWindowMiniaturizedNotification:
+    let window = Unmanaged<Window>.fromOpaque(context).takeUnretainedValue()
+    EventManager.shared.post(event: .windowMinimized, object: window)
+  case kAXWindowDeminiaturizedNotification:
+    let window = Unmanaged<Window>.fromOpaque(context).takeUnretainedValue()
+    EventManager.shared.post(event: .windowDeminimized, object: window)
+  case kAXUIElementDestroyedNotification:
+    let window = Unmanaged<Window>.fromOpaque(context).takeUnretainedValue()
+    window.unobserve()
+    EventManager.shared.post(event: .windowDestroyed, object: window)
+  default:
+    break
   }
 }
