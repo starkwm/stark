@@ -160,18 +160,22 @@ class Window: NSObject {
     return false
   }
 
-  var isStandard: Bool {
+  var subrole: String? {
     var value: AnyObject?
 
     if AXUIElementCopyAttributeValue(element, kAXSubroleAttribute as CFString, &value) != .success {
-      return false
+      return nil
     }
 
-    if let subrole = value as? String {
-      return subrole == kAXStandardWindowSubrole
+    guard let subrole = value as? String else {
+      return nil
     }
 
-    return false
+    return subrole
+  }
+
+  var isStandard: Bool {
+    return subrole == kAXStandardWindowSubrole
   }
 
   var isFullscreen: Bool {
