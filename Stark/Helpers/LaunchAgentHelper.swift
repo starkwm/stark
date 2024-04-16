@@ -18,12 +18,12 @@ enum LaunchAgentHelper {
 
   static func add() {
     guard let launchAgentDirectory else {
-      Logger.launchAgent.error("could not access launch agent directory")
+      Logger.main.error("could not access launch agent directory")
       return
     }
 
     guard let launchAgentFile else {
-      Logger.launchAgent.error("could not access launch agent plist file")
+      Logger.main.error("could not access launch agent plist file")
       return
     }
 

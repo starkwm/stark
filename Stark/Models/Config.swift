@@ -23,7 +23,7 @@ class Config {
     let configPath = resolvePrimaryPath()
 
     if !FileManager.default.fileExists(atPath: configPath) {
-      Logger.config.error("configuration file does not exist \(configPath)")
+      Logger.main.error("configuration file does not exist \(configPath)")
       return
     }
 
@@ -38,7 +38,7 @@ class Config {
     context = JSContext(virtualMachine: JSVirtualMachine())
 
     guard let context else {
-      Logger.config.error("could not create javascript context")
+      Logger.main.error("could not create javascript context")
       return false
     }
 
@@ -68,12 +68,12 @@ class Config {
 
   private func loadFile(path: String) -> Bool {
     guard let context else {
-      Logger.config.error("javascript context is not defined")
+      Logger.main.error("javascript context is not defined")
       return false
     }
 
     guard let scriptContents = try? String(contentsOfFile: path) else {
-      Logger.config.error("could not read file \(path)")
+      Logger.main.error("could not read file \(path)")
       return false
     }
 
