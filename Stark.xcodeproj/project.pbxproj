@@ -22,6 +22,7 @@
 		F6B4FCB12BB861FB0094A86F /* Alicia in Frameworks */ = {isa = PBXBuildFile; productRef = F6B4FCB02BB861FB0094A86F /* Alicia */; };
 		F6C097992BC21284001E9D82 /* Logger+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6C097982BC21284001E9D82 /* Logger+Extension.swift */; };
 		F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */; };
+		F6EA81562BCD810400F0F68C /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EA81552BCD810400F0F68C /* Events.swift */; };
 		F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */; };
 		F6F4ECF92BC9BC13001234D4 /* Private.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F4ECF82BC9BC13001234D4 /* Private.swift */; };
 /* End PBXBuildFile section */
@@ -43,6 +44,7 @@
 		F6A2E7692BC8CB250024F674 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F6C097982BC21284001E9D82 /* Logger+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logger+Extension.swift"; sourceTree = "<group>"; };
 		F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extension.swift"; sourceTree = "<group>"; };
+		F6EA81552BCD810400F0F68C /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchAgentHelper.swift; sourceTree = "<group>"; };
 		F6F4ECF82BC9BC13001234D4 /* Private.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Private.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -60,6 +62,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F63B99232BC73FA100355240 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				F6EA81552BCD810400F0F68C /* Events.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
 		F66509D925E594F0006C0C19 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -91,6 +101,7 @@
 				F6A0DB63204724AF00471843 /* Extensions */,
 				F6792C381C404EF8007D9DF9 /* Helpers */,
 				F6A50A252BC076AE002689F2 /* Models */,
+				F63B99232BC73FA100355240 /* Notifications */,
 				F6A50A272BC07CAA002689F2 /* UI */,
 				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
 				F6F4ECF82BC9BC13001234D4 /* Private.swift */,
@@ -219,6 +230,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6EA81562BCD810400F0F68C /* Events.swift in Sources */,
 				F69ABF362BCDF38200881116 /* String+Extension.swift in Sources */,
 				F6792C411C405598007D9DF9 /* Application.swift in Sources */,
 				F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */,
