@@ -1,4 +1,5 @@
 import AppKit
+import OSLog
 
 private let processIgnoreList = [
   "Google Chrome Helper (Plugin)",
@@ -39,6 +40,10 @@ class Process {
     self.name = processName as String
     self.terminated = false
     self.application = NSRunningApplication(processIdentifier: self.pid)
+  }
+
+  deinit {
+    Logger.main.debug("destroying process \(self)")
   }
 }
 
