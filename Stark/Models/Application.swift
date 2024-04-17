@@ -103,6 +103,10 @@ class Application: NSObject {
     SLSGetConnectionIDForPSN(Space.connection, &process.psn, &self.connection)
   }
 
+  deinit {
+    Logger.main.debug("destroying application \(self)")
+  }
+
   func windows() -> [Window] {
     var values: AnyObject?
 

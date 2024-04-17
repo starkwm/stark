@@ -240,6 +240,10 @@ class Window: NSObject {
     self.id = Window.id(for: element)
   }
 
+  deinit {
+    Logger.main.debug("destroying window \(self)")
+  }
+
   private func pid() -> pid_t {
     guard let element = element else { return -1 }
 
