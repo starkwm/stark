@@ -80,7 +80,16 @@ class Window: NSObject {
     return id
   }
 
-  var id: CGWindowID
+  static func pid(for element: AXUIElement) -> pid_t? {
+    var pid: pid_t = -1
+    let result = AXUIElementGetPid(element, &pid)
+
+    if result != .success {
+      return nil
+    }
+
+    return pid
+  }
 
   var screen: NSScreen {
     let windowFrame = frame
@@ -221,6 +230,7 @@ class Window: NSObject {
 
   var element: AXUIElement?
   var application: Application?
+  var id: CGWindowID
 
   private var observedNotifications = WindowNotifications(rawValue: 0)
 
@@ -244,17 +254,10 @@ class Window: NSObject {
     Logger.main.debug("destroying window \(self)")
   }
 
-  private func pid() -> pid_t {
-    guard let element = element else { return -1 }
+  private func pid() -> pid_t? {
+    guard let element = element else { return nil }
 
-    var pid: pid_t = -1
-    let result = AXUIElementGetPid(element, &pid)
-
-    if result != .success {
-      return -1
-    }
-
-    return pid
+    return Window.pid(for: element)
   }
 
   override func isEqual(_ object: Any?) -> Bool {
@@ -315,7 +318,9 @@ class Window: NSObject {
       return
     }
 
-    if let app = NSRunningApplication(processIdentifier: pid()) {
+    guard let pid = pid() else { return }
+
+    if let app = NSRunningApplication(processIdentifier: pid) {
       app.activate()
     }
   }
