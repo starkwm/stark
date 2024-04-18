@@ -49,29 +49,33 @@ extension Window {
 
 class Window: NSObject {
   static func all() -> [Window] {
-    Application.all().flatMap { $0.windows() }
+    return Array(WindowManager.shared.windows.values)
   }
 
   static func focused() -> Window? {
-    var app: AnyObject?
+    var appElement: AnyObject?
 
-    AXUIElementCopyAttributeValue(systemWideElement, kAXFocusedApplicationAttribute as CFString, &app)
+    AXUIElementCopyAttributeValue(systemWideElement, kAXFocusedApplicationAttribute as CFString, &appElement)
 
-    if app == nil {
+    if appElement == nil {
       return nil
     }
 
-    var window: AnyObject?
+    var windowElement: AnyObject?
 
-    if AXUIElementCopyAttributeValue(
-      app as! AXUIElement,
+    let result = AXUIElementCopyAttributeValue(
+      appElement as! AXUIElement,
       kAXFocusedWindowAttribute as CFString,
-      &window
-    ) != .success {
+      &windowElement
+    )
+
+    if result != .success {
       return nil
     }
 
-    return Window(element: window as! AXUIElement)
+    let windowID = Window.id(for: windowElement as! AXUIElement)
+
+    return WindowManager.shared.windows[windowID]
   }
 
   static func id(for element: AXUIElement) -> CGWindowID {
@@ -234,16 +238,6 @@ class Window: NSObject {
 
   private var observedNotifications = WindowNotifications(rawValue: 0)
 
-  init(element: AXUIElement) {
-    self.element = element
-
-    var pid: pid_t = 0
-    AXUIElementGetPid(element, &pid)
-
-    self.application = Application(pid: pid)
-    self.id = Window.id(for: element)
-  }
-
   init(element: AXUIElement, application: Application) {
     self.element = element
     self.application = application
@@ -261,9 +255,7 @@ class Window: NSObject {
   }
 
   override func isEqual(_ object: Any?) -> Bool {
-    guard let window = object as? Self else {
-      return false
-    }
+    guard let window = object as? Self else { return false }
 
     return id == window.id
   }
@@ -331,7 +323,6 @@ class Window: NSObject {
 
   func observe() -> Bool {
     guard let observer = application?.observer else { return false }
-
     guard let element = element else { return false }
 
     let context: UnsafeMutableRawPointer? = Unmanaged.passUnretained(self).toOpaque()
@@ -351,7 +342,6 @@ class Window: NSObject {
 
   func unobserve() {
     guard let observer = application?.observer else { return }
-
     guard let element = element else { return }
 
     for (idx, notification) in windowNotifications.enumerated() {
