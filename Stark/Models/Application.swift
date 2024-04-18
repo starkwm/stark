@@ -35,35 +35,33 @@ extension Application {
 
 class Application: NSObject {
   static func all() -> [Application] {
-    NSWorkspace.shared.runningApplications.map { Application(pid: $0.processIdentifier) }
+    return Array(WindowManager.shared.applications.values)
   }
 
   static func focused() -> Application? {
-    return NSWorkspace.shared.frontmostApplication.map { app in
-      Application(pid: app.processIdentifier)
-    }
+    guard let application = NSWorkspace.shared.frontmostApplication else { return nil }
+
+    return WindowManager.shared.applications[application.processIdentifier]
   }
 
   static func find(_ name: String) -> Application? {
-    return NSWorkspace.shared.runningApplications.first { $0.localizedName == name }.map { app in
-      Application(pid: app.processIdentifier)
-    }
+    return WindowManager.shared.applications.first(where: { $0.value.name == name })?.value
   }
 
   var name: String {
-    app.localizedName ?? "nil"
+    application.localizedName ?? "nil"
   }
 
   var bundleID: String {
-    app.bundleIdentifier ?? "nil"
+    application.bundleIdentifier ?? "nil"
   }
 
   var processID: pid_t {
-    app.processIdentifier
+    application.processIdentifier
   }
 
   var isFrontmost: Bool {
-    app.isActive
+    application.isActive
   }
 
   var isHidden: Bool {
@@ -79,26 +77,21 @@ class Application: NSObject {
   }
 
   var isTerminated: Bool {
-    app.isTerminated
+    application.isTerminated
   }
 
   var connection: Int32 = -1
   var observer: AXObserver?
 
-  private var app: NSRunningApplication
+  private var application: NSRunningApplication
 
   private var element: AXUIElement
   private var observedNotifications = ApplicationNotifications(rawValue: 0)
   private var observing = false
 
-  init(pid: pid_t) {
-    self.element = AXUIElementCreateApplication(pid)
-    self.app = NSRunningApplication(processIdentifier: pid)!
-  }
-
   init(process: Process) {
     self.element = AXUIElementCreateApplication(process.pid)
-    self.app = NSRunningApplication(processIdentifier: process.pid)!
+    self.application = NSRunningApplication(processIdentifier: process.pid)!
 
     SLSGetConnectionIDForPSN(Space.connection, &process.psn, &self.connection)
   }
@@ -108,41 +101,31 @@ class Application: NSObject {
   }
 
   func windows() -> [Window] {
-    var values: AnyObject?
-
-    if AXUIElementCopyAttributeValue(element, kAXWindowsAttribute as CFString, &values) != .success {
-      return []
-    }
-
-    guard let windows = values as? [AXUIElement] else {
-      return []
-    }
-
-    return windows.map { Window(element: $0) }
+    return WindowManager.shared.windows.values.filter { $0.application == self }
   }
 
   func activate() -> Bool {
-    app.activate(options: .activateAllWindows)
+    application.activate(options: .activateAllWindows)
   }
 
   func focus() -> Bool {
-    app.activate(options: [])
+    application.activate(options: [])
   }
 
   func show() -> Bool {
-    app.unhide()
+    application.unhide()
   }
 
   func hide() -> Bool {
-    app.hide()
+    application.hide()
   }
 
   func terminate() -> Bool {
-    app.terminate()
+    application.terminate()
   }
 
   func observe() -> Bool {
-    if AXObserverCreate(app.processIdentifier, accessibilityObserverCallback, &observer) == .success {
+    if AXObserverCreate(application.processIdentifier, accessibilityObserverCallback, &observer) == .success {
       guard let observer = observer else {
         return false
       }
