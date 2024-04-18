@@ -11,7 +11,7 @@ private let kAXFullScreenAttribute = "AXFullScreen"
 
   var id: CGWindowID { get }
 
-  var app: Application { get }
+  var application: Application? { get }
   var screen: NSScreen { get }
 
   var title: String { get }
@@ -79,9 +79,7 @@ class Window: NSObject {
     return id
   }
 
-  var id: CGWindowID {
-    Window.id(for: element)
-  }
+  var id: CGWindowID
 
   var screen: NSScreen {
     let windowFrame = frame
@@ -103,6 +101,8 @@ class Window: NSObject {
   }
 
   var title: String {
+    guard let element = element else { return "" }
+
     var value: AnyObject?
 
     if AXUIElementCopyAttributeValue(element, kAXTitleAttribute as CFString, &value) != .success {
@@ -121,6 +121,8 @@ class Window: NSObject {
   }
 
   var topLeft: CGPoint {
+    guard let element = element else { return CGPoint.zero }
+
     var value: AnyObject?
     var topLeft = CGPoint.zero
 
@@ -134,6 +136,8 @@ class Window: NSObject {
   }
 
   var size: CGSize {
+    guard let element = element else { return CGSize.zero }
+
     var value: AnyObject?
     var size = CGSize.zero
 
@@ -147,6 +151,8 @@ class Window: NSObject {
   }
 
   var isMain: Bool {
+    guard let element = element else { return false }
+
     var value: AnyObject?
 
     if AXUIElementCopyAttributeValue(element, kAXMainAttribute as CFString, &value) != .success {
@@ -161,6 +167,8 @@ class Window: NSObject {
   }
 
   var subrole: String? {
+    guard let element = element else { return nil }
+
     var value: AnyObject?
 
     if AXUIElementCopyAttributeValue(element, kAXSubroleAttribute as CFString, &value) != .success {
@@ -179,6 +187,8 @@ class Window: NSObject {
   }
 
   var isFullscreen: Bool {
+    guard let element = element else { return false }
+
     var value: AnyObject?
 
     if AXUIElementCopyAttributeValue(element, kAXFullScreenAttribute as CFString, &value) != .success {
@@ -193,6 +203,8 @@ class Window: NSObject {
   }
 
   var isMinimized: Bool {
+    guard let element = element else { return false }
+
     var value: AnyObject?
 
     if AXUIElementCopyAttributeValue(element, kAXMinimizedAttribute as CFString, &value) != .success {
@@ -206,8 +218,8 @@ class Window: NSObject {
     return false
   }
 
-  var element: AXUIElement
-  var app: Application
+  var element: AXUIElement?
+  var application: Application?
 
   init(element: AXUIElement) {
     self.element = element
@@ -215,20 +227,24 @@ class Window: NSObject {
     var pid: pid_t = 0
     AXUIElementGetPid(element, &pid)
 
-    self.app = Application(pid: pid)
+    self.application = Application(pid: pid)
+    self.id = Window.id(for: element)
   }
 
   init(element: AXUIElement, application: Application) {
     self.element = element
-    self.app = application
+    self.application = application
+    self.id = Window.id(for: element)
   }
 
   private func pid() -> pid_t {
-    var pid: pid_t = 0
+    guard let element = element else { return -1 }
+
+    var pid: pid_t = -1
     let result = AXUIElementGetPid(element, &pid)
 
     if result != .success {
-      return 0
+      return -1
     }
 
     return pid
@@ -248,7 +264,9 @@ class Window: NSObject {
   }
 
   func setTopLeft(_ topLeft: CGPoint) {
-    app.enhancedUIWorkaround {
+    application?.enhancedUIWorkaround {
+      guard let element = element else { return }
+
       var val = topLeft
       let value = AXValueCreate(AXValueType(rawValue: kAXValueCGPointType)!, &val)!
       AXUIElementSetAttributeValue(element, kAXPositionAttribute as CFString, value)
@@ -256,7 +274,9 @@ class Window: NSObject {
   }
 
   func setSize(_ size: CGSize) {
-    app.enhancedUIWorkaround {
+    application?.enhancedUIWorkaround {
+      guard let element = element else { return }
+
       var val = size
       let value = AXValueCreate(AXValueType(rawValue: kAXValueCGSizeType)!, &val)!
       AXUIElementSetAttributeValue(element, kAXSizeAttribute as CFString, value)
@@ -264,18 +284,26 @@ class Window: NSObject {
   }
 
   func setFullScreen(_ value: Bool) {
+    guard let element = element else { return }
+
     AXUIElementSetAttributeValue(element, kAXFullScreenAttribute as CFString, value as CFTypeRef)
   }
 
   func minimize() {
+    guard let element = element else { return }
+
     AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, true as CFTypeRef)
   }
 
   func unminimize() {
+    guard let element = element else { return }
+
     AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, false as CFTypeRef)
   }
 
   func focus() {
+    guard let element = element else { return }
+
     if AXUIElementSetAttributeValue(element, kAXMainAttribute as CFString, kCFBooleanTrue) != .success {
       return
     }
