@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F61AF11C2BC488EC00FF39E0 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11B2BC488EC00FF39E0 /* EventManager.swift */; };
+		F61AF11E2BC4B80100FF39E0 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */; };
 		F63B99252BC73FB100355240 /* ApplicationNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63B99242BC73FB100355240 /* ApplicationNotifications.swift */; };
 		F644DFF61FB5110B00944C6B /* Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = F644DFF51FB5110B00944C6B /* Space.swift */; };
+		F645D0482BC37DF300BED730 /* ProcessManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F645D0472BC37DF300BED730 /* ProcessManager.swift */; };
 		F64945862357B6B8009E423B /* StarkStatusItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64945852357B6B8009E423B /* StarkStatusItem.swift */; };
 		F66509DB25E594F0006C0C19 /* SkyLight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F66509DA25E594F0006C0C19 /* SkyLight.framework */; };
 		F667BCA61CFB972A008B4B83 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = F667BCA51CFB972A008B4B83 /* Config.swift */; };
@@ -31,8 +34,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F61AF11B2BC488EC00FF39E0 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
+		F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
 		F63B99242BC73FB100355240 /* ApplicationNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationNotifications.swift; sourceTree = "<group>"; };
 		F644DFF51FB5110B00944C6B /* Space.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Space.swift; sourceTree = "<group>"; };
+		F645D0472BC37DF300BED730 /* ProcessManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessManager.swift; sourceTree = "<group>"; };
 		F64945852357B6B8009E423B /* StarkStatusItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkStatusItem.swift; sourceTree = "<group>"; };
 		F66509DA25E594F0006C0C19 /* SkyLight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SkyLight.framework; path = ../../../../System/Library/PrivateFrameworks/SkyLight.framework; sourceTree = "<group>"; };
 		F667BCA51CFB972A008B4B83 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
@@ -108,6 +114,7 @@
 			children = (
 				F6A0DB63204724AF00471843 /* Extensions */,
 				F6792C381C404EF8007D9DF9 /* Helpers */,
+				F68B121F2BC3172800E3F7FF /* Managers */,
 				F6A50A252BC076AE002689F2 /* Models */,
 				F63B99232BC73FA100355240 /* Notifications */,
 				F6A50A272BC07CAA002689F2 /* UI */,
@@ -126,6 +133,16 @@
 				F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		F68B121F2BC3172800E3F7FF /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				F61AF11B2BC488EC00FF39E0 /* EventManager.swift */,
+				F645D0472BC37DF300BED730 /* ProcessManager.swift */,
+				F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		F6A0DB63204724AF00471843 /* Extensions */ = {
@@ -252,11 +269,14 @@
 				F6C097992BC21284001E9D82 /* Logger+Extension.swift in Sources */,
 				F6A2E76A2BC8CB250024F674 /* main.swift in Sources */,
 				F64945862357B6B8009E423B /* StarkStatusItem.swift in Sources */,
+				F61AF11E2BC4B80100FF39E0 /* WindowManager.swift in Sources */,
+				F645D0482BC37DF300BED730 /* ProcessManager.swift in Sources */,
 				F6792C431C4055A2007D9DF9 /* Window.swift in Sources */,
 				F6EA81542BCD740F00F0F68C /* WindowNotifications.swift in Sources */,
 				F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */,
 				F6A5DFCF2BCDE914000C1630 /* Workspace.swift in Sources */,
 				F63B99252BC73FB100355240 /* ApplicationNotifications.swift in Sources */,
+				F61AF11C2BC488EC00FF39E0 /* EventManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

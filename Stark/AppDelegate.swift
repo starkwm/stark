@@ -1,5 +1,6 @@
 import Alicia
 import AppKit
+import OSLog
 
 class AppDelegate: NSObject, NSApplicationDelegate {
   var config: Config
@@ -12,8 +13,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   func applicationDidFinishLaunching(_: Notification) {
     askForAccessibilityIfNeeded()
-    config.execute()
+
+    if !EventManager.shared.begin() {
+      Logger.main.error("could not start event manager")
+      return
+    }
+
+    if !ProcessManager.shared.begin() {
+      Logger.main.error("could not start process manager")
+      return
+    }
+
+    WindowManager.shared.begin()
+
     statusItem.setup()
+    config.execute()
+
+    Alicia.start()
   }
 
   func applicationWillTerminate(_: Notification) {
