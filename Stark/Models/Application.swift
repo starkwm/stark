@@ -175,6 +175,20 @@ class Application: NSObject {
     return foundWindows
   }
 
+  func windowElements() -> [AXUIElement] {
+    var values: AnyObject?
+
+    if AXUIElementCopyAttributeValue(element, kAXWindowsAttribute as CFString, &values) != .success {
+      return []
+    }
+
+    guard let windows = values as? [AXUIElement] else {
+      return []
+    }
+
+    return windows
+  }
+
   func enhancedUIWorkaround(callback: () -> Void) {
     let enhancedUserInterfaceEnabled = isEnhancedUserInterfaceEnabled()
 
