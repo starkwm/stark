@@ -13,6 +13,8 @@ class Config {
   ]
 
   func execute() {
+    Keymap.reset()
+
     Alicia.stop()
     Alicia.reset()
 

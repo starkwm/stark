@@ -35,7 +35,14 @@ class Keymap: NSObject {
     }
 
     keymap.callback?.value.context.virtualMachine.removeManagedReference(keymap, withOwner: self)
-    Alicia.unregister(shortcut: keymap.shortcut)
+    Alicia.unregister(shortcut: keymap.shortcut!)
+    keymap.shortcut = nil
+  }
+
+  static func reset() {
+    for id in keymaps.keys {
+      off(id)
+    }
   }
 
   var id: String {
@@ -46,7 +53,7 @@ class Keymap: NSObject {
 
   var modifiers: [String]
 
-  private var shortcut: Shortcut
+  private var shortcut: Shortcut?
 
   private var callback: JSManagedValue?
 
@@ -60,11 +67,11 @@ class Keymap: NSObject {
 
     self.callback = JSManagedValue(value: callback, andOwner: self)
 
-    self.shortcut.keyCode = Key.code(for: key)
-    self.shortcut.modifierFlags = Modifier.flags(for: modifiers)
-    self.shortcut.handler = call
+    self.shortcut!.keyCode = Key.code(for: key)
+    self.shortcut!.modifierFlags = Modifier.flags(for: modifiers)
+    self.shortcut!.handler = call
 
-    Alicia.register(shortcut: shortcut)
+    Alicia.register(shortcut: shortcut!)
   }
 
   private func call() {
