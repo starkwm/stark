@@ -5,11 +5,8 @@ struct ApplicationNotifications: OptionSet {
   static let windowFocused = ApplicationNotifications(rawValue: 1 << 1)
   static let windowMoved = ApplicationNotifications(rawValue: 1 << 2)
   static let windowResized = ApplicationNotifications(rawValue: 1 << 3)
-  static let windowTitleChanged = ApplicationNotifications(rawValue: 1 << 4)
 
-  static let all: ApplicationNotifications = [
-    .windowCreated, .windowFocused, .windowMoved, .windowResized, .windowTitleChanged,
-  ]
+  static let all: ApplicationNotifications = [.windowCreated, .windowFocused, .windowMoved, .windowResized]
 
   let rawValue: Int8
 }
@@ -19,5 +16,4 @@ let applicationNotifications = [
   kAXFocusedWindowChangedNotification,
   kAXWindowMovedNotification,
   kAXWindowResizedNotification,
-  kAXTitleChangedNotification,
 ]

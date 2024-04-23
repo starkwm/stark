@@ -65,9 +65,6 @@ class EventManager {
     case .windowDeminimized:
       guard let window = notification.object as? Window else { break }
       self.windowDeminimized(window)
-    case .windowTitleChanged:
-      guard let windowID = notification.object as? CGWindowID else { break }
-      self.windowTitleChanged(windowID)
     case .spaceChanged:
       self.spaceChanged()
     }
@@ -223,16 +220,6 @@ extension EventManager {
 
   private func windowDeminimized(_ window: Window) {
     Logger.main.debug("window deminimized \(window)")
-  }
-
-  private func windowTitleChanged(_ windowID: CGWindowID) {
-    if windowID == 0 {
-      return
-    }
-
-    guard let window = WindowManager.shared.windows.first(where: { $0.key == windowID })?.value else { return }
-
-    Logger.main.debug("window title changed \(window)")
   }
 
   private func spaceChanged() {

@@ -12,7 +12,6 @@ enum EventType: String, CaseIterable {
   case windowResized
   case windowMinimized
   case windowDeminimized
-  case windowTitleChanged
 
   case spaceChanged
 }

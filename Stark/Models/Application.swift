@@ -279,8 +279,6 @@ private func accessibilityObserverCallback(
     EventManager.shared.post(event: .windowMoved, object: Window.id(for: element))
   case kAXWindowResizedNotification:
     EventManager.shared.post(event: .windowResized, object: Window.id(for: element))
-  case kAXTitleChangedNotification:
-    EventManager.shared.post(event: .windowTitleChanged, object: Window.id(for: element))
   case kAXWindowMiniaturizedNotification:
     let window = Unmanaged<Window>.fromOpaque(context).takeUnretainedValue()
     EventManager.shared.post(event: .windowMinimized, object: window)
