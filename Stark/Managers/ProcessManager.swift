@@ -28,13 +28,13 @@ class ProcessManager {
   }
 
   func add(_ process: Process) {
-    processes[process.psn.lowLongOfPSN] = process
+    processes.updateValue(process, forKey: process.psn.lowLongOfPSN)
   }
 
   func remove(_ psn: ProcessSerialNumber) -> Process? {
-    guard let process = processes.removeValue(forKey: psn.lowLongOfPSN) else {
-      return nil
-    }
+    guard let process = processes[psn.lowLongOfPSN] else { return nil }
+
+    processes.removeValue(forKey: psn.lowLongOfPSN)
 
     return process
   }
@@ -54,16 +54,20 @@ class ProcessManager {
 
     switch Int(GetEventKind(event)) {
     case kEventAppLaunched:
-      guard let process = Process(psn: psn) else { return noErr }
+      guard processes[psn.lowLongOfPSN] == nil else { break }
+      guard let process = Process(psn: psn) else { break }
       add(process)
       EventManager.shared.post(event: .applicationLaunched, object: process)
+
     case kEventAppTerminated:
       guard let process = remove(psn) else { break }
       process.terminated = true
       EventManager.shared.post(event: .applicationTerminated, object: process)
+
     case kEventAppFrontSwitched:
       guard let process = processes[psn.lowLongOfPSN] else { break }
       EventManager.shared.post(event: .applicationFrontSwitched, object: process)
+
     default:
       break
     }
@@ -75,9 +79,7 @@ class ProcessManager {
     var psn = ProcessSerialNumber()
 
     while GetNextProcess(&psn) == noErr {
-      guard let process = Process(psn: psn) else {
-        continue
-      }
+      guard let process = Process(psn: psn) else { continue }
 
       add(process)
     }
