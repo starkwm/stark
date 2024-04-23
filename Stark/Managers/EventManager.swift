@@ -1,78 +1,62 @@
 import Carbon
-import Dispatch
 import OSLog
 
 class EventManager {
   static let shared = EventManager()
 
-  private let center = NotificationCenter()
-  private let queue = DispatchQueue(label: Bundle.main.bundleIdentifier!)
+  private let queue = OperationQueue()
 
   func begin() -> Bool {
-    for event in events.values {
-      center.addObserver(
-        forName: event,
-        object: nil,
-        queue: nil,
-        using: handle
-      )
-    }
-
+    queue.maxConcurrentOperationCount = 1
     return true
   }
 
   func post(event: EventType, object: Any?) {
-    guard let name = events[event] else { return }
+    queue.addOperation {
+      switch event {
+      case .applicationLaunched:
+        guard let process = object as? Process else { break }
+        self.applicationLaunched(process)
 
-    center.post(name: name, object: object)
-  }
+      case .applicationTerminated:
+        guard let process = object as? Process else { break }
+        self.applicationTerminated(process)
 
-  private func handle(_ notification: Notification) {
-    guard let event = events.first(where: { $1 == notification.name })?.key else { return }
+      case .applicationFrontSwitched:
+        guard let process = object as? Process else { break }
+        self.applicationFrontSwitched(process)
 
-    switch event {
-    case .applicationLaunched:
-      guard let process = notification.object as? Process else { break }
-      self.applicationLaunched(process)
+      case .windowCreated:
+        let element = object as! AXUIElement
+        self.windowCreated(element)
 
-    case .applicationTerminated:
-      guard let process = notification.object as? Process else { break }
-      self.applicationTerminated(process)
+      case .windowDestroyed:
+        guard let window = object as? Window else { break }
+        self.windowDestroyed(window)
 
-    case .applicationFrontSwitched:
-      guard let process = notification.object as? Process else { break }
-      self.applicationFrontSwitched(process)
+      case .windowFocused:
+        guard let windowID = object as? CGWindowID else { break }
+        self.windowFocused(windowID)
 
-    case .windowCreated:
-      let element = notification.object as! AXUIElement
-      self.windowCreated(element)
+      case .windowMoved:
+        guard let windowID = object as? CGWindowID else { break }
+        self.windowMoved(windowID)
 
-    case .windowDestroyed:
-      guard let window = notification.object as? Window else { break }
-      self.windowDestroyed(window)
+      case .windowResized:
+        guard let windowID = object as? CGWindowID else { break }
+        self.windowResized(windowID)
 
-    case .windowFocused:
-      guard let windowID = notification.object as? CGWindowID else { break }
-      self.windowFocused(windowID)
+      case .windowMinimized:
+        guard let window = object as? Window else { break }
+        self.windowMinimized(window)
 
-    case .windowMoved:
-      guard let windowID = notification.object as? CGWindowID else { break }
-      self.windowMoved(windowID)
+      case .windowDeminimized:
+        guard let window = object as? Window else { break }
+        self.windowDeminimized(window)
 
-    case .windowResized:
-      guard let windowID = notification.object as? CGWindowID else { break }
-      self.windowResized(windowID)
-
-    case .windowMinimized:
-      guard let window = notification.object as? Window else { break }
-      self.windowMinimized(window)
-
-    case .windowDeminimized:
-      guard let window = notification.object as? Window else { break }
-      self.windowDeminimized(window)
-
-    case .spaceChanged:
-      self.spaceChanged()
+      case .spaceChanged:
+        self.spaceChanged()
+      }
     }
   }
 }
