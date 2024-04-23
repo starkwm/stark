@@ -27,7 +27,7 @@ class WindowManager {
   }
 
   func add(_ application: Application) {
-    applications[application.processID] = application
+    applications.updateValue(application, forKey: application.processID)
   }
 
   func remove(_ application: Application) {
@@ -55,7 +55,7 @@ class WindowManager {
       return nil
     }
 
-    windows[window.id] = window
+    windows.updateValue(window, forKey: window.id)
 
     return window
   }
@@ -68,21 +68,21 @@ class WindowManager {
   func addWindows(for application: Application) -> [Window] {
     let elements = application.windowElements()
 
-    var windows = [Window]()
+    var result = [Window]()
 
     for element in elements {
       let windowID = Window.id(for: element)
 
-      if windowID == 0 || WindowManager.shared.windows[windowID] != nil {
+      if windowID == 0 || windows[windowID] != nil {
         continue
       }
 
       guard let window = add(element, application) else { continue }
 
-      windows.append(window)
+      result.append(window)
     }
 
-    return windows
+    return result
   }
 
   @discardableResult
@@ -122,8 +122,10 @@ class WindowManager {
         applicationsToRefresh.append(application)
         Logger.main.debug("not all windows resolved \(application)")
       } else if refreshIndex != -1 && !missing {
-        applicationsToRefresh.remove(at: refreshIndex)
-        Logger.main.debug("all windows resolved \(application)")
+        if applicationsToRefresh.indices.contains(refreshIndex) {
+          applicationsToRefresh.remove(at: refreshIndex)
+          Logger.main.debug("all windows resolved \(application)")
+        }
         result = true
       }
     }
