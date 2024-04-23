@@ -22,49 +22,55 @@ class EventManager {
   }
 
   func post(event: EventType, object: Any?) {
-    guard let name = events[event] else {
-      return
-    }
+    guard let name = events[event] else { return }
 
     center.post(name: name, object: object)
   }
 
   private func handle(_ notification: Notification) {
-    guard let event = events.first(where: { $1 == notification.name })?.key else {
-      return
-    }
+    guard let event = events.first(where: { $1 == notification.name })?.key else { return }
 
     switch event {
     case .applicationLaunched:
       guard let process = notification.object as? Process else { break }
       self.applicationLaunched(process)
+
     case .applicationTerminated:
       guard let process = notification.object as? Process else { break }
       self.applicationTerminated(process)
+
     case .applicationFrontSwitched:
       guard let process = notification.object as? Process else { break }
       self.applicationFrontSwitched(process)
+
     case .windowCreated:
       let element = notification.object as! AXUIElement
       self.windowCreated(element)
+
     case .windowDestroyed:
       guard let window = notification.object as? Window else { break }
       self.windowDestroyed(window)
+
     case .windowFocused:
       guard let windowID = notification.object as? CGWindowID else { break }
       self.windowFocused(windowID)
+
     case .windowMoved:
       guard let windowID = notification.object as? CGWindowID else { break }
       self.windowMoved(windowID)
+
     case .windowResized:
       guard let windowID = notification.object as? CGWindowID else { break }
       self.windowResized(windowID)
+
     case .windowMinimized:
       guard let window = notification.object as? Window else { break }
       self.windowMinimized(window)
+
     case .windowDeminimized:
       guard let window = notification.object as? Window else { break }
       self.windowDeminimized(window)
+
     case .spaceChanged:
       self.spaceChanged()
     }
