@@ -28,6 +28,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed `Id` to `ID` in variables
 - Updated JavaScript exception log messages to not include the fact it's an exception.
 - Updated the status item icon
+- Updated minimum macOS version to 14.5
+
+### Fixed
+
+- Fixed `moveWindow` not working on macOS 14.5
 
 ## [2.5.0] - 2024-02-29
 
