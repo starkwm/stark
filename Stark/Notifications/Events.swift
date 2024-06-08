@@ -1,6 +1,6 @@
 import Foundation
 
-enum EventType: String, CaseIterable {
+enum EventType: String {
   case applicationLaunched
   case applicationTerminated
   case applicationFrontSwitched
