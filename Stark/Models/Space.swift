@@ -20,7 +20,6 @@ private let spacesKey = "Spaces"
   func windows() -> [Window]
 
   func moveWindow(_ window: Window)
-  func moveWindows(_ windows: [Window])
 }
 
 extension Space: SpaceJSExport {}
@@ -159,10 +158,10 @@ class Space: NSObject {
   }
 
   func moveWindow(_ window: Window) {
-    moveWindows([window])
-  }
-
-  func moveWindows(_ windows: [Window]) {
-    SLSMoveWindowsToManagedSpace(Space.connection, windows.map(\.id) as CFArray, id)
+    _ = SLSSpaceSetCompatID(Space.connection, id, 0x79616265)
+    _ = withUnsafeMutablePointer(to: &window.id, { pointer -> CGError in
+      return SLSSetWindowListWorkspace(Space.connection, pointer, 1, 0x79616265)
+    })
+    _ = SLSSpaceSetCompatID(Space.connection, id, 0x0)
   }
 }

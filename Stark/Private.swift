@@ -91,6 +91,16 @@ func SLSWindowQueryResultCopyWindows(_ query: CFTypeRef) -> CFTypeRef
 @_silgen_name("SLSWindowQueryWindows") @discardableResult
 func SLSWindowQueryWindows(_ connectionID: Int32, _ windows: CFArray, _ count: Int32) -> CFTypeRef
 
+/// Set the compat ID for the given space.
+// swift-format-ignore: AlwaysUseLowerCamelCase
+@_silgen_name("SLSSpaceSetCompatID")
+func SLSSpaceSetCompatID(_ connectionID: Int32, _ spaceID: UInt64, _ workspace: Int32) -> CGError
+
+/// Set the window list for the given workspace.
+// swift-format-ignore: AlwaysUseLowerCamelCase
+@_silgen_name("SLSSetWindowListWorkspace")
+func SLSSetWindowListWorkspace(_ connectionID: Int32, _ windows: UnsafePointer<UInt32>, _ window_count: Int32, _ workspace: Int32) -> CGError
+
 /// Get the window ID for the given accessibility UI element.
 // swift-format-ignore: AlwaysUseLowerCamelCase
 @_silgen_name("_AXUIElementGetWindow") @discardableResult
