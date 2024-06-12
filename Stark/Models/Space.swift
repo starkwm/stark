@@ -158,10 +158,13 @@ class Space: NSObject {
   }
 
   func moveWindow(_ window: Window) {
-    _ = SLSSpaceSetCompatID(Space.connection, id, 0x79616265)
-    _ = withUnsafeMutablePointer(to: &window.id, { pointer -> CGError in
-      return SLSSetWindowListWorkspace(Space.connection, pointer, 1, 0x79616265)
-    })
+    _ = SLSSpaceSetCompatID(Space.connection, id, 0x7961_6265)
+    _ = withUnsafeMutablePointer(
+      to: &window.id,
+      { pointer -> CGError in
+        return SLSSetWindowListWorkspace(Space.connection, pointer, 1, 0x7961_6265)
+      }
+    )
     _ = SLSSpaceSetCompatID(Space.connection, id, 0x0)
   }
 }
