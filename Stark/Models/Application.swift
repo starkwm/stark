@@ -82,6 +82,7 @@ class Application: NSObject {
 
   var connection: Int32 = -1
   var observer: AXObserver?
+  var retryObserving = false
 
   private var application: NSRunningApplication
 
@@ -138,14 +139,10 @@ class Application: NSObject {
         if result == .success || result == .notificationAlreadyRegistered {
           observedNotifications.insert(ApplicationNotifications(rawValue: 1 << idx))
         } else {
-          var retry = false
-
-          if result == .cannotComplete {
-            retry = true
-          }
+          retryObserving = result == .cannotComplete
 
           Logger.main.debug(
-            "notification \(notification, privacy: .public) not added \(self, privacy: .public) (retry: \(retry))"
+            "notification \(notification, privacy: .public) not added \(self, privacy: .public) (retry: \(self.retryObserving))"
           )
         }
       }

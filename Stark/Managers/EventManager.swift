@@ -99,6 +99,15 @@ extension EventManager {
     if !application.observe() {
       Logger.main.debug("could not observe application \(application, privacy: .public)")
       application.unobserve()
+
+      if application.retryObserving {
+        guard let proc = ProcessManager.shared.processes[process.psn.lowLongOfPSN] else { return }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+          EventManager.shared.post(event: .applicationLaunched, object: proc)
+        }
+      }
+
       return
     }
 
