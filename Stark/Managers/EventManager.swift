@@ -64,12 +64,12 @@ class EventManager {
 extension EventManager {
   private func applicationLaunched(_ process: Process) {
     if process.terminated {
-      Logger.main.debug("application terminated during launch \(process)")
+      Logger.main.debug("application terminated during launch \(process, privacy: .public)")
       return
     }
 
     if !Workspace.shared.isFinishedLaunching(process) {
-      Logger.main.debug("application not finishing launching \(process)")
+      Logger.main.debug("application not finishing launching \(process, privacy: .public)")
       Workspace.shared.observeFinishedLaunching(process)
 
       if Workspace.shared.isFinishedLaunching(process) {
@@ -80,7 +80,7 @@ extension EventManager {
     }
 
     if !Workspace.shared.isObservable(process) {
-      Logger.main.debug("application is not observable \(process)")
+      Logger.main.debug("application is not observable \(process, privacy: .public)")
       Workspace.shared.observeActivationPolicy(process)
 
       if Workspace.shared.isObservable(process) {
@@ -97,7 +97,7 @@ extension EventManager {
     let application = Application(process: process)
 
     if !application.observe() {
-      Logger.main.debug("could not observe application \(application)")
+      Logger.main.debug("could not observe application \(application, privacy: .public)")
       application.unobserve()
       return
     }
@@ -105,7 +105,7 @@ extension EventManager {
     WindowManager.shared.add(application)
     WindowManager.shared.addWindows(for: application)
 
-    Logger.main.debug("application launched \(application)")
+    Logger.main.debug("application launched \(application, privacy: .public)")
   }
 
   private func applicationTerminated(_ process: Process) {
@@ -129,7 +129,7 @@ extension EventManager {
 
     application.unobserve()
 
-    Logger.main.debug("application terminated \(application)")
+    Logger.main.debug("application terminated \(application, privacy: .public)")
   }
 
   private func applicationFrontSwitched(_ process: Process) {
@@ -144,7 +144,7 @@ extension EventManager {
       }
     }
 
-    Logger.main.debug("application front switched \(application)")
+    Logger.main.debug("application front switched \(application, privacy: .public)")
   }
 
   private func windowCreated(_ element: AXUIElement) {
@@ -158,7 +158,7 @@ extension EventManager {
     guard let application = WindowManager.shared.applications.first(where: { $0.key == pid })?.value else { return }
     guard let window = WindowManager.shared.add(element, application) else { return }
 
-    Logger.main.debug("window created \(window)")
+    Logger.main.debug("window created \(window, privacy: .public)")
   }
 
   private func windowDestroyed(_ window: Window) {
@@ -166,7 +166,7 @@ extension EventManager {
       return
     }
 
-    Logger.main.debug("window destroyed \(window)")
+    Logger.main.debug("window destroyed \(window, privacy: .public)")
 
     WindowManager.shared.remove(window.id)
     window.element = nil
@@ -181,7 +181,7 @@ extension EventManager {
 
     guard let window = WindowManager.shared.windows.first(where: { $0.key == windowID })?.value else { return }
 
-    Logger.main.debug("window focused \(window)")
+    Logger.main.debug("window focused \(window, privacy: .public)")
   }
 
   private func windowMoved(_ windowID: CGWindowID) {
@@ -191,7 +191,7 @@ extension EventManager {
 
     guard let window = WindowManager.shared.windows.first(where: { $0.key == windowID })?.value else { return }
 
-    Logger.main.debug("window moved \(window)")
+    Logger.main.debug("window moved \(window, privacy: .public)")
   }
 
   private func windowResized(_ windowID: CGWindowID) {
@@ -201,25 +201,25 @@ extension EventManager {
 
     guard let window = WindowManager.shared.windows.first(where: { $0.key == windowID })?.value else { return }
 
-    Logger.main.debug("window resized \(window)")
+    Logger.main.debug("window resized \(window, privacy: .public)")
   }
 
   private func windowMinimized(_ window: Window) {
-    Logger.main.debug("window minimized \(window)")
+    Logger.main.debug("window minimized \(window, privacy: .public)")
   }
 
   private func windowDeminimized(_ window: Window) {
-    Logger.main.debug("window deminimized \(window)")
+    Logger.main.debug("window deminimized \(window, privacy: .public)")
   }
 
   private func spaceChanged() {
     for (idx, app) in WindowManager.shared.applicationsToRefresh.enumerated() {
-      Logger.main.debug("application has windows that are not yet resolved \(app)")
+      Logger.main.debug("application has windows that are not yet resolved \(app, privacy: .public)")
       WindowManager.shared.addWindowsFor(existing: app, refreshIndex: idx)
     }
 
     let space = Space.active()
 
-    Logger.main.debug("space changed \(space)")
+    Logger.main.debug("space changed \(space, privacy: .public)")
   }
 }

@@ -43,7 +43,7 @@ class Process {
   }
 
   deinit {
-    Logger.main.debug("destroying process \(self)")
+    Logger.main.debug("destroying process \(self, privacy: .public)")
   }
 }
 

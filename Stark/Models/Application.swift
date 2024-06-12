@@ -97,7 +97,7 @@ class Application: NSObject {
   }
 
   deinit {
-    Logger.main.debug("destroying application \(self)")
+    Logger.main.debug("destroying application \(self, privacy: .public)")
   }
 
   func windows() -> [Window] {
@@ -138,7 +138,15 @@ class Application: NSObject {
         if result == .success || result == .notificationAlreadyRegistered {
           observedNotifications.insert(ApplicationNotifications(rawValue: 1 << idx))
         } else {
-          Logger.main.debug("notification \(notification) not added \(self)")
+          var retry = false
+
+          if result == .cannotComplete {
+            retry = true
+          }
+
+          Logger.main.debug(
+            "notification \(notification, privacy: .public) not added \(self, privacy: .public) (retry: \(retry))"
+          )
         }
       }
 
