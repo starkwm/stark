@@ -93,12 +93,12 @@ func SLSWindowQueryWindows(_ connectionID: Int32, _ windows: CFArray, _ count: I
 
 /// Set the compat ID for the given space.
 // swift-format-ignore: AlwaysUseLowerCamelCase
-@_silgen_name("SLSSpaceSetCompatID")
+@_silgen_name("SLSSpaceSetCompatID") @discardableResult
 func SLSSpaceSetCompatID(_ connectionID: Int32, _ spaceID: UInt64, _ workspace: Int32) -> CGError
 
 /// Set the window list for the given workspace.
 // swift-format-ignore: AlwaysUseLowerCamelCase
-@_silgen_name("SLSSetWindowListWorkspace")
+@_silgen_name("SLSSetWindowListWorkspace") @discardableResult
 func SLSSetWindowListWorkspace(
   _ connectionID: Int32,
   _ windows: UnsafePointer<UInt32>,
