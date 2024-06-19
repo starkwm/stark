@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated JavaScript exception log messages to not include the fact it's an exception.
 - Updated the status item icon
 - Updated minimum macOS version to 14.5
+- Updated logging for `print` and error handling to specify the privacy flag
 
 ### Fixed
 
