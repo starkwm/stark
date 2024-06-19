@@ -45,11 +45,11 @@ class Config {
     }
 
     context.exceptionHandler = { _, err in
-      Logger.javascript.error("\(err)")
+      Logger.javascript.error("\(err, privacy: .public)")
     }
 
     let print: @convention(block) (String) -> Void = { message in
-      Logger.javascript.info("\(message)")
+      Logger.javascript.info("\(message, privacy: .public)")
     }
 
     let reload: @convention(block) () -> Void = {
