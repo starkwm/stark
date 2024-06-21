@@ -261,6 +261,7 @@ class Window: NSObject {
   }
 
   func setFrame(_ frame: CGRect) {
+    setSize(frame.size)
     setTopLeft(frame.origin)
     setSize(frame.size)
   }
