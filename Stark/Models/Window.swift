@@ -245,7 +245,7 @@ class Window: NSObject {
   }
 
   deinit {
-    Logger.main.debug("destroying window \(self, privacy: .public)")
+    debug("destroying window \(self)")
   }
 
   private func pid() -> pid_t? {
@@ -334,7 +334,7 @@ class Window: NSObject {
       if result == .success || result == .notificationAlreadyRegistered {
         observedNotifications.insert(WindowNotifications(rawValue: 1 << idx))
       } else {
-        Logger.main.debug("notification \(notification, privacy: .public) not added \(self, privacy: .public)")
+        debug("notification \(notification) not added \(self)")
       }
     }
 

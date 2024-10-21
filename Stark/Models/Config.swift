@@ -25,7 +25,7 @@ class Config {
     let configPath = resolvePrimaryPath()
 
     if !FileManager.default.fileExists(atPath: configPath) {
-      Logger.main.error("configuration file does not exist \(configPath)")
+      error("configuration file does not exist \(configPath)")
       return
     }
 
@@ -40,23 +40,23 @@ class Config {
     context = JSContext(virtualMachine: JSVirtualMachine())
 
     guard let context else {
-      Logger.main.error("could not create javascript context")
+      error("could not create javascript context")
       return false
     }
 
     context.exceptionHandler = { _, err in
-      Logger.javascript.error("\(err, privacy: .public)")
+      error("javascript exception - \(String(describing: err))")
     }
 
-    let print: @convention(block) (String) -> Void = { message in
-      Logger.javascript.info("\(message, privacy: .public)")
+    let jsPrint: @convention(block) (String) -> Void = { message in
+      debug(message)
     }
 
     let reload: @convention(block) () -> Void = {
       self.execute()
     }
 
-    context.setObject(print, forKeyedSubscript: "print" as NSString)
+    context.setObject(jsPrint, forKeyedSubscript: "print" as NSString)
     context.setObject(reload, forKeyedSubscript: "reload" as NSString)
 
     context.setObject(Keymap.self, forKeyedSubscript: "Keymap" as NSString)
@@ -70,12 +70,12 @@ class Config {
 
   private func loadFile(path: String) -> Bool {
     guard let context else {
-      Logger.main.error("javascript context is not defined")
+      error("javascript context is not defined")
       return false
     }
 
     guard let scriptContents = try? String(contentsOfFile: path) else {
-      Logger.main.error("could not read file \(path)")
+      error("could not read file \(path)")
       return false
     }
 

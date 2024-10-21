@@ -98,7 +98,7 @@ class Application: NSObject {
   }
 
   deinit {
-    Logger.main.debug("destroying application \(self, privacy: .public)")
+    debug("destroying application \(self)")
   }
 
   func windows() -> [Window] {
@@ -141,9 +141,7 @@ class Application: NSObject {
         } else {
           retryObserving = result == .cannotComplete
 
-          Logger.main.debug(
-            "notification \(notification, privacy: .public) not added \(self, privacy: .public) (retry: \(self.retryObserving))"
-          )
+          debug("notification \(notification) not added \(self) (retry: \(self.retryObserving)")
         }
       }
 

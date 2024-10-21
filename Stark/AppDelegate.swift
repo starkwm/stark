@@ -15,12 +15,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     askForAccessibilityIfNeeded()
 
     if !EventManager.shared.begin() {
-      Logger.main.error("could not start event manager")
+      error("could not start event manager")
       return
     }
 
     if !ProcessManager.shared.begin() {
-      Logger.main.error("could not start process manager")
+      error("could not start process manager")
       return
     }
 

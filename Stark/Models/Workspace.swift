@@ -34,7 +34,7 @@ class Workspace: NSObject {
 
     let context: UnsafeMutableRawPointer? = Unmanaged.passUnretained(process).toOpaque()
 
-    Logger.main.debug("adding observer for activation policy \(process, privacy: .public)")
+    debug("adding observer for activation policy \(process)")
     activationPolicyObserved.append(process.psn.lowLongOfPSN)
 
     application.addObserver(
@@ -51,7 +51,7 @@ class Workspace: NSObject {
     if activationPolicyObserved.contains(where: { $0 == process.psn.lowLongOfPSN }) {
       let context: UnsafeMutableRawPointer? = Unmanaged.passUnretained(process).toOpaque()
 
-      Logger.main.debug("removing observer for activation policy \(process, privacy: .public)")
+      debug("removing observer for activation policy \(process)")
       activationPolicyObserved.removeAll(where: { $0 == process.psn.lowLongOfPSN })
       application.removeObserver(Workspace.shared, forKeyPath: "activationPolicy", context: context)
     }
@@ -68,7 +68,7 @@ class Workspace: NSObject {
 
     let context: UnsafeMutableRawPointer? = Unmanaged.passUnretained(process).toOpaque()
 
-    Logger.main.debug("adding observer for finished launching \(process, privacy: .public)")
+    debug("adding observer for finished launching \(process)")
     finishedLaunchingObserved.append(process.psn.lowLongOfPSN)
     application.addObserver(
       Workspace.shared,
@@ -84,7 +84,7 @@ class Workspace: NSObject {
     if finishedLaunchingObserved.contains(where: { $0 == process.psn.lowLongOfPSN }) {
       let context: UnsafeMutableRawPointer? = Unmanaged.passUnretained(process).toOpaque()
 
-      Logger.main.debug("removing observer for finished launching \(process, privacy: .public)")
+      debug("removing observer for finished launching \(process)")
       finishedLaunchingObserved.removeAll(where: { $0 == process.psn.lowLongOfPSN })
       application.removeObserver(Workspace.shared, forKeyPath: "finishedLaunching", context: context)
     }

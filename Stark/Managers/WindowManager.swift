@@ -20,7 +20,7 @@ class WindowManager {
           application.unobserve()
         }
       } else {
-        Logger.main.debug("application is not observable \(process, privacy: .public)")
+        debug("application is not observable \(process)")
         Workspace.shared.observeActivationPolicy(process)
       }
     }
@@ -107,7 +107,7 @@ class WindowManager {
     }
 
     if globalWindowList.count == elements.count - emptyCount {
-      Logger.main.debug("all windows resolved \(application, privacy: .public)")
+      debug("all windows resolved \(application)")
 
       if refreshIndex != -1 {
         if applicationsToRefresh.indices.contains(refreshIndex) {
@@ -120,11 +120,11 @@ class WindowManager {
 
       if refreshIndex == -1 && missing {
         applicationsToRefresh.append(application)
-        Logger.main.debug("not all windows resolved \(application, privacy: .public)")
+        debug("not all windows resolved \(application)")
       } else if refreshIndex != -1 && !missing {
         if applicationsToRefresh.indices.contains(refreshIndex) {
           applicationsToRefresh.remove(at: refreshIndex)
-          Logger.main.debug("all windows resolved \(application, privacy: .public)")
+          debug("debug: all windows resolved \(application)")
         }
         result = true
       }

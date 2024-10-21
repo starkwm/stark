@@ -82,7 +82,7 @@ class Keymap: NSObject {
     let context = JSContext(virtualMachine: callback.context.virtualMachine)
 
     context?.exceptionHandler = { _, err in
-      Logger.javascript.error("\(err)")
+      error("javascript exception - \(String(describing: err))")
     }
 
     let function = JSValue(object: callback, in: context)
