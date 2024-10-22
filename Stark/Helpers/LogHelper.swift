@@ -2,6 +2,10 @@ import Foundation
 
 struct LogHelper: TextOutputStream {
   func write(_ string: String) {
+    if !UserDefaults.standard.bool(forKey: "debugLogging") {
+      return
+    }
+
     let dir = URL(fileURLWithPath: NSHomeDirectory())
     let file = dir.appendingPathComponent(".stark.log")
 

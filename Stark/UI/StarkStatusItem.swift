@@ -31,6 +31,14 @@ class StarkStatusItem {
     loginItem.target = self
     loginItem.state = LaunchAgentHelper.enabled() ? .on : .off
 
+    let logItem = NSMenuItem(
+      title: "Debug logging",
+      action: #selector(toggleDebugLogging(sender:)),
+      keyEquivalent: ""
+    )
+    logItem.target = self
+    logItem.state = UserDefaults.standard.bool(forKey: "debugLogging") ? .on : .off
+
     let quitItem = NSMenuItem(
       title: "Quit Stark",
       action: #selector(NSApplication.terminate(_:)),
@@ -40,6 +48,7 @@ class StarkStatusItem {
     menu.addItem(reloadConfigItem)
     menu.addItem(NSMenuItem.separator())
     menu.addItem(loginItem)
+    menu.addItem(logItem)
     menu.addItem(NSMenuItem.separator())
     menu.addItem(quitItem)
 
@@ -58,5 +67,18 @@ class StarkStatusItem {
       LaunchAgentHelper.add()
       sender.state = .on
     }
+  }
+
+  @objc
+  func toggleDebugLogging(sender: NSMenuItem) {
+      if sender.state == .on {
+          UserDefaults.standard.set(false, forKey: "debugLogging")
+          sender.state = .off
+      } else {
+          UserDefaults.standard.set(true, forKey: "debugLogging")
+          sender.state = .on
+      }
+
+      UserDefaults.standard.synchronize()
   }
 }
