@@ -71,14 +71,14 @@ class StarkStatusItem {
 
   @objc
   func toggleDebugLogging(sender: NSMenuItem) {
-      if sender.state == .on {
-          UserDefaults.standard.set(false, forKey: "debugLogging")
-          sender.state = .off
-      } else {
-          UserDefaults.standard.set(true, forKey: "debugLogging")
-          sender.state = .on
-      }
+    if sender.state == .on {
+      UserDefaults.standard.set(false, forKey: "debugLogging")
+      sender.state = .off
+    } else {
+      UserDefaults.standard.set(true, forKey: "debugLogging")
+      sender.state = .on
+    }
 
-      UserDefaults.standard.synchronize()
+    UserDefaults.standard.synchronize()
   }
 }
