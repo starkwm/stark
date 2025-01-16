@@ -84,8 +84,8 @@
 			isa = PBXGroup;
 			children = (
 				F63B99242BC73FB100355240 /* ApplicationNotifications.swift */,
-				F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */,
 				F6EA81552BCD810400F0F68C /* Events.swift */,
+				F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */,
 			);
 			path = Notifications;
 			sourceTree = "<group>";
@@ -118,17 +118,17 @@
 		F6792C291C404B53007D9DF9 /* Stark */ = {
 			isa = PBXGroup;
 			children = (
+				F6792C311C404B53007D9DF9 /* Stark-Info.plist */,
+				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
+				F6A2E7692BC8CB250024F674 /* main.swift */,
+				F6F4ECF82BC9BC13001234D4 /* Private.swift */,
+				F6792C2C1C404B53007D9DF9 /* Assets.xcassets */,
 				F6A0DB63204724AF00471843 /* Extensions */,
 				F6792C381C404EF8007D9DF9 /* Helpers */,
 				F68B121F2BC3172800E3F7FF /* Managers */,
 				F6A50A252BC076AE002689F2 /* Models */,
 				F63B99232BC73FA100355240 /* Notifications */,
 				F6A50A272BC07CAA002689F2 /* UI */,
-				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
-				F6F4ECF82BC9BC13001234D4 /* Private.swift */,
-				F6A2E7692BC8CB250024F674 /* main.swift */,
-				F6792C2C1C404B53007D9DF9 /* Assets.xcassets */,
-				F6792C311C404B53007D9DF9 /* Stark-Info.plist */,
 			);
 			path = Stark;
 			sourceTree = "<group>";
@@ -145,9 +145,9 @@
 		F68B121F2BC3172800E3F7FF /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				F685270C2D398B6D008EC4C1 /* ShortcutManager.swift */,
 				F61AF11B2BC488EC00FF39E0 /* EventManager.swift */,
 				F645D0472BC37DF300BED730 /* ProcessManager.swift */,
+				F685270C2D398B6D008EC4C1 /* ShortcutManager.swift */,
 				F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */,
 			);
 			path = Managers;
@@ -165,13 +165,13 @@
 		F6A50A252BC076AE002689F2 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F68527122D398B81008EC4C1 /* Shortcut.swift */,
-				F68527102D398B7C008EC4C1 /* Modifier.swift */,
-				F685270E2D398B77008EC4C1 /* Key.swift */,
 				F6792C401C405598007D9DF9 /* Application.swift */,
 				F667BCA51CFB972A008B4B83 /* Config.swift */,
+				F685270E2D398B77008EC4C1 /* Key.swift */,
 				F66C39C51C6AD73E0008FDD5 /* Keymap.swift */,
+				F68527102D398B7C008EC4C1 /* Modifier.swift */,
 				F68B12202BC3182E00E3F7FF /* Process.swift */,
+				F68527122D398B81008EC4C1 /* Shortcut.swift */,
 				F644DFF51FB5110B00944C6B /* Space.swift */,
 				F6792C421C4055A2007D9DF9 /* Window.swift */,
 				F6A5DFCE2BCDE914000C1630 /* Workspace.swift */,
