@@ -1,4 +1,3 @@
-import Alicia
 import AppKit
 import JavaScriptCore
 import OSLog
@@ -15,8 +14,8 @@ class Config {
   func execute() {
     Keymap.reset()
 
-    Alicia.stop()
-    Alicia.reset()
+    ShortcutManager.stop()
+    ShortcutManager.reset()
 
     if !setupAPI() {
       return
@@ -33,7 +32,7 @@ class Config {
       return
     }
 
-    Alicia.start()
+    ShortcutManager.start()
   }
 
   private func setupAPI() -> Bool {

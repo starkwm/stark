@@ -1,4 +1,3 @@
-import Alicia
 import JavaScriptCore
 import OSLog
 
@@ -35,7 +34,7 @@ class Keymap: NSObject {
     }
 
     keymap.callback?.value.context.virtualMachine.removeManagedReference(keymap, withOwner: self)
-    Alicia.unregister(shortcut: keymap.shortcut!)
+    ShortcutManager.unregister(shortcut: keymap.shortcut!)
     keymap.shortcut = nil
   }
 
@@ -71,7 +70,7 @@ class Keymap: NSObject {
     self.shortcut!.modifierFlags = Modifier.flags(for: modifiers)
     self.shortcut!.handler = call
 
-    Alicia.register(shortcut: shortcut!)
+    ShortcutManager.register(shortcut: shortcut!)
   }
 
   private func call() {

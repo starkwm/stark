@@ -1,6 +1,4 @@
-import Alicia
 import AppKit
-import OSLog
 
 class AppDelegate: NSObject, NSApplicationDelegate {
   var config: Config
@@ -29,11 +27,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     statusItem.setup()
     config.execute()
 
-    Alicia.start()
+    ShortcutManager.start()
   }
 
   func applicationWillTerminate(_: Notification) {
-    Alicia.stop()
+    ShortcutManager.stop()
   }
 
   private func askForAccessibilityIfNeeded() {
