@@ -1,6 +1,6 @@
 import Carbon
 
-private let relocatableKeyCodes = [
+private let relocatableKeyCodes: [Int] = [
   kVK_ANSI_A, kVK_ANSI_B, kVK_ANSI_C, kVK_ANSI_D, kVK_ANSI_E,
   kVK_ANSI_F, kVK_ANSI_G, kVK_ANSI_H, kVK_ANSI_I, kVK_ANSI_J,
   kVK_ANSI_K, kVK_ANSI_L, kVK_ANSI_M, kVK_ANSI_N, kVK_ANSI_O,
@@ -24,13 +24,14 @@ private let relocatableKeyCodes = [
   kVK_ANSI_Minus,
 ]
 
-public let keyToCode = [
+public let keyToCode: [String: Int] = [
   "space": kVK_Space,
   "tab": kVK_Tab,
   "return": kVK_Return,
   "enter": kVK_Return,
 
   "capslock": kVK_CapsLock,
+  "caps": kVK_CapsLock,
 
   "pageup": kVK_PageUp,
   "pagedown": kVK_PageDown,
@@ -65,6 +66,7 @@ public let keyToCode = [
   "escape": kVK_Escape,
   "esc": kVK_Escape,
   "delete": kVK_Delete,
+  "del": kVK_Delete,
 
   "grave": kVK_ANSI_Grave,
   "backtick": kVK_ANSI_Grave,
