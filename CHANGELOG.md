@@ -12,10 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added `moveWindow` function to `Space`
 - Added `print` function to global scope in the JavaScript runtime (replaces `Stark.log`)
 - Added `reload` function to the global scope in the JavaScript runtime (replaces `Stark.reload`)
+- Added `ShortcutManager` to manage global shortcuts
+- Added additional key strings: `caps` and `del`
 
 ### Removed
 
 - Removed the `Stark` class exported to the JavaScript runtime.
+- Removed the `Alicia` framework
 
 ### Changed
 
