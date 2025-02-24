@@ -5,7 +5,6 @@ class WindowManager {
   static let shared = WindowManager()
 
   private(set) var applications = [pid_t: Application]()
-  private(set) var applicationsToRefresh = [Application]()
   private(set) var windows = [CGWindowID: Window]()
 
   func begin() {
@@ -15,7 +14,7 @@ class WindowManager {
 
         if application.observe() {
           add(application)
-          addWindowsFor(existing: application, refreshIndex: -1)
+          addWindowsFor(existing: application)
         } else {
           application.unobserve()
         }
@@ -32,14 +31,6 @@ class WindowManager {
 
   func remove(_ application: Application) {
     applications.removeValue(forKey: application.processID)
-  }
-
-  func removeApplicationToRefresh(_ application: Application) {
-    for (idx, app) in applicationsToRefresh.enumerated() {
-      if app == application {
-        applicationsToRefresh.remove(at: idx)
-      }
-    }
   }
 
   @discardableResult
@@ -85,55 +76,73 @@ class WindowManager {
     return result
   }
 
-  @discardableResult
-  func addWindowsFor(existing application: Application, refreshIndex: Int) -> Bool {
-    let globalWindowList = application.windowIdentifiers()
+  func addWindowsFor(existing application: Application) {
     let elements = application.windowElements()
+    let validElements = elements.filter { Window.id(for: $0) != 0 }
 
-    var result = false
-    var emptyCount = 0
-
-    for element in elements {
+    for element in validElements {
       let windowID = Window.id(for: element)
-
-      if windowID == 0 {
-        emptyCount += 1
-        continue
-      }
 
       if !windows.keys.contains(windowID) {
         add(element, application)
       }
     }
 
-    if globalWindowList.count == elements.count - emptyCount {
-      debug("all windows resolved \(application)")
+    let appWindowIDs = application.windowIdentifiers()
+    let unresolvedWindowIDs = appWindowIDs.filter { windows[$0] == nil }
 
-      if refreshIndex != -1 {
-        if applicationsToRefresh.indices.contains(refreshIndex) {
-          applicationsToRefresh.remove(at: refreshIndex)
-        }
-        result = true
+    if !unresolvedWindowIDs.isEmpty {
+      resolveWindows(for: application, unresolved: unresolvedWindowIDs)
+    }
+  }
+
+  func resolveWindows(for application: Application, unresolved windowIDs: [CGWindowID]) {
+    debug("unresolved windows for application \(application)")
+
+    var unresolvedWindowIDs = windowIDs
+
+    var baseToken = Data()
+    baseToken.append(contentsOf: withUnsafeBytes(of: application.processID) { Data($0) })
+    baseToken.append(contentsOf: withUnsafeBytes(of: Int32(0)) { Data($0) })
+    baseToken.append(contentsOf: withUnsafeBytes(of: Int32(0x636f_636f)) { Data($0) })
+
+    for id in 0...0xffff {
+      if unresolvedWindowIDs.isEmpty {
+        break
       }
-    } else {
-      let missing = globalWindowList.contains(where: { windows[$0] == nil })
 
-      if refreshIndex == -1 && missing {
-        applicationsToRefresh.append(application)
-        debug("not all windows resolved \(application)")
-      } else if refreshIndex != -1 && !missing {
-        if applicationsToRefresh.indices.contains(refreshIndex) {
-          applicationsToRefresh.remove(at: refreshIndex)
-          debug("debug: all windows resolved \(application)")
-        }
-        result = true
+      var token = baseToken
+      token.append(contentsOf: withUnsafeBytes(of: id) { Data($0) })
+
+      guard let element = createAXElement(from: token),
+        isWindow(element: element),
+        let windowID = getValidWindowID(for: element)
+      else { continue }
+
+      if let idx = unresolvedWindowIDs.firstIndex(of: windowID) {
+        unresolvedWindowIDs.remove(at: idx)
+        add(element, application)
+        debug("resolved window \(windowID) for \(application)")
       }
     }
-
-    return result
   }
 
   func windows(for application: Application) -> [Window] {
     return windows.filter { $0.value.application == application }.map { $0.value }
+  }
+
+  private func createAXElement(from token: Data) -> AXUIElement? {
+    _AXUIElementCreateWithRemoteToken(token as CFData)?.takeUnretainedValue()
+  }
+
+  private func getValidWindowID(for element: AXUIElement) -> CGWindowID? {
+    let windowID = Window.id(for: element)
+    return windowID != 0 ? windowID : nil
+  }
+
+  private func isWindow(element: AXUIElement) -> Bool {
+    var role: CFTypeRef?
+    return AXUIElementCopyAttributeValue(element, kAXRoleAttribute as CFString, &role).rawValue == 0
+      && role as? String == kAXWindowRole
   }
 }

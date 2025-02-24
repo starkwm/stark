@@ -123,7 +123,6 @@ extension EventManager {
 
     guard let application = WindowManager.shared.applications[process.pid] else { return }
 
-    WindowManager.shared.removeApplicationToRefresh(application)
     WindowManager.shared.remove(application)
 
     let windows = WindowManager.shared.windows(for: application)
@@ -144,13 +143,6 @@ extension EventManager {
   private func applicationFrontSwitched(_ process: Process) {
     guard let application = WindowManager.shared.applications.first(where: { $0.key == process.pid })?.value else {
       return
-    }
-
-    for (idx, app) in WindowManager.shared.applicationsToRefresh.enumerated() {
-      if app == application {
-        WindowManager.shared.addWindowsFor(existing: app, refreshIndex: idx)
-        break
-      }
     }
 
     debug("frontmost application switched \(application)")
@@ -222,11 +214,6 @@ extension EventManager {
   }
 
   private func spaceChanged() {
-    for (idx, app) in WindowManager.shared.applicationsToRefresh.enumerated() {
-      debug("debug: application has windows that are not yet resolved \(app)")
-      WindowManager.shared.addWindowsFor(existing: app, refreshIndex: idx)
-    }
-
     let space = Space.active()
 
     debug("space changed \(space)")
