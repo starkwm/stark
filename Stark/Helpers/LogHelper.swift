@@ -2,10 +2,6 @@ import Foundation
 
 struct LogHelper: TextOutputStream {
   func write(_ string: String) {
-    if !UserDefaults.standard.bool(forKey: "debugLogging") {
-      return
-    }
-
     let dir = URL(fileURLWithPath: NSHomeDirectory())
     let file = dir.appendingPathComponent(".stark.log")
 
@@ -22,9 +18,17 @@ struct LogHelper: TextOutputStream {
 var logger = LogHelper()
 
 func debug(_ message: String) {
-  print("\(Date()) debug: \(message)", to: &logger)
+  if UserDefaults.standard.bool(forKey: "debugLogging") {
+    print("\(Date()) debug: \(message)", to: &logger)
+  } else {
+    print("\(Date()) debug: \(message)")
+  }
 }
 
 func error(_ message: String) {
-  print("\(Date()) error: \(message)", to: &logger)
+  if UserDefaults.standard.bool(forKey: "debugLogging") {
+    print("\(Date()) error: \(message)", to: &logger)
+  } else {
+    print("\(Date()) error: \(message)")
+  }
 }
