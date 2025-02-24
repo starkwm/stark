@@ -190,7 +190,7 @@ extension EventManager {
 
     guard let window = WindowManager.shared.windows.first(where: { $0.key == windowID })?.value else { return }
 
-    debug("debug: window focused \(window)")
+    debug("window focused \(window)")
   }
 
   private func windowMoved(_ windowID: CGWindowID) {
@@ -200,7 +200,7 @@ extension EventManager {
 
     guard let window = WindowManager.shared.windows.first(where: { $0.key == windowID })?.value else { return }
 
-    debug("debug: window moved \(window)")
+    debug("window moved \(window)")
   }
 
   private func windowResized(_ windowID: CGWindowID) {
@@ -210,15 +210,15 @@ extension EventManager {
 
     guard let window = WindowManager.shared.windows.first(where: { $0.key == windowID })?.value else { return }
 
-    debug("debug: window resized \(window)")
+    debug("window resized \(window)")
   }
 
   private func windowMinimized(_ window: Window) {
-    debug("debug: window minimized \(window)")
+    debug("window minimized \(window)")
   }
 
   private func windowDeminimized(_ window: Window) {
-    debug("debug: window deminimized \(window)")
+    debug("window deminimized \(window)")
   }
 
   private func spaceChanged() {
@@ -229,6 +229,6 @@ extension EventManager {
 
     let space = Space.active()
 
-    debug("debug: space changed \(space)")
+    debug("space changed \(space)")
   }
 }
