@@ -9,19 +9,21 @@ class WindowManager {
 
   func begin() {
     for process in ProcessManager.shared.processes.values {
-      if Workspace.shared.isObservable(process) {
-        let application = Application(process: process)
-
-        if application.observe() {
-          add(application)
-          addWindowsFor(existing: application)
-        } else {
-          application.unobserve()
-        }
-      } else {
+      guard Workspace.shared.isObservable(process) else {
         debug("application is not observable \(process)")
         Workspace.shared.observeActivationPolicy(process)
+        continue
       }
+
+      let application = Application(process: process)
+
+      guard application.observe() else {
+        application.unobserve()
+        continue
+      }
+
+      add(application)
+      addWindowsFor(existing: application)
     }
   }
 
@@ -37,17 +39,14 @@ class WindowManager {
   func add(_ element: AXUIElement, _ application: Application) -> Window? {
     let window = Window(element: element, application: application)
 
-    if window.subrole == nil {
-      return nil
-    }
+    guard window.subrole != nil else { return nil }
 
-    if !window.observe() {
+    guard window.observe() else {
       window.unobserve()
       return nil
     }
 
-    windows.updateValue(window, forKey: window.id)
-
+    windows[window.id] = window
     return window
   }
 
@@ -55,41 +54,26 @@ class WindowManager {
     windows.removeValue(forKey: windowID)
   }
 
-  @discardableResult
-  func addWindows(for application: Application) -> [Window] {
-    let elements = application.windowElements()
-
-    var result = [Window]()
-
-    for element in elements {
+  func addWindows(for application: Application) {
+    for element in application.windowElements() {
       let windowID = Window.id(for: element)
 
-      if windowID == 0 || windows[windowID] != nil {
-        continue
-      }
+      guard windowID != 0, windows[windowID] == nil else { return }
 
-      guard let window = add(element, application) else { continue }
-
-      result.append(window)
+      add(element, application)
     }
-
-    return result
   }
 
   func addWindowsFor(existing application: Application) {
-    let elements = application.windowElements()
-    let validElements = elements.filter { Window.id(for: $0) != 0 }
+    let validElements = application.windowElements().filter { Window.id(for: $0) != 0 }
 
     for element in validElements {
       let windowID = Window.id(for: element)
-
-      if !windows.keys.contains(windowID) {
-        add(element, application)
-      }
+      guard !windows.keys.contains(windowID) else { continue }
+      add(element, application)
     }
 
-    let appWindowIDs = application.windowIdentifiers()
-    let unresolvedWindowIDs = appWindowIDs.filter { windows[$0] == nil }
+    let unresolvedWindowIDs = application.windowIdentifiers().filter { windows[$0] == nil }
 
     if !unresolvedWindowIDs.isEmpty {
       resolveWindows(for: application, unresolved: unresolvedWindowIDs)
@@ -114,9 +98,9 @@ class WindowManager {
       var token = baseToken
       token.append(contentsOf: withUnsafeBytes(of: id) { Data($0) })
 
-      guard let element = createAXElement(from: token),
-        isWindow(element: element),
-        let windowID = getValidWindowID(for: element)
+      guard let element = _AXUIElementCreateWithRemoteToken(token as CFData)?.takeUnretainedValue(),
+        Window.isWindow(element),
+        let windowID = Window.validID(for: element)
       else { continue }
 
       if let idx = unresolvedWindowIDs.firstIndex(of: windowID) {
@@ -128,21 +112,6 @@ class WindowManager {
   }
 
   func windows(for application: Application) -> [Window] {
-    return windows.filter { $0.value.application == application }.map { $0.value }
-  }
-
-  private func createAXElement(from token: Data) -> AXUIElement? {
-    _AXUIElementCreateWithRemoteToken(token as CFData)?.takeUnretainedValue()
-  }
-
-  private func getValidWindowID(for element: AXUIElement) -> CGWindowID? {
-    let windowID = Window.id(for: element)
-    return windowID != 0 ? windowID : nil
-  }
-
-  private func isWindow(element: AXUIElement) -> Bool {
-    var role: CFTypeRef?
-    return AXUIElementCopyAttributeValue(element, kAXRoleAttribute as CFString, &role).rawValue == 0
-      && role as? String == kAXWindowRole
+    return windows.values.filter { $0.application == application }
   }
 }
