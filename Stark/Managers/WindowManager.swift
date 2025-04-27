@@ -1,5 +1,4 @@
 import Carbon
-import OSLog
 
 class WindowManager {
   static let shared = WindowManager()

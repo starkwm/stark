@@ -1,6 +1,5 @@
 import AppKit
 import JavaScriptCore
-import OSLog
 
 private let systemWideElement = AXUIElementCreateSystemWide()
 

@@ -1,5 +1,4 @@
 import AppKit
-import OSLog
 
 class Workspace: NSObject {
   static let shared = Workspace()

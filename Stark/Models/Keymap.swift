@@ -1,5 +1,4 @@
 import JavaScriptCore
-import OSLog
 
 @objc protocol KeymapJSExport: JSExport {
   static func on(_ key: String, _ modifiers: [String], _ callback: JSValue) -> Keymap

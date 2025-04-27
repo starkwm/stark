@@ -1,4 +1,4 @@
-import OSLog
+import Foundation
 
 enum LaunchAgentHelper {
   private static var launchAgentDirectory: URL? {

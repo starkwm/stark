@@ -1,5 +1,4 @@
 import Carbon
-import OSLog
 
 class EventManager {
   static let shared = EventManager()

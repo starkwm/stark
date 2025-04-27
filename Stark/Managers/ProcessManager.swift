@@ -1,5 +1,4 @@
 import Carbon
-import OSLog
 
 class ProcessManager {
   static let shared = ProcessManager()

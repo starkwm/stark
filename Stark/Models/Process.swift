@@ -1,5 +1,4 @@
 import AppKit
-import OSLog
 
 private let processIgnoreList = [
   "Google Chrome Helper (Plugin)",
