@@ -9,24 +9,26 @@ class WindowManager {
 
   func begin() {
     for process in ProcessManager.shared.processes.values {
-      if Workspace.shared.isObservable(process) {
-        let application = Application(process: process)
-
-        if application.observe() {
-          add(application)
-          addWindowsFor(existing: application, refreshIndex: -1)
-        } else {
-          application.unobserve()
-        }
-      } else {
+      guard Workspace.shared.isObservable(process) else {
         debug("application is not observable \(process)")
         Workspace.shared.observeActivationPolicy(process)
+        continue
       }
+
+      let application = Application(process: process)
+
+      guard application.observe() else {
+        application.unobserve()
+        continue
+      }
+
+      add(application)
+      addWindowsFor(existing: application, refreshIndex: -1)
     }
   }
 
   func add(_ application: Application) {
-    applications.updateValue(application, forKey: application.processID)
+    applications[application.processID] = application
   }
 
   func remove(_ application: Application) {
@@ -34,10 +36,8 @@ class WindowManager {
   }
 
   func removeApplicationToRefresh(_ application: Application) {
-    for (idx, app) in applicationsToRefresh.enumerated() {
-      if app == application {
-        applicationsToRefresh.remove(at: idx)
-      }
+    if let idx = applicationsToRefresh.firstIndex(of: application) {
+      applicationsToRefresh.remove(at: idx)
     }
   }
 
@@ -45,16 +45,14 @@ class WindowManager {
   func add(_ element: AXUIElement, _ application: Application) -> Window? {
     let window = Window(element: element, application: application)
 
-    if window.subrole == nil {
-      return nil
-    }
+    guard window.subrole != nil else { return nil }
 
-    if !window.observe() {
+    guard window.observe() else {
       window.unobserve()
       return nil
     }
 
-    windows.updateValue(window, forKey: window.id)
+    windows[window.id] = window
 
     return window
   }
@@ -66,19 +64,18 @@ class WindowManager {
   @discardableResult
   func addWindows(for application: Application) -> [Window] {
     let elements = application.windowElements()
-
     var result = [Window]()
 
     for element in elements {
       let windowID = Window.id(for: element)
 
-      if windowID == 0 || windows[windowID] != nil {
+      guard windowID != 0, windows[windowID] == nil else {
         continue
       }
 
-      guard let window = add(element, application) else { continue }
-
-      result.append(window)
+      if let window = add(element, application) {
+        result.append(window)
+      }
     }
 
     return result
