@@ -102,7 +102,7 @@ func SLSSpaceSetCompatID(_ connectionID: Int32, _ spaceID: UInt64, _ workspace: 
 func SLSSetWindowListWorkspace(
   _ connectionID: Int32,
   _ windows: UnsafePointer<UInt32>,
-  _ window_count: Int32,
+  _ windowCount: Int32,
   _ workspace: Int32
 ) -> CGError
 
@@ -110,6 +110,11 @@ func SLSSetWindowListWorkspace(
 // swift-format-ignore: AlwaysUseLowerCamelCase
 @_silgen_name("_AXUIElementGetWindow") @discardableResult
 func _AXUIElementGetWindow(_ element: AXUIElement, _ identifier: inout UInt32) -> AXError
+
+/// Get the accessibility UI element for a remote token.
+// swift-format-ignore: AlwaysUseLowerCamelCase
+@_silgen_name("_AXUIElementCreateWithRemoteToken") @discardableResult
+func _AXUIElementCreateWithRemoteToken(_ data: CFData) -> Unmanaged<AXUIElement>?
 
 /// Copy the process name.
 // swift-format-ignore: AlwaysUseLowerCamelCase

@@ -83,6 +83,17 @@ class Window: NSObject {
     return id
   }
 
+  static func validID(for element: AXUIElement) -> CGWindowID? {
+    let windowID = id(for: element)
+    return windowID != 0 ? windowID : nil
+  }
+
+  static func isWindow(_ element: AXUIElement) -> Bool {
+    var role: CFTypeRef?
+    return AXUIElementCopyAttributeValue(element, kAXRoleAttribute as CFString, &role).rawValue == 0
+      && role as? String == kAXWindowRole
+  }
+
   static func pid(for element: AXUIElement) -> pid_t? {
     var pid: pid_t = -1
     let result = AXUIElementGetPid(element, &pid)
