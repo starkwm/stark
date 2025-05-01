@@ -102,34 +102,72 @@ class WindowManager {
       }
     }
 
-    if globalWindowList.count == elements.count - emptyCount {
+    if globalWindowList.count != elements.count - emptyCount {
+      var unresolvedWindows = globalWindowList.filter { windows[$0] == nil }
+
+      if !unresolvedWindows.isEmpty {
+        debug("application has windows that are not resolved, attempting workaround \(application)")
+
+        resolveWindows(for: application, unresolved: &unresolvedWindows)
+
+        if refreshIndex == -1 && !unresolvedWindows.isEmpty {
+          debug("workaround failed to resolve all windows \(application)")
+
+          applicationsToRefresh.append(application)
+        } else if refreshIndex != -1 && unresolvedWindows.isEmpty {
+          debug("workaround successfully resolved all windows \(application)")
+
+          if applicationsToRefresh.indices.contains(refreshIndex) {
+            applicationsToRefresh.remove(at: refreshIndex)
+          }
+
+          result = true
+        }
+      }
+    } else if refreshIndex != -1 {
       debug("all windows resolved \(application)")
 
-      if refreshIndex != -1 {
-        if applicationsToRefresh.indices.contains(refreshIndex) {
-          applicationsToRefresh.remove(at: refreshIndex)
-        }
-        result = true
+      if applicationsToRefresh.indices.contains(refreshIndex) {
+        applicationsToRefresh.remove(at: refreshIndex)
       }
-    } else {
-      let missing = globalWindowList.contains(where: { windows[$0] == nil })
 
-      if refreshIndex == -1 && missing {
-        applicationsToRefresh.append(application)
-        debug("not all windows resolved \(application)")
-      } else if refreshIndex != -1 && !missing {
-        if applicationsToRefresh.indices.contains(refreshIndex) {
-          applicationsToRefresh.remove(at: refreshIndex)
-          debug("debug: all windows resolved \(application)")
-        }
-        result = true
-      }
+      result = true
     }
 
     return result
   }
 
+  func resolveWindows(for application: Application, unresolved windowIDs: inout [CGWindowID]) {
+    for id in 0...0x7fff {
+      guard !windowIDs.isEmpty else { break }
+
+      let token = createRemoteToken(for: application.processID, id: id)
+
+      guard let element = _AXUIElementCreateWithRemoteToken(token)?.takeUnretainedValue(),
+        Window.isWindow(element),
+        let windowID = Window.validID(for: element)
+      else { continue }
+
+      if let idx = windowIDs.firstIndex(of: windowID) {
+        windowIDs.remove(at: idx)
+        add(element, application)
+        debug("resolved window \(windowID) for \(application)")
+      }
+    }
+  }
+
   func windows(for application: Application) -> [Window] {
-    return windows.filter { $0.value.application == application }.map { $0.value }
+    return windows.values.filter { $0.application == application }
+  }
+
+  private func createRemoteToken(for processID: pid_t, id: Int) -> CFData {
+    var token = Data()
+
+    token.append(contentsOf: withUnsafeBytes(of: processID) { Data($0) })
+    token.append(contentsOf: withUnsafeBytes(of: Int32(0)) { Data($0) })
+    token.append(contentsOf: withUnsafeBytes(of: Int32(0x636f_636f)) { Data($0) })
+    token.append(contentsOf: withUnsafeBytes(of: id) { Data($0) })
+
+    return token as CFData
   }
 }
