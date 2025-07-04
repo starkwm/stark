@@ -12,11 +12,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_: Notification) {
     askForAccessibilityIfNeeded()
 
-    if !EventManager.shared.begin() {
-      error("could not start event manager")
-      return
-    }
-
     if !ProcessManager.shared.begin() {
       error("could not start process manager")
       return

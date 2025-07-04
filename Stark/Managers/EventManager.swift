@@ -3,12 +3,11 @@ import Carbon
 class EventManager {
   static let shared = EventManager()
 
-  private let queue = OperationQueue()
-
-  func begin() -> Bool {
-    queue.maxConcurrentOperationCount = 1
-    return true
-  }
+  private let queue: OperationQueue = {
+    let q = OperationQueue()
+    q.maxConcurrentOperationCount = 1
+    return q
+  }()
 
   func post(event: EventType, object: Any?) {
     queue.addOperation {
