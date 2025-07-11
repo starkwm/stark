@@ -9,48 +9,48 @@ class EventManager {
     return q
   }()
 
-  func post(event: EventType, object: Any?) {
+  func post(event: EventType, with object: Any?) {
     queue.addOperation {
       switch event {
       case .applicationLaunched:
         guard let process = object as? Process else { break }
-        self.applicationLaunched(process)
+        self.applicationLaunched(for: process)
 
       case .applicationTerminated:
         guard let process = object as? Process else { break }
-        self.applicationTerminated(process)
+        self.applicationTerminated(for: process)
 
       case .applicationFrontSwitched:
         guard let process = object as? Process else { break }
-        self.applicationFrontSwitched(process)
+        self.applicationFrontSwitched(for: process)
 
       case .windowCreated:
         let element = object as! AXUIElement
-        self.windowCreated(element)
+        self.windowCreated(with: element)
 
       case .windowDestroyed:
         guard let window = object as? Window else { break }
-        self.windowDestroyed(window)
+        self.windowDestroyed(with: window)
 
       case .windowFocused:
         guard let windowID = object as? CGWindowID else { break }
-        self.windowFocused(windowID)
+        self.windowFocused(with: windowID)
 
       case .windowMoved:
         guard let windowID = object as? CGWindowID else { break }
-        self.windowMoved(windowID)
+        self.windowMoved(with: windowID)
 
       case .windowResized:
         guard let windowID = object as? CGWindowID else { break }
-        self.windowResized(windowID)
+        self.windowResized(with: windowID)
 
       case .windowMinimized:
         guard let window = object as? Window else { break }
-        self.windowMinimized(window)
+        self.windowMinimized(with: window)
 
       case .windowDeminimized:
         guard let window = object as? Window else { break }
-        self.windowDeminimized(window)
+        self.windowDeminimized(with: window)
 
       case .spaceChanged:
         self.spaceChanged()
@@ -60,7 +60,7 @@ class EventManager {
 }
 
 extension EventManager {
-  private func applicationLaunched(_ process: Process) {
+  private func applicationLaunched(for process: Process) {
     if process.terminated {
       debug("application terminated during launch \(process)")
       return
@@ -102,7 +102,7 @@ extension EventManager {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
           guard let proc = ProcessManager.shared.find(by: process.psn) else { return }
 
-          EventManager.shared.post(event: .applicationLaunched, object: proc)
+          EventManager.shared.post(event: .applicationLaunched, with: proc)
         }
       }
 
@@ -115,7 +115,7 @@ extension EventManager {
     debug("application launched \(application)")
   }
 
-  private func applicationTerminated(_ process: Process) {
+  private func applicationTerminated(for process: Process) {
     Workspace.shared.unobserveActivationPolicy(process)
     Workspace.shared.unobserveFinishedLaunching(process)
 
@@ -139,7 +139,7 @@ extension EventManager {
     debug("application terminated \(application)")
   }
 
-  private func applicationFrontSwitched(_ process: Process) {
+  private func applicationFrontSwitched(for process: Process) {
     guard let application = WindowManager.shared.applications.first(where: { $0.key == process.pid })?.value else {
       return
     }
@@ -154,7 +154,7 @@ extension EventManager {
     debug("frontmost application switched \(application)")
   }
 
-  private func windowCreated(_ element: AXUIElement) {
+  private func windowCreated(with element: AXUIElement) {
     let windowID = Window.id(for: element)
 
     if WindowManager.shared.windows.contains(where: { $0.key == windowID }) {
@@ -168,7 +168,7 @@ extension EventManager {
     debug("window created \(window)")
   }
 
-  private func windowDestroyed(_ window: Window) {
+  private func windowDestroyed(with window: Window) {
     if window.id == 0 {
       return
     }
@@ -181,7 +181,7 @@ extension EventManager {
     window.id = 0
   }
 
-  private func windowFocused(_ windowID: CGWindowID) {
+  private func windowFocused(with windowID: CGWindowID) {
     if windowID == 0 {
       return
     }
@@ -191,7 +191,7 @@ extension EventManager {
     debug("window focused \(window)")
   }
 
-  private func windowMoved(_ windowID: CGWindowID) {
+  private func windowMoved(with windowID: CGWindowID) {
     if windowID == 0 {
       return
     }
@@ -201,7 +201,7 @@ extension EventManager {
     debug("window moved \(window)")
   }
 
-  private func windowResized(_ windowID: CGWindowID) {
+  private func windowResized(with windowID: CGWindowID) {
     if windowID == 0 {
       return
     }
@@ -211,11 +211,11 @@ extension EventManager {
     debug("window resized \(window)")
   }
 
-  private func windowMinimized(_ window: Window) {
+  private func windowMinimized(with window: Window) {
     debug("window minimized \(window)")
   }
 
-  private func windowDeminimized(_ window: Window) {
+  private func windowDeminimized(with window: Window) {
     debug("window deminimized \(window)")
   }
 

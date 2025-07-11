@@ -91,7 +91,7 @@ class Workspace: NSObject {
 
   @objc
   func activeSpaceDidChange(_: Notification) {
-    EventManager.shared.post(event: .spaceChanged, object: nil)
+    EventManager.shared.post(event: .spaceChanged, with: nil)
   }
 
   override func observeValue(
@@ -111,7 +111,7 @@ class Workspace: NSObject {
 
       if result != process.policy {
         unobserveActivationPolicy(process)
-        EventManager.shared.post(event: .applicationLaunched, object: process)
+        EventManager.shared.post(event: .applicationLaunched, with: process)
       }
     }
 
@@ -120,7 +120,7 @@ class Workspace: NSObject {
 
       if result {
         unobserveFinishedLaunching(process)
-        EventManager.shared.post(event: .applicationLaunched, object: process)
+        EventManager.shared.post(event: .applicationLaunched, with: process)
       }
     }
   }
