@@ -21,27 +21,25 @@ class Process {
   init?(psn: ProcessSerialNumber) {
     self.psn = psn
 
-    var pid = pid_t()
-    GetProcessPID(&self.psn, &pid)
-
-    var processName = String() as CFString
-    CopyProcessName(&self.psn, &processName)
-
     var info = ProcessInfoRec()
     GetProcessInformation(&self.psn, &info)
 
-    if String(info.processType) == "XPC!" {
-      return nil
-    }
-
-    if processIgnoreList.contains(where: { $0 == processName as String }) {
-      return nil
-    }
+    var pid = pid_t()
+    GetProcessPID(&self.psn, &pid)
 
     self.pid = pid
-    self.name = processName as String
-    self.terminated = false
     self.application = NSRunningApplication(processIdentifier: self.pid)
+    self.name = self.application?.localizedName ?? "-"
+    self.terminated = false
+
+    if String(info.processType) == "XPC!" {
+      debug("ignoring xpc service \(self.name)")
+      return nil
+    }
+
+    if processIgnoreList.contains(where: { $0 == self.name }) {
+      return nil
+    }
   }
 
   deinit {
