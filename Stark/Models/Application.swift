@@ -198,24 +198,28 @@ class Application: NSObject {
     var foundWindows = [CGWindowID]()
 
     while SLSWindowIteratorAdvance(iterator) {
-      let attributes = SLSWindowIteratorGetAttributes(iterator)
-      let tags = SLSWindowIteratorGetTags(iterator)
       let parentWindowID = SLSWindowIteratorGetParentID(iterator)
-      let windowID = SLSWindowIteratorGetWindowID(iterator)
 
       if parentWindowID != 0 {
         continue
       }
 
-      if ((attributes & 0x2) != 0 || (tags & 0x400_0000_0000_0000) != 0)
-        && (((tags & 0x1) != 0) || ((tags & 0x2) != 0 && (tags & 0x8000_0000) != 0))
-      {
-        foundWindows.append(windowID)
-      } else if (attributes == 0x0 || attributes == 0x1)
-        && ((tags & 0x1000_0000_0000_0000) != 0 || (tags & 0x300_0000_0000_0000) != 0)
-        && (((tags & 0x1) != 0) || ((tags & 0x2) != 0 && (tags & 0x8000_0000) != 0))
-      {
-        foundWindows.append(windowID)
+      let level = SLSWindowIteratorGetLevel(iterator)
+      let attributes = SLSWindowIteratorGetAttributes(iterator)
+      let tags = SLSWindowIteratorGetTags(iterator)
+      let windowID = SLSWindowIteratorGetWindowID(iterator)
+
+      if level == 0 || level == 3 || level == 8 {
+        if ((attributes & 0x2) != 0 || (tags & 0x400_0000_0000_0000) != 0)
+          && (((tags & 0x1) != 0) || ((tags & 0x2) != 0 && (tags & 0x8000_0000) != 0))
+        {
+          foundWindows.append(windowID)
+        } else if (attributes == 0x0 || attributes == 0x1)
+          && ((tags & 0x1000_0000_0000_0000) != 0 || (tags & 0x300_0000_0000_0000) != 0)
+          && (((tags & 0x1) != 0) || ((tags & 0x2) != 0 && (tags & 0x8000_0000) != 0))
+        {
+          foundWindows.append(windowID)
+        }
       }
     }
 

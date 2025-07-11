@@ -66,6 +66,11 @@ func SLSWindowIteratorAdvance(_ iterator: CFTypeRef) -> Bool
 @_silgen_name("SLSWindowIteratorGetAttributes") @discardableResult
 func SLSWindowIteratorGetAttributes(_ iterator: CFTypeRef) -> UInt64
 
+/// Get the window level for the given query iterator.
+// swift-format-ignore: AlwaysUseLowerCamelCase
+@_silgen_name("SLSWindowIteratorGetLevel") @discardableResult
+func SLSWindowIteratorGetLevel(_ iterator: CFTypeRef) -> Int
+
 /// Get the parent ID for the given query iterator.
 // swift-format-ignore: AlwaysUseLowerCamelCase
 @_silgen_name("SLSWindowIteratorGetParentID") @discardableResult
