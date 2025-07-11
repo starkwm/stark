@@ -1,9 +1,12 @@
 import AppKit
 
 private let processIgnoreList = [
+  "Discord Helper (Plugin)",
+  "Discord Helper (Renderer)",
   "Google Chrome Helper (Plugin)",
+  "Google Chrome Helper (Renderer)",
   "Slack Helper (Plugin)",
-  "qlmanage",
+  "Slack Helper (Renderer)",
 ]
 
 class Process {
