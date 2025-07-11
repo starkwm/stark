@@ -105,11 +105,13 @@ class Workspace: NSObject {
     let process = Unmanaged<Process>.fromOpaque(context).takeUnretainedValue()
 
     if keyPath == "activationPolicy" {
-      guard let result = change?[.newKey] as? NSApplication.ActivationPolicy else { return }
+      guard let raw = change?[.newKey] as? Int,
+        let result = NSApplication.ActivationPolicy(rawValue: raw)
+      else { return }
 
       if result != process.policy {
         unobserveActivationPolicy(process)
-        EventManager.shared.post(event: .applicationLaunched, object: nil)
+        EventManager.shared.post(event: .applicationLaunched, object: process)
       }
     }
 
