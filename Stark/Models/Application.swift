@@ -278,19 +278,25 @@ private func accessibilityObserverCallback(
 
   switch notification as String {
   case kAXCreatedNotification:
-    EventManager.shared.post(event: .windowCreated, object: element)
+    EventManager.shared.post(event: .windowCreated, with: element)
+
   case kAXFocusedWindowChangedNotification:
-    EventManager.shared.post(event: .windowFocused, object: Window.id(for: element))
+    EventManager.shared.post(event: .windowFocused, with: Window.id(for: element))
+
   case kAXWindowMovedNotification:
-    EventManager.shared.post(event: .windowMoved, object: Window.id(for: element))
+    EventManager.shared.post(event: .windowMoved, with: Window.id(for: element))
+
   case kAXWindowResizedNotification:
-    EventManager.shared.post(event: .windowResized, object: Window.id(for: element))
+    EventManager.shared.post(event: .windowResized, with: Window.id(for: element))
+
   case kAXWindowMiniaturizedNotification:
     let window = Unmanaged<Window>.fromOpaque(context).takeUnretainedValue()
-    EventManager.shared.post(event: .windowMinimized, object: window)
+    EventManager.shared.post(event: .windowMinimized, with: window)
+
   case kAXWindowDeminiaturizedNotification:
     let window = Unmanaged<Window>.fromOpaque(context).takeUnretainedValue()
-    EventManager.shared.post(event: .windowDeminimized, object: window)
+    EventManager.shared.post(event: .windowDeminimized, with: window)
+
   case kAXUIElementDestroyedNotification:
     let windowID = Window.id(for: element)
 
@@ -299,8 +305,10 @@ private func accessibilityObserverCallback(
     }
 
     guard let window = WindowManager.shared.windows[windowID] else { break }
+
     window.unobserve()
-    EventManager.shared.post(event: .windowDestroyed, object: window)
+    EventManager.shared.post(event: .windowDestroyed, with: window)
+
   default:
     break
   }
