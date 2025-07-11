@@ -23,7 +23,7 @@ public enum ShortcutManager {
 
   private static var eventHandler: EventHandlerRef?
 
-  static func handleCarbonEvent(_ event: EventRef?) -> OSStatus {
+  static func handle(event: EventRef?) -> OSStatus {
     guard let event = event else {
       return OSStatus(eventNotHandledErr)
     }
@@ -44,7 +44,7 @@ public enum ShortcutManager {
       return err
     }
 
-    guard hotKeyID.signature == signature, let shortcut = shortcut(for: hotKeyID.id) else {
+    guard hotKeyID.signature == signature, let shortcut = shortcut(by: hotKeyID.id) else {
       return OSStatus(eventNotHandledErr)
     }
 
@@ -132,7 +132,7 @@ public enum ShortcutManager {
     }
   }
 
-  private static func shortcut(for id: UInt32) -> Shortcut? {
+  private static func shortcut(by id: UInt32) -> Shortcut? {
     if let shortcut = shortcuts[id]?.shortcut {
       return shortcut
     }
@@ -151,5 +151,5 @@ public enum ShortcutManager {
 }
 
 private func shortcutEventHandler(_: EventHandlerCallRef?, event: EventRef?, _: UnsafeMutableRawPointer?) -> OSStatus {
-  ShortcutManager.handleCarbonEvent(event)
+  ShortcutManager.handle(event: event)
 }
