@@ -99,9 +99,9 @@ extension EventManager {
       application.unobserve()
 
       if application.retryObserving {
-        guard let proc = ProcessManager.shared.processes[process.psn.lowLongOfPSN] else { return }
-
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+          guard let proc = ProcessManager.shared.find(process.psn) else { return }
+
           EventManager.shared.post(event: .applicationLaunched, object: proc)
         }
       }

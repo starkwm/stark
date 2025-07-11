@@ -3,7 +3,7 @@ import Carbon
 class ProcessManager {
   static let shared = ProcessManager()
 
-  private(set) var processes = [UInt32: Process]()
+  private var processes = [UInt32: Process]()
 
   func begin() -> Bool {
     addRunningProcesses()
@@ -26,19 +26,27 @@ class ProcessManager {
     return result == noErr
   }
 
-  func add(_ process: Process) {
-    processes.updateValue(process, forKey: process.psn.lowLongOfPSN)
+  func find(_ psn: ProcessSerialNumber) -> Process? {
+    processes[psn.lowLongOfPSN]
   }
 
-  func remove(_ psn: ProcessSerialNumber) -> Process? {
-    guard let process = processes[psn.lowLongOfPSN] else { return nil }
-
-    processes.removeValue(forKey: psn.lowLongOfPSN)
-
-    return process
+  func all() -> [Process] {
+    Array(processes.values)
   }
 
-  func handleEvent(event: EventRef) -> OSStatus {
+  private func addRunningProcesses() {
+    var psn = ProcessSerialNumber()
+
+    while GetNextProcess(&psn) == noErr {
+      guard let process = Process(psn: psn) else { continue }
+
+      processes[process.psn.lowLongOfPSN] = process
+    }
+  }
+}
+
+extension ProcessManager {
+  func handle(event: EventRef) -> OSStatus {
     var psn = ProcessSerialNumber()
 
     GetEventParameter(
@@ -53,19 +61,13 @@ class ProcessManager {
 
     switch Int(GetEventKind(event)) {
     case kEventAppLaunched:
-      guard processes[psn.lowLongOfPSN] == nil else { break }
-      guard let process = Process(psn: psn) else { break }
-      add(process)
-      EventManager.shared.post(event: .applicationLaunched, object: process)
+      applicationLaunched(psn)
 
     case kEventAppTerminated:
-      guard let process = remove(psn) else { break }
-      process.terminated = true
-      EventManager.shared.post(event: .applicationTerminated, object: process)
+      applicationTerminated(psn)
 
     case kEventAppFrontSwitched:
-      guard let process = processes[psn.lowLongOfPSN] else { break }
-      EventManager.shared.post(event: .applicationFrontSwitched, object: process)
+      applicationFrontSwitched(psn)
 
     default:
       break
@@ -74,21 +76,33 @@ class ProcessManager {
     return noErr
   }
 
-  private func addRunningProcesses() {
-    var psn = ProcessSerialNumber()
+  private func applicationLaunched(_ psn: ProcessSerialNumber) {
+    guard processes[psn.lowLongOfPSN] == nil else { return }
+    guard let process = Process(psn: psn) else { return }
 
-    while GetNextProcess(&psn) == noErr {
-      guard let process = Process(psn: psn) else { continue }
+    processes[process.psn.lowLongOfPSN] = process
 
-      add(process)
-    }
+    EventManager.shared.post(event: .applicationLaunched, object: process)
+  }
+
+  private func applicationTerminated(_ psn: ProcessSerialNumber) {
+    guard let process = processes[psn.lowLongOfPSN] else { return }
+
+    processes.removeValue(forKey: psn.lowLongOfPSN)
+    process.terminated = true
+
+    EventManager.shared.post(event: .applicationTerminated, object: process)
+  }
+
+  private func applicationFrontSwitched(_ psn: ProcessSerialNumber) {
+    guard let process = processes[psn.lowLongOfPSN] else { return }
+
+    EventManager.shared.post(event: .applicationFrontSwitched, object: process)
   }
 }
 
-private func processEventHandler(_: EventHandlerCallRef?, event: EventRef?, _: UnsafeMutableRawPointer?)
-  -> OSStatus
-{
+private func processEventHandler(_: EventHandlerCallRef?, event: EventRef?, _: UnsafeMutableRawPointer?) -> OSStatus {
   guard let event = event else { return noErr }
 
-  return ProcessManager.shared.handleEvent(event: event)
+  return ProcessManager.shared.handle(event: event)
 }

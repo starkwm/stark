@@ -8,7 +8,7 @@ class WindowManager {
   private(set) var windows = [CGWindowID: Window]()
 
   func begin() {
-    for process in ProcessManager.shared.processes.values {
+    for process in ProcessManager.shared.all() {
       guard Workspace.shared.isObservable(process) else {
         debug("application is not observable \(process)")
         Workspace.shared.observeActivationPolicy(process)
