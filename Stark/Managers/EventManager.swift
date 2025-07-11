@@ -100,7 +100,7 @@ extension EventManager {
 
       if application.retryObserving {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-          guard let proc = ProcessManager.shared.find(process.psn) else { return }
+          guard let proc = ProcessManager.shared.find(by: process.psn) else { return }
 
           EventManager.shared.post(event: .applicationLaunched, object: proc)
         }

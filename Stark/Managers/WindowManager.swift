@@ -36,9 +36,7 @@ class WindowManager {
   }
 
   func removeApplicationToRefresh(_ application: Application) {
-    if let idx = applicationsToRefresh.firstIndex(of: application) {
-      applicationsToRefresh.remove(at: idx)
-    }
+    applicationsToRefresh.removeAll { $0 == application }
   }
 
   @discardableResult

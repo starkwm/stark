@@ -26,7 +26,7 @@ class ProcessManager {
     return result == noErr
   }
 
-  func find(_ psn: ProcessSerialNumber) -> Process? {
+  func find(by psn: ProcessSerialNumber) -> Process? {
     processes[psn.lowLongOfPSN]
   }
 
@@ -61,13 +61,13 @@ extension ProcessManager {
 
     switch Int(GetEventKind(event)) {
     case kEventAppLaunched:
-      applicationLaunched(psn)
+      applicationLaunched(with: psn)
 
     case kEventAppTerminated:
-      applicationTerminated(psn)
+      applicationTerminated(with: psn)
 
     case kEventAppFrontSwitched:
-      applicationFrontSwitched(psn)
+      applicationFrontSwitched(to: psn)
 
     default:
       break
@@ -76,7 +76,7 @@ extension ProcessManager {
     return noErr
   }
 
-  private func applicationLaunched(_ psn: ProcessSerialNumber) {
+  private func applicationLaunched(with psn: ProcessSerialNumber) {
     guard processes[psn.lowLongOfPSN] == nil else { return }
     guard let process = Process(psn: psn) else { return }
 
@@ -85,7 +85,7 @@ extension ProcessManager {
     EventManager.shared.post(event: .applicationLaunched, object: process)
   }
 
-  private func applicationTerminated(_ psn: ProcessSerialNumber) {
+  private func applicationTerminated(with psn: ProcessSerialNumber) {
     guard let process = processes[psn.lowLongOfPSN] else { return }
 
     processes.removeValue(forKey: psn.lowLongOfPSN)
@@ -94,7 +94,7 @@ extension ProcessManager {
     EventManager.shared.post(event: .applicationTerminated, object: process)
   }
 
-  private func applicationFrontSwitched(_ psn: ProcessSerialNumber) {
+  private func applicationFrontSwitched(to psn: ProcessSerialNumber) {
     guard let process = processes[psn.lowLongOfPSN] else { return }
 
     EventManager.shared.post(event: .applicationFrontSwitched, object: process)
