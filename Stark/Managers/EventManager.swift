@@ -109,7 +109,7 @@ extension EventManager {
       return
     }
 
-    WindowManager.shared.add(application)
+    WindowManager.shared.add(application: application)
     WindowManager.shared.addWindows(for: application)
 
     debug("application launched \(application)")
@@ -121,13 +121,13 @@ extension EventManager {
 
     guard let application = WindowManager.shared.applications[process.pid] else { return }
 
-    WindowManager.shared.removeApplicationToRefresh(application)
-    WindowManager.shared.remove(application)
+    WindowManager.shared.removeApplicationToRefresh(application: application)
+    WindowManager.shared.remove(application: application)
 
     let windows = WindowManager.shared.windows(for: application)
 
     for window in windows {
-      WindowManager.shared.remove(window.id)
+      WindowManager.shared.remove(by: window.id)
       window.unobserve()
       window.element = nil
       window.application = nil
@@ -163,7 +163,7 @@ extension EventManager {
 
     guard let pid = Window.pid(for: element) else { return }
     guard let application = WindowManager.shared.applications.first(where: { $0.key == pid })?.value else { return }
-    guard let window = WindowManager.shared.add(element, application) else { return }
+    guard let window = WindowManager.shared.addWindow(with: element, for: application) else { return }
 
     debug("window created \(window)")
   }
@@ -175,7 +175,7 @@ extension EventManager {
 
     debug("window destroyed \(window)")
 
-    WindowManager.shared.remove(window.id)
+    WindowManager.shared.remove(by: window.id)
     window.element = nil
     window.application = nil
     window.id = 0
