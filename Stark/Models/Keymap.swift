@@ -9,15 +9,7 @@ import JavaScriptCore
   var modifiers: [String] { get }
 }
 
-extension Keymap: KeymapJSExport {}
-
-extension Keymap {
-  override var description: String {
-    "<Keymap id: \(id), key: \(key), modifiers: \(modifiers.joined(separator: "|"))>"
-  }
-}
-
-class Keymap: NSObject {
+class Keymap: NSObject, KeymapJSExport {
   private static var keymaps = [String: Keymap]()
 
   static func on(_ key: String, _ modifiers: [String], _ callback: JSValue) -> Keymap {
@@ -41,6 +33,10 @@ class Keymap: NSObject {
     for id in keymaps.keys {
       off(id)
     }
+  }
+
+  override var description: String {
+    "<Keymap id: \(id), key: \(key), modifiers: \(modifiers.joined(separator: "|"))>"
   }
 
   var id: String {
