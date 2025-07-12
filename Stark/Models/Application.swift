@@ -121,10 +121,6 @@ class Application: NSObject {
     SLSGetConnectionIDForPSN(Space.connection, &process.psn, &self.connection)
   }
 
-  deinit {
-    debug("destroying application \(self)")
-  }
-
   func observe() -> Bool {
     if AXObserverCreate(application.processIdentifier, accessibilityObserverCallback, &observer) == .success {
       guard let observer = observer else {

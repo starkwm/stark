@@ -41,10 +41,6 @@ class Process {
       return nil
     }
   }
-
-  deinit {
-    debug("destroying process \(self)")
-  }
 }
 
 extension Process: CustomStringConvertible {
