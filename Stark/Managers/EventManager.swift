@@ -92,7 +92,7 @@ extension EventManager {
       return
     }
 
-    let application = Application(process: process)
+    let application = Application(for: process)
 
     if !application.observe() {
       debug("could not observe application \(application)")

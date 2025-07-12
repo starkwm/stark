@@ -24,7 +24,7 @@ private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
   func terminate() -> Bool
 }
 
-extension Application: ApplicationJSExport {
+class Application: NSObject, ApplicationJSExport {
   static func all() -> [Application] {
     Array(WindowManager.shared.applications.values)
   }
@@ -37,6 +37,10 @@ extension Application: ApplicationJSExport {
 
   static func find(_ name: String) -> Application? {
     WindowManager.shared.applications.values.first { $0.name == name }
+  }
+
+  override var description: String {
+    "<Application pid: \(processID), name: \(name ?? "-"), bundle: \(bundleID ?? "-")>"
   }
 
   var name: String? {
@@ -71,6 +75,24 @@ extension Application: ApplicationJSExport {
     application.isTerminated
   }
 
+  var observer: AXObserver?
+  var retryObserving = false
+
+  private var application: NSRunningApplication
+
+  private var connection: Int32 = -1
+  private var element: AXUIElement
+
+  private var observedNotifications = ApplicationNotifications(rawValue: 0)
+  private var observing = false
+
+  init(for process: Process) {
+    self.element = AXUIElementCreateApplication(process.pid)
+    self.application = NSRunningApplication(processIdentifier: process.pid)!
+
+    SLSGetConnectionIDForPSN(Space.connection, &process.psn, &self.connection)
+  }
+
   func windows() -> [Window] {
     WindowManager.shared.windows.values.filter { $0.application == self }
   }
@@ -94,77 +116,43 @@ extension Application: ApplicationJSExport {
   func terminate() -> Bool {
     application.terminate()
   }
-}
-
-extension Application {
-  override var description: String {
-    "<Application pid: \(processID), name: \(name ?? "-"), bundle: \(bundleID ?? "-")>"
-  }
-}
-
-class Application: NSObject {
-  var observer: AXObserver?
-  var retryObserving = false
-
-  private var application: NSRunningApplication
-
-  private var connection: Int32 = -1
-  private var element: AXUIElement
-
-  private var observedNotifications = ApplicationNotifications(rawValue: 0)
-  private var observing = false
-
-  init(process: Process) {
-    self.element = AXUIElementCreateApplication(process.pid)
-    self.application = NSRunningApplication(processIdentifier: process.pid)!
-
-    SLSGetConnectionIDForPSN(Space.connection, &process.psn, &self.connection)
-  }
 
   func observe() -> Bool {
-    if AXObserverCreate(application.processIdentifier, accessibilityObserverCallback, &observer) == .success {
-      guard let observer = observer else {
-        return false
+    let result = AXObserverCreate(application.processIdentifier, accessibilityObserverCallback, &observer)
+
+    guard result == .success, let observer = observer else { return false }
+
+    let context: UnsafeMutableRawPointer? = Unmanaged.passUnretained(self).toOpaque()
+
+    for (idx, notification) in applicationNotifications.enumerated() {
+      let result = AXObserverAddNotification(observer, element, notification as CFString, context)
+
+      if result == .success || result == .notificationAlreadyRegistered {
+        observedNotifications.insert(ApplicationNotifications(rawValue: 1 << idx))
+      } else {
+        retryObserving = result == .cannotComplete
+
+        debug("notification \(notification) not added \(self) (retry: \(self.retryObserving)")
       }
-
-      let context: UnsafeMutableRawPointer? = Unmanaged.passUnretained(self).toOpaque()
-
-      for (idx, notification) in applicationNotifications.enumerated() {
-        let result = AXObserverAddNotification(observer, element, notification as CFString, context)
-
-        if result == .success || result == .notificationAlreadyRegistered {
-          observedNotifications.insert(ApplicationNotifications(rawValue: 1 << idx))
-        } else {
-          retryObserving = result == .cannotComplete
-
-          debug("notification \(notification) not added \(self) (retry: \(self.retryObserving)")
-        }
-      }
-
-      observing = true
-
-      CFRunLoopAddSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(observer), CFRunLoopMode.defaultMode)
     }
+
+    observing = true
+
+    CFRunLoopAddSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(observer), CFRunLoopMode.defaultMode)
 
     return observedNotifications.contains(.all)
   }
 
   func unobserve() {
-    if !observing {
-      return
-    }
-
-    guard let observer = observer else {
-      return
-    }
+    guard !observing, let observer = observer else { return }
 
     for (idx, notification) in applicationNotifications.enumerated() {
       let notif = ApplicationNotifications(rawValue: 1 << idx)
 
-      if observedNotifications.contains(notif) {
-        AXObserverRemoveNotification(observer, element, notification as CFString)
-        observedNotifications.remove(notif)
-      }
+      guard observedNotifications.contains(notif) else { continue }
+
+      AXObserverRemoveNotification(observer, element, notification as CFString)
+      observedNotifications.remove(notif)
     }
 
     CFRunLoopSourceInvalidate(AXObserverGetRunLoopSource(observer))

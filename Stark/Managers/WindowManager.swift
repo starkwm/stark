@@ -15,7 +15,7 @@ class WindowManager {
         continue
       }
 
-      let application = Application(process: process)
+      let application = Application(for: process)
 
       guard application.observe() else {
         application.unobserve()
