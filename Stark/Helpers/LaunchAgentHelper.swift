@@ -28,7 +28,7 @@ enum LaunchAgentHelper {
     }
 
     if (launchAgentDirectory as NSURL).checkResourceIsReachableAndReturnError(nil) == false {
-      _ = try? FileManager.default.createDirectory(
+      try? FileManager.default.createDirectory(
         at: launchAgentDirectory,
         withIntermediateDirectories: false,
         attributes: nil
@@ -49,7 +49,7 @@ enum LaunchAgentHelper {
   }
 
   static func remove() {
-    _ = try? FileManager.default.removeItem(at: launchAgentFile!)
+    try? FileManager.default.removeItem(at: launchAgentFile!)
   }
 
   static func enabled() -> Bool {
