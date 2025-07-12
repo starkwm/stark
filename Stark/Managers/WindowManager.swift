@@ -41,7 +41,7 @@ class WindowManager {
 
   @discardableResult
   func addWindow(with element: AXUIElement, for application: Application) -> Window? {
-    let window = Window(element: element, application: application)
+    let window = Window(with: element, for: application)
 
     guard window.subrole != nil else { return nil }
 
