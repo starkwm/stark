@@ -16,9 +16,8 @@ import JavaScriptCore
 }
 
 extension AppKit.NSScreen: JavaScriptCore.JSExport {}
-extension NSScreen: NSScreenJSExport {}
 
-extension NSScreen {
+extension NSScreen: NSScreenJSExport {
   static func all() -> [NSScreen] {
     screens
   }
@@ -32,32 +31,28 @@ extension NSScreen {
   }
 
   var id: String {
-    guard let number = deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber else {
-      return ""
-    }
+    guard let number = deviceDescription[NSDeviceDescriptionKey("NSScreenNumber")] as? NSNumber else { return "" }
 
     let uuid = CGDisplayCreateUUIDFromDisplayID(number.uint32Value).takeRetainedValue()
     return CFUUIDCreateString(nil, uuid) as String
   }
 
   var flippedFrame: CGRect {
-    let primaryScreen = NSScreen.screens.first
+    guard let primaryScreen = NSScreen.screens.first else { return CGRect.zero }
     var frame = frame
-    frame.origin.y = primaryScreen!.frame.height - frame.height - frame.origin.y
+    frame.origin.y = primaryScreen.frame.height - frame.height - frame.origin.y
     return frame
   }
 
   var flippedVisibleFrame: CGRect {
-    let primaryScreen = NSScreen.screens.first
+    guard let primaryScreen = NSScreen.screens.first else { return CGRect.zero }
     var frame = visibleFrame
-    frame.origin.y = primaryScreen!.frame.height - frame.height - frame.origin.y
+    frame.origin.y = primaryScreen.frame.height - frame.height - frame.origin.y
     return frame
   }
 
   var next: NSScreen? {
-    guard let currentIndex = NSScreen.screens.firstIndex(of: self) else {
-      return nil
-    }
+    guard let currentIndex = NSScreen.screens.firstIndex(of: self) else { return nil }
 
     let nextIndex = (currentIndex + 1) % NSScreen.screens.count
 
@@ -65,9 +60,7 @@ extension NSScreen {
   }
 
   var previous: NSScreen? {
-    guard let currentIndex = NSScreen.screens.firstIndex(of: self) else {
-      return nil
-    }
+    guard let currentIndex = NSScreen.screens.firstIndex(of: self) else { return nil }
 
     let previousIndex = (currentIndex == 0) ? NSScreen.screens.count - 1 : currentIndex - 1
 
