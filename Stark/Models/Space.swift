@@ -16,47 +16,11 @@ private let spacesKey = "Spaces"
   var isFullscreen: Bool { get }
 
   func screens() -> [NSScreen]
-
   func windows() -> [Window]
-
-  func moveWindow(_ window: Window)
 }
 
-extension Space: SpaceJSExport {}
-
-extension Space {
-  override var description: String {
-    "<Space id: \(id), type: \(type)>"
-  }
-}
-
-class Space: NSObject {
+class Space: NSObject, SpaceJSExport {
   static let connection = SLSMainConnectionID()
-
-  static func current(for screen: NSScreen) -> Space? {
-    let id = SLSManagedDisplayGetCurrentSpace(connection, screen.id as CFString)
-
-    return Space(id: id)
-  }
-
-  static func spaces(for window: Window) -> [Space] {
-    let identifiers =
-      SLSCopySpacesForWindows(
-        connection,
-        0x7,
-        [window.id] as CFArray
-      ) as NSArray
-
-    var spaces: [Space] = []
-
-    for space in all() {
-      if identifiers.contains(space.id) {
-        spaces.append(space)
-      }
-    }
-
-    return spaces
-  }
 
   static func all() -> [Space] {
     var spaces: [Space] = []
@@ -92,6 +56,33 @@ class Space: NSObject {
     Space(id: SLSGetActiveSpace(connection))
   }
 
+  static func current(for screen: NSScreen) -> Space? {
+    Space(id: SLSManagedDisplayGetCurrentSpace(connection, screen.id as CFString))
+  }
+
+  static func spaces(containing window: Window) -> [Space] {
+    let identifiers =
+      SLSCopySpacesForWindows(
+        connection,
+        0x7,
+        [window.id] as CFArray
+      ) as NSArray
+
+    var spaces: [Space] = []
+
+    for space in all() {
+      if identifiers.contains(space.id) {
+        spaces.append(space)
+      }
+    }
+
+    return spaces
+  }
+
+  override var description: String {
+    "<Space id: \(id), type: \(type)>"
+  }
+
   var id: UInt64
 
   var isNormal: Bool { type == 0 }
@@ -106,9 +97,7 @@ class Space: NSObject {
   }
 
   override func isEqual(_ object: Any?) -> Bool {
-    guard let space = object as? Self else {
-      return false
-    }
+    guard let space = object as? Self else { return false }
 
     return id == space.id
   }
@@ -123,22 +112,14 @@ class Space: NSObject {
     var screen: NSScreen?
 
     for item in displaySpacesInfo {
-      guard let info = item as? [String: AnyObject] else {
-        continue
-      }
+      guard let info = item as? [String: AnyObject] else { continue }
 
-      guard let screenID = info[screenIDKey] as? String else {
-        continue
-      }
+      guard let screenID = info[screenIDKey] as? String else { continue }
 
-      guard let spacesInfo = info[spacesKey] as? [[String: AnyObject]] else {
-        continue
-      }
+      guard let spacesInfo = info[spacesKey] as? [[String: AnyObject]] else { continue }
 
       for spaceInfo in spacesInfo {
-        guard let id = spaceInfo[spaceIDKey] as? uint64 else {
-          continue
-        }
+        guard let id = spaceInfo[spaceIDKey] as? uint64 else { continue }
 
         if id == self.id {
           screen = NSScreen.screen(for: screenID)
@@ -146,22 +127,12 @@ class Space: NSObject {
       }
     }
 
-    if screen == nil {
-      return []
-    }
+    guard let screen = screen else { return [] }
 
-    return [screen!]
+    return [screen]
   }
 
   func windows() -> [Window] {
     Window.all().filter { $0.spaces().contains(self) }
-  }
-
-  func moveWindow(_ window: Window) {
-    SLSSpaceSetCompatID(Space.connection, id, 0x7961_6265)
-    _ = withUnsafeMutablePointer(to: &window.id) { pointer in
-      SLSSetWindowListWorkspace(Space.connection, pointer, 1, 0x7961_6265)
-    }
-    SLSSpaceSetCompatID(Space.connection, id, 0x0)
   }
 }

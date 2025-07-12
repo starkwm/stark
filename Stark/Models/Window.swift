@@ -325,7 +325,7 @@ class Window: NSObject {
   }
 
   func spaces() -> [Space] {
-    Space.spaces(for: self)
+    Space.spaces(containing: self)
   }
 
   func observe() -> Bool {
