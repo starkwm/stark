@@ -8,8 +8,8 @@ private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
   static func focused() -> Application?
   static func find(_ name: String) -> Application?
 
-  var name: String { get }
-  var bundleID: String { get }
+  var name: String? { get }
+  var bundleID: String? { get }
   var processID: pid_t { get }
 
   var isFrontmost: Bool { get }
@@ -24,17 +24,9 @@ private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
   func terminate() -> Bool
 }
 
-extension Application: ApplicationJSExport {}
-
-extension Application {
-  override var description: String {
-    "<Application pid: \(processID), name: \(name), bundle: \(bundleID)>"
-  }
-}
-
-class Application: NSObject {
+extension Application: ApplicationJSExport {
   static func all() -> [Application] {
-    return Array(WindowManager.shared.applications.values)
+    Array(WindowManager.shared.applications.values)
   }
 
   static func focused() -> Application? {
@@ -44,15 +36,15 @@ class Application: NSObject {
   }
 
   static func find(_ name: String) -> Application? {
-    return WindowManager.shared.applications.first(where: { $0.value.name == name })?.value
+    WindowManager.shared.applications.values.first { $0.name == name }
   }
 
-  var name: String {
-    application.localizedName ?? "nil"
+  var name: String? {
+    application.localizedName
   }
 
-  var bundleID: String {
-    application.bundleIdentifier ?? "nil"
+  var bundleID: String? {
+    application.bundleIdentifier
   }
 
   var processID: pid_t {
@@ -79,29 +71,8 @@ class Application: NSObject {
     application.isTerminated
   }
 
-  var connection: Int32 = -1
-  var observer: AXObserver?
-  var retryObserving = false
-
-  private var application: NSRunningApplication
-
-  private var element: AXUIElement
-  private var observedNotifications = ApplicationNotifications(rawValue: 0)
-  private var observing = false
-
-  init(process: Process) {
-    self.element = AXUIElementCreateApplication(process.pid)
-    self.application = NSRunningApplication(processIdentifier: process.pid)!
-
-    SLSGetConnectionIDForPSN(Space.connection, &process.psn, &self.connection)
-  }
-
-  deinit {
-    debug("destroying application \(self)")
-  }
-
   func windows() -> [Window] {
-    return WindowManager.shared.windows.values.filter { $0.application == self }
+    WindowManager.shared.windows.values.filter { $0.application == self }
   }
 
   func activate() -> Bool {
@@ -122,6 +93,36 @@ class Application: NSObject {
 
   func terminate() -> Bool {
     application.terminate()
+  }
+}
+
+extension Application {
+  override var description: String {
+    "<Application pid: \(processID), name: \(name ?? "-"), bundle: \(bundleID ?? "-")>"
+  }
+}
+
+class Application: NSObject {
+  var observer: AXObserver?
+  var retryObserving = false
+
+  private var application: NSRunningApplication
+
+  private var connection: Int32 = -1
+  private var element: AXUIElement
+
+  private var observedNotifications = ApplicationNotifications(rawValue: 0)
+  private var observing = false
+
+  init(process: Process) {
+    self.element = AXUIElementCreateApplication(process.pid)
+    self.application = NSRunningApplication(processIdentifier: process.pid)!
+
+    SLSGetConnectionIDForPSN(Space.connection, &process.psn, &self.connection)
+  }
+
+  deinit {
+    debug("destroying application \(self)")
   }
 
   func observe() -> Bool {
@@ -241,7 +242,7 @@ class Application: NSObject {
   }
 
   func enhancedUIWorkaround(callback: () -> Void) {
-    let enhancedUserInterfaceEnabled = isEnhancedUserInterfaceEnabled()
+    let enhancedUserInterfaceEnabled = isEnhancedUIEnabled()
 
     if enhancedUserInterfaceEnabled {
       AXUIElementSetAttributeValue(element, kAXEnhancedUserInterface as CFString, kCFBooleanFalse)
@@ -254,7 +255,7 @@ class Application: NSObject {
     }
   }
 
-  private func isEnhancedUserInterfaceEnabled() -> Bool {
+  private func isEnhancedUIEnabled() -> Bool {
     var value: AnyObject?
     let result = AXUIElementCopyAttributeValue(element, kAXEnhancedUserInterface as CFString, &value)
 
