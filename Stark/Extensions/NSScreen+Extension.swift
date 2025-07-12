@@ -15,7 +15,7 @@ import JavaScriptCore
   func currentSpace() -> Space?
 }
 
-extension NSScreen: @retroactive JSExport {}
+extension AppKit.NSScreen: JavaScriptCore.JSExport {}
 extension NSScreen: NSScreenJSExport {}
 
 extension NSScreen {
