@@ -38,17 +38,9 @@ private let kAXFullScreenAttribute = "AXFullScreen"
   func spaces() -> [Space]
 }
 
-extension Window: WindowJSExport {}
-
-extension Window {
-  override var description: String {
-    "<Window id: \(id), title: \(title)>"
-  }
-}
-
-class Window: NSObject {
+class Window: NSObject, WindowJSExport {
   static func all() -> [Window] {
-    return Array(WindowManager.shared.windows.values)
+    Array(WindowManager.shared.windows.values)
   }
 
   static func focused() -> Window? {
@@ -95,14 +87,16 @@ class Window: NSObject {
   }
 
   static func pid(for element: AXUIElement) -> pid_t? {
-    var pid: pid_t = -1
+    var pid: pid_t = 0
     let result = AXUIElementGetPid(element, &pid)
 
-    if result != .success {
-      return nil
-    }
+    guard result == .success else { return nil }
 
     return pid
+  }
+
+  override var description: String {
+    "<Window id: \(id), title: \(title)>"
   }
 
   var screen: NSScreen {
@@ -207,7 +201,7 @@ class Window: NSObject {
   }
 
   var isStandard: Bool {
-    return subrole == kAXStandardWindowSubrole
+    subrole == kAXStandardWindowSubrole
   }
 
   var isFullscreen: Bool {
@@ -248,7 +242,7 @@ class Window: NSObject {
 
   private var observedNotifications = WindowNotifications(rawValue: 0)
 
-  init(element: AXUIElement, application: Application) {
+  init(with element: AXUIElement, for application: Application) {
     self.element = element
     self.application = application
     self.id = Window.id(for: element)
