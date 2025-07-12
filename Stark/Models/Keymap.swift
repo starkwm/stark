@@ -18,19 +18,19 @@ extension Keymap {
 }
 
 class Keymap: NSObject {
-  static var keymaps = [String: Keymap]()
+  private static var keymaps = [String: Keymap]()
 
   static func on(_ key: String, _ modifiers: [String], _ callback: JSValue) -> Keymap {
     let keymap = Keymap(key: key, modifiers: modifiers, callback: callback)
     keymaps[keymap.id] = keymap
+
     callback.context.virtualMachine.addManagedReference(keymap, withOwner: self)
+
     return keymap
   }
 
   static func off(_ id: String) {
-    guard let keymap = keymaps.removeValue(forKey: id) else {
-      return
-    }
+    guard let keymap = keymaps.removeValue(forKey: id) else { return }
 
     keymap.callback?.value.context.virtualMachine.removeManagedReference(keymap, withOwner: self)
     ShortcutManager.unregister(shortcut: keymap.shortcut!)
@@ -48,11 +48,9 @@ class Keymap: NSObject {
   }
 
   var key: String
-
   var modifiers: [String]
 
   private var shortcut: Shortcut?
-
   private var callback: JSManagedValue?
 
   init(key: String, modifiers: [String], callback: JSValue) {
@@ -73,14 +71,12 @@ class Keymap: NSObject {
   }
 
   private func call() {
-    guard let callback = callback?.value else {
-      return
-    }
+    guard let callback = callback?.value else { return }
 
-    let context = JSContext(virtualMachine: callback.context.virtualMachine)
+    guard let context = JSContext(virtualMachine: callback.context.virtualMachine) else { return }
 
-    context?.exceptionHandler = { _, err in
-      error("javascript exception - \(String(describing: err))")
+    context.exceptionHandler = { _, err in
+      error("unhandled javascript exception - \(String(describing: err))")
     }
 
     let function = JSValue(object: callback, in: context)
