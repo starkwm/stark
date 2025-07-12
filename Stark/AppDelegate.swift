@@ -10,7 +10,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   func applicationDidFinishLaunching(_: Notification) {
-    askForAccessibilityIfNeeded()
+    if !askForAccessibilityIfNeeded() {
+      return
+    }
 
     if !ProcessManager.shared.begin() {
       error("could not start process manager")
@@ -29,8 +31,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     ShortcutManager.stop()
   }
 
-  private func askForAccessibilityIfNeeded() {
+  private func askForAccessibilityIfNeeded() -> Bool {
     let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue() as String: true]
-    AXIsProcessTrustedWithOptions(options as CFDictionary?)
+    return AXIsProcessTrustedWithOptions(options as CFDictionary?)
   }
 }
