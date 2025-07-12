@@ -9,7 +9,11 @@ private let processIgnoreList = [
   "Slack Helper (Renderer)",
 ]
 
-class Process {
+class Process: CustomStringConvertible {
+  var description: String {
+    "<Process pid: \(pid), name: \(name)>"
+  }
+
   var psn: ProcessSerialNumber
   var pid: pid_t
   var name: String
@@ -40,11 +44,5 @@ class Process {
     if processIgnoreList.contains(where: { $0 == self.name }) {
       return nil
     }
-  }
-}
-
-extension Process: CustomStringConvertible {
-  var description: String {
-    "<Process pid: \(pid), name: \(name)>"
   }
 }
