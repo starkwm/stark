@@ -67,9 +67,7 @@ class WindowManager {
     for element in elements {
       let windowID = Window.id(for: element)
 
-      guard windowID != 0, windows[windowID] == nil else {
-        continue
-      }
+      guard windowID != 0, windows[windowID] == nil else { continue }
 
       if let window = addWindow(with: element, for: application) {
         result.append(window)
@@ -141,7 +139,8 @@ class WindowManager {
 
       let token = createRemoteToken(for: application.processID, with: id)
 
-      guard let element = _AXUIElementCreateWithRemoteToken(token)?.takeUnretainedValue(),
+      guard
+        let element = _AXUIElementCreateWithRemoteToken(token)?.takeUnretainedValue(),
         Window.isWindow(element),
         let windowID = Window.validID(for: element)
       else { continue }
