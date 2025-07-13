@@ -72,7 +72,7 @@ class Config {
       return false
     }
 
-    guard let scriptContents = try? String(contentsOfFile: path) else {
+    guard let scriptContents = try? String(contentsOfFile: path, encoding: .utf8) else {
       error("could not read file \(path)")
       return false
     }
