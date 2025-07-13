@@ -70,27 +70,19 @@ extension EventManager {
       debug("application has not finishing launching \(process)")
       Workspace.shared.observeFinishedLaunching(process)
 
-      if Workspace.shared.isFinishedLaunching(process) {
-        Workspace.shared.unobserveFinishedLaunching(process)
-      } else {
-        return
-      }
+      guard Workspace.shared.isFinishedLaunching(process) else { return }
+      Workspace.shared.unobserveFinishedLaunching(process)
     }
 
     if !Workspace.shared.isObservable(process) {
       debug("application is not observable \(process)")
       Workspace.shared.observeActivationPolicy(process)
 
-      if Workspace.shared.isObservable(process) {
-        Workspace.shared.unobserveActivationPolicy(process)
-      } else {
-        return
-      }
+      guard Workspace.shared.isObservable(process) else { return }
+      Workspace.shared.unobserveActivationPolicy(process)
     }
 
-    if WindowManager.shared.applications[process.pid] != nil {
-      return
-    }
+    guard WindowManager.shared.applications[process.pid] == nil else { return }
 
     let application = Application(for: process)
 
@@ -100,9 +92,8 @@ extension EventManager {
 
       if application.retryObserving {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-          guard let proc = ProcessManager.shared.find(by: process.psn) else { return }
-
-          EventManager.shared.post(event: .applicationLaunched, with: proc)
+          guard let process = ProcessManager.shared.find(by: process.psn) else { return }
+          EventManager.shared.post(event: .applicationLaunched, with: process)
         }
       }
 
@@ -157,10 +148,7 @@ extension EventManager {
   private func windowCreated(with element: AXUIElement) {
     let windowID = Window.id(for: element)
 
-    if WindowManager.shared.windows.contains(where: { $0.key == windowID }) {
-      return
-    }
-
+    guard !WindowManager.shared.windows.contains(where: { $0.key == windowID }) else { return }
     guard let pid = Window.pid(for: element) else { return }
     guard let application = WindowManager.shared.applications.first(where: { $0.key == pid })?.value else { return }
     guard let window = WindowManager.shared.addWindow(with: element, for: application) else { return }
@@ -169,9 +157,7 @@ extension EventManager {
   }
 
   private func windowDestroyed(with window: Window) {
-    if window.id == 0 {
-      return
-    }
+    guard window.id != 0 else { return }
 
     debug("window destroyed \(window)")
 
@@ -182,30 +168,21 @@ extension EventManager {
   }
 
   private func windowFocused(with windowID: CGWindowID) {
-    if windowID == 0 {
-      return
-    }
-
+    guard windowID != 0 else { return }
     guard let window = WindowManager.shared.windows.first(where: { $0.key == windowID })?.value else { return }
 
     debug("window focused \(window)")
   }
 
   private func windowMoved(with windowID: CGWindowID) {
-    if windowID == 0 {
-      return
-    }
-
+    guard windowID != 0 else { return }
     guard let window = WindowManager.shared.windows.first(where: { $0.key == windowID })?.value else { return }
 
     debug("window moved \(window)")
   }
 
   private func windowResized(with windowID: CGWindowID) {
-    if windowID == 0 {
-      return
-    }
-
+    guard windowID != 0 else { return }
     guard let window = WindowManager.shared.windows.first(where: { $0.key == windowID })?.value else { return }
 
     debug("window resized \(window)")
