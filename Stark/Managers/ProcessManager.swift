@@ -39,7 +39,6 @@ class ProcessManager {
 
     while GetNextProcess(&psn) == noErr {
       guard let process = Process(psn: psn) else { continue }
-
       processes[process.psn.lowLongOfPSN] = process
     }
   }
