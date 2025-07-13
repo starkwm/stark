@@ -32,16 +32,16 @@ class Process: CustomStringConvertible {
     GetProcessPID(&self.psn, &pid)
 
     self.pid = pid
-    self.application = NSRunningApplication(processIdentifier: self.pid)
-    self.name = self.application?.localizedName ?? "-"
-    self.terminated = false
+    application = NSRunningApplication(processIdentifier: self.pid)
+    name = application?.localizedName ?? "-"
+    terminated = false
 
     if NSFileTypeForHFSTypeCode(info.processType).trimmingCharacters(in: CharacterSet(charactersIn: "'")) == "XPC!" {
-      debug("ignoring xpc service \(self.name)")
+      debug("ignoring xpc service \(name)")
       return nil
     }
 
-    if processIgnoreList.contains(where: { $0 == self.name }) {
+    if processIgnoreList.contains(where: { $0 == name }) {
       return nil
     }
   }

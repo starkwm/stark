@@ -50,8 +50,6 @@ class Keymap: NSObject, KeymapJSExport {
   private var callback: JSManagedValue?
 
   init(key: String, modifiers: [String], callback: JSValue) {
-    self.shortcut = Shortcut()
-
     self.key = key
     self.modifiers = modifiers
 
@@ -59,9 +57,10 @@ class Keymap: NSObject, KeymapJSExport {
 
     self.callback = JSManagedValue(value: callback, andOwner: self)
 
-    self.shortcut!.keyCode = Key.code(for: key)
-    self.shortcut!.modifierFlags = Modifier.flags(for: modifiers)
-    self.shortcut!.handler = call
+    shortcut = Shortcut()
+    shortcut!.keyCode = Key.code(for: key)
+    shortcut!.modifierFlags = Modifier.flags(for: modifiers)
+    shortcut!.handler = call
 
     ShortcutManager.register(shortcut: shortcut!)
   }

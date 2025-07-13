@@ -82,7 +82,7 @@ public enum ShortcutManager {
 
   public static func register(shortcuts: [Shortcut]) {
     for shortcut in shortcuts {
-      self.register(shortcut: shortcut)
+      register(shortcut: shortcut)
     }
   }
 
@@ -98,7 +98,7 @@ public enum ShortcutManager {
   public static func reset() {
     for (_, box) in shortcuts {
       guard let shortcut = box.shortcut else { continue }
-      self.unregister(shortcut: shortcut)
+      unregister(shortcut: shortcut)
     }
   }
 

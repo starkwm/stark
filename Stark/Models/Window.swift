@@ -245,7 +245,7 @@ class Window: NSObject, WindowJSExport {
   init(with element: AXUIElement, for application: Application) {
     self.element = element
     self.application = application
-    self.id = Window.id(for: element)
+    id = Window.id(for: element)
   }
 
   private func pid() -> pid_t? {

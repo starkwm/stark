@@ -87,10 +87,10 @@ class Application: NSObject, ApplicationJSExport {
   private var observing = false
 
   init(for process: Process) {
-    self.element = AXUIElementCreateApplication(process.pid)
-    self.application = NSRunningApplication(processIdentifier: process.pid)!
+    element = AXUIElementCreateApplication(process.pid)
+    application = NSRunningApplication(processIdentifier: process.pid)!
 
-    SLSGetConnectionIDForPSN(Space.connection, &process.psn, &self.connection)
+    SLSGetConnectionIDForPSN(Space.connection, &process.psn, &connection)
   }
 
   func windows() -> [Window] {
@@ -132,7 +132,7 @@ class Application: NSObject, ApplicationJSExport {
       } else {
         retryObserving = result == .cannotComplete
 
-        debug("notification \(notification) not added \(self) (retry: \(self.retryObserving)")
+        debug("notification \(notification) not added \(self) (retry: \(retryObserving)")
       }
     }
 

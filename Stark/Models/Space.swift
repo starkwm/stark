@@ -93,7 +93,7 @@ class Space: NSObject, SpaceJSExport {
 
   init(id: uint64) {
     self.id = id
-    self.type = SLSSpaceGetType(Space.connection, self.id)
+    type = SLSSpaceGetType(Space.connection, self.id)
   }
 
   override func isEqual(_ object: Any?) -> Bool {
