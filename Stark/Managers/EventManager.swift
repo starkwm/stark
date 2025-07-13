@@ -162,6 +162,7 @@ extension EventManager {
     debug("window destroyed \(window)")
 
     WindowManager.shared.remove(by: window.id)
+    window.unobserve()
     window.element = nil
     window.application = nil
     window.id = 0
