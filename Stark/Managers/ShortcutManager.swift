@@ -24,9 +24,7 @@ public enum ShortcutManager {
   private static var eventHandler: EventHandlerRef?
 
   static func handle(event: EventRef?) -> OSStatus {
-    guard let event = event else {
-      return OSStatus(eventNotHandledErr)
-    }
+    guard let event = event else { return OSStatus(eventNotHandledErr) }
 
     var hotKeyID = EventHotKeyID()
 
@@ -40,13 +38,12 @@ public enum ShortcutManager {
       &hotKeyID
     )
 
-    if err != noErr {
-      return err
-    }
+    guard err == noErr else { return err }
 
-    guard hotKeyID.signature == signature, let shortcut = shortcut(by: hotKeyID.id) else {
-      return OSStatus(eventNotHandledErr)
-    }
+    guard
+      hotKeyID.signature == signature,
+      let shortcut = shortcut(by: hotKeyID.id)
+    else { return OSStatus(eventNotHandledErr) }
 
     shortcut.handler()
 
@@ -54,18 +51,17 @@ public enum ShortcutManager {
   }
 
   public static func register(shortcut: Shortcut) {
-    if shortcuts.values.contains(where: { $0.identifier == shortcut.identifier }) {
-      return
-    }
+    guard !shortcuts.values.contains(where: { $0.identifier == shortcut.identifier }) else { return }
 
     shortcutsCount += 1
 
     let box = ShortcutBox(shortcut: shortcut, carbonHotKeyID: shortcutsCount)
     shortcuts[box.carbonHotKeyID] = box
 
-    guard let keyCode = shortcut.keyCode, let keyModifiers = shortcut.modifierFlags else {
-      return
-    }
+    guard
+      let keyCode = shortcut.keyCode,
+      let keyModifiers = shortcut.modifierFlags
+    else { return }
 
     let keyID = EventHotKeyID(signature: signature, id: box.carbonHotKeyID)
     var eventHotKeyRef: EventHotKeyRef?
@@ -79,9 +75,7 @@ public enum ShortcutManager {
       &eventHotKeyRef
     )
 
-    guard registerErr == noErr, eventHotKeyRef != nil else {
-      return
-    }
+    guard registerErr == noErr, eventHotKeyRef != nil else { return }
 
     box.carbonEventHotKey = eventHotKeyRef
   }
@@ -93,9 +87,7 @@ public enum ShortcutManager {
   }
 
   public static func unregister(shortcut: Shortcut) {
-    guard let box = box(for: shortcut) else {
-      return
-    }
+    guard let box = box(for: shortcut) else { return }
 
     UnregisterEventHotKey(box.carbonEventHotKey)
 
@@ -105,18 +97,13 @@ public enum ShortcutManager {
 
   public static func reset() {
     for (_, box) in shortcuts {
-      guard let shortcut = box.shortcut else {
-        continue
-      }
-
+      guard let shortcut = box.shortcut else { continue }
       self.unregister(shortcut: shortcut)
     }
   }
 
   public static func start() {
-    if shortcutsCount == 0 || eventHandler != nil {
-      return
-    }
+    guard shortcutsCount != 0 && eventHandler == nil else { return }
 
     let eventSpec = [
       EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
