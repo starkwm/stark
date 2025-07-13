@@ -78,6 +78,7 @@ extension ProcessManager {
 
   private func applicationLaunched(with psn: ProcessSerialNumber) {
     guard processes[psn.lowLongOfPSN] == nil else { return }
+
     guard let process = Process(psn: psn) else { return }
 
     processes[process.psn.lowLongOfPSN] = process

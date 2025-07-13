@@ -3,9 +3,9 @@ import Carbon
 class WindowManager {
   static let shared = WindowManager()
 
-  private(set) var applications = [pid_t: Application]()
-  private(set) var applicationsToRefresh = [Application]()
-  private(set) var windows = [CGWindowID: Window]()
+  private var applications = [pid_t: Application]()
+  private var applicationsToRefresh = [Application]()
+  private var windows = [CGWindowID: Window]()
 
   func begin() {
     for process in ProcessManager.shared.all() {
@@ -23,7 +23,7 @@ class WindowManager {
       }
 
       add(application: application)
-      addWindowsFor(existing: application, refreshIndex: -1)
+      add(for: application, refreshIndex: -1)
     }
   }
 
@@ -40,7 +40,7 @@ class WindowManager {
   }
 
   @discardableResult
-  func addWindow(with element: AXUIElement, for application: Application) -> Window? {
+  func add(with element: AXUIElement, for application: Application) -> Window? {
     let window = Window(with: element, for: application)
 
     guard window.subrole != nil else { return nil }
@@ -55,23 +55,17 @@ class WindowManager {
     return window
   }
 
-  func remove(by windowID: CGWindowID) {
-    windows.removeValue(forKey: windowID)
-  }
-
   @discardableResult
-  func addWindows(for application: Application) -> [Window] {
+  func add(for application: Application) -> [Window] {
     let elements = application.windowElements()
     var result = [Window]()
 
     for element in elements {
       let windowID = Window.id(for: element)
 
-      guard windowID != 0, windows[windowID] == nil else {
-        continue
-      }
+      guard windowID != 0, windows[windowID] == nil else { continue }
 
-      if let window = addWindow(with: element, for: application) {
+      if let window = add(with: element, for: application) {
         result.append(window)
       }
     }
@@ -80,7 +74,7 @@ class WindowManager {
   }
 
   @discardableResult
-  func addWindowsFor(existing application: Application, refreshIndex: Int) -> Bool {
+  func add(for application: Application, refreshIndex: Int) -> Bool {
     let globalWindowList = application.windowIdentifiers()
     let elements = application.windowElements()
 
@@ -96,7 +90,7 @@ class WindowManager {
       }
 
       if !windows.keys.contains(windowID) {
-        addWindow(with: element, for: application)
+        add(with: element, for: application)
       }
     }
 
@@ -106,7 +100,7 @@ class WindowManager {
       if !unresolvedWindows.isEmpty {
         debug("application has windows that are not resolved, attempting workaround \(application)")
 
-        resolveWindows(for: application, from: &unresolvedWindows)
+        resolve(for: application, from: &unresolvedWindows)
 
         if refreshIndex == -1 && !unresolvedWindows.isEmpty {
           debug("workaround failed to resolve all windows \(application)")
@@ -135,7 +129,24 @@ class WindowManager {
     return result
   }
 
-  func resolveWindows(for application: Application, from windowIDs: inout [CGWindowID]) {
+  func remove(by id: CGWindowID) {
+    windows.removeValue(forKey: id)
+  }
+
+  func refresh() {
+    for (idx, application) in WindowManager.shared.applicationsToRefresh.enumerated() {
+      debug("debug: application has windows that are not yet resolved \(application)")
+      add(for: application, refreshIndex: idx)
+    }
+  }
+
+  func refresh(for application: Application) {
+    guard let idx = applicationsToRefresh.firstIndex(of: application) else { return }
+    debug("debug: application has windows that are not yet resolved \(application)")
+    add(for: application, refreshIndex: idx)
+  }
+
+  func resolve(for application: Application, from windowIDs: inout [CGWindowID]) {
     for id in 0...0x7fff {
       guard !windowIDs.isEmpty else { break }
 
@@ -148,14 +159,34 @@ class WindowManager {
 
       if let idx = windowIDs.firstIndex(of: windowID) {
         windowIDs.remove(at: idx)
-        addWindow(with: element, for: application)
+        add(with: element, for: application)
         debug("resolved window \(windowID) for \(application)")
       }
     }
   }
 
-  func windows(for application: Application) -> [Window] {
-    return windows.values.filter { $0.application == application }
+  func all() -> [Window] {
+    Array(windows.values)
+  }
+
+  func find(by id: CGWindowID) -> Window? {
+    windows[id]
+  }
+
+  func all(for application: Application) -> [Window] {
+    windows.values.filter { $0.application == application }
+  }
+
+  func allApplications() -> [Application] {
+    Array(applications.values)
+  }
+
+  func findApplication(by pid: pid_t) -> Application? {
+    applications[pid]
+  }
+
+  func findApplication(by name: String) -> Application? {
+    applications.values.first { $0.name == name }
   }
 
   private func createRemoteToken(for processID: pid_t, with id: Int) -> CFData {

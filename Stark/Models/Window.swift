@@ -40,7 +40,7 @@ private let kAXFullScreenAttribute = "AXFullScreen"
 
 class Window: NSObject, WindowJSExport {
   static func all() -> [Window] {
-    Array(WindowManager.shared.windows.values)
+    WindowManager.shared.all()
   }
 
   static func focused() -> Window? {
@@ -64,9 +64,9 @@ class Window: NSObject, WindowJSExport {
       return nil
     }
 
-    let windowID = Window.id(for: windowElement as! AXUIElement)
+    let id = Window.id(for: windowElement as! AXUIElement)
 
-    return WindowManager.shared.windows[windowID]
+    return WindowManager.shared.find(by: id)
   }
 
   static func id(for element: AXUIElement) -> CGWindowID {
