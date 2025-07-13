@@ -39,15 +39,19 @@ extension NSScreen: NSScreenJSExport {
 
   var flippedFrame: CGRect {
     guard let primaryScreen = NSScreen.screens.first else { return CGRect.zero }
+
     var frame = frame
     frame.origin.y = primaryScreen.frame.height - frame.height - frame.origin.y
+
     return frame
   }
 
   var flippedVisibleFrame: CGRect {
     guard let primaryScreen = NSScreen.screens.first else { return CGRect.zero }
+
     var frame = visibleFrame
     frame.origin.y = primaryScreen.frame.height - frame.height - frame.origin.y
+
     return frame
   }
 
