@@ -82,7 +82,7 @@ extension EventManager {
       Workspace.shared.unobserveActivationPolicy(process)
     }
 
-    guard WindowManager.shared.applications[process.pid] == nil else { return }
+    guard WindowManager.shared.application(by: process.pid) == nil else { return }
 
     let application = Application(for: process)
 
@@ -110,12 +110,11 @@ extension EventManager {
     Workspace.shared.unobserveActivationPolicy(process)
     Workspace.shared.unobserveFinishedLaunching(process)
 
-    guard let application = WindowManager.shared.applications[process.pid] else { return }
+    guard let application = WindowManager.shared.application(by: process.pid) else { return }
 
-    WindowManager.shared.removeApplicationToRefresh(application: application)
     WindowManager.shared.remove(application: application)
 
-    let windows = WindowManager.shared.windows(for: application)
+    let windows = WindowManager.shared.allWindows(for: application)
 
     for window in windows {
       WindowManager.shared.remove(by: window.id)
@@ -131,16 +130,9 @@ extension EventManager {
   }
 
   private func applicationFrontSwitched(for process: Process) {
-    guard let application = WindowManager.shared.applications.first(where: { $0.key == process.pid })?.value else {
-      return
-    }
+    guard let application = WindowManager.shared.application(by: process.pid) else { return }
 
-    for (idx, app) in WindowManager.shared.applicationsToRefresh.enumerated() {
-      if app == application {
-        WindowManager.shared.addWindowsFor(existing: app, refreshIndex: idx)
-        break
-      }
-    }
+    WindowManager.shared.refreshWindows(for: application)
 
     debug("frontmost application switched \(application)")
   }
@@ -148,10 +140,10 @@ extension EventManager {
   private func windowCreated(with element: AXUIElement) {
     let windowID = Window.id(for: element)
 
-    guard !WindowManager.shared.windows.contains(where: { $0.key == windowID }) else { return }
+    guard WindowManager.shared.window(by: windowID) == nil else { return }
     guard let pid = Window.pid(for: element) else { return }
-    guard let application = WindowManager.shared.applications.first(where: { $0.key == pid })?.value else { return }
-    guard let window = WindowManager.shared.addWindow(with: element, for: application) else { return }
+    guard let application = WindowManager.shared.application(by: pid) else { return }
+    guard let window = WindowManager.shared.addWindow(for: application, with: element) else { return }
 
     debug("window created \(window)")
   }
@@ -170,21 +162,21 @@ extension EventManager {
 
   private func windowFocused(with windowID: CGWindowID) {
     guard windowID != 0 else { return }
-    guard let window = WindowManager.shared.windows.first(where: { $0.key == windowID })?.value else { return }
+    guard let window = WindowManager.shared.window(by: windowID) else { return }
 
     debug("window focused \(window)")
   }
 
   private func windowMoved(with windowID: CGWindowID) {
     guard windowID != 0 else { return }
-    guard let window = WindowManager.shared.windows.first(where: { $0.key == windowID })?.value else { return }
+    guard let window = WindowManager.shared.window(by: windowID) else { return }
 
     debug("window moved \(window)")
   }
 
   private func windowResized(with windowID: CGWindowID) {
     guard windowID != 0 else { return }
-    guard let window = WindowManager.shared.windows.first(where: { $0.key == windowID })?.value else { return }
+    guard let window = WindowManager.shared.window(by: windowID) else { return }
 
     debug("window resized \(window)")
   }
@@ -198,10 +190,7 @@ extension EventManager {
   }
 
   private func spaceChanged() {
-    for (idx, app) in WindowManager.shared.applicationsToRefresh.enumerated() {
-      debug("debug: application has windows that are not yet resolved \(app)")
-      WindowManager.shared.addWindowsFor(existing: app, refreshIndex: idx)
-    }
+    WindowManager.shared.refreshWindows()
 
     let space = Space.active()
 

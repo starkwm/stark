@@ -26,17 +26,17 @@ private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
 
 class Application: NSObject, ApplicationJSExport {
   static func all() -> [Application] {
-    Array(WindowManager.shared.applications.values)
+    WindowManager.shared.allApplications()
   }
 
   static func focused() -> Application? {
     guard let application = NSWorkspace.shared.frontmostApplication else { return nil }
 
-    return WindowManager.shared.applications[application.processIdentifier]
+    return WindowManager.shared.application(by: application.processIdentifier)
   }
 
   static func find(_ name: String) -> Application? {
-    WindowManager.shared.applications.values.first { $0.name == name }
+    WindowManager.shared.application(by: name)
   }
 
   override var description: String {
@@ -94,7 +94,7 @@ class Application: NSObject, ApplicationJSExport {
   }
 
   func windows() -> [Window] {
-    WindowManager.shared.windows.values.filter { $0.application == self }
+    WindowManager.shared.allWindows(for: self)
   }
 
   func activate() -> Bool {
@@ -283,7 +283,7 @@ private func accessibilityObserverCallback(
     EventManager.shared.post(event: .windowDeminimized, with: window)
 
   case kAXUIElementDestroyedNotification:
-    let window = Unmanaged<Window>.fromOpaque(context).takeUnretainedValue()
+    let window = Unmanaged<Application>.fromOpaque(context).takeUnretainedValue()
     EventManager.shared.post(event: .windowDestroyed, with: window)
 
   default:
