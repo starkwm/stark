@@ -35,9 +35,7 @@ enum LaunchAgentHelper {
       )
     }
 
-    guard let execPath = Bundle.main.executablePath else {
-      return
-    }
+    guard let execPath = Bundle.main.executablePath else { return }
 
     let plist: NSDictionary = [
       "Label": Bundle.main.bundleIdentifier!,
@@ -54,6 +52,7 @@ enum LaunchAgentHelper {
 
   static func enabled() -> Bool {
     let reachable = (launchAgentFile as NSURL?)?.checkResourceIsReachableAndReturnError(nil)
+
     return reachable ?? false
   }
 }
