@@ -62,7 +62,8 @@ class Application: NSObject, ApplicationJSExport {
   var isHidden: Bool {
     var value: AnyObject?
 
-    guard AXUIElementCopyAttributeValue(element, kAXHiddenAttribute as CFString, &value) == .success,
+    guard
+      AXUIElementCopyAttributeValue(element, kAXHiddenAttribute as CFString, &value) == .success,
       let number = value as? NSNumber
     else {
       return false
@@ -144,7 +145,10 @@ class Application: NSObject, ApplicationJSExport {
   }
 
   func unobserve() {
-    guard !observing, let observer = observer else { return }
+    guard
+      !observing,
+      let observer = observer
+    else { return }
 
     for (idx, notification) in applicationNotifications.enumerated() {
       let notif = ApplicationNotifications(rawValue: 1 << idx)
@@ -218,9 +222,7 @@ class Application: NSObject, ApplicationJSExport {
       return []
     }
 
-    guard let windows = values as? [AXUIElement] else {
-      return []
-    }
+    guard let windows = values as? [AXUIElement] else { return [] }
 
     return windows
   }
@@ -257,9 +259,7 @@ private func accessibilityObserverCallback(
   _ notification: CFString,
   _ context: UnsafeMutableRawPointer?
 ) {
-  guard let context = context else {
-    return
-  }
+  guard let context = context else { return }
 
   switch notification as String {
   case kAXCreatedNotification:

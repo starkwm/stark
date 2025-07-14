@@ -105,7 +105,8 @@ class Workspace: NSObject {
     let process = Unmanaged<Process>.fromOpaque(context).takeUnretainedValue()
 
     if keyPath == "activationPolicy" {
-      guard let raw = change?[.newKey] as? Int,
+      guard
+        let raw = change?[.newKey] as? Int,
         let result = NSApplication.ActivationPolicy(rawValue: raw)
       else { return }
 

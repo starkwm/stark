@@ -112,9 +112,7 @@ public enum Key {
     let source = TISCopyCurrentASCIICapableKeyboardLayoutInputSource().takeUnretainedValue()
     let dataRefPtr = TISGetInputSourceProperty(source, kTISPropertyUnicodeKeyLayoutData)
 
-    guard let dataRef = unsafeBitCast(dataRefPtr, to: CFData?.self) else {
-      return nil
-    }
+    guard let dataRef = unsafeBitCast(dataRefPtr, to: CFData?.self) else { return nil }
 
     return unsafeBitCast(CFDataGetBytePtr(dataRef), to: UnsafePointer<UCKeyboardLayout>.self)
   }
@@ -138,9 +136,7 @@ public enum Key {
       &chars
     )
 
-    guard length > 0 else {
-      return nil
-    }
+    guard length > 0 else { return nil }
 
     return String(utf16CodeUnits: &chars, count: length)
   }

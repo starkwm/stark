@@ -193,9 +193,7 @@ class Window: NSObject, WindowJSExport {
       return nil
     }
 
-    guard let subrole = value as? String else {
-      return nil
-    }
+    guard let subrole = value as? String else { return nil }
 
     return subrole
   }

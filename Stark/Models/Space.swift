@@ -28,18 +28,12 @@ class Space: NSObject, SpaceJSExport {
     let displaySpacesInfo = SLSCopyManagedDisplaySpaces(connection) as NSArray
 
     for item in displaySpacesInfo {
-      guard let info = item as? [String: AnyObject] else {
-        continue
-      }
+      guard let info = item as? [String: AnyObject] else { continue }
 
-      guard let spacesInfo = info[spacesKey] as? [[String: AnyObject]] else {
-        continue
-      }
+      guard let spacesInfo = info[spacesKey] as? [[String: AnyObject]] else { continue }
 
       for spaceInfo in spacesInfo {
-        guard let id = spaceInfo[spaceIDKey] as? uint64 else {
-          continue
-        }
+        guard let id = spaceInfo[spaceIDKey] as? uint64 else { continue }
 
         spaces.append(Space(id: id))
       }
@@ -113,9 +107,7 @@ class Space: NSObject, SpaceJSExport {
 
     for item in displaySpacesInfo {
       guard let info = item as? [String: AnyObject] else { continue }
-
       guard let screenID = info[screenIDKey] as? String else { continue }
-
       guard let spacesInfo = info[spacesKey] as? [[String: AnyObject]] else { continue }
 
       for spaceInfo in spacesInfo {
