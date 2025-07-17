@@ -103,7 +103,7 @@ extension EventManager {
     WindowManager.shared.add(application: application)
     WindowManager.shared.addWindows(for: application)
 
-    log("application launched \(application)")
+    log("application launched \(application)", level: .info)
   }
 
   private func applicationTerminated(for process: Process) {
@@ -126,7 +126,7 @@ extension EventManager {
 
     application.unobserve()
 
-    log("application terminated \(application)")
+    log("application terminated \(application)", level: .info)
   }
 
   private func applicationFrontSwitched(for process: Process) {
@@ -134,7 +134,7 @@ extension EventManager {
 
     WindowManager.shared.refreshWindows(for: application)
 
-    log("frontmost application switched \(application)")
+    log("frontmost application switched \(application)", level: .info)
   }
 
   private func windowCreated(with element: AXUIElement) {
@@ -145,13 +145,13 @@ extension EventManager {
     guard let application = WindowManager.shared.application(by: pid) else { return }
     guard let window = WindowManager.shared.addWindow(for: application, with: element) else { return }
 
-    log("window created \(window)")
+    log("window created \(window)", level: .info)
   }
 
   private func windowDestroyed(with window: Window) {
     guard window.id != 0 else { return }
 
-    log("window destroyed \(window)")
+    log("window destroyed \(window)", level: .info)
 
     WindowManager.shared.remove(by: window.id)
     window.unobserve()
@@ -164,29 +164,29 @@ extension EventManager {
     guard windowID != 0 else { return }
     guard let window = WindowManager.shared.window(by: windowID) else { return }
 
-    log("window focused \(window)")
+    log("window focused \(window)", level: .info)
   }
 
   private func windowMoved(with windowID: CGWindowID) {
     guard windowID != 0 else { return }
     guard let window = WindowManager.shared.window(by: windowID) else { return }
 
-    log("window moved \(window)")
+    log("window moved \(window)", level: .info)
   }
 
   private func windowResized(with windowID: CGWindowID) {
     guard windowID != 0 else { return }
     guard let window = WindowManager.shared.window(by: windowID) else { return }
 
-    log("window resized \(window)")
+    log("window resized \(window)", level: .info)
   }
 
   private func windowMinimized(with window: Window) {
-    log("window minimized \(window)")
+    log("window minimized \(window)", level: .info)
   }
 
   private func windowDeminimized(with window: Window) {
-    log("window deminimized \(window)")
+    log("window deminimized \(window)", level: .info)
   }
 
   private func spaceChanged() {
@@ -194,6 +194,6 @@ extension EventManager {
 
     let space = Space.active()
 
-    log("space changed \(space)")
+    log("space changed \(space)", level: .info)
   }
 }
