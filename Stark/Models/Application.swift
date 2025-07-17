@@ -133,7 +133,7 @@ class Application: NSObject, ApplicationJSExport {
       } else {
         retryObserving = result == .cannotComplete
 
-        debug("notification \(notification) not added \(self) (retry: \(retryObserving)")
+        log("notification \(notification) not added \(self) (retry: \(retryObserving)")
       }
     }
 

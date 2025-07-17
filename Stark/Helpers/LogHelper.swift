@@ -17,18 +17,18 @@ struct LogHelper: TextOutputStream {
 
 var logger = LogHelper()
 
-func debug(_ message: String) {
-  if UserDefaults.standard.bool(forKey: "debugLogging") {
-    print("\(Date()) debug: \(message)", to: &logger)
-  } else {
-    print("\(Date()) debug: \(message)")
-  }
+enum LogLevel: String {
+  case debug = "DEBUG"
+  case error = "ERROR"
 }
 
-func error(_ message: String) {
+func log(_ message: @autoclosure () -> String, level: LogLevel = .debug) {
+  let now = Date()
+  let text = "\(now) \(level.rawValue): \(message())"
+
   if UserDefaults.standard.bool(forKey: "debugLogging") {
-    print("\(Date()) error: \(message)", to: &logger)
+    print(text, to: &logger)
   } else {
-    print("\(Date()) error: \(message)")
+    print(text)
   }
 }
