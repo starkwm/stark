@@ -94,6 +94,10 @@ class Application: NSObject, ApplicationJSExport {
     SLSGetConnectionIDForPSN(Space.connection, &process.psn, &connection)
   }
 
+  deinit {
+    log("application deinit \(self)")
+  }
+
   func windows() -> [Window] {
     WindowManager.shared.allWindows(for: self)
   }

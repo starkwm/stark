@@ -65,6 +65,10 @@ class Keymap: NSObject, KeymapJSExport {
     ShortcutManager.register(shortcut: shortcut!)
   }
 
+  deinit {
+    log("keymap deinit \(self)")
+  }
+
   private func call() {
     guard let callback = callback?.value else { return }
 

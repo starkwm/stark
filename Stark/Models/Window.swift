@@ -246,6 +246,10 @@ class Window: NSObject, WindowJSExport {
     id = Window.id(for: element)
   }
 
+  deinit {
+    log("window deinit \(self)")
+  }
+
   private func pid() -> pid_t? {
     guard let element = element else { return nil }
 

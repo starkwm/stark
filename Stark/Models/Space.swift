@@ -90,6 +90,10 @@ class Space: NSObject, SpaceJSExport {
     type = SLSSpaceGetType(Space.connection, self.id)
   }
 
+  deinit {
+    log("space deinit \(self)")
+  }
+
   override func isEqual(_ object: Any?) -> Bool {
     guard let space = object as? Self else { return false }
 
