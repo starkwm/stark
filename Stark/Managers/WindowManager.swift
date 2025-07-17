@@ -10,7 +10,7 @@ class WindowManager {
   func begin() {
     for process in ProcessManager.shared.all() {
       guard Workspace.shared.isObservable(process) else {
-        debug("application is not observable \(process)")
+        log("application is not observable \(process)")
         Workspace.shared.observeActivationPolicy(process)
         continue
       }
@@ -107,7 +107,7 @@ class WindowManager {
   func refreshWindows(for application: Application) {
     guard let idx = applicationsToRefresh.firstIndex(of: application) else { return }
 
-    debug("debug: application has windows that are not yet resolved \(application)")
+    log("debug: application has windows that are not yet resolved \(application)")
     addExistingWindows(for: application, refreshIndex: idx)
   }
 
@@ -136,16 +136,16 @@ class WindowManager {
       var unresolvedWindows = globalWindowList.filter { windows[$0] == nil }
 
       if !unresolvedWindows.isEmpty {
-        debug("application has windows that are not resolved, attempting workaround \(application)")
+        log("application has windows that are not resolved, attempting workaround \(application)")
 
         resolveWindows(for: application, from: &unresolvedWindows)
 
         if refreshIndex == -1 && !unresolvedWindows.isEmpty {
-          debug("workaround failed to resolve all windows \(application)")
+          log("workaround failed to resolve all windows \(application)")
 
           applicationsToRefresh.append(application)
         } else if refreshIndex != -1 && unresolvedWindows.isEmpty {
-          debug("workaround successfully resolved all windows \(application)")
+          log("workaround successfully resolved all windows \(application)")
 
           if applicationsToRefresh.indices.contains(refreshIndex) {
             applicationsToRefresh.remove(at: refreshIndex)
@@ -155,7 +155,7 @@ class WindowManager {
         }
       }
     } else if refreshIndex != -1 {
-      debug("all windows resolved \(application)")
+      log("all windows resolved \(application)")
 
       if applicationsToRefresh.indices.contains(refreshIndex) {
         applicationsToRefresh.remove(at: refreshIndex)
@@ -182,7 +182,7 @@ class WindowManager {
       if let idx = windowIDs.firstIndex(of: windowID) {
         windowIDs.remove(at: idx)
         addWindow(for: application, with: element)
-        debug("resolved window \(windowID) for \(application)")
+        log("resolved window \(windowID) for \(application)")
       }
     }
   }

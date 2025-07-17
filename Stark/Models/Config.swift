@@ -23,7 +23,7 @@ class Config {
     let configPath = resolvePrimaryPath()
 
     if !FileManager.default.fileExists(atPath: configPath) {
-      error("configuration file does not exist \(configPath)")
+      log("configuration file does not exist \(configPath)", level: .error)
       return
     }
 
@@ -38,16 +38,16 @@ class Config {
     context = JSContext(virtualMachine: JSVirtualMachine())
 
     guard let context else {
-      error("could not create javascript context")
+      log("could not create javascript context", level: .error)
       return false
     }
 
     context.exceptionHandler = { _, err in
-      error("javascript exception - \(String(describing: err))")
+      log("javascript exception - \(String(describing: err))", level: .error)
     }
 
     let jsPrint: @convention(block) (String) -> Void = { message in
-      debug(message)
+      log(message)
     }
 
     let reload: @convention(block) () -> Void = {
@@ -68,12 +68,12 @@ class Config {
 
   private func loadFile(path: String) -> Bool {
     guard let context else {
-      error("javascript context is not defined")
+      log("javascript context is not defined", level: .error)
       return false
     }
 
     guard let scriptContents = try? String(contentsOfFile: path, encoding: .utf8) else {
-      error("could not read file \(path)")
+      log("could not read file \(path)", level: .error)
       return false
     }
 

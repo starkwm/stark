@@ -71,7 +71,7 @@ class Keymap: NSObject, KeymapJSExport {
     guard let context = JSContext(virtualMachine: callback.context.virtualMachine) else { return }
 
     context.exceptionHandler = { _, err in
-      error("unhandled javascript exception - \(String(describing: err))")
+      log("unhandled javascript exception - \(String(describing: err))", level: .error)
     }
 
     let function = JSValue(object: callback, in: context)

@@ -15,7 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     if !ProcessManager.shared.begin() {
-      error("could not start process manager")
+      log("could not start process manager", level: .error)
       return
     }
 
