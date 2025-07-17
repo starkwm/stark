@@ -45,4 +45,8 @@ class Process: CustomStringConvertible {
       return nil
     }
   }
+
+  deinit {
+    log("process deinit \(self)")
+  }
 }
