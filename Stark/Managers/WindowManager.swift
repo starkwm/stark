@@ -107,7 +107,7 @@ class WindowManager {
   func refreshWindows(for application: Application) {
     guard let idx = applicationsToRefresh.firstIndex(of: application) else { return }
 
-    log("debug: application has windows that are not yet resolved \(application)")
+    log("application has windows that are not yet resolved \(application)")
     addExistingWindows(for: application, refreshIndex: idx)
   }
 
