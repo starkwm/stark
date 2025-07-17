@@ -28,7 +28,7 @@ func log(_ message: @autoclosure () -> String, level: LogLevel = .debug) {
   let now = Date().ISO8601Format()
   let text = "\(now) \(level.rawValue): \(message())"
 
-  if UserDefaults.standard.bool(forKey: "debugLogging") {
+  if UserDefaults.standard.bool(forKey: "enableLogging") {
     print(text, to: &logger)
   } else {
     print(text)
