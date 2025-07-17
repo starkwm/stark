@@ -32,12 +32,12 @@ class StarkStatusItem {
     loginItem.state = LaunchAgentHelper.enabled() ? .on : .off
 
     let logItem = NSMenuItem(
-      title: "Debug logging",
-      action: #selector(toggleDebugLogging(sender:)),
+      title: "Enable logging",
+      action: #selector(toggleLogging(sender:)),
       keyEquivalent: ""
     )
     logItem.target = self
-    logItem.state = UserDefaults.standard.bool(forKey: "debugLogging") ? .on : .off
+    logItem.state = UserDefaults.standard.bool(forKey: "enableLogging") ? .on : .off
 
     let quitItem = NSMenuItem(
       title: "Quit Stark",
@@ -70,12 +70,12 @@ class StarkStatusItem {
   }
 
   @objc
-  func toggleDebugLogging(sender: NSMenuItem) {
+  func toggleLogging(sender: NSMenuItem) {
     if sender.state == .on {
-      UserDefaults.standard.set(false, forKey: "debugLogging")
+      UserDefaults.standard.set(false, forKey: "enableLogging")
       sender.state = .off
     } else {
-      UserDefaults.standard.set(true, forKey: "debugLogging")
+      UserDefaults.standard.set(true, forKey: "enableLogging")
       sender.state = .on
     }
 
