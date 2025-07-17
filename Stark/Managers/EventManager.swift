@@ -67,7 +67,7 @@ extension EventManager {
     }
 
     if !Workspace.shared.isFinishedLaunching(process) {
-      log("application has not finishing launching \(process)")
+      log("application has not finished launching \(process)")
       Workspace.shared.observeFinishedLaunching(process)
 
       guard Workspace.shared.isFinishedLaunching(process) else { return }
