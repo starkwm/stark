@@ -87,7 +87,7 @@ extension EventManager {
     let application = Application(for: process)
 
     if !application.observe() {
-      log("could not observe application \(application)")
+      log("could not observe application \(application)", level: .warn)
       application.unobserve()
 
       if application.retryObserving {

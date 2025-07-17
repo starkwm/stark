@@ -47,7 +47,7 @@ class Config {
     }
 
     let jsPrint: @convention(block) (String) -> Void = { message in
-      log(message)
+      log(message, level: .info)
     }
 
     let reload: @convention(block) () -> Void = {
