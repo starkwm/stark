@@ -37,7 +37,6 @@ class ConfigManager {
     ShortcutManager.stop()
   }
 
-  @discardableResult
   private func load() -> Bool {
     Keymap.reset()
 
@@ -116,7 +115,10 @@ class ConfigManager {
 
     fileSystemSource.setEventHandler {
       log("config file changed, reloading...", level: .info)
-      self.load()
+
+      if !self.load() {
+        log("could not reload config file", level: .error)
+      }
     }
 
     fileSystemSource.setCancelHandler {
