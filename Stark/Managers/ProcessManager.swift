@@ -5,7 +5,7 @@ class ProcessManager {
 
   private var processes = [UInt32: Process]()
 
-  func begin() -> Bool {
+  func start() -> Bool {
     addRunningProcesses()
 
     let eventTypes = [

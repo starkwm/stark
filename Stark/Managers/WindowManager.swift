@@ -7,7 +7,7 @@ class WindowManager {
   private var applicationsToRefresh = [Application]()
   private var windows = [CGWindowID: Window]()
 
-  func begin() {
+  func start() {
     for process in ProcessManager.shared.all() {
       guard Workspace.shared.isObservable(process) else {
         log("application is not observable \(process)", level: .warn)
