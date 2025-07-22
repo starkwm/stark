@@ -1,12 +1,10 @@
 import AppKit
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-  var config: Config
   var statusItem: StarkStatusItem
 
   override init() {
-    config = Config()
-    statusItem = StarkStatusItem(config: config)
+    statusItem = StarkStatusItem()
   }
 
   func applicationDidFinishLaunching(_: Notification) {
@@ -22,7 +20,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     WindowManager.shared.begin()
 
     statusItem.setup()
-    config.execute()
 
     ShortcutManager.start()
   }
