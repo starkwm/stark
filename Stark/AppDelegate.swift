@@ -1,11 +1,7 @@
 import AppKit
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-  var statusItem: StarkStatusItem
-
-  override init() {
-    statusItem = StarkStatusItem()
-  }
+  private var statusItem = StarkStatusItem()
 
   func applicationDidFinishLaunching(_: Notification) {
     if !askForAccessibilityIfNeeded() {
