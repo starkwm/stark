@@ -33,6 +33,8 @@ class ConfigManager {
   func stop() {
     fileSystemSource?.cancel()
     fileSystemSource = nil
+
+    ShortcutManager.stop()
   }
 
   @discardableResult

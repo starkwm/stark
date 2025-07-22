@@ -5,6 +5,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   func applicationDidFinishLaunching(_: Notification) {
     if !askForAccessibilityIfNeeded() {
+      log("accessibility permissions not granted", level: .error)
       return
     }
 
@@ -15,17 +16,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     WindowManager.shared.begin()
 
-    statusItem.setup()
-
     if !ConfigManager.shared.start() {
       log("could not start config manager", level: .error)
+      return
     }
 
-    ShortcutManager.start()
+    statusItem.setup()
   }
 
   func applicationWillTerminate(_: Notification) {
-    ShortcutManager.stop()
+    ConfigManager.shared.stop()
   }
 
   private func askForAccessibilityIfNeeded() -> Bool {
