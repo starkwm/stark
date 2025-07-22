@@ -21,6 +21,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     statusItem.setup()
 
+    if !ConfigManager.shared.start() {
+      log("could not start config manager", level: .error)
+    }
+
     ShortcutManager.start()
   }
 
