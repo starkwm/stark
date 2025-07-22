@@ -24,7 +24,7 @@ private let relocatableKeyCodes: [Int] = [
   kVK_ANSI_Minus,
 ]
 
-public let keyToCode: [String: Int] = [
+let keyToCode: [String: Int] = [
   "space": kVK_Space,
   "tab": kVK_Tab,
   "return": kVK_Return,
@@ -86,7 +86,7 @@ public let keyToCode: [String: Int] = [
   "forwardslash": kVK_ANSI_Slash,
 ]
 
-public enum Key {
+enum Key {
   private static let relocatable: [String: Int] = {
     var keys = [String: Int]()
 
@@ -100,7 +100,7 @@ public enum Key {
     return keys
   }()
 
-  public static func code(for key: String) -> UInt32 {
+  static func code(for key: String) -> UInt32 {
     if let keyCode = relocatable[key.lowercased()] {
       return UInt32(keyCode)
     }

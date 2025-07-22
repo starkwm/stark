@@ -1,6 +1,6 @@
 import Carbon
 
-public enum ShortcutManager {
+enum ShortcutManager {
   final class ShortcutBox {
     let identifier: UUID
 
@@ -50,7 +50,7 @@ public enum ShortcutManager {
     return noErr
   }
 
-  public static func register(shortcut: Shortcut) {
+  static func register(shortcut: Shortcut) {
     guard !shortcuts.values.contains(where: { $0.identifier == shortcut.identifier }) else { return }
 
     shortcutsCount += 1
@@ -80,13 +80,13 @@ public enum ShortcutManager {
     box.carbonEventHotKey = eventHotKeyRef
   }
 
-  public static func register(shortcuts: [Shortcut]) {
+  static func register(shortcuts: [Shortcut]) {
     for shortcut in shortcuts {
       register(shortcut: shortcut)
     }
   }
 
-  public static func unregister(shortcut: Shortcut) {
+  static func unregister(shortcut: Shortcut) {
     guard let box = box(for: shortcut) else { return }
 
     UnregisterEventHotKey(box.carbonEventHotKey)
@@ -95,14 +95,14 @@ public enum ShortcutManager {
     shortcuts.removeValue(forKey: box.carbonHotKeyID)
   }
 
-  public static func reset() {
+  static func reset() {
     for (_, box) in shortcuts {
       guard let shortcut = box.shortcut else { continue }
       unregister(shortcut: shortcut)
     }
   }
 
-  public static func start() {
+  static func start() {
     guard shortcutsCount != 0 && eventHandler == nil else { return }
 
     let eventSpec = [
@@ -112,7 +112,7 @@ public enum ShortcutManager {
     InstallEventHandler(GetEventDispatcherTarget(), shortcutEventHandler, 1, eventSpec, nil, &eventHandler)
   }
 
-  public static func stop() {
+  static func stop() {
     if eventHandler != nil {
       RemoveEventHandler(eventHandler)
       eventHandler = nil

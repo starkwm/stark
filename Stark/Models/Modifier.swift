@@ -1,6 +1,6 @@
 import Carbon
 
-public enum Modifier {
+enum Modifier {
   private static let keyFlags: [String: Int] = [
     "shift": shiftKey,
     "ctrl": controlKey, "control": controlKey,
@@ -10,7 +10,7 @@ public enum Modifier {
     "hyper": cmdKey | optionKey | shiftKey | controlKey,
   ]
 
-  public static func flags(for modifiers: [String]) -> UInt32 {
+  static func flags(for modifiers: [String]) -> UInt32 {
     let mods = Set(modifiers.map { $0.lowercased() })
 
     var flags = 0

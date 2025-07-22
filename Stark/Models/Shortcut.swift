@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Shortcut {
+struct Shortcut {
   let identifier = UUID()
 
   var keyCode: UInt32?
