@@ -188,35 +188,23 @@ class Application: NSObject, ApplicationJSExport {
     let query = SLSWindowQueryWindows(Space.connection, windows, Int32(CFArrayGetCount(windows)))
     let iterator = SLSWindowQueryResultCopyWindows(query)
 
-    var foundWindows = [CGWindowID]()
+    var windowIDs = [CGWindowID]()
 
     while SLSWindowIteratorAdvance(iterator) {
-      let parentWindowID = SLSWindowIteratorGetParentID(iterator)
+      guard SLSWindowIteratorGetParentID(iterator) == 0 else { continue }
 
-      if parentWindowID != 0 {
-        continue
-      }
+      let level = NSWindow.Level(rawValue: SLSWindowIteratorGetLevel(iterator))
+      guard level == .normal || level == .floating || level == .modalPanel else { continue }
 
-      let level = SLSWindowIteratorGetLevel(iterator)
       let attributes = SLSWindowIteratorGetAttributes(iterator)
       let tags = SLSWindowIteratorGetTags(iterator)
-      let windowID = SLSWindowIteratorGetWindowID(iterator)
+      guard validWindow(attributes, tags) else { continue }
 
-      if level == 0 || level == 3 || level == 8 {
-        if ((attributes & 0x2) != 0 || (tags & 0x400_0000_0000_0000) != 0)
-          && (((tags & 0x1) != 0) || ((tags & 0x2) != 0 && (tags & 0x8000_0000) != 0))
-        {
-          foundWindows.append(windowID)
-        } else if (attributes == 0x0 || attributes == 0x1)
-          && ((tags & 0x1000_0000_0000_0000) != 0 || (tags & 0x300_0000_0000_0000) != 0)
-          && (((tags & 0x1) != 0) || ((tags & 0x2) != 0 && (tags & 0x8000_0000) != 0))
-        {
-          foundWindows.append(windowID)
-        }
-      }
+      let id = SLSWindowIteratorGetWindowID(iterator)
+      windowIDs.append(id)
     }
 
-    return foundWindows
+    return windowIDs
   }
 
   func windowElements() -> [AXUIElement] {
@@ -251,6 +239,23 @@ class Application: NSObject, ApplicationJSExport {
 
     if result == .success, CFGetTypeID(value) == CFBooleanGetTypeID() {
       return CFBooleanGetValue((value as! CFBoolean))
+    }
+
+    return false
+  }
+
+  private func validWindow(_ attributes: UInt64, _ tags: UInt64) -> Bool {
+    if ((attributes & 0x2) != 0 || (tags & 0x400_0000_0000_0000) != 0)
+      && (((tags & 0x1) != 0) || ((tags & 0x2) != 0 && (tags & 0x8000_0000) != 0))
+    {
+      return true
+    }
+
+    if (attributes == 0x0 || attributes == 0x1)
+      && ((tags & 0x1000_0000_0000_0000) != 0 || (tags & 0x300_0000_0000_0000) != 0)
+      && (((tags & 0x1) != 0) || ((tags & 0x2) != 0 && (tags & 0x8000_0000) != 0))
+    {
+      return true
     }
 
     return false
