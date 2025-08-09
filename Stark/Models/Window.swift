@@ -12,7 +12,7 @@ private let kAXFullScreenAttribute = "AXFullScreen"
   var id: CGWindowID { get }
 
   var application: Application? { get }
-  var screen: NSScreen { get }
+  var screen: NSScreen? { get }
 
   var title: String { get }
 
@@ -99,23 +99,18 @@ class Window: NSObject, WindowJSExport {
     "<Window id: \(id), title: \(title)>"
   }
 
-  var screen: NSScreen {
+  var screen: NSScreen? {
     let windowFrame = frame
-    var lastVolume: CGFloat = 0
-    var lastScreen = NSScreen()
 
-    for screen in NSScreen.screens {
-      let screenFrame = screen.flippedFrame
-      let intersection = windowFrame.intersection(screenFrame)
-      let volume = intersection.size.width * intersection.size.height
+    return NSScreen.screens.max { a, b in
+      let aIntersection = windowFrame.intersection(a.flippedFrame)
+      let bIntersection = windowFrame.intersection(b.flippedFrame)
 
-      if volume > lastVolume {
-        lastVolume = volume
-        lastScreen = screen
-      }
+      let aArea = aIntersection.width * aIntersection.height
+      let bArea = bIntersection.width * bIntersection.height
+
+      return aArea < bArea
     }
-
-    return lastScreen
   }
 
   var title: String {
