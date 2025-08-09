@@ -29,6 +29,7 @@
 		F6A2E76A2BC8CB250024F674 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2E7692BC8CB250024F674 /* main.swift */; };
 		F6A5DFCF2BCDE914000C1630 /* Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A5DFCE2BCDE914000C1630 /* Workspace.swift */; };
 		F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */; };
+		F6CEF4F92E48049600C975E4 /* SpaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CEF4F82E48049300C975E4 /* SpaceType.swift */; };
 		F6EA81542BCD740F00F0F68C /* WindowNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */; };
 		F6EA81562BCD810400F0F68C /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EA81552BCD810400F0F68C /* Events.swift */; };
 		F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */; };
@@ -60,6 +61,7 @@
 		F6A2E7692BC8CB250024F674 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F6A5DFCE2BCDE914000C1630 /* Workspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workspace.swift; sourceTree = "<group>"; };
 		F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extension.swift"; sourceTree = "<group>"; };
+		F6CEF4F82E48049300C975E4 /* SpaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceType.swift; sourceTree = "<group>"; };
 		F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowNotifications.swift; sourceTree = "<group>"; };
 		F6EA81552BCD810400F0F68C /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
 		F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchAgentHelper.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 				F68B12202BC3182E00E3F7FF /* Process.swift */,
 				F68527122D398B81008EC4C1 /* Shortcut.swift */,
 				F644DFF51FB5110B00944C6B /* Space.swift */,
+				F6CEF4F82E48049300C975E4 /* SpaceType.swift */,
 				F6792C421C4055A2007D9DF9 /* Window.swift */,
 				F6A5DFCE2BCDE914000C1630 /* Workspace.swift */,
 			);
@@ -273,6 +276,7 @@
 				F60DF8ED2CC2C8030083D3BE /* LogHelper.swift in Sources */,
 				F6A2E76A2BC8CB250024F674 /* main.swift in Sources */,
 				F68527132D398B83008EC4C1 /* Shortcut.swift in Sources */,
+				F6CEF4F92E48049600C975E4 /* SpaceType.swift in Sources */,
 				F64945862357B6B8009E423B /* StarkStatusItem.swift in Sources */,
 				F61AF11E2BC4B80100FF39E0 /* WindowManager.swift in Sources */,
 				F645D0482BC37DF300BED730 /* ProcessManager.swift in Sources */,

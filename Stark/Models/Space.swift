@@ -79,15 +79,15 @@ class Space: NSObject, SpaceJSExport {
 
   var id: UInt64
 
-  var isNormal: Bool { type == 0 }
+  var isNormal: Bool { type == .normal }
 
-  var isFullscreen: Bool { type == 4 }
+  var isFullscreen: Bool { type == .fullscreen }
 
-  private var type: Int32
+  private var type: SpaceType
 
   init(id: uint64) {
     self.id = id
-    type = SLSSpaceGetType(Space.connection, self.id)
+    type = SpaceType(rawValue: SLSSpaceGetType(Space.connection, self.id))!
   }
 
   deinit {
