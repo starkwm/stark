@@ -14,8 +14,9 @@ build:
 	@xcodebuild $(XCODEFLAGS) build
 
 archive:
-	@xcodebuild $(XCODEFLAGS) clean archive -archivePath $(STARK_ACHIVE)
+	@xcodebuild $(XCODEFLAGS) clean archive -archivePath $(STARK_ACHIVE) DEBUG_INFORMATION_FORMAT=dwarf-with-dsym
 	@xcodebuild -exportArchive -archivePath $(STARK_ACHIVE) -exportPath $(BUILD_DIR) -exportOptionsPlist $(EXPORT_PLIST)
+	@cp -R $(STARK_ACHIVE)/dSYMs $(BUILD_DIR)/dSYMs
 
 .DEFAULT_GOAL := build
 .PHONY: format lint build archive
