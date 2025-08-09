@@ -287,7 +287,7 @@ private func accessibilityObserverCallback(
     EventManager.shared.post(event: .windowDeminimized, with: window)
 
   case kAXUIElementDestroyedNotification:
-    let window = Unmanaged<Application>.fromOpaque(context).takeUnretainedValue()
+    let window = Unmanaged<Window>.fromOpaque(context).takeUnretainedValue()
     EventManager.shared.post(event: .windowDestroyed, with: window)
 
   default:
