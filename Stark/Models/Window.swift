@@ -46,27 +46,27 @@ class Window: NSObject, WindowJSExport {
   static func focused() -> Window? {
     var appElement: AnyObject?
 
-    AXUIElementCopyAttributeValue(systemWideElement, kAXFocusedApplicationAttribute as CFString, &appElement)
-
-    if appElement == nil {
-      return nil
-    }
+    guard
+      AXUIElementCopyAttributeValue(
+        systemWideElement,
+        kAXFocusedApplicationAttribute as CFString,
+        &appElement
+      ) == .success
+    else { return nil }
+    guard appElement != nil else { return nil }
 
     var windowElement: AnyObject?
 
-    let result = AXUIElementCopyAttributeValue(
-      appElement as! AXUIElement,
-      kAXFocusedWindowAttribute as CFString,
-      &windowElement
-    )
+    guard
+      AXUIElementCopyAttributeValue(
+        appElement as! AXUIElement,
+        kAXFocusedWindowAttribute as CFString,
+        &windowElement
+      ) == .success
+    else { return nil }
+    guard windowElement != nil else { return nil }
 
-    if result != .success {
-      return nil
-    }
-
-    let windowID = Window.id(for: windowElement as! AXUIElement)
-
-    return WindowManager.shared.window(by: windowID)
+    return WindowManager.shared.window(by: Window.id(for: windowElement as! AXUIElement))
   }
 
   static func id(for element: AXUIElement) -> CGWindowID {
