@@ -263,8 +263,6 @@ private func accessibilityObserverCallback(
   _ notification: CFString,
   _ context: UnsafeMutableRawPointer?
 ) {
-  guard let context = context else { return }
-
   switch notification as String {
   case kAXCreatedNotification:
     EventManager.shared.post(event: .windowCreated, with: element)
@@ -279,15 +277,21 @@ private func accessibilityObserverCallback(
     EventManager.shared.post(event: .windowResized, with: Window.id(for: element))
 
   case kAXWindowMiniaturizedNotification:
-    let window = Unmanaged<Window>.fromOpaque(context).takeUnretainedValue()
+    guard let context = context else { return }
+    let windowID = CGWindowID(UInt(bitPattern: context))
+    guard let window = WindowManager.shared.window(by: windowID) else { return }
     EventManager.shared.post(event: .windowMinimized, with: window)
 
   case kAXWindowDeminiaturizedNotification:
-    let window = Unmanaged<Window>.fromOpaque(context).takeUnretainedValue()
+    guard let context = context else { return }
+    let windowID = CGWindowID(UInt(bitPattern: context))
+    guard let window = WindowManager.shared.window(by: windowID) else { return }
     EventManager.shared.post(event: .windowDeminimized, with: window)
 
   case kAXUIElementDestroyedNotification:
-    let window = Unmanaged<Window>.fromOpaque(context).takeUnretainedValue()
+    guard let context = context else { return }
+    let windowID = CGWindowID(UInt(bitPattern: context))
+    guard let window = WindowManager.shared.window(by: windowID) else { return }
     EventManager.shared.post(event: .windowDestroyed, with: window)
 
   default:

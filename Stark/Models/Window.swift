@@ -328,7 +328,7 @@ class Window: NSObject, WindowJSExport {
     guard let observer = application?.observer else { return false }
     guard let element = element else { return false }
 
-    let context: UnsafeMutableRawPointer? = Unmanaged.passUnretained(self).toOpaque()
+    let context = UnsafeMutableRawPointer(bitPattern: UInt(id))
 
     for (idx, notification) in windowNotifications.enumerated() {
       let result = AXObserverAddNotification(observer, element, notification as CFString, context)
