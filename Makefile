@@ -1,7 +1,7 @@
 XCODEFLAGS=-project "Stark.xcodeproj" -scheme "Stark" -destination "platform=macOS"
 
 BUILD_DIR=$(PWD)/Build
-STARK_ACHIVE=$(BUILD_DIR)/Stark.xcarchive
+STARK_ARCHIVE=$(BUILD_DIR)/Stark.xcarchive
 EXPORT_PLIST=$(PWD)/Stark/export.plist
 
 format:
@@ -14,9 +14,9 @@ build:
 	@xcodebuild $(XCODEFLAGS) build
 
 archive:
-	@xcodebuild $(XCODEFLAGS) clean archive -archivePath $(STARK_ACHIVE) DEBUG_INFORMATION_FORMAT=dwarf-with-dsym
-	@xcodebuild -exportArchive -archivePath $(STARK_ACHIVE) -exportPath $(BUILD_DIR) -exportOptionsPlist $(EXPORT_PLIST)
-	@cp -R $(STARK_ACHIVE)/dSYMs $(BUILD_DIR)/dSYMs
+	@xcodebuild $(XCODEFLAGS) clean archive -archivePath $(STARK_ARCHIVE) DEBUG_INFORMATION_FORMAT=dwarf-with-dsym
+	@xcodebuild -exportArchive -archivePath $(STARK_ARCHIVE) -exportPath $(BUILD_DIR) -exportOptionsPlist $(EXPORT_PLIST)
+	@cp -R $(STARK_ARCHIVE)/dSYMs $(BUILD_DIR)/
 
 .DEFAULT_GOAL := build
 .PHONY: format lint build archive
