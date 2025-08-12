@@ -18,5 +18,9 @@ archive:
 	@xcodebuild -exportArchive -archivePath $(STARK_ARCHIVE) -exportPath $(BUILD_DIR) -exportOptionsPlist $(EXPORT_PLIST)
 	@cp -R $(STARK_ARCHIVE)/dSYMs $(BUILD_DIR)/
 
+clean:
+	@xcodebuild $(XCODEFLAGS) clean
+	@rm -fr Build
+
 .DEFAULT_GOAL := build
 .PHONY: format lint build archive
