@@ -29,7 +29,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func askForAccessibilityIfNeeded() -> Bool {
-    let options = ["kAXTrustedCheckOptionPrompt": true]
+    let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue(): true]
     return AXIsProcessTrustedWithOptions(options as CFDictionary?)
   }
 }
