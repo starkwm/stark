@@ -99,3 +99,8 @@ func GetProcessInformation(_ psn: inout ProcessSerialNumber, _ info: inout Proce
 @_silgen_name("GetProcessPID")
 @discardableResult
 func GetProcessPID(_ psn: inout ProcessSerialNumber, _ pid: inout pid_t) -> OSStatus
+
+// swift-format-ignore: AlwaysUseLowerCamelCase
+@_silgen_name("_SLPSGetFrontProcess")
+@discardableResult
+func _SLPSGetFrontProcess(_ psn: inout ProcessSerialNumber) -> OSStatus

@@ -30,9 +30,15 @@ class Application: NSObject, ApplicationJSExport {
   }
 
   static func focused() -> Application? {
-    guard let application = NSWorkspace.shared.frontmostApplication else { return nil }
+    var psn = ProcessSerialNumber()
+    guard _SLPSGetFrontProcess(&psn) == noErr else { return nil }
 
-    return WindowManager.shared.application(by: application.processIdentifier)
+    var pid = pid_t()
+    guard GetProcessPID(&psn, &pid) == noErr else { return nil }
+
+    guard let application = WindowManager.shared.application(by: pid) else { return nil }
+
+    return WindowManager.shared.application(by: application.processID)
   }
 
   static func find(_ name: String) -> Application? {
@@ -79,10 +85,11 @@ class Application: NSObject, ApplicationJSExport {
   var observer: AXObserver?
   var retryObserving = false
 
+  var element: AXUIElement
+
   private var application: NSRunningApplication
 
   private var connection: Int32 = -1
-  private var element: AXUIElement
 
   private var observedNotifications = ApplicationNotifications(rawValue: 0)
   private var observing = false

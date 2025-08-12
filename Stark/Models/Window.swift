@@ -44,22 +44,13 @@ class Window: NSObject, WindowJSExport {
   }
 
   static func focused() -> Window? {
-    var appElement: AnyObject?
-
-    guard
-      AXUIElementCopyAttributeValue(
-        systemWideElement,
-        kAXFocusedApplicationAttribute as CFString,
-        &appElement
-      ) == .success
-    else { return nil }
-    guard appElement != nil else { return nil }
+    guard let application = Application.focused() else { return nil }
 
     var windowElement: AnyObject?
 
     guard
       AXUIElementCopyAttributeValue(
-        appElement as! AXUIElement,
+        application.element,
         kAXFocusedWindowAttribute as CFString,
         &windowElement
       ) == .success
