@@ -174,7 +174,7 @@ class WindowManager {
       let token = createRemoteToken(for: application.processID, with: id)
 
       guard
-        let element = _AXUIElementCreateWithRemoteToken(token)?.takeUnretainedValue(),
+        let element = _AXUIElementCreateWithRemoteToken(token)?.takeRetainedValue(),
         Window.isWindow(element),
         let windowID = Window.validID(for: element)
       else { continue }
