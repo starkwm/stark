@@ -87,7 +87,7 @@ class Space: NSObject, SpaceJSExport {
 
   init(id: uint64) {
     self.id = id
-    type = SpaceType(rawValue: SLSSpaceGetType(Space.connection, self.id))!
+    type = SpaceType(rawValue: SLSSpaceGetType(Space.connection, self.id)) ?? .unknown
   }
 
   deinit {

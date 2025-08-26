@@ -1,6 +1,7 @@
 enum SpaceType: Int32 {
   case normal = 0
   case fullscreen = 4
+  case unknown
 }
 
 extension SpaceType: CustomStringConvertible {
@@ -10,6 +11,8 @@ extension SpaceType: CustomStringConvertible {
       return "normal"
     case .fullscreen:
       return "fullscreen"
+    case .unknown:
+      return "unknown"
     }
   }
 }
