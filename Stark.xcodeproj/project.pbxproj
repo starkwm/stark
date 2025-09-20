@@ -29,6 +29,7 @@
 		F6A2E76A2BC8CB250024F674 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2E7692BC8CB250024F674 /* main.swift */; };
 		F6A5DFCF2BCDE914000C1630 /* Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A5DFCE2BCDE914000C1630 /* Workspace.swift */; };
 		F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */; };
+		F6CC6A962E7F755900AB781C /* Stark.icon in Resources */ = {isa = PBXBuildFile; fileRef = F6CC6A952E7F755900AB781C /* Stark.icon */; };
 		F6CEF4F92E48049600C975E4 /* SpaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CEF4F82E48049300C975E4 /* SpaceType.swift */; };
 		F6EA81542BCD740F00F0F68C /* WindowNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */; };
 		F6EA81562BCD810400F0F68C /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EA81552BCD810400F0F68C /* Events.swift */; };
@@ -61,6 +62,7 @@
 		F6A2E7692BC8CB250024F674 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F6A5DFCE2BCDE914000C1630 /* Workspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workspace.swift; sourceTree = "<group>"; };
 		F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extension.swift"; sourceTree = "<group>"; };
+		F6CC6A952E7F755900AB781C /* Stark.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Stark.icon; sourceTree = "<group>"; };
 		F6CEF4F82E48049300C975E4 /* SpaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceType.swift; sourceTree = "<group>"; };
 		F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowNotifications.swift; sourceTree = "<group>"; };
 		F6EA81552BCD810400F0F68C /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				F6A2E7692BC8CB250024F674 /* main.swift */,
 				F6F4ECF82BC9BC13001234D4 /* Private.swift */,
 				F6792C2C1C404B53007D9DF9 /* Assets.xcassets */,
+				F6CC6A952E7F755900AB781C /* Stark.icon */,
 				F6A0DB63204724AF00471843 /* Extensions */,
 				F6792C381C404EF8007D9DF9 /* Helpers */,
 				F68B121F2BC3172800E3F7FF /* Managers */,
@@ -217,7 +220,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 1630;
+				LastUpgradeCheck = 2600;
 				ORGANIZATIONNAME = "Tom Bell";
 				TargetAttributes = {
 					F6792C261C404B53007D9DF9 = {
@@ -252,6 +255,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6CC6A962E7F755900AB781C /* Stark.icon in Resources */,
 				F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -350,6 +354,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 6.0;
 			};
@@ -404,6 +409,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 6.0;
@@ -413,7 +419,8 @@
 		F6792C351C404B53007D9DF9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Stark;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
@@ -448,7 +455,8 @@
 		F6792C361C404B53007D9DF9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = Stark;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
