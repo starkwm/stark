@@ -117,7 +117,9 @@ enum Key {
     return unsafeBitCast(CFDataGetBytePtr(dataRef), to: UnsafePointer<UCKeyboardLayout>.self)
   }
 
-  private static func getKeyString(from data: UnsafePointer<UCKeyboardLayout>, keyCode: Int) -> String? {
+  private static func getKeyString(from data: UnsafePointer<UCKeyboardLayout>, keyCode: Int)
+    -> String?
+  {
     var deadKeyState: UInt32 = 0
     let maxLength = 255
     var length = 0

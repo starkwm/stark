@@ -6,7 +6,9 @@ struct ApplicationNotifications: OptionSet {
   static let windowMoved = ApplicationNotifications(rawValue: 1 << 2)
   static let windowResized = ApplicationNotifications(rawValue: 1 << 3)
 
-  static let all: ApplicationNotifications = [.windowCreated, .windowFocused, .windowMoved, .windowResized]
+  static let all: ApplicationNotifications = [
+    .windowCreated, .windowFocused, .windowMoved, .windowResized,
+  ]
 
   let rawValue: Int8
 }

@@ -9,9 +9,18 @@ class ProcessManager {
     addRunningProcesses()
 
     let eventTypes = [
-      EventTypeSpec(eventClass: OSType(kEventClassApplication), eventKind: OSType(kEventAppLaunched)),
-      EventTypeSpec(eventClass: OSType(kEventClassApplication), eventKind: OSType(kEventAppTerminated)),
-      EventTypeSpec(eventClass: OSType(kEventClassApplication), eventKind: OSType(kEventAppFrontSwitched)),
+      EventTypeSpec(
+        eventClass: OSType(kEventClassApplication),
+        eventKind: OSType(kEventAppLaunched)
+      ),
+      EventTypeSpec(
+        eventClass: OSType(kEventClassApplication),
+        eventKind: OSType(kEventAppTerminated)
+      ),
+      EventTypeSpec(
+        eventClass: OSType(kEventClassApplication),
+        eventKind: OSType(kEventAppFrontSwitched)
+      ),
     ]
 
     let result = InstallEventHandler(
@@ -100,7 +109,11 @@ extension ProcessManager {
   }
 }
 
-private func processEventHandler(_: EventHandlerCallRef?, event: EventRef?, _: UnsafeMutableRawPointer?) -> OSStatus {
+private func processEventHandler(
+  _: EventHandlerCallRef?,
+  event: EventRef?,
+  _: UnsafeMutableRawPointer?
+) -> OSStatus {
   guard let event = event else { return noErr }
 
   return ProcessManager.shared.handle(event: event)

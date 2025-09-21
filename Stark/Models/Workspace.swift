@@ -85,7 +85,11 @@ class Workspace: NSObject {
 
       log("removing observer for finished launching \(process)")
       finishedLaunchingObserved.removeAll(where: { $0 == process.psn.lowLongOfPSN })
-      application.removeObserver(Workspace.shared, forKeyPath: "finishedLaunching", context: context)
+      application.removeObserver(
+        Workspace.shared,
+        forKeyPath: "finishedLaunching",
+        context: context
+      )
     }
   }
 

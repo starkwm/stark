@@ -51,7 +51,9 @@ enum ShortcutManager {
   }
 
   static func register(shortcut: Shortcut) {
-    guard !shortcuts.values.contains(where: { $0.identifier == shortcut.identifier }) else { return }
+    guard !shortcuts.values.contains(where: { $0.identifier == shortcut.identifier }) else {
+      return
+    }
 
     shortcutsCount += 1
 
@@ -109,7 +111,14 @@ enum ShortcutManager {
       EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
     ]
 
-    InstallEventHandler(GetEventDispatcherTarget(), shortcutEventHandler, 1, eventSpec, nil, &eventHandler)
+    InstallEventHandler(
+      GetEventDispatcherTarget(),
+      shortcutEventHandler,
+      1,
+      eventSpec,
+      nil,
+      &eventHandler
+    )
   }
 
   static func stop() {
@@ -137,6 +146,10 @@ enum ShortcutManager {
   }
 }
 
-private func shortcutEventHandler(_: EventHandlerCallRef?, event: EventRef?, _: UnsafeMutableRawPointer?) -> OSStatus {
+private func shortcutEventHandler(
+  _: EventHandlerCallRef?,
+  event: EventRef?,
+  _: UnsafeMutableRawPointer?
+) -> OSStatus {
   ShortcutManager.handle(event: event)
 }

@@ -93,7 +93,8 @@ func GetNextProcess(_ psn: inout ProcessSerialNumber) -> OSStatus
 // swift-format-ignore: AlwaysUseLowerCamelCase
 @_silgen_name("GetProcessInformation")
 @discardableResult
-func GetProcessInformation(_ psn: inout ProcessSerialNumber, _ info: inout ProcessInfoRec) -> OSStatus
+func GetProcessInformation(_ psn: inout ProcessSerialNumber, _ info: inout ProcessInfoRec)
+  -> OSStatus
 
 // swift-format-ignore: AlwaysUseLowerCamelCase
 @_silgen_name("GetProcessPID")

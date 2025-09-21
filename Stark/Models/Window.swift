@@ -73,7 +73,8 @@ class Window: NSObject, WindowJSExport {
 
   static func isWindow(_ element: AXUIElement) -> Bool {
     var role: CFTypeRef?
-    guard AXUIElementCopyAttributeValue(element, kAXRoleAttribute as CFString, &role) == .success else { return false }
+    guard AXUIElementCopyAttributeValue(element, kAXRoleAttribute as CFString, &role) == .success
+    else { return false }
     return role as? String == kAXWindowRole
   }
 
@@ -106,7 +107,8 @@ class Window: NSObject, WindowJSExport {
 
     var value: AnyObject?
 
-    guard AXUIElementCopyAttributeValue(element, kAXTitleAttribute as CFString, &value) == .success else { return "" }
+    guard AXUIElementCopyAttributeValue(element, kAXTitleAttribute as CFString, &value) == .success
+    else { return "" }
     guard let title = value as? String else { return "" }
 
     return title
@@ -122,7 +124,8 @@ class Window: NSObject, WindowJSExport {
     var value: AnyObject?
     var topLeft = CGPoint.zero
 
-    if AXUIElementCopyAttributeValue(element, kAXPositionAttribute as CFString, &value) == .success {
+    if AXUIElementCopyAttributeValue(element, kAXPositionAttribute as CFString, &value) == .success
+    {
       if !AXValueGetValue(value as! AXValue, AXValueType.cgPoint, &topLeft) {
         topLeft = CGPoint.zero
       }
@@ -151,7 +154,8 @@ class Window: NSObject, WindowJSExport {
 
     var value: AnyObject?
 
-    guard AXUIElementCopyAttributeValue(element, kAXMainAttribute as CFString, &value) == .success else { return false }
+    guard AXUIElementCopyAttributeValue(element, kAXMainAttribute as CFString, &value) == .success
+    else { return false }
     guard let number = value as? NSNumber else { return false }
 
     return number.boolValue
@@ -162,7 +166,9 @@ class Window: NSObject, WindowJSExport {
 
     var value: AnyObject?
 
-    guard AXUIElementCopyAttributeValue(element, kAXSubroleAttribute as CFString, &value) == .success else {
+    guard
+      AXUIElementCopyAttributeValue(element, kAXSubroleAttribute as CFString, &value) == .success
+    else {
       return nil
     }
     guard let subrole = value as? String else { return nil }
@@ -179,7 +185,9 @@ class Window: NSObject, WindowJSExport {
 
     var value: AnyObject?
 
-    guard AXUIElementCopyAttributeValue(element, kAXFullScreenAttribute as CFString, &value) == .success else {
+    guard
+      AXUIElementCopyAttributeValue(element, kAXFullScreenAttribute as CFString, &value) == .success
+    else {
       return false
     }
     guard let number = value as? NSNumber else { return false }
@@ -192,7 +200,9 @@ class Window: NSObject, WindowJSExport {
 
     var value: AnyObject?
 
-    guard AXUIElementCopyAttributeValue(element, kAXMinimizedAttribute as CFString, &value) == .success else {
+    guard
+      AXUIElementCopyAttributeValue(element, kAXMinimizedAttribute as CFString, &value) == .success
+    else {
       return false
     }
     guard let number = value as? NSNumber else { return false }
@@ -275,7 +285,9 @@ class Window: NSObject, WindowJSExport {
   func focus() {
     guard let element = element else { return }
 
-    if AXUIElementSetAttributeValue(element, kAXMainAttribute as CFString, kCFBooleanTrue) != .success {
+    if AXUIElementSetAttributeValue(element, kAXMainAttribute as CFString, kCFBooleanTrue)
+      != .success
+    {
       return
     }
 

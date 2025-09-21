@@ -130,7 +130,11 @@ class Application: NSObject, ApplicationJSExport {
   }
 
   func observe() -> Bool {
-    let result = AXObserverCreate(application.processIdentifier, accessibilityObserverCallback, &observer)
+    let result = AXObserverCreate(
+      application.processIdentifier,
+      accessibilityObserverCallback,
+      &observer
+    )
 
     guard result == .success, let observer = observer else { return false }
 
@@ -144,13 +148,20 @@ class Application: NSObject, ApplicationJSExport {
       } else {
         retryObserving = result == .cannotComplete
 
-        log("notification \(notification) not added \(self) (retry: \(retryObserving)", level: .warn)
+        log(
+          "notification \(notification) not added \(self) (retry: \(retryObserving)",
+          level: .warn
+        )
       }
     }
 
     observing = true
 
-    CFRunLoopAddSource(CFRunLoopGetMain(), AXObserverGetRunLoopSource(observer), CFRunLoopMode.defaultMode)
+    CFRunLoopAddSource(
+      CFRunLoopGetMain(),
+      AXObserverGetRunLoopSource(observer),
+      CFRunLoopMode.defaultMode
+    )
 
     return observedNotifications.contains(.all)
   }
@@ -217,7 +228,8 @@ class Application: NSObject, ApplicationJSExport {
   func windowElements() -> [AXUIElement] {
     var values: AnyObject?
 
-    if AXUIElementCopyAttributeValue(element, kAXWindowsAttribute as CFString, &values) != .success {
+    if AXUIElementCopyAttributeValue(element, kAXWindowsAttribute as CFString, &values) != .success
+    {
       return []
     }
 
@@ -242,7 +254,11 @@ class Application: NSObject, ApplicationJSExport {
 
   private func isEnhancedUIEnabled() -> Bool {
     var value: AnyObject?
-    let result = AXUIElementCopyAttributeValue(element, kAXEnhancedUserInterface as CFString, &value)
+    let result = AXUIElementCopyAttributeValue(
+      element,
+      kAXEnhancedUserInterface as CFString,
+      &value
+    )
 
     if result == .success, CFGetTypeID(value) == CFBooleanGetTypeID() {
       return CFBooleanGetValue((value as! CFBoolean))

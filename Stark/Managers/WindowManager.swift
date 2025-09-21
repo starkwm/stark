@@ -136,7 +136,10 @@ class WindowManager {
       var unresolvedWindows = globalWindowList.filter { windows[$0] == nil }
 
       if !unresolvedWindows.isEmpty {
-        log("application has windows that are not resolved, attempting workaround \(application)", level: .info)
+        log(
+          "application has windows that are not resolved, attempting workaround \(application)",
+          level: .info
+        )
 
         resolveWindows(for: application, from: &unresolvedWindows)
 

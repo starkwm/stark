@@ -143,7 +143,9 @@ extension EventManager {
     guard WindowManager.shared.window(by: windowID) == nil else { return }
     guard let pid = Window.pid(for: element) else { return }
     guard let application = WindowManager.shared.application(by: pid) else { return }
-    guard let window = WindowManager.shared.addWindow(for: application, with: element) else { return }
+    guard let window = WindowManager.shared.addWindow(for: application, with: element) else {
+      return
+    }
 
     log("window created \(window)", level: .info)
   }

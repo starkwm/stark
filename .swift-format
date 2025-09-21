@@ -1,5 +1,3 @@
 {
-    "version": 1,
-    "lineLength": 120,
-    "lineBreakBeforeEachArgument": true,
+  "lineBreakBeforeEachArgument": true,
 }
