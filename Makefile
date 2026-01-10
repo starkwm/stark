@@ -17,6 +17,7 @@ archive:
 	@xcodebuild $(XCODEFLAGS) clean archive -archivePath $(STARK_ARCHIVE) DEBUG_INFORMATION_FORMAT=dwarf-with-dsym
 	@xcodebuild -exportArchive -archivePath $(STARK_ARCHIVE) -exportPath $(BUILD_DIR) -exportOptionsPlist $(EXPORT_PLIST)
 	@cp -R $(STARK_ARCHIVE)/dSYMs $(BUILD_DIR)/
+	@(cd $(BUILD_DIR) && zip stark-dsyms.zip dSYMs/**/*)
 
 clean:
 	@xcodebuild $(XCODEFLAGS) clean
