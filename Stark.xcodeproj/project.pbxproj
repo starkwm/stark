@@ -220,7 +220,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 2600;
+				LastUpgradeCheck = 2620;
 				ORGANIZATIONNAME = "Tom Bell";
 				TargetAttributes = {
 					F6792C261C404B53007D9DF9 = {
@@ -302,7 +302,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -365,7 +364,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -421,7 +419,6 @@
 		F6792C351C404B53007D9DF9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = Stark;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
@@ -458,7 +455,6 @@
 		F6792C361C404B53007D9DF9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = arm64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = Stark;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
