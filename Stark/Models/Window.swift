@@ -28,7 +28,7 @@ private let kAXFullScreenAttribute = "AXFullScreen"
   func setFrame(_ frame: CGRect)
   func setTopLeft(_ topLeft: CGPoint)
   func setSize(_ size: CGSize)
-  func setFullScreen(_ value: Bool)
+  func setFullscreen(_ value: Bool)
 
   func minimize()
   func unminimize()
@@ -264,7 +264,7 @@ class Window: NSObject, WindowJSExport {
     }
   }
 
-  func setFullScreen(_ value: Bool) {
+  func setFullscreen(_ value: Bool) {
     guard let element = element else { return }
 
     AXUIElementSetAttributeValue(element, kAXFullScreenAttribute as CFString, value as CFTypeRef)
