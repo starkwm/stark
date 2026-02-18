@@ -5,7 +5,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   func applicationDidFinishLaunching(_: Notification) {
     if !askForAccessibilityIfNeeded() {
-      log("accessibility permissions not granted", level: .error)
+      NSApplication.shared.terminate(nil)
       return
     }
 
