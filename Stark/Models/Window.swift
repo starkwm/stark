@@ -55,9 +55,9 @@ class Window: NSObject, WindowJSExport {
         &windowElement
       ) == .success
     else { return nil }
-    guard windowElement != nil else { return nil }
+    let axElement = windowElement as! AXUIElement
 
-    return WindowManager.shared.window(by: Window.id(for: windowElement as! AXUIElement))
+    return WindowManager.shared.window(by: Window.id(for: axElement))
   }
 
   static func id(for element: AXUIElement) -> CGWindowID {
@@ -239,7 +239,6 @@ class Window: NSObject, WindowJSExport {
   }
 
   func setFrame(_ frame: CGRect) {
-    setSize(frame.size)
     setTopLeft(frame.origin)
     setSize(frame.size)
   }
@@ -249,7 +248,8 @@ class Window: NSObject, WindowJSExport {
       guard let element = element else { return }
 
       var val = topLeft
-      let value = AXValueCreate(AXValueType(rawValue: kAXValueCGPointType)!, &val)!
+      guard let type = AXValueType(rawValue: kAXValueCGPointType) else { return }
+      guard let value = AXValueCreate(type, &val) else { return }
       AXUIElementSetAttributeValue(element, kAXPositionAttribute as CFString, value)
     }
   }
@@ -259,7 +259,8 @@ class Window: NSObject, WindowJSExport {
       guard let element = element else { return }
 
       var val = size
-      let value = AXValueCreate(AXValueType(rawValue: kAXValueCGSizeType)!, &val)!
+      guard let type = AXValueType(rawValue: kAXValueCGSizeType) else { return }
+      guard let value = AXValueCreate(type, &val) else { return }
       AXUIElementSetAttributeValue(element, kAXSizeAttribute as CFString, value)
     }
   }

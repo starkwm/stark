@@ -45,7 +45,7 @@ enum ShortcutManager {
       let shortcut = shortcut(by: hotKeyID.id)
     else { return OSStatus(eventNotHandledErr) }
 
-    shortcut.handler()
+    shortcut.handler?()
 
     return noErr
   }

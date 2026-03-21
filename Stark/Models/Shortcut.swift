@@ -6,7 +6,7 @@ struct Shortcut {
   var keyCode: UInt32?
   var modifierFlags: UInt32?
 
-  var handler: (() -> Void)!
+  var handler: (() -> Void)?
 
   init() {}
 }

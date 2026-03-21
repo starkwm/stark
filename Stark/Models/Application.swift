@@ -260,8 +260,11 @@ class Application: NSObject, ApplicationJSExport {
       &value
     )
 
-    if result == .success, CFGetTypeID(value) == CFBooleanGetTypeID() {
-      return CFBooleanGetValue((value as! CFBoolean))
+    if result == .success,
+      CFGetTypeID(value) == CFBooleanGetTypeID()
+    {
+      let boolValue = value as! CFBoolean
+      return CFBooleanGetValue(boolValue)
     }
 
     return false

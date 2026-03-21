@@ -12,7 +12,7 @@ private func resolvePrimaryPath() -> String {
     .lazy
     .map { ($0 as NSString).resolvingSymlinksInPath }
     .first { FileManager.default.fileExists(atPath: $0) }
-    ?? (primaryPaths.first! as NSString).resolvingSymlinksInPath
+    ?? (primaryPaths[0] as NSString).resolvingSymlinksInPath
 }
 
 class ConfigManager {

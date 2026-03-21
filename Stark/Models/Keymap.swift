@@ -25,8 +25,7 @@ class Keymap: NSObject, KeymapJSExport {
     guard let keymap = keymaps.removeValue(forKey: id) else { return }
 
     keymap.callback?.value.context.virtualMachine.removeManagedReference(keymap, withOwner: self)
-    ShortcutManager.unregister(shortcut: keymap.shortcut!)
-    keymap.shortcut = nil
+    ShortcutManager.unregister(shortcut: keymap.shortcut)
   }
 
   static func reset() {
@@ -46,23 +45,22 @@ class Keymap: NSObject, KeymapJSExport {
   var key: String
   var modifiers: [String]
 
-  private var shortcut: Shortcut?
+  private var shortcut: Shortcut
   private var callback: JSManagedValue?
 
   init(key: String, modifiers: [String], callback: JSValue) {
     self.key = key
     self.modifiers = modifiers
 
+    shortcut = Shortcut()
+    shortcut.keyCode = Key.code(for: key)
+    shortcut.modifierFlags = Modifier.flags(for: modifiers)
+
     super.init()
 
     self.callback = JSManagedValue(value: callback, andOwner: self)
-
-    shortcut = Shortcut()
-    shortcut!.keyCode = Key.code(for: key)
-    shortcut!.modifierFlags = Modifier.flags(for: modifiers)
-    shortcut!.handler = call
-
-    ShortcutManager.register(shortcut: shortcut!)
+    shortcut.handler = call
+    ShortcutManager.register(shortcut: shortcut)
   }
 
   deinit {
