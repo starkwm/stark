@@ -4,9 +4,9 @@ final class EventManager {
   static let shared = EventManager()
 
   private let queue: OperationQueue = {
-    let q = OperationQueue()
-    q.maxConcurrentOperationCount = 1
-    return q
+    let queue = OperationQueue()
+    queue.maxConcurrentOperationCount = 1
+    return queue
   }()
 
   func post(event: EventType, with object: Any?) {
