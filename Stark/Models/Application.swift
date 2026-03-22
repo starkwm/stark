@@ -82,10 +82,10 @@ class Application: NSObject, ApplicationJSExport {
     application.isTerminated
   }
 
-  var observer: AXObserver?
-  var retryObserving = false
+  private(set) var observer: AXObserver?
+  private(set) var retryObserving = false
 
-  var element: AXUIElement
+  private(set) var element: AXUIElement
 
   private var application: NSRunningApplication
 

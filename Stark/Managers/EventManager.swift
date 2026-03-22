@@ -120,10 +120,7 @@ extension EventManager {
 
     for window in windows {
       WindowManager.shared.remove(by: window.id)
-      window.unobserve()
-      window.element = nil
-      window.application = nil
-      window.id = 0
+      window.invalidate()
     }
 
     application.unobserve()
@@ -158,10 +155,7 @@ extension EventManager {
     log("window destroyed \(window)", level: .info)
 
     WindowManager.shared.remove(by: window.id)
-    window.unobserve()
-    window.element = nil
-    window.application = nil
-    window.id = 0
+    window.invalidate()
   }
 
   private func windowFocused(with windowID: CGWindowID) {

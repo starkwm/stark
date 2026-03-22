@@ -210,9 +210,9 @@ class Window: NSObject, WindowJSExport {
     return number.boolValue
   }
 
-  var element: AXUIElement?
+  private(set) var element: AXUIElement?
   weak var application: Application?
-  var id: CGWindowID
+  private(set) var id: CGWindowID
 
   private var observedNotifications = WindowNotifications(rawValue: 0)
 
@@ -225,6 +225,13 @@ class Window: NSObject, WindowJSExport {
   deinit {
     unobserve()
     log("window deinit \(self)")
+  }
+
+  func invalidate() {
+    unobserve()
+    element = nil
+    application = nil
+    id = 0
   }
 
   private func pid() -> pid_t? {
