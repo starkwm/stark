@@ -104,14 +104,8 @@ class Window: NSObject, WindowJSExport {
 
   var title: String {
     guard let element else { return "" }
-
-    var value: AnyObject?
-
-    guard AXUIElementCopyAttributeValue(element, kAXTitleAttribute as CFString, &value) == .success
-    else { return "" }
-    guard let title = value as? String else { return "" }
-
-    return title
+    return AccessibilityHelper.stringAttribute(for: element, attribute: kAXTitleAttribute as String)
+      ?? ""
   }
 
   var frame: CGRect {
@@ -120,33 +114,16 @@ class Window: NSObject, WindowJSExport {
 
   var topLeft: CGPoint {
     guard let element else { return CGPoint.zero }
-
-    var value: AnyObject?
-    var topLeft = CGPoint.zero
-
-    if AXUIElementCopyAttributeValue(element, kAXPositionAttribute as CFString, &value) == .success
-    {
-      if !AXValueGetValue(value as! AXValue, AXValueType.cgPoint, &topLeft) {
-        topLeft = CGPoint.zero
-      }
-    }
-
-    return topLeft
+    return AccessibilityHelper.pointAttribute(
+      for: element,
+      attribute: kAXPositionAttribute as String
+    ) ?? CGPoint.zero
   }
 
   var size: CGSize {
     guard let element else { return CGSize.zero }
-
-    var value: AnyObject?
-    var size = CGSize.zero
-
-    if AXUIElementCopyAttributeValue(element, kAXSizeAttribute as CFString, &value) == .success {
-      if !AXValueGetValue(value as! AXValue, AXValueType.cgSize, &size) {
-        size = CGSize.zero
-      }
-    }
-
-    return size
+    return AccessibilityHelper.sizeAttribute(for: element, attribute: kAXSizeAttribute as String)
+      ?? CGSize.zero
   }
 
   var isMain: Bool {
@@ -182,32 +159,16 @@ class Window: NSObject, WindowJSExport {
 
   var isFullscreen: Bool {
     guard let element else { return false }
-
-    var value: AnyObject?
-
-    guard
-      AXUIElementCopyAttributeValue(element, kAXFullScreenAttribute as CFString, &value) == .success
-    else {
-      return false
-    }
-    guard let number = value as? NSNumber else { return false }
-
-    return number.boolValue
+    return AccessibilityHelper.boolAttribute(for: element, attribute: kAXFullScreenAttribute)
+      ?? false
   }
 
   var isMinimized: Bool {
     guard let element else { return false }
-
-    var value: AnyObject?
-
-    guard
-      AXUIElementCopyAttributeValue(element, kAXMinimizedAttribute as CFString, &value) == .success
-    else {
-      return false
-    }
-    guard let number = value as? NSNumber else { return false }
-
-    return number.boolValue
+    return AccessibilityHelper.boolAttribute(
+      for: element,
+      attribute: kAXMinimizedAttribute as String
+    ) ?? false
   }
 
   private(set) var element: AXUIElement?
@@ -254,22 +215,18 @@ class Window: NSObject, WindowJSExport {
   func setTopLeft(_ topLeft: CGPoint) {
     application?.enhancedUIWorkaround {
       guard let element else { return }
-
-      var val = topLeft
-      guard let type = AXValueType(rawValue: kAXValueCGPointType) else { return }
-      guard let value = AXValueCreate(type, &val) else { return }
-      AXUIElementSetAttributeValue(element, kAXPositionAttribute as CFString, value)
+      AccessibilityHelper.setPoint(
+        topLeft,
+        for: element,
+        attribute: kAXPositionAttribute as String
+      )
     }
   }
 
   func setSize(_ size: CGSize) {
     application?.enhancedUIWorkaround {
       guard let element else { return }
-
-      var val = size
-      guard let type = AXValueType(rawValue: kAXValueCGSizeType) else { return }
-      guard let value = AXValueCreate(type, &val) else { return }
-      AXUIElementSetAttributeValue(element, kAXSizeAttribute as CFString, value)
+      AccessibilityHelper.setSize(size, for: element, attribute: kAXSizeAttribute as String)
     }
   }
 
