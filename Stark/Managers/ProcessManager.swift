@@ -1,6 +1,6 @@
 import Carbon
 
-class ProcessManager {
+final class ProcessManager {
   static let shared = ProcessManager()
 
   private var processes = [UInt32: Process]()

@@ -1,6 +1,6 @@
 import Carbon
 
-class WindowManager {
+final class WindowManager {
   static let shared = WindowManager()
 
   private var applications = [pid_t: Application]()

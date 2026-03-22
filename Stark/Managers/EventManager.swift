@@ -1,6 +1,6 @@
 import Carbon
 
-class EventManager {
+final class EventManager {
   static let shared = EventManager()
 
   private let queue: OperationQueue = {

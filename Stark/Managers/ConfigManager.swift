@@ -15,7 +15,7 @@ private func resolvePrimaryPath() -> String {
     ?? (primaryPaths[0] as NSString).resolvingSymlinksInPath
 }
 
-class ConfigManager {
+final class ConfigManager {
   static var shared = ConfigManager()
 
   private var path: String = resolvePrimaryPath()
