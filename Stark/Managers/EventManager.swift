@@ -115,6 +115,10 @@ extension EventManager {
     WindowManager.shared.addWindows(for: application)
 
     log("application launched \(application)", level: .info)
+
+    for listener in Event.callbacks(for: .applicationLaunched) {
+      listener.call(withArguments: [application])
+    }
   }
 
   private func applicationTerminated(for process: Process) {
@@ -122,6 +126,10 @@ extension EventManager {
     Workspace.shared.unobserveFinishedLaunching(process)
 
     guard let application = WindowManager.shared.application(by: process.pid) else { return }
+
+    for listener in Event.callbacks(for: .applicationTerminated) {
+      listener.call(withArguments: [application])
+    }
 
     WindowManager.shared.remove(application: application)
 
@@ -143,6 +151,10 @@ extension EventManager {
     WindowManager.shared.refreshWindows(for: application)
 
     log("frontmost application switched \(application)", level: .info)
+
+    for listener in Event.callbacks(for: .applicationFrontSwitched) {
+      listener.call(withArguments: [application])
+    }
   }
 
   private func windowCreated(with element: AXUIElement) {
@@ -156,10 +168,18 @@ extension EventManager {
     }
 
     log("window created \(window)", level: .info)
+
+    for listener in Event.callbacks(for: .windowCreated) {
+      listener.call(withArguments: [window])
+    }
   }
 
   private func windowDestroyed(with window: Window) {
     guard window.id != 0 else { return }
+
+    for listener in Event.callbacks(for: .windowDestroyed) {
+      listener.call(withArguments: [window])
+    }
 
     log("window destroyed \(window)", level: .info)
 
@@ -172,6 +192,10 @@ extension EventManager {
     guard let window = WindowManager.shared.window(by: windowID) else { return }
 
     log("window focused \(window)", level: .info)
+
+    for listener in Event.callbacks(for: .windowFocused) {
+      listener.call(withArguments: [window])
+    }
   }
 
   private func windowMoved(with windowID: CGWindowID) {
@@ -179,6 +203,10 @@ extension EventManager {
     guard let window = WindowManager.shared.window(by: windowID) else { return }
 
     log("window moved \(window)", level: .info)
+
+    for listener in Event.callbacks(for: .windowMoved) {
+      listener.call(withArguments: [window])
+    }
   }
 
   private func windowResized(with windowID: CGWindowID) {
@@ -186,14 +214,26 @@ extension EventManager {
     guard let window = WindowManager.shared.window(by: windowID) else { return }
 
     log("window resized \(window)", level: .info)
+
+    for listener in Event.callbacks(for: .windowResized) {
+      listener.call(withArguments: [window])
+    }
   }
 
   private func windowMinimized(with window: Window) {
     log("window minimized \(window)", level: .info)
+
+    for listener in Event.callbacks(for: .windowMinimized) {
+      listener.call(withArguments: [window])
+    }
   }
 
   private func windowDeminimized(with window: Window) {
     log("window deminimized \(window)", level: .info)
+
+    for listener in Event.callbacks(for: .windowDeminimized) {
+      listener.call(withArguments: [window])
+    }
   }
 
   private func spaceChanged() {
@@ -202,5 +242,9 @@ extension EventManager {
     let space = Space.active()
 
     log("space changed \(space)", level: .info)
+
+    for listener in Event.callbacks(for: .spaceChanged) {
+      listener.call(withArguments: [])
+    }
   }
 }

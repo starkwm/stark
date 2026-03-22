@@ -53,6 +53,7 @@ final class ConfigManager {
 
   private func load() -> Result<Void, Error> {
     Keymap.reset()
+    Event.reset()
 
     ShortcutManager.stop()
     ShortcutManager.reset()
@@ -90,6 +91,7 @@ final class ConfigManager {
     }
     context.setObject(print, forKeyedSubscript: "print" as NSString)
     context.setObject(Keymap.self, forKeyedSubscript: "Keymap" as NSString)
+    context.setObject(Event.self, forKeyedSubscript: "Event" as NSString)
     context.setObject(NSScreen.self, forKeyedSubscript: "Screen" as NSString)
     context.setObject(Space.self, forKeyedSubscript: "Space" as NSString)
     context.setObject(Application.self, forKeyedSubscript: "Application" as NSString)
