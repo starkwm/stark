@@ -5,7 +5,7 @@ class ProcessManager {
 
   private var processes = [UInt32: Process]()
 
-  func start() -> Bool {
+  func start() -> Result<Void, AXError> {
     addRunningProcesses()
 
     let eventTypes = [
@@ -33,6 +33,7 @@ class ProcessManager {
     )
 
     return result == noErr
+      ? .success(()) : .failure(.accessFailed("failed to install event handler"))
   }
 
   func find(by psn: ProcessSerialNumber) -> Process? {

@@ -17,7 +17,9 @@ class WindowManager {
 
       let application = Application(for: process)
 
-      guard application.observe() else {
+      switch application.observe() {
+      case .success: break
+      case .failure:
         application.unobserve()
         continue
       }

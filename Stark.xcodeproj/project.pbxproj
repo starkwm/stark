@@ -26,6 +26,10 @@
 		F68527112D398B7E008EC4C1 /* Modifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68527102D398B7C008EC4C1 /* Modifier.swift */; };
 		F68527132D398B83008EC4C1 /* Shortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68527122D398B81008EC4C1 /* Shortcut.swift */; };
 		F68B12212BC3182E00E3F7FF /* Process.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68B12202BC3182E00E3F7FF /* Process.swift */; };
+		F6A2BBD02F703EB2007C7701 /* AXError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBCF2F703EB2007C7701 /* AXError.swift */; };
+		F6A2BBD22F703EB3007C7701 /* FileError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBD12F703EB3007C7701 /* FileError.swift */; };
+		F6A2BBD62F703EB6007C7701 /* JSExceptionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBD52F703EB6007C7701 /* JSExceptionError.swift */; };
+		F6A2BBD82F703EB7007C7701 /* StateError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBD72F703EB7007C7701 /* StateError.swift */; };
 		F6A2E76A2BC8CB250024F674 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2E7692BC8CB250024F674 /* main.swift */; };
 		F6A5DFCF2BCDE914000C1630 /* Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A5DFCE2BCDE914000C1630 /* Workspace.swift */; };
 		F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */; };
@@ -59,6 +63,10 @@
 		F68527102D398B7C008EC4C1 /* Modifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifier.swift; sourceTree = "<group>"; };
 		F68527122D398B81008EC4C1 /* Shortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortcut.swift; sourceTree = "<group>"; };
 		F68B12202BC3182E00E3F7FF /* Process.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Process.swift; sourceTree = "<group>"; };
+		F6A2BBCF2F703EB2007C7701 /* AXError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXError.swift; sourceTree = "<group>"; };
+		F6A2BBD12F703EB3007C7701 /* FileError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileError.swift; sourceTree = "<group>"; };
+		F6A2BBD52F703EB6007C7701 /* JSExceptionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSExceptionError.swift; sourceTree = "<group>"; };
+		F6A2BBD72F703EB7007C7701 /* StateError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateError.swift; sourceTree = "<group>"; };
 		F6A2E7692BC8CB250024F674 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F6A5DFCE2BCDE914000C1630 /* Workspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workspace.swift; sourceTree = "<group>"; };
 		F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extension.swift"; sourceTree = "<group>"; };
@@ -132,6 +140,7 @@
 				F6A50A252BC076AE002689F2 /* Models */,
 				F63B99232BC73FA100355240 /* Notifications */,
 				F6A50A272BC07CAA002689F2 /* UI */,
+				F6A2BBCE2F703E2B007C7701 /* Errors */,
 			);
 			path = Stark;
 			sourceTree = "<group>";
@@ -163,6 +172,17 @@
 				F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F6A2BBCE2F703E2B007C7701 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				F6A2BBCF2F703EB2007C7701 /* AXError.swift */,
+				F6A2BBD12F703EB3007C7701 /* FileError.swift */,
+				F6A2BBD52F703EB6007C7701 /* JSExceptionError.swift */,
+				F6A2BBD72F703EB7007C7701 /* StateError.swift */,
+			);
+			path = Errors;
 			sourceTree = "<group>";
 		};
 		F6A50A252BC076AE002689F2 /* Models */ = {
@@ -277,17 +297,21 @@
 				F6F4ECF92BC9BC13001234D4 /* Private.swift in Sources */,
 				F66C39C61C6AD73E0008FDD5 /* Keymap.swift in Sources */,
 				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
+				F6A2BBD02F703EB2007C7701 /* AXError.swift in Sources */,
 				F60DF8ED2CC2C8030083D3BE /* LogHelper.swift in Sources */,
 				F6A2E76A2BC8CB250024F674 /* main.swift in Sources */,
+				F6A2BBD82F703EB7007C7701 /* StateError.swift in Sources */,
 				F68527132D398B83008EC4C1 /* Shortcut.swift in Sources */,
 				F6CEF4F92E48049600C975E4 /* SpaceType.swift in Sources */,
 				F64945862357B6B8009E423B /* StarkStatusItem.swift in Sources */,
 				F61AF11E2BC4B80100FF39E0 /* WindowManager.swift in Sources */,
 				F645D0482BC37DF300BED730 /* ProcessManager.swift in Sources */,
 				F6792C431C4055A2007D9DF9 /* Window.swift in Sources */,
+				F6A2BBD22F703EB3007C7701 /* FileError.swift in Sources */,
 				F67DB62F2E30159F007C78D6 /* ConfigManager.swift in Sources */,
 				F6EA81542BCD740F00F0F68C /* WindowNotifications.swift in Sources */,
 				F685270F2D398B79008EC4C1 /* Key.swift in Sources */,
+				F6A2BBD62F703EB6007C7701 /* JSExceptionError.swift in Sources */,
 				F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */,
 				F6A5DFCF2BCDE914000C1630 /* Workspace.swift in Sources */,
 				F63B99252BC73FB100355240 /* ApplicationNotifications.swift in Sources */,

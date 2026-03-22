@@ -9,15 +9,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       return
     }
 
-    if !ProcessManager.shared.start() {
-      log("could not start process manager", level: .error)
+    switch ProcessManager.shared.start() {
+    case .success: break
+    case .failure(let error):
+      log("could not start process manager: \(error)", level: .error)
       return
     }
 
     WindowManager.shared.start()
 
-    if !ConfigManager.shared.start() {
-      log("could not start config manager", level: .error)
+    switch ConfigManager.shared.start() {
+    case .success: break
+    case .failure(let error):
+      log("could not start config manager: \(error)", level: .error)
       return
     }
 

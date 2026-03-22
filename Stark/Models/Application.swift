@@ -129,14 +129,16 @@ class Application: NSObject, ApplicationJSExport {
     application.terminate()
   }
 
-  func observe() -> Bool {
+  func observe() -> Result<Void, AXError> {
     let result = AXObserverCreate(
       application.processIdentifier,
       accessibilityObserverCallback,
       &observer
     )
 
-    guard result == .success, let observer = observer else { return false }
+    guard result == .success, let observer = observer else {
+      return .failure(.observerCreationFailed)
+    }
 
     let context: UnsafeMutableRawPointer? = Unmanaged.passUnretained(self).toOpaque()
 
@@ -152,6 +154,7 @@ class Application: NSObject, ApplicationJSExport {
           "notification \(notification) not added \(self) (retry: \(retryObserving)",
           level: .warn
         )
+        return .failure(.notificationFailed("failed to add notification \(notification)"))
       }
     }
 
@@ -163,7 +166,11 @@ class Application: NSObject, ApplicationJSExport {
       CFRunLoopMode.defaultMode
     )
 
-    return observedNotifications.contains(.all)
+    guard observedNotifications.contains(.all) else {
+      return .failure(.notificationFailed("not all notifications were added"))
+    }
+
+    return .success(())
   }
 
   func unobserve() {

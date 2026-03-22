@@ -23,11 +23,20 @@ class ConfigManager {
 
   private var context: JSContext?
 
-  func start() -> Bool {
-    guard load() else { return false }
-    guard setupFileMonitor() else { return false }
+  func start() -> Result<Void, Error> {
+    switch load() {
+    case .success:
+      break
+    case .failure(let error):
+      return .failure(error)
+    }
 
-    return true
+    switch setupFileMonitor() {
+    case .success:
+      return .success(())
+    case .failure(let error):
+      return .failure(error)
+    }
   }
 
   func stop() {
@@ -37,27 +46,34 @@ class ConfigManager {
     ShortcutManager.stop()
   }
 
-  private func load() -> Bool {
+  private func load() -> Result<Void, Error> {
     Keymap.reset()
 
     ShortcutManager.stop()
     ShortcutManager.reset()
 
-    guard setupAPI() else { return false }
-    guard executeConfig() else { return false }
+    switch setupAPI() {
+    case .success:
+      break
+    case .failure(let error):
+      return .failure(error)
+    }
 
-    ShortcutManager.start()
-
-    return true
+    switch executeConfig() {
+    case .success:
+      ShortcutManager.start()
+      return .success(())
+    case .failure(let error):
+      return .failure(error)
+    }
   }
 
-  private func setupAPI() -> Bool {
+  private func setupAPI() -> Result<Void, JSExceptionError> {
     context = nil
     context = JSContext(virtualMachine: JSVirtualMachine())
 
     guard let context = context else {
-      log("could not create javascript context", level: .error)
-      return false
+      return .failure(.exception("Could not create javascript context"))
     }
 
     context.exceptionHandler = { _, err in
@@ -74,59 +90,63 @@ class ConfigManager {
     context.setObject(Application.self, forKeyedSubscript: "Application" as NSString)
     context.setObject(Window.self, forKeyedSubscript: "Window" as NSString)
 
-    return true
+    return .success(())
   }
 
-  private func executeConfig() -> Bool {
+  private func executeConfig() -> Result<Void, Error> {
     if !FileManager.default.fileExists(atPath: path) {
-      log("configuration file does not exist \(path)", level: .error)
-      return false
+      return .failure(FileError.notFound(path))
     }
 
     guard let context else {
-      log("javascript context is not defined", level: .error)
-      return false
+      return .failure(StateError.invalidState("javascript context is not defined"))
     }
 
     guard let scriptContents = try? String(contentsOfFile: path, encoding: .utf8) else {
-      log("could not read file \(path)", level: .error)
-      return false
+      return .failure(FileError.readFailed("could not read file \(path)"))
     }
 
     context.evaluateScript(scriptContents)
 
-    return true
+    if let exception = context.exception {
+      return .failure(JSExceptionError.exception("JS exception: \(exception)"))
+    }
+
+    return .success(())
   }
 
-  private func setupFileMonitor() -> Bool {
+  private func setupFileMonitor() -> Result<Void, FileError> {
     let file = NSURL.fileURL(withPath: path)
     let fd = open(file.path, O_EVTONLY)
 
-    fileSystemSource = DispatchSource.makeFileSystemObjectSource(
+    guard fd >= 0 else {
+      return .failure(.monitorFailed("could not open config file for monitoring"))
+    }
+
+    let source = DispatchSource.makeFileSystemObjectSource(
       fileDescriptor: fd,
       eventMask: .write,
       queue: DispatchQueue(label: "dev.tombell.stark.config")
     )
 
-    guard let fileSystemSource = fileSystemSource else {
-      log("could not setup file monitoring", level: .error)
-      return false
-    }
+    fileSystemSource = source
 
-    fileSystemSource.setEventHandler {
+    source.setEventHandler {
       log("config file changed, reloading...", level: .info)
 
-      if !self.load() {
-        log("could not reload config file", level: .error)
+      switch self.load() {
+      case .success: break
+      case .failure(let error):
+        log("could not reload config file: \(error)", level: .error)
       }
     }
 
-    fileSystemSource.setCancelHandler {
+    source.setCancelHandler {
       close(fd)
     }
 
-    fileSystemSource.resume()
+    source.resume()
 
-    return true
+    return .success(())
   }
 }
