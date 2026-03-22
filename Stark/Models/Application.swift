@@ -94,9 +94,13 @@ class Application: NSObject, ApplicationJSExport {
   private var observedNotifications = ApplicationNotifications(rawValue: 0)
   private var observing = false
 
-  init(for process: Process) {
+  init?(for process: Process) {
     element = AXUIElementCreateApplication(process.pid)
-    application = NSRunningApplication(processIdentifier: process.pid)!
+
+    guard let app = NSRunningApplication(processIdentifier: process.pid) else {
+      return nil
+    }
+    application = app
 
     SLSGetConnectionIDForPSN(Space.connection, &process.psn, &connection)
   }

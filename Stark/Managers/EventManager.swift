@@ -84,7 +84,10 @@ extension EventManager {
 
     guard WindowManager.shared.application(by: process.pid) == nil else { return }
 
-    let application = Application(for: process)
+    guard let application = Application(for: process) else {
+      log("could not create application for process \(process)", level: .warn)
+      return
+    }
 
     switch application.observe() {
     case .success: break
