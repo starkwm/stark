@@ -30,6 +30,7 @@
 		F6A2BBD22F703EB3007C7701 /* FileError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBD12F703EB3007C7701 /* FileError.swift */; };
 		F6A2BBD62F703EB6007C7701 /* JSExceptionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBD52F703EB6007C7701 /* JSExceptionError.swift */; };
 		F6A2BBD82F703EB7007C7701 /* StateError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBD72F703EB7007C7701 /* StateError.swift */; };
+		F6A2BBDC2F7049C9007C7701 /* AccessibilityHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBDB2F7049C9007C7701 /* AccessibilityHelper.swift */; };
 		F6A2E76A2BC8CB250024F674 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2E7692BC8CB250024F674 /* main.swift */; };
 		F6A5DFCF2BCDE914000C1630 /* Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A5DFCE2BCDE914000C1630 /* Workspace.swift */; };
 		F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */; };
@@ -67,6 +68,7 @@
 		F6A2BBD12F703EB3007C7701 /* FileError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileError.swift; sourceTree = "<group>"; };
 		F6A2BBD52F703EB6007C7701 /* JSExceptionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSExceptionError.swift; sourceTree = "<group>"; };
 		F6A2BBD72F703EB7007C7701 /* StateError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateError.swift; sourceTree = "<group>"; };
+		F6A2BBDB2F7049C9007C7701 /* AccessibilityHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityHelper.swift; sourceTree = "<group>"; };
 		F6A2E7692BC8CB250024F674 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F6A5DFCE2BCDE914000C1630 /* Workspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workspace.swift; sourceTree = "<group>"; };
 		F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extension.swift"; sourceTree = "<group>"; };
@@ -150,6 +152,7 @@
 			children = (
 				F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */,
 				F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */,
+				F6A2BBDB2F7049C9007C7701 /* AccessibilityHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 				F6A2BBD82F703EB7007C7701 /* StateError.swift in Sources */,
 				F68527132D398B83008EC4C1 /* Shortcut.swift in Sources */,
 				F6CEF4F92E48049600C975E4 /* SpaceType.swift in Sources */,
+				F6A2BBDC2F7049C9007C7701 /* AccessibilityHelper.swift in Sources */,
 				F64945862357B6B8009E423B /* StarkStatusItem.swift in Sources */,
 				F61AF11E2BC4B80100FF39E0 /* WindowManager.swift in Sources */,
 				F645D0482BC37DF300BED730 /* ProcessManager.swift in Sources */,
