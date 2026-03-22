@@ -1,0 +1,54 @@
+name: Stark
+options:
+  bundleIdPrefix: dev.tombell
+  deploymentTarget:
+    macOS: "26.0"
+  xcodeVersion: "26.2"
+  developmentTeam: Y54Z78V9M7
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+
+    CODE_SIGN_STYLE: Automatic
+    CODE_SIGN_IDENTITY: Apple Development
+
+    CURRENT_PROJECT_VERSION: 24
+    MARKETING_VERSION: 3.0.1
+
+    PRODUCT_BUNDLE_IDENTIFIER: dev.tombell.Stark
+    ASSETCATALOG_COMPILER_APPICON_NAME: Stark
+
+    ENABLE_HARDENED_RUNTIME: YES
+    ENABLE_USER_SCRIPT_SANDBOXING: NO
+
+    SYSTEM_FRAMEWORK_SEARCH_PATHS:
+      - $(inherited)
+      - $(SYSTEM_LIBRARY_DIR)/PrivateFrameworks
+
+  configs:
+    Debug:
+      DEBUG_INFORMATION_FORMAT: dwarf
+      SWIFT_OPTIMIZATION_LEVEL: -Onone
+      ENABLE_TESTABILITY: YES
+    Release:
+      DEBUG_INFORMATION_FORMAT: dwarf-with-dsym
+      SWIFT_COMPILATION_MODE: wholemodule
+      SWIFT_OPTIMIZATION_LEVEL: -O
+
+targets:
+  Stark:
+    type: application
+    platform: macOS
+    settings:
+      base:
+        DEVELOPMENT_TEAM: Y54Z78V9M7
+        INFOPLIST_FILE: Stark/Stark-Info.plist
+    sources:
+      - Stark
+    resources:
+      - Stark/Assets.xcassets
+      - Stark/Stark.icon
+    dependencies:
+      - sdk: SkyLight.framework
+    scheme: {}
