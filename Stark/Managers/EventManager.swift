@@ -1,5 +1,7 @@
 import Carbon
 
+/// Manages and dispatches window management events.
+/// Uses an OperationQueue to process events serially on a background thread.
 final class EventManager {
   static let shared = EventManager()
 
@@ -9,6 +11,10 @@ final class EventManager {
     return queue
   }()
 
+  /// Posts an event to be processed asynchronously.
+  /// - Parameters:
+  ///   - event: The type of event to post
+  ///   - object: Optional data associated with the event
   func post(event: EventType, with object: Any?) {
     queue.addOperation {
       switch event {
