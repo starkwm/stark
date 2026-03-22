@@ -13,6 +13,7 @@ Stark is a macOS window manager that provides a JavaScript API for managing wind
 - **Application Management**: Launch, hide, show, and switch between applications
 - **Space Support**: Work with macOS Spaces (virtual desktops)
 - **Keyboard Shortcuts**: Bind custom keyboard shortcuts to JavaScript functions
+- **Event Callbacks**: Register JavaScript callbacks for system events
 
 ## Installation
 
@@ -152,6 +153,43 @@ Keymap.bind("cmd + shift + return", function() {
 Keymap.bind("cmd + h", function() {
   var app = Application.focused();
   if (app) app.hide();
+});
+```
+
+### Event
+
+The `Event` class allows registering callbacks for system events.
+
+#### Methods
+
+- `Event.on(event, callback)` - Register a callback for an event
+- `Event.off(event)` - Unregister all callbacks for an event
+
+#### Events
+
+| Event                      | Callback Argument |
+|----------------------------|-------------------|
+| `applicationLaunched`      | `Application`     |
+| `applicationTerminated`    | `Application`     |
+| `applicationFrontSwitched` | `Application`     |
+| `windowCreated`            | `Window`          |
+| `windowDestroyed`          | `Window`          |
+| `windowFocused`            | `Window`          |
+| `windowMoved`              | `Window`          |
+| `windowResized`            | `Window`          |
+| `windowMinimized`          | `Window`          |
+| `windowDeminimized`        | `Window`          |
+| `spaceChanged`             | *(none)*          |
+
+```javascript
+// Log when windows are focused
+Event.on("windowFocused", function(window) {
+  print("focused: " + window.title);
+});
+
+// React to space changes
+Event.on("spaceChanged", function() {
+  print("switched to a new space");
 });
 ```
 
