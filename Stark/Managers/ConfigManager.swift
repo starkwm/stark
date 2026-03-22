@@ -131,8 +131,10 @@ final class ConfigManager {
 
     fileSystemSource = source
 
-    source.setEventHandler {
+    source.setEventHandler { [weak self] in
       log("config file changed, reloading...", level: .info)
+
+      guard let self else { return }
 
       switch self.load() {
       case .success: break
