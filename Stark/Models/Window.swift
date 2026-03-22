@@ -181,7 +181,7 @@ class Window: NSObject, WindowJSExport {
   }
 
   var isFullscreen: Bool {
-    guard let element = element else { return false }
+    guard let element else { return false }
 
     var value: AnyObject?
 
@@ -196,7 +196,7 @@ class Window: NSObject, WindowJSExport {
   }
 
   var isMinimized: Bool {
-    guard let element = element else { return false }
+    guard let element else { return false }
 
     var value: AnyObject?
 
@@ -235,7 +235,7 @@ class Window: NSObject, WindowJSExport {
   }
 
   private func pid() -> pid_t? {
-    guard let element = element else { return nil }
+    guard let element else { return nil }
 
     return Window.pid(for: element)
   }
@@ -264,7 +264,7 @@ class Window: NSObject, WindowJSExport {
 
   func setSize(_ size: CGSize) {
     application?.enhancedUIWorkaround {
-      guard let element = element else { return }
+      guard let element else { return }
 
       var val = size
       guard let type = AXValueType(rawValue: kAXValueCGSizeType) else { return }
@@ -274,25 +274,25 @@ class Window: NSObject, WindowJSExport {
   }
 
   func setFullscreen(_ value: Bool) {
-    guard let element = element else { return }
+    guard let element else { return }
 
     AXUIElementSetAttributeValue(element, kAXFullScreenAttribute as CFString, value as CFTypeRef)
   }
 
   func minimize() {
-    guard let element = element else { return }
+    guard let element else { return }
 
     AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, true as CFTypeRef)
   }
 
   func unminimize() {
-    guard let element = element else { return }
+    guard let element else { return }
 
     AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, false as CFTypeRef)
   }
 
   func focus() {
-    guard let element = element else { return }
+    guard let element else { return }
 
     if AXUIElementSetAttributeValue(element, kAXMainAttribute as CFString, kCFBooleanTrue)
       != .success
@@ -313,7 +313,7 @@ class Window: NSObject, WindowJSExport {
 
   func observe() -> Bool {
     guard let observer = application?.observer else { return false }
-    guard let element = element else { return false }
+    guard let element else { return false }
 
     let context = UnsafeMutableRawPointer(bitPattern: UInt(id))
 
@@ -332,7 +332,7 @@ class Window: NSObject, WindowJSExport {
 
   func unobserve() {
     guard let observer = application?.observer else { return }
-    guard let element = element else { return }
+    guard let element else { return }
 
     for (idx, notification) in windowNotifications.enumerated() {
       let notif = WindowNotifications(rawValue: 1 << idx)
