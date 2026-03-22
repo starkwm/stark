@@ -103,7 +103,7 @@ class Window: NSObject, WindowJSExport {
   }
 
   var title: String {
-    guard let element = element else { return "" }
+    guard let element else { return "" }
 
     var value: AnyObject?
 
@@ -119,7 +119,7 @@ class Window: NSObject, WindowJSExport {
   }
 
   var topLeft: CGPoint {
-    guard let element = element else { return CGPoint.zero }
+    guard let element else { return CGPoint.zero }
 
     var value: AnyObject?
     var topLeft = CGPoint.zero
@@ -135,7 +135,7 @@ class Window: NSObject, WindowJSExport {
   }
 
   var size: CGSize {
-    guard let element = element else { return CGSize.zero }
+    guard let element else { return CGSize.zero }
 
     var value: AnyObject?
     var size = CGSize.zero
@@ -150,7 +150,7 @@ class Window: NSObject, WindowJSExport {
   }
 
   var isMain: Bool {
-    guard let element = element else { return false }
+    guard let element else { return false }
 
     var value: AnyObject?
 
@@ -162,7 +162,7 @@ class Window: NSObject, WindowJSExport {
   }
 
   var subrole: String? {
-    guard let element = element else { return nil }
+    guard let element else { return nil }
 
     var value: AnyObject?
 
@@ -253,7 +253,7 @@ class Window: NSObject, WindowJSExport {
 
   func setTopLeft(_ topLeft: CGPoint) {
     application?.enhancedUIWorkaround {
-      guard let element = element else { return }
+      guard let element else { return }
 
       var val = topLeft
       guard let type = AXValueType(rawValue: kAXValueCGPointType) else { return }

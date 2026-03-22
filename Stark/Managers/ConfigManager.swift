@@ -72,7 +72,7 @@ final class ConfigManager {
     context = nil
     context = JSContext(virtualMachine: JSVirtualMachine())
 
-    guard let context = context else {
+    guard let context else {
       return .failure(.exception("Could not create javascript context"))
     }
 

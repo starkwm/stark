@@ -320,7 +320,7 @@ private func accessibilityObserverCallback(
     EventManager.shared.post(event: .windowResized, with: Window.id(for: element))
 
   case kAXWindowMiniaturizedNotification:
-    guard let context = context else { return }
+    guard let context else { return }
     let windowID = CGWindowID(UInt(bitPattern: context))
     guard let window = WindowManager.shared.window(by: windowID) else { return }
     EventManager.shared.post(event: .windowMinimized, with: window)
