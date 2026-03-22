@@ -59,7 +59,8 @@ final class EventManager {
         self.windowDeminimized(with: window)
 
       case .spaceChanged:
-        self.spaceChanged()
+        guard let space = object as? Space else { break }
+        self.spaceChanged(with: space)
       }
     }
   }
@@ -236,15 +237,13 @@ extension EventManager {
     }
   }
 
-  private func spaceChanged() {
+  private func spaceChanged(with space: Space) {
     WindowManager.shared.refreshWindows()
-
-    let space = Space.active()
 
     log("space changed \(space)", level: .info)
 
     for listener in Event.callbacks(for: .spaceChanged) {
-      listener.call(withArguments: [])
+      listener.call(withArguments: [space])
     }
   }
 }

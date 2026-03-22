@@ -95,7 +95,7 @@ class Workspace: NSObject {
 
   @objc
   func activeSpaceDidChange(_: Notification) {
-    EventManager.shared.post(event: .spaceChanged, with: nil)
+    EventManager.shared.post(event: .spaceChanged, with: Space.active())
   }
 
   override func observeValue(

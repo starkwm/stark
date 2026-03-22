@@ -191,7 +191,7 @@ The `Event` class allows registering callbacks for system events.
 | `windowResized`            | `Window`          |
 | `windowMinimized`          | `Window`          |
 | `windowDeminimized`        | `Window`          |
-| `spaceChanged`             | *(none)*          |
+| `spaceChanged`             | `Space`           |
 
 ```javascript
 // Log when windows are focused
@@ -200,8 +200,8 @@ Event.on("windowFocused", function(window) {
 });
 
 // React to space changes
-Event.on("spaceChanged", function() {
-  print("switched to a new space");
+Event.on("spaceChanged", function(space) {
+  print("switched to space " + space.id);
 });
 ```
 
