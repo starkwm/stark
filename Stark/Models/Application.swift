@@ -3,24 +3,68 @@ import JavaScriptCore
 
 private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
 
+/// Protocol exposing application management functionality to JavaScript.
+/// Provides access to running applications and their windows.
 @objc protocol ApplicationJSExport: JSExport {
+  // MARK: - Application Retrieval
+
+  /// Returns all running applications.
+  /// - Returns: Array of all applications
   static func all() -> [Application]
+
+  /// Returns the frontmost (active) application.
+  /// - Returns: The frontmost application, or nil if none
   static func focused() -> Application?
+
+  /// Finds an application by name.
+  /// - Parameter name: The application name to search for
+  /// - Returns: The matching application, or nil if not found
   static func find(_ name: String) -> Application?
 
+  // MARK: - Properties
+
+  /// The application's display name.
   var name: String? { get }
+
+  /// The application's bundle identifier (e.g., "com.apple.Safari").
   var bundleID: String? { get }
+
+  /// The application's process identifier.
   var processID: pid_t { get }
 
+  /// Whether this application is currently frontmost.
   var isFrontmost: Bool { get }
+
+  /// Whether this application is hidden.
   var isHidden: Bool { get }
+
+  /// Whether this application has terminated.
   var isTerminated: Bool { get }
 
+  // MARK: - Application Control
+
+  /// Returns all windows belonging to this application.
+  /// - Returns: Array of windows
   func windows() -> [Window]
+
+  /// Activates the application, bringing it to the front with all windows.
+  /// - Returns: true if successful
   func activate() -> Bool
+
+  /// Focuses the application without activating all windows.
+  /// - Returns: true if successful
   func focus() -> Bool
+
+  /// Unhides the application.
+  /// - Returns: true if successful
   func show() -> Bool
+
+  /// Hides the application.
+  /// - Returns: true if successful
   func hide() -> Bool
+
+  /// Terminates the application.
+  /// - Returns: true if successful
   func terminate() -> Bool
 }
 
@@ -250,6 +294,10 @@ class Application: NSObject, ApplicationJSExport {
     return windows
   }
 
+  /// Workaround for applications with Enhanced User Interface enabled (e.g., Slack, Discord).
+  /// Some applications block programmatic window manipulation when this feature is enabled.
+  /// This method temporarily disables it, executes the callback, then restores the original state.
+  /// - Parameter callback: The window manipulation code to execute
   func enhancedUIWorkaround(callback: () -> Void) {
     let enhancedUserInterfaceEnabled = isEnhancedUIEnabled()
 
@@ -264,6 +312,8 @@ class Application: NSObject, ApplicationJSExport {
     }
   }
 
+  /// Checks if Enhanced User Interface is enabled for this application.
+  /// - Returns: true if Enhanced UI is enabled
   private func isEnhancedUIEnabled() -> Bool {
     var value: AnyObject?
     let result = AXUIElementCopyAttributeValue(
@@ -282,13 +332,23 @@ class Application: NSObject, ApplicationJSExport {
     return false
   }
 
+  /// Validates window attributes and tags to determine if it's a real window we should manage.
+  /// Uses bitwise operations on window flags from the WindowServer to filter out non-window elements.
+  /// - Parameters:
+  ///   - attributes: Window attributes from the WindowServer
+  ///   - tags: Window tags from the WindowServer
+  /// - Returns: true if this represents a valid window we should manage
   private func validWindow(_ attributes: UInt64, _ tags: UInt64) -> Bool {
+    // Check for standard window attributes (bit 0x2) or window tags (bit 0x400...)
+    // combined with visibility tags (bit 0x1) or active window tags
     if ((attributes & 0x2) != 0 || (tags & 0x400_0000_0000_0000) != 0)
       && (((tags & 0x1) != 0) || ((tags & 0x2) != 0 && (tags & 0x8000_0000) != 0))
     {
       return true
     }
 
+    // Alternative validation for certain window types
+    // Checks for minimal attributes with specific tag combinations
     if (attributes == 0x0 || attributes == 0x1)
       && ((tags & 0x1000_0000_0000_0000) != 0 || (tags & 0x300_0000_0000_0000) != 0)
       && (((tags & 0x1) != 0) || ((tags & 0x2) != 0 && (tags & 0x8000_0000) != 0))

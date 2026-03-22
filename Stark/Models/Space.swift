@@ -5,17 +5,43 @@ private let screenIDKey = "Display Identifier"
 private let spaceIDKey = "ManagedSpaceID"
 private let spacesKey = "Spaces"
 
+/// Protocol exposing Space (virtual desktop) functionality to JavaScript.
+/// Provides access to macOS Spaces and their windows.
 @objc protocol SpaceJSExport: JSExport {
+  // MARK: - Space Retrieval
+
+  /// Returns all Spaces across all screens.
+  /// - Returns: Array of all spaces
   static func all() -> [Space]
+
+  /// Returns the Space at the specified index.
+  /// - Parameter index: The zero-based index
+  /// - Returns: The space at that index, or nil if out of bounds
   static func at(_ index: Int) -> Space?
+
+  /// Returns the currently active Space.
+  /// - Returns: The active space
   static func active() -> Space
 
+  // MARK: - Properties
+
+  /// Unique identifier for this space.
   var id: uint64 { get }
 
+  /// Whether this is a normal space (not fullscreen).
   var isNormal: Bool { get }
+
+  /// Whether this is a fullscreen space.
   var isFullscreen: Bool { get }
 
+  // MARK: - Space Contents
+
+  /// Returns all screens showing this space.
+  /// - Returns: Array of screens
   func screens() -> [NSScreen]
+
+  /// Returns all windows in this space.
+  /// - Returns: Array of windows
   func windows() -> [Window]
 }
 
