@@ -23,15 +23,15 @@ The official way to install **Stark** is via [Homebrew](https://brew.sh).
 brew install starkwm/formulae/stark
 ```
 
-You can then launch **Stark** and grant it accessibility permissions, and restart it. If you would like **Stark** to run when you log in, you can enable the *Launch at login* menu item.
+You can then launch **Stark** and grant it accessibility permissions, and restart it. If you would like **Stark** to run when you log in, you can enable the _Launch at login_ menu item.
 
-There is also a *tip* version of **Stark** available in the Homebrew tap.
+There is also a _tip_ version of **Stark** available in the Homebrew tap.
 
 ```
 brew install starkwm/formulae/stark@tip
 ```
 
-This is an unstable build of **Stark**, built from the current tip of the [GitHub repository](https://github.com/starkwm/stark). It is *not* updated nightly.
+This is an unstable build of **Stark**, built from the current tip of the [GitHub repository](https://github.com/starkwm/stark). It is _not_ updated nightly.
 
 ## Configuration
 
@@ -50,14 +50,14 @@ The first file found will be the configuration that is loaded.
 print("Stark is running!");
 
 // Example: Move focused window to center of screen
-Keymap.bind("cmd + shift + c", function() {
-  var window = Window.focused();
+Keymap.on("c", ["cmd", "shift"], () => {
+  const window = Window.focused();
   if (window) {
-    var screen = window.screen;
-    var frame = screen.flippedFrame;
-    var x = frame.x + (frame.width - window.size.width) / 2;
-    var y = frame.y + (frame.height - window.size.height) / 2;
-    window.setTopLeft({ x: x, y: y });
+    const screen = window.screen;
+    const frame = screen.flippedFrame;
+    const x = frame.x + (frame.width - window.size.width) / 2;
+    const y = frame.y + (frame.height - window.size.height) / 2;
+    window.setTopLeft({ x, y });
   }
 });
 ```
@@ -154,16 +154,17 @@ The `Keymap` class allows binding keyboard shortcuts.
 
 #### Methods
 
-- `Keymap.bind(shortcut, callback)` - Bind a keyboard shortcut
+- `Keymap.on(key, modifiers, callback)` - Bind a keyboard shortcut
+- `Keymap.off(id)` - Unbind a keyboard shortcut by ID
 
 ```javascript
 // Examples
-Keymap.bind("cmd + shift + return", function() {
+Keymap.on("return", ["cmd", "shift"], () => {
   // Open Terminal
 });
 
-Keymap.bind("cmd + h", function() {
-  var app = Application.focused();
+Keymap.on("h", ["cmd"], () => {
+  const app = Application.focused();
   if (app) app.hide();
 });
 ```
@@ -180,7 +181,7 @@ The `Event` class allows registering callbacks for system events.
 #### Events
 
 | Event                      | Callback Argument |
-|----------------------------|-------------------|
+| -------------------------- | ----------------- |
 | `applicationLaunched`      | `Application`     |
 | `applicationTerminated`    | `Application`     |
 | `applicationFrontSwitched` | `Application`     |
@@ -195,13 +196,13 @@ The `Event` class allows registering callbacks for system events.
 
 ```javascript
 // Log when windows are focused
-Event.on("windowFocused", function(window) {
-  print("focused: " + window.title);
+Event.on("windowFocused", (window) => {
+  print(`focused: ${window.title}`);
 });
 
 // React to space changes
-Event.on("spaceChanged", function(space) {
-  print("switched to space " + space.id);
+Event.on("spaceChanged", (space) => {
+  print(`switched to space ${space.id}`);
 });
 ```
 
@@ -210,47 +211,47 @@ Event.on("spaceChanged", function(space) {
 ### Center Window
 
 ```javascript
-Keymap.bind("cmd + shift + c", function() {
-  var window = Window.focused();
+Keymap.on("c", ["cmd", "shift"], () => {
+  const window = Window.focused();
   if (!window) return;
-  
-  var screen = window.screen;
-  var frame = screen.flippedFrame;
-  var windowFrame = window.frame;
-  
-  var x = frame.x + (frame.width - windowFrame.width) / 2;
-  var y = frame.y + (frame.height - windowFrame.height) / 2;
-  
-  window.setTopLeft({ x: x, y: y });
+
+  const screen = window.screen;
+  const frame = screen.flippedFrame;
+  const windowFrame = window.frame;
+
+  const x = frame.x + (frame.width - windowFrame.width) / 2;
+  const y = frame.y + (frame.height - windowFrame.height) / 2;
+
+  window.setTopLeft({ x, y });
 });
 ```
 
 ### Tile Windows
 
 ```javascript
-Keymap.bind("cmd + shift + t", function() {
-  var screen = Screen.main();
-  var frame = screen.flippedFrame;
-  var windows = Window.all().filter(function(w) {
+Keymap.on("t", ["cmd", "shift"], () => {
+  const screen = Screen.main();
+  const frame = screen.flippedFrame;
+  const windows = Window.all().filter((w) => {
     return w.screen == screen && w.isStandard;
   });
-  
-  var count = windows.length;
+
+  const count = windows.length;
   if (count === 0) return;
-  
-  var cols = Math.ceil(Math.sqrt(count));
-  var rows = Math.ceil(count / cols);
-  var width = frame.width / cols;
-  var height = frame.height / rows;
-  
-  windows.forEach(function(window, i) {
-    var col = i % cols;
-    var row = Math.floor(i / cols);
+
+  const cols = Math.ceil(Math.sqrt(count));
+  const rows = Math.ceil(count / cols);
+  const width = frame.width / cols;
+  const height = frame.height / rows;
+
+  windows.forEach((window, i) => {
+    const col = i % cols;
+    const row = Math.floor(i / cols);
     window.setFrame({
       x: frame.x + col * width,
       y: frame.y + row * height,
-      width: width,
-      height: height
+      width,
+      height,
     });
   });
 });
@@ -259,12 +260,12 @@ Keymap.bind("cmd + shift + t", function() {
 ### Application Launcher
 
 ```javascript
-Keymap.bind("cmd + shift + b", function() {
+Keymap.on("b", ["cmd", "shift"], () => {
   // Focus or launch Safari
-  var safari = Application.all().find(function(app) {
+  const safari = Application.all().find((app) => {
     return app.name === "Safari";
   });
-  
+
   if (safari) {
     safari.activate();
   } else {
@@ -277,14 +278,7 @@ Keymap.bind("cmd + shift + b", function() {
 ## Development
 
 Stark is built with Swift and uses:
+
 - macOS Accessibility APIs for window management
 - JavaScriptCore for JavaScript execution
 - Carbon APIs for keyboard shortcuts
-
-## License
-
-[Your License Here]
-
-## Contributing
-
-Contributions are welcome! Please open an issue or pull request.
