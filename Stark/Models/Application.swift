@@ -102,6 +102,7 @@ class Application: NSObject, ApplicationJSExport {
   }
 
   deinit {
+    unobserve()
     log("application deinit \(self)")
   }
 

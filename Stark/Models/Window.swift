@@ -211,7 +211,7 @@ class Window: NSObject, WindowJSExport {
   }
 
   var element: AXUIElement?
-  var application: Application?
+  weak var application: Application?
   var id: CGWindowID
 
   private var observedNotifications = WindowNotifications(rawValue: 0)
@@ -223,6 +223,7 @@ class Window: NSObject, WindowJSExport {
   }
 
   deinit {
+    unobserve()
     log("window deinit \(self)")
   }
 
