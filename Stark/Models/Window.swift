@@ -5,36 +5,83 @@ private let systemWideElement = AXUIElementCreateSystemWide()
 
 private let kAXFullScreenAttribute = "AXFullScreen"
 
+/// Protocol exposing window management functionality to JavaScript.
+/// All windows in the system can be accessed and manipulated through this interface.
 @objc protocol WindowJSExport: JSExport {
+  // MARK: - Window Retrieval
+
+  /// Returns all windows currently managed by Stark.
+  /// - Returns: Array of all windows
   static func all() -> [Window]
+
+  /// Returns the currently focused window.
+  /// - Returns: The focused window, or nil if no window is focused
   static func focused() -> Window?
 
+  // MARK: - Properties
+
+  /// Unique identifier for the window.
   var id: CGWindowID { get }
 
+  /// The application that owns this window.
   var application: Application? { get }
+
+  /// The screen containing this window.
   var screen: NSScreen? { get }
 
+  /// The window's title.
   var title: String { get }
 
+  /// The window's frame rectangle in screen coordinates.
   var frame: CGRect { get }
+
+  /// The window's top-left corner position.
   var topLeft: CGPoint { get }
+
+  /// The window's size.
   var size: CGSize { get }
 
+  /// Whether this is a standard window (not a dialog, menu, etc.).
   var isStandard: Bool { get }
+
+  /// Whether this window is the main window of its application.
   var isMain: Bool { get }
+
+  /// Whether this window is in fullscreen mode.
   var isFullscreen: Bool { get }
+
+  /// Whether this window is minimized.
   var isMinimized: Bool { get }
 
+  // MARK: - Window Manipulation
+
+  /// Sets the window's frame.
+  /// - Parameter frame: The new frame rectangle
   func setFrame(_ frame: CGRect)
+
+  /// Sets the window's position.
+  /// - Parameter topLeft: The new top-left corner position
   func setTopLeft(_ topLeft: CGPoint)
+
+  /// Sets the window's size.
+  /// - Parameter size: The new size
   func setSize(_ size: CGSize)
+
+  /// Sets the window's fullscreen state.
+  /// - Parameter value: true to enter fullscreen, false to exit
   func setFullscreen(_ value: Bool)
 
+  /// Minimizes the window.
   func minimize()
+
+  /// Restores the window from minimized state.
   func unminimize()
 
+  /// Focuses the window and activates its application.
   func focus()
 
+  /// Returns all spaces containing this window.
+  /// - Returns: Array of spaces
   func spaces() -> [Space]
 }
 
