@@ -17,19 +17,31 @@ Stark is a macOS window manager that provides a JavaScript API for managing wind
 
 ## Installation
 
-1. Download the latest release
-2. Move Stark.app to your Applications folder
-3. Launch Stark and grant Accessibility permissions when prompted
-4. Create a configuration file at `~/.stark.js`
+The official way to install **Stark** is via [Homebrew](https://brew.sh).
+
+```
+brew install starkwm/formulae/stark
+```
+
+You can then launch **Stark** and grant it accessibility permissions, and restart it. If you would like **Stark** to run when you log in, you can enable the *Launch at login* menu item.
+
+There is also a *tip* version of **Stark** available in the Homebrew tap.
+
+```
+brew install starkwm/formulae/stark@tip
+```
+
+This is an unstable build of **Stark**, built from the current tip of the [GitHub repository](https://github.com/starkwm/stark). It is *not* updated nightly.
 
 ## Configuration
 
-Stark looks for configuration files in the following order:
-1. `~/.stark.js`
-2. `~/.config/stark/stark.js`
-3. `~/Library/Application Support/Stark/stark.js`
+You configure **Stark** with a `stark.js` configuration file. This file can live in one of three locations.
 
-Create a configuration file to get started:
+- `~/.stark.js`
+- `~/.config/stark/stark.js`
+- `~/Library/Application Support/Stark/stark.js`
+
+The first file found will be the configuration that is loaded.
 
 ```javascript
 // ~/.stark.js
