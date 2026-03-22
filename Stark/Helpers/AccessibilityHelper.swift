@@ -75,10 +75,10 @@ enum AccessibilityHelper {
     for element: AXUIElement,
     attribute: String
   ) -> Bool {
-    var val = point
+    var pointValue = point
 
     guard let type = AXValueType(rawValue: kAXValueCGPointType) else { return false }
-    guard let value = AXValueCreate(type, &val) else { return false }
+    guard let value = AXValueCreate(type, &pointValue) else { return false }
 
     return AXUIElementSetAttributeValue(element, attribute as CFString, value) == .success
   }
@@ -89,10 +89,10 @@ enum AccessibilityHelper {
     for element: AXUIElement,
     attribute: String
   ) -> Bool {
-    var val = size
+    var sizeValue = size
 
     guard let type = AXValueType(rawValue: kAXValueCGSizeType) else { return false }
-    guard let value = AXValueCreate(type, &val) else { return false }
+    guard let value = AXValueCreate(type, &sizeValue) else { return false }
 
     return AXUIElementSetAttributeValue(element, attribute as CFString, value) == .success
   }

@@ -110,10 +110,10 @@ final class WindowManager {
   }
 
   func refreshWindows(for application: Application) {
-    guard let idx = applicationsToRefresh.firstIndex(of: application) else { return }
+    guard let index = applicationsToRefresh.firstIndex(of: application) else { return }
 
     log("application has windows that are not yet resolved \(application)", level: .info)
-    addExistingWindows(for: application, refreshIndex: idx)
+    addExistingWindows(for: application, refreshIndex: index)
   }
 
   @discardableResult
@@ -187,8 +187,8 @@ final class WindowManager {
         let windowID = Window.validID(for: element)
       else { continue }
 
-      if let idx = windowIDs.firstIndex(of: windowID) {
-        windowIDs.remove(at: idx)
+      if let index = windowIDs.firstIndex(of: windowID) {
+        windowIDs.remove(at: index)
         addWindow(for: application, with: element)
         log("resolved window \(windowID) for \(application)", level: .info)
       }
