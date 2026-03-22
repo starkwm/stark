@@ -15,6 +15,8 @@ private func resolvePrimaryPath() -> String {
     ?? (primaryPaths[0] as NSString).resolvingSymlinksInPath
 }
 
+/// Manages JavaScript configuration loading and monitoring.
+/// Loads user configuration from ~/.stark.js and watches for changes.
 final class ConfigManager {
   static var shared = ConfigManager()
 
@@ -23,6 +25,8 @@ final class ConfigManager {
 
   private var context: JSContext?
 
+  /// Starts the configuration manager, loading the config file and setting up file monitoring.
+  /// - Returns: Success or failure with error details
   func start() -> Result<Void, Error> {
     switch load() {
     case .success:
@@ -39,6 +43,7 @@ final class ConfigManager {
     }
   }
 
+  /// Stops the configuration manager and cleans up resources.
   func stop() {
     fileSystemSource?.cancel()
     fileSystemSource = nil

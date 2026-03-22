@@ -1,5 +1,7 @@
 import Carbon
 
+/// Manages all windows and applications in the system.
+/// Coordinates window discovery, observation, and lifecycle management.
 final class WindowManager {
   static let shared = WindowManager()
 
@@ -7,6 +9,7 @@ final class WindowManager {
   private var applicationsToRefresh = [Application]()
   private var windows = [CGWindowID: Window]()
 
+  /// Initializes window management by observing all running applications.
   func start() {
     for process in ProcessManager.shared.all() {
       guard Workspace.shared.isObservable(process) else {
@@ -32,15 +35,24 @@ final class WindowManager {
     }
   }
 
+  /// Adds an application to management.
+  /// - Parameter application: The application to add
   func add(application: Application) {
     applications[application.processID] = application
   }
 
+  /// Removes an application from management and cleans up its resources.
+  /// - Parameter application: The application to remove
   func remove(application: Application) {
     applicationsToRefresh.removeAll { $0 == application }
     applications.removeValue(forKey: application.processID)
   }
 
+  /// Creates and manages a new window from an accessibility element.
+  /// - Parameters:
+  ///   - application: The application that owns the window
+  ///   - element: The AXUIElement representing the window
+  /// - Returns: The created Window, or nil if invalid/unobservable
   @discardableResult
   func addWindow(for application: Application, with element: AXUIElement) -> Window? {
     let window = Window(with: element, for: application)
@@ -75,26 +87,42 @@ final class WindowManager {
     return result
   }
 
+  /// Removes a window from management.
+  /// - Parameter windowID: The ID of the window to remove
   func remove(by windowID: CGWindowID) {
     windows.removeValue(forKey: windowID)
   }
 
+  /// Looks up an application by its process ID.
+  /// - Parameter pid: The process identifier
+  /// - Returns: The application, or nil if not found
   func application(by pid: pid_t) -> Application? {
     applications[pid]
   }
 
+  /// Looks up an application by its name.
+  /// - Parameter name: The application name
+  /// - Returns: The application, or nil if not found
   func application(by name: String) -> Application? {
     applications.values.first { $0.name == name }
   }
 
+  /// Returns all managed applications.
+  /// - Returns: Array of all applications
   func allApplications() -> [Application] {
     Array(applications.values)
   }
 
+  /// Looks up a window by its ID.
+  /// - Parameter id: The window identifier
+  /// - Returns: The window, or nil if not found
   func window(by id: CGWindowID) -> Window? {
     windows[id]
   }
 
+  /// Returns all windows belonging to an application.
+  /// - Parameter application: The application to query
+  /// - Returns: Array of windows for that application
   func allWindows(for application: Application) -> [Window] {
     windows.values.filter { $0.application == application }
   }

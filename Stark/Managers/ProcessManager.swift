@@ -1,10 +1,14 @@
 import Carbon
 
+/// Manages system process tracking and lifecycle events.
+/// Uses Carbon Event APIs to monitor application launch/termination/switch events.
 final class ProcessManager {
   static let shared = ProcessManager()
 
   private var processes = [UInt32: Process]()
 
+  /// Starts monitoring system process events.
+  /// - Returns: Success or failure with error details
   func start() -> Result<Void, AXError> {
     addRunningProcesses()
 
