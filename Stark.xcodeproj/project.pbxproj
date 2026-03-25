@@ -10,6 +10,7 @@
 		F60DF8ED2CC2C8030083D3BE /* LogHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */; };
 		F61AF11C2BC488EC00FF39E0 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11B2BC488EC00FF39E0 /* EventManager.swift */; };
 		F61AF11E2BC4B80100FF39E0 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */; };
+		F627C49E2F74A75800C81D16 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = F627C49D2F74A75800C81D16 /* Sentry */; };
 		F63B99252BC73FB100355240 /* ApplicationNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63B99242BC73FB100355240 /* ApplicationNotifications.swift */; };
 		F644DFF61FB5110B00944C6B /* Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = F644DFF51FB5110B00944C6B /* Space.swift */; };
 		F645D0482BC37DF300BED730 /* ProcessManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F645D0472BC37DF300BED730 /* ProcessManager.swift */; };
@@ -88,6 +89,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F66509DB25E594F0006C0C19 /* SkyLight.framework in Frameworks */,
+				F627C49E2F74A75800C81D16 /* Sentry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +235,7 @@
 			);
 			name = Stark;
 			packageProductDependencies = (
+				F627C49D2F74A75800C81D16 /* Sentry */,
 			);
 			productName = Stark;
 			productReference = F6792C271C404B53007D9DF9 /* Stark.app */;
@@ -266,6 +269,7 @@
 			);
 			mainGroup = F6792C1E1C404B53007D9DF9;
 			packageReferences = (
+				F627C49C2F74A75800C81D16 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
 			productRefGroup = F6792C281C404B53007D9DF9 /* Products */;
 			projectDirPath = "";
@@ -463,7 +467,11 @@
 				DEVELOPMENT_TEAM = Y54Z78V9M7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/System/Library/Frameworks",
+					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
 				INFOPLIST_FILE = "Stark//Stark-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -478,10 +486,6 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 5.0;
-				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
-				);
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -501,7 +505,11 @@
 				DEVELOPMENT_TEAM = Y54Z78V9M7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/System/Library/Frameworks",
+					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
 				INFOPLIST_FILE = "Stark//Stark-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -515,10 +523,6 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 5.0;
-				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
-				);
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
@@ -545,6 +549,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F627C49C2F74A75800C81D16 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.8.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F627C49D2F74A75800C81D16 /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F627C49C2F74A75800C81D16 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F6792C1F1C404B53007D9DF9 /* Project object */;
 }
