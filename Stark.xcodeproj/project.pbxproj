@@ -1,0 +1,548 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F60DF8ED2CC2C8030083D3BE /* LogHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */; };
+		F61AF11C2BC488EC00FF39E0 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11B2BC488EC00FF39E0 /* EventManager.swift */; };
+		F61AF11E2BC4B80100FF39E0 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */; };
+		F63B99252BC73FB100355240 /* ApplicationNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63B99242BC73FB100355240 /* ApplicationNotifications.swift */; };
+		F644DFF61FB5110B00944C6B /* Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = F644DFF51FB5110B00944C6B /* Space.swift */; };
+		F645D0482BC37DF300BED730 /* ProcessManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F645D0472BC37DF300BED730 /* ProcessManager.swift */; };
+		F64945862357B6B8009E423B /* StarkStatusItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64945852357B6B8009E423B /* StarkStatusItem.swift */; };
+		F66509DB25E594F0006C0C19 /* SkyLight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F66509DA25E594F0006C0C19 /* SkyLight.framework */; };
+		F66C39C61C6AD73E0008FDD5 /* Keymap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66C39C51C6AD73E0008FDD5 /* Keymap.swift */; };
+		F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */; };
+		F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2C1C404B53007D9DF9 /* Assets.xcassets */; };
+		F6792C411C405598007D9DF9 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C401C405598007D9DF9 /* Application.swift */; };
+		F6792C431C4055A2007D9DF9 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C421C4055A2007D9DF9 /* Window.swift */; };
+		F67DB62F2E30159F007C78D6 /* ConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DB62E2E30159D007C78D6 /* ConfigManager.swift */; };
+		F685270D2D398B70008EC4C1 /* ShortcutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F685270C2D398B6D008EC4C1 /* ShortcutManager.swift */; };
+		F685270F2D398B79008EC4C1 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = F685270E2D398B77008EC4C1 /* Key.swift */; };
+		F68527112D398B7E008EC4C1 /* Modifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68527102D398B7C008EC4C1 /* Modifier.swift */; };
+		F68527132D398B83008EC4C1 /* Shortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68527122D398B81008EC4C1 /* Shortcut.swift */; };
+		F68B12212BC3182E00E3F7FF /* Process.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68B12202BC3182E00E3F7FF /* Process.swift */; };
+		F6A2BBD02F703EB2007C7701 /* AXError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBCF2F703EB2007C7701 /* AXError.swift */; };
+		F6A2BBD22F703EB3007C7701 /* FileError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBD12F703EB3007C7701 /* FileError.swift */; };
+		F6A2BBD62F703EB6007C7701 /* JSExceptionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBD52F703EB6007C7701 /* JSExceptionError.swift */; };
+		F6A2BBD82F703EB7007C7701 /* StateError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBD72F703EB7007C7701 /* StateError.swift */; };
+		F6A2BBDC2F7049C9007C7701 /* AccessibilityHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBDB2F7049C9007C7701 /* AccessibilityHelper.swift */; };
+		F6A2E76A2BC8CB250024F674 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2E7692BC8CB250024F674 /* main.swift */; };
+		F6A5DFCF2BCDE914000C1630 /* Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A5DFCE2BCDE914000C1630 /* Workspace.swift */; };
+		F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */; };
+		F6CC6A962E7F755900AB781C /* Stark.icon in Resources */ = {isa = PBXBuildFile; fileRef = F6CC6A952E7F755900AB781C /* Stark.icon */; };
+		F6CEF4F92E48049600C975E4 /* SpaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CEF4F82E48049300C975E4 /* SpaceType.swift */; };
+		F6EA81542BCD740F00F0F68C /* WindowNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */; };
+		F6EA81562BCD810400F0F68C /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EA81552BCD810400F0F68C /* Events.swift */; };
+		F6EA81582BCD810500F0F68C /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EA81572BCD810500F0F68C /* Event.swift */; };
+		F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */; };
+		F6F4ECF92BC9BC13001234D4 /* Private.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F4ECF82BC9BC13001234D4 /* Private.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogHelper.swift; sourceTree = "<group>"; };
+		F61AF11B2BC488EC00FF39E0 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
+		F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
+		F63B99242BC73FB100355240 /* ApplicationNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationNotifications.swift; sourceTree = "<group>"; };
+		F644DFF51FB5110B00944C6B /* Space.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Space.swift; sourceTree = "<group>"; };
+		F645D0472BC37DF300BED730 /* ProcessManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessManager.swift; sourceTree = "<group>"; };
+		F64945852357B6B8009E423B /* StarkStatusItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkStatusItem.swift; sourceTree = "<group>"; };
+		F66509DA25E594F0006C0C19 /* SkyLight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SkyLight.framework; path = ../../../../System/Library/PrivateFrameworks/SkyLight.framework; sourceTree = "<group>"; };
+		F66C39C51C6AD73E0008FDD5 /* Keymap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keymap.swift; sourceTree = "<group>"; };
+		F6792C271C404B53007D9DF9 /* Stark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stark.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F6792C2C1C404B53007D9DF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F6792C311C404B53007D9DF9 /* Stark-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Stark-Info.plist"; sourceTree = "<group>"; };
+		F6792C401C405598007D9DF9 /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
+		F6792C421C4055A2007D9DF9 /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
+		F67DB62E2E30159D007C78D6 /* ConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigManager.swift; sourceTree = "<group>"; };
+		F685270C2D398B6D008EC4C1 /* ShortcutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutManager.swift; sourceTree = "<group>"; };
+		F685270E2D398B77008EC4C1 /* Key.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
+		F68527102D398B7C008EC4C1 /* Modifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Modifier.swift; sourceTree = "<group>"; };
+		F68527122D398B81008EC4C1 /* Shortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortcut.swift; sourceTree = "<group>"; };
+		F68B12202BC3182E00E3F7FF /* Process.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Process.swift; sourceTree = "<group>"; };
+		F6A2BBCF2F703EB2007C7701 /* AXError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXError.swift; sourceTree = "<group>"; };
+		F6A2BBD12F703EB3007C7701 /* FileError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileError.swift; sourceTree = "<group>"; };
+		F6A2BBD52F703EB6007C7701 /* JSExceptionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSExceptionError.swift; sourceTree = "<group>"; };
+		F6A2BBD72F703EB7007C7701 /* StateError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateError.swift; sourceTree = "<group>"; };
+		F6A2BBDB2F7049C9007C7701 /* AccessibilityHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityHelper.swift; sourceTree = "<group>"; };
+		F6A2E7692BC8CB250024F674 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		F6A5DFCE2BCDE914000C1630 /* Workspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workspace.swift; sourceTree = "<group>"; };
+		F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extension.swift"; sourceTree = "<group>"; };
+		F6CC6A952E7F755900AB781C /* Stark.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Stark.icon; sourceTree = "<group>"; };
+		F6CEF4F82E48049300C975E4 /* SpaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceType.swift; sourceTree = "<group>"; };
+		F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowNotifications.swift; sourceTree = "<group>"; };
+		F6EA81552BCD810400F0F68C /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
+		F6EA81572BCD810500F0F68C /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchAgentHelper.swift; sourceTree = "<group>"; };
+		F6F4ECF82BC9BC13001234D4 /* Private.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Private.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		F6FFF1A61E1219B20023D78C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F66509DB25E594F0006C0C19 /* SkyLight.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		F63B99232BC73FA100355240 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				F63B99242BC73FB100355240 /* ApplicationNotifications.swift */,
+				F6EA81552BCD810400F0F68C /* Events.swift */,
+				F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		F66509D925E594F0006C0C19 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				F66509DA25E594F0006C0C19 /* SkyLight.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F6792C1E1C404B53007D9DF9 = {
+			isa = PBXGroup;
+			children = (
+				F66509D925E594F0006C0C19 /* Frameworks */,
+				F6792C281C404B53007D9DF9 /* Products */,
+				F6792C291C404B53007D9DF9 /* Stark */,
+			);
+			sourceTree = "<group>";
+		};
+		F6792C281C404B53007D9DF9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F6792C271C404B53007D9DF9 /* Stark.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F6792C291C404B53007D9DF9 /* Stark */ = {
+			isa = PBXGroup;
+			children = (
+				F6792C311C404B53007D9DF9 /* Stark-Info.plist */,
+				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
+				F6A2E7692BC8CB250024F674 /* main.swift */,
+				F6F4ECF82BC9BC13001234D4 /* Private.swift */,
+				F6792C2C1C404B53007D9DF9 /* Assets.xcassets */,
+				F6CC6A952E7F755900AB781C /* Stark.icon */,
+				F6A0DB63204724AF00471843 /* Extensions */,
+				F6792C381C404EF8007D9DF9 /* Helpers */,
+				F68B121F2BC3172800E3F7FF /* Managers */,
+				F6A50A252BC076AE002689F2 /* Models */,
+				F63B99232BC73FA100355240 /* Notifications */,
+				F6A50A272BC07CAA002689F2 /* UI */,
+				F6A2BBCE2F703E2B007C7701 /* Errors */,
+			);
+			path = Stark;
+			sourceTree = "<group>";
+		};
+		F6792C381C404EF8007D9DF9 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */,
+				F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */,
+				F6A2BBDB2F7049C9007C7701 /* AccessibilityHelper.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		F68B121F2BC3172800E3F7FF /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				F67DB62E2E30159D007C78D6 /* ConfigManager.swift */,
+				F61AF11B2BC488EC00FF39E0 /* EventManager.swift */,
+				F645D0472BC37DF300BED730 /* ProcessManager.swift */,
+				F685270C2D398B6D008EC4C1 /* ShortcutManager.swift */,
+				F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		F6A0DB63204724AF00471843 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F6A2BBCE2F703E2B007C7701 /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				F6A2BBCF2F703EB2007C7701 /* AXError.swift */,
+				F6A2BBD12F703EB3007C7701 /* FileError.swift */,
+				F6A2BBD52F703EB6007C7701 /* JSExceptionError.swift */,
+				F6A2BBD72F703EB7007C7701 /* StateError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		F6A50A252BC076AE002689F2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F6792C401C405598007D9DF9 /* Application.swift */,
+				F6EA81572BCD810500F0F68C /* Event.swift */,
+				F685270E2D398B77008EC4C1 /* Key.swift */,
+				F66C39C51C6AD73E0008FDD5 /* Keymap.swift */,
+				F68527102D398B7C008EC4C1 /* Modifier.swift */,
+				F68B12202BC3182E00E3F7FF /* Process.swift */,
+				F68527122D398B81008EC4C1 /* Shortcut.swift */,
+				F644DFF51FB5110B00944C6B /* Space.swift */,
+				F6CEF4F82E48049300C975E4 /* SpaceType.swift */,
+				F6792C421C4055A2007D9DF9 /* Window.swift */,
+				F6A5DFCE2BCDE914000C1630 /* Workspace.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		F6A50A272BC07CAA002689F2 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				F64945852357B6B8009E423B /* StarkStatusItem.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		F6792C261C404B53007D9DF9 /* Stark */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F6792C341C404B53007D9DF9 /* Build configuration list for PBXNativeTarget "Stark" */;
+			buildPhases = (
+				F6792C231C404B53007D9DF9 /* Sources */,
+				F6FFF1A61E1219B20023D78C /* Frameworks */,
+				F6792C251C404B53007D9DF9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Stark;
+			packageProductDependencies = (
+			);
+			productName = Stark;
+			productReference = F6792C271C404B53007D9DF9 /* Stark.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		F6792C1F1C404B53007D9DF9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 2620;
+				ORGANIZATIONNAME = "Tom Bell";
+				TargetAttributes = {
+					F6792C261C404B53007D9DF9 = {
+						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 1110;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = F6792C221C404B53007D9DF9 /* Build configuration list for PBXProject "Stark" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = F6792C1E1C404B53007D9DF9;
+			packageReferences = (
+			);
+			productRefGroup = F6792C281C404B53007D9DF9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F6792C261C404B53007D9DF9 /* Stark */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		F6792C251C404B53007D9DF9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F6CC6A962E7F755900AB781C /* Stark.icon in Resources */,
+				F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		F6792C231C404B53007D9DF9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F6EA81562BCD810400F0F68C /* Events.swift in Sources */,
+				F6EA81582BCD810500F0F68C /* Event.swift in Sources */,
+				F6792C411C405598007D9DF9 /* Application.swift in Sources */,
+				F685270D2D398B70008EC4C1 /* ShortcutManager.swift in Sources */,
+				F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */,
+				F644DFF61FB5110B00944C6B /* Space.swift in Sources */,
+				F68B12212BC3182E00E3F7FF /* Process.swift in Sources */,
+				F68527112D398B7E008EC4C1 /* Modifier.swift in Sources */,
+				F6F4ECF92BC9BC13001234D4 /* Private.swift in Sources */,
+				F66C39C61C6AD73E0008FDD5 /* Keymap.swift in Sources */,
+				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
+				F6A2BBD02F703EB2007C7701 /* AXError.swift in Sources */,
+				F60DF8ED2CC2C8030083D3BE /* LogHelper.swift in Sources */,
+				F6A2E76A2BC8CB250024F674 /* main.swift in Sources */,
+				F6A2BBD82F703EB7007C7701 /* StateError.swift in Sources */,
+				F68527132D398B83008EC4C1 /* Shortcut.swift in Sources */,
+				F6CEF4F92E48049600C975E4 /* SpaceType.swift in Sources */,
+				F6A2BBDC2F7049C9007C7701 /* AccessibilityHelper.swift in Sources */,
+				F64945862357B6B8009E423B /* StarkStatusItem.swift in Sources */,
+				F61AF11E2BC4B80100FF39E0 /* WindowManager.swift in Sources */,
+				F645D0482BC37DF300BED730 /* ProcessManager.swift in Sources */,
+				F6792C431C4055A2007D9DF9 /* Window.swift in Sources */,
+				F6A2BBD22F703EB3007C7701 /* FileError.swift in Sources */,
+				F67DB62F2E30159F007C78D6 /* ConfigManager.swift in Sources */,
+				F6EA81542BCD740F00F0F68C /* WindowNotifications.swift in Sources */,
+				F685270F2D398B79008EC4C1 /* Key.swift in Sources */,
+				F6A2BBD62F703EB6007C7701 /* JSExceptionError.swift in Sources */,
+				F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */,
+				F6A5DFCF2BCDE914000C1630 /* Workspace.swift in Sources */,
+				F63B99252BC73FB100355240 /* ApplicationNotifications.swift in Sources */,
+				F61AF11C2BC488EC00FF39E0 /* EventManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		F6792C321C404B53007D9DF9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = Y54Z78V9M7;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		F6792C331C404B53007D9DF9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = Y54Z78V9M7;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		F6792C351C404B53007D9DF9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = Stark;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 24;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = Y54Z78V9M7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "Stark//Stark-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 3.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.tombell.Stark;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
+				SWIFT_VERSION = 5.0;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Debug;
+		};
+		F6792C361C404B53007D9DF9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = Stark;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 24;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = Y54Z78V9M7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "Stark//Stark-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 3.0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.tombell.Stark;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
+				SWIFT_VERSION = 5.0;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
+				VERSIONING_SYSTEM = "apple-generic";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		F6792C221C404B53007D9DF9 /* Build configuration list for PBXProject "Stark" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F6792C321C404B53007D9DF9 /* Debug */,
+				F6792C331C404B53007D9DF9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F6792C341C404B53007D9DF9 /* Build configuration list for PBXNativeTarget "Stark" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F6792C351C404B53007D9DF9 /* Debug */,
+				F6792C361C404B53007D9DF9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = F6792C1F1C404B53007D9DF9 /* Project object */;
+}

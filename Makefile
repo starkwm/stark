@@ -10,13 +10,10 @@ format:
 lint:
 	@swift format lint -r Stark
 
-generate:
-	@xcodegen generate
-
-build: generate
+build:
 	@xcodebuild $(XCODEFLAGS) build
 
-archive: generate
+archive:
 	@xcodebuild $(XCODEFLAGS) clean archive -archivePath $(STARK_ARCHIVE) DEBUG_INFORMATION_FORMAT=dwarf-with-dsym
 	@xcodebuild -exportArchive -archivePath $(STARK_ARCHIVE) -exportPath $(BUILD_DIR) -exportOptionsPlist $(EXPORT_PLIST)
 	@cp -R $(STARK_ARCHIVE)/dSYMs $(BUILD_DIR)/
@@ -27,4 +24,4 @@ clean:
 	@rm -fr Build
 
 .DEFAULT_GOAL := build
-.PHONY: format lint generate build archive clean
+.PHONY: format lint build archive
