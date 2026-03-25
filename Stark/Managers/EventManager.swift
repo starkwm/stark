@@ -31,6 +31,7 @@ final class EventManager {
         self.applicationFrontSwitched(for: process)
 
       case .windowCreated:
+        guard let object else { break }
         let element = object as! AXUIElement
         self.windowCreated(with: element)
 
