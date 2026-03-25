@@ -27,8 +27,10 @@
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2025 Tom Bell. All rights reserved.</string>
+	<string>Copyright © 2026 Tom Bell. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>SentryDSN</key>
+	<string>https://bb71ef19d2194b8d5061e43d92c6dd24@o4511010483011584.ingest.de.sentry.io/4511107626106960</string>
 </dict>
 </plist>
