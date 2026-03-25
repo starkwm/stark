@@ -1,9 +1,16 @@
 import AppKit
+import Sentry
 
 class AppDelegate: NSObject, NSApplicationDelegate {
   private var statusItem = StarkStatusItem()
 
   func applicationDidFinishLaunching(_: Notification) {
+    if let dsn = Bundle.main.object(forInfoDictionaryKey: "SentryDSN") as? String {
+      SentrySDK.start { options in
+        options.dsn = dsn
+      }
+    }
+
     if !askForAccessibilityIfNeeded() {
       NSApplication.shared.terminate(nil)
       return
