@@ -52,31 +52,39 @@ final class ConfigManager {
   }
 
   private func load() -> Result<Void, Error> {
-    Keymap.reset()
-    Event.reset()
+    let nextContext: JSContext
 
-    ShortcutManager.stop()
-    ShortcutManager.reset()
-
-    switch setupAPI() {
-    case .success:
-      break
+    switch createContext() {
+    case .success(let context):
+      nextContext = context
     case .failure(let error):
       return .failure(error)
     }
 
-    switch executeConfig() {
+    Keymap.beginRecording()
+    Event.beginRecording()
+
+    switch executeConfig(in: nextContext) {
     case .success:
+      ShortcutManager.stop()
+      ShortcutManager.reset()
+
+      context = nextContext
+
+      Event.commitRecording()
+      Keymap.commitRecording()
       ShortcutManager.start()
+
       return .success(())
     case .failure(let error):
+      Keymap.discardRecording()
+      Event.discardRecording()
       return .failure(error)
     }
   }
 
-  private func setupAPI() -> Result<Void, JSExceptionError> {
-    context = nil
-    context = JSContext(virtualMachine: JSVirtualMachine())
+  private func createContext() -> Result<JSContext, JSExceptionError> {
+    let context = JSContext(virtualMachine: JSVirtualMachine())
 
     guard let context else {
       return .failure(.exception("Could not create javascript context"))
@@ -97,16 +105,12 @@ final class ConfigManager {
     context.setObject(Application.self, forKeyedSubscript: "Application" as NSString)
     context.setObject(Window.self, forKeyedSubscript: "Window" as NSString)
 
-    return .success(())
+    return .success(context)
   }
 
-  private func executeConfig() -> Result<Void, Error> {
+  private func executeConfig(in context: JSContext) -> Result<Void, Error> {
     if !FileManager.default.fileExists(atPath: path) {
       return .failure(FileError.notFound(path))
-    }
-
-    guard let context else {
-      return .failure(StateError.invalidState("javascript context is not defined"))
     }
 
     guard let scriptContents = try? String(contentsOfFile: path, encoding: .utf8) else {

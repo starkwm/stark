@@ -31,27 +31,94 @@ import JavaScriptCore
 
 class Keymap: NSObject, KeymapJSExport {
   private static var keymaps = [String: Keymap]()
+  private static var recordingKeymaps: [String: Keymap]?
+
+  static func beginRecording() {
+    recordingKeymaps = [:]
+  }
+
+  static func commitRecording() {
+    guard let recordingKeymaps else { return }
+
+    for keymap in keymaps.values {
+      removeManagedReference(for: keymap)
+    }
+
+    keymaps = recordingKeymaps
+    Self.recordingKeymaps = nil
+
+    for keymap in keymaps.values {
+      keymap.activate()
+    }
+  }
+
+  static func discardRecording() {
+    guard let recordingKeymaps else { return }
+
+    for keymap in recordingKeymaps.values {
+      removeManagedReference(for: keymap)
+    }
+
+    Self.recordingKeymaps = nil
+  }
 
   static func on(_ key: String, _ modifiers: [String], _ callback: JSValue) -> Keymap {
-    let keymap = Keymap(key: key, modifiers: modifiers, callback: callback)
-    keymaps[keymap.id] = keymap
+    let keymap = Keymap(
+      key: key,
+      modifiers: modifiers,
+      callback: callback,
+      activateShortcut: recordingKeymaps == nil
+    )
 
     callback.context.virtualMachine.addManagedReference(keymap, withOwner: self)
+
+    if var recordingKeymaps {
+      if let previous = recordingKeymaps[keymap.id] {
+        removeManagedReference(for: previous)
+      }
+
+      recordingKeymaps[keymap.id] = keymap
+      Self.recordingKeymaps = recordingKeymaps
+      return keymap
+    }
+
+    keymaps[keymap.id] = keymap
 
     return keymap
   }
 
   static func off(_ id: String) {
+    if var recordingKeymaps {
+      guard let keymap = recordingKeymaps.removeValue(forKey: id) else { return }
+
+      removeManagedReference(for: keymap)
+      Self.recordingKeymaps = recordingKeymaps
+      return
+    }
+
     guard let keymap = keymaps.removeValue(forKey: id) else { return }
 
-    keymap.callback?.value.context.virtualMachine.removeManagedReference(keymap, withOwner: self)
+    removeManagedReference(for: keymap)
     ShortcutManager.unregister(shortcut: keymap.shortcut)
   }
 
   static func reset() {
+    if let recordingKeymaps {
+      for id in recordingKeymaps.keys {
+        off(id)
+      }
+      return
+    }
+
     for id in keymaps.keys {
       off(id)
     }
+  }
+
+  private static func removeManagedReference(for keymap: Keymap) {
+    guard let callback = keymap.callback?.value else { return }
+
+    callback.context.virtualMachine.removeManagedReference(keymap, withOwner: self)
   }
 
   override var description: String {
@@ -68,7 +135,7 @@ class Keymap: NSObject, KeymapJSExport {
   private var shortcut: Shortcut
   private var callback: JSManagedValue?
 
-  init(key: String, modifiers: [String], callback: JSValue) {
+  init(key: String, modifiers: [String], callback: JSValue, activateShortcut: Bool) {
     self.key = key
     self.modifiers = modifiers
 
@@ -80,11 +147,18 @@ class Keymap: NSObject, KeymapJSExport {
 
     self.callback = JSManagedValue(value: callback, andOwner: self)
     shortcut.handler = call
-    ShortcutManager.register(shortcut: shortcut)
+
+    if activateShortcut {
+      activate()
+    }
   }
 
   deinit {
     log("keymap deinit \(self)")
+  }
+
+  func activate() {
+    ShortcutManager.register(shortcut: shortcut)
   }
 
   private func call() {
