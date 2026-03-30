@@ -69,7 +69,11 @@ class Space: NSObject, SpaceJSExport {
   }
 
   static func at(_ index: Int) -> Space? {
-    all()[index]
+    let spaces = all()
+
+    guard spaces.indices.contains(index) else { return nil }
+
+    return spaces[index]
   }
 
   static func active() -> Space {
