@@ -33,6 +33,10 @@ class Keymap: NSObject, KeymapJSExport {
   private static var keymaps = [String: Keymap]()
   private static var recordingKeymaps: [String: Keymap]?
 
+  private static func identifier(for key: String, modifiers: [String]) -> String {
+    String(format: "%@[%@]", key, modifiers.joined(separator: "|"))
+  }
+
   static func beginRecording() {
     recordingKeymaps = [:]
   }
@@ -63,6 +67,14 @@ class Keymap: NSObject, KeymapJSExport {
   }
 
   static func on(_ key: String, _ modifiers: [String], _ callback: JSValue) -> Keymap {
+    if recordingKeymaps == nil {
+      let id = identifier(for: key, modifiers: modifiers)
+
+      if keymaps[id] != nil {
+        off(id)
+      }
+    }
+
     let keymap = Keymap(
       key: key,
       modifiers: modifiers,
@@ -126,7 +138,7 @@ class Keymap: NSObject, KeymapJSExport {
   }
 
   var id: String {
-    String(format: "%@[%@]", key, modifiers.joined(separator: "|"))
+    Self.identifier(for: key, modifiers: modifiers)
   }
 
   var key: String
