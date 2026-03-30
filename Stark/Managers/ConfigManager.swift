@@ -22,6 +22,7 @@ final class ConfigManager {
 
   private var path: String = resolvePrimaryPath()
   private var fileSystemSource: DispatchSourceFileSystemObject?
+  private let fileMonitorQueue = DispatchQueue(label: "dev.tombell.stark.config")
 
   private var context: JSContext?
 
@@ -136,21 +137,25 @@ final class ConfigManager {
 
     let source = DispatchSource.makeFileSystemObjectSource(
       fileDescriptor: fd,
-      eventMask: .write,
-      queue: DispatchQueue(label: "dev.tombell.stark.config")
+      eventMask: [.write, .delete, .rename],
+      queue: fileMonitorQueue
     )
 
     fileSystemSource = source
 
-    source.setEventHandler { [weak self] in
-      log("config file changed, reloading...", level: .info)
+    source.setEventHandler { [weak self, weak source] in
+      guard let self, let source else { return }
 
-      guard let self else { return }
+      let events = source.data
+      let needsMonitorRestart = events.contains(.delete) || events.contains(.rename)
+      let needsReload = needsMonitorRestart || events.contains(.write)
 
-      switch self.load() {
-      case .success: break
-      case .failure(let error):
-        log("could not reload config file: \(error)", level: .error)
+      if needsMonitorRestart {
+        self.restartFileMonitor()
+      }
+
+      if needsReload {
+        self.reloadConfig()
       }
     }
 
@@ -161,5 +166,26 @@ final class ConfigManager {
     source.resume()
 
     return .success(())
+  }
+
+  private func reloadConfig() {
+    log("config file changed, reloading...", level: .info)
+
+    switch load() {
+    case .success: break
+    case .failure(let error):
+      log("could not reload config file: \(error)", level: .error)
+    }
+  }
+
+  private func restartFileMonitor() {
+    fileSystemSource?.cancel()
+    fileSystemSource = nil
+
+    switch setupFileMonitor() {
+    case .success: break
+    case .failure(let error):
+      log("could not restart config monitor: \(error)", level: .error)
+    }
   }
 }
