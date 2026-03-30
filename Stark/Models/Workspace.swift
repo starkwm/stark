@@ -84,7 +84,7 @@ class Workspace: NSObject {
       let context: UnsafeMutableRawPointer? = Unmanaged.passUnretained(process).toOpaque()
 
       log("removing observer for finished launching \(process)")
-      finishedLaunchingObserved.removeAll(where: { $0 == process.psn.lowLongOfPSN })jj
+      finishedLaunchingObserved.removeAll(where: { $0 == process.psn.lowLongOfPSN })
       application.removeObserver(
         Workspace.shared,
         forKeyPath: "finishedLaunching",
