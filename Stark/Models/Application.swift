@@ -223,10 +223,7 @@ class Application: NSObject, ApplicationJSExport {
   }
 
   func unobserve() {
-    guard
-      !observing,
-      let observer = observer
-    else { return }
+    guard let observer = observer else { return }
 
     for (idx, notification) in applicationNotifications.enumerated() {
       let notif = ApplicationNotifications(rawValue: 1 << idx)
@@ -237,10 +234,12 @@ class Application: NSObject, ApplicationJSExport {
       observedNotifications.remove(notif)
     }
 
-    CFRunLoopSourceInvalidate(AXObserverGetRunLoopSource(observer))
+    if observing {
+      CFRunLoopSourceInvalidate(AXObserverGetRunLoopSource(observer))
+      observing = false
+    }
 
     self.observer = nil
-    observing = false
   }
 
   func windowIdentifiers() -> [CGWindowID] {
