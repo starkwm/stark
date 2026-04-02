@@ -54,7 +54,7 @@
 		F64945852357B6B8009E423B /* StarkStatusItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkStatusItem.swift; sourceTree = "<group>"; };
 		F66509DA25E594F0006C0C19 /* SkyLight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SkyLight.framework; path = ../../../../System/Library/PrivateFrameworks/SkyLight.framework; sourceTree = "<group>"; };
 		F66C39C51C6AD73E0008FDD5 /* Keymap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keymap.swift; sourceTree = "<group>"; };
-		F6792C271C404B53007D9DF9 /* Stark.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Stark.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F6792C271C404B53007D9DF9 /* Stark (Dev).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Stark (Dev).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6792C2C1C404B53007D9DF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F6792C311C404B53007D9DF9 /* Stark-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Stark-Info.plist"; sourceTree = "<group>"; };
@@ -126,7 +126,7 @@
 		F6792C281C404B53007D9DF9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				F6792C271C404B53007D9DF9 /* Stark.app */,
+				F6792C271C404B53007D9DF9 /* Stark (Dev).app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -238,7 +238,7 @@
 				F627C49D2F74A75800C81D16 /* Sentry */,
 			);
 			productName = Stark;
-			productReference = F6792C271C404B53007D9DF9 /* Stark.app */;
+			productReference = F6792C271C404B53007D9DF9 /* Stark (Dev).app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -480,8 +480,8 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 3.0.2;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.tombell.Stark;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = dev.tombell.Stark.dev;
+				PRODUCT_NAME = "Stark (Dev)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
