@@ -5,10 +5,10 @@ STARK_ARCHIVE=$(BUILD_DIR)/Stark.xcarchive
 EXPORT_PLIST=$(PWD)/Stark/export.plist
 
 format:
-	@swift format format -r -i Stark
+	@swift format format -r -i Stark StarkTests
 
 lint:
-	@swift format lint -r Stark
+	@swift format lint -r Stark StarkTests
 
 build:
 	@xcodebuild $(XCODEFLAGS) build
