@@ -5,7 +5,9 @@ import Testing
 @testable import Stark
 
 private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
-  func register(keyCode _: UInt32, modifiers _: UInt32, hotKeyID _: UInt32, signature _: OSType) -> Bool {
+  func register(keyCode _: UInt32, modifiers _: UInt32, hotKeyID _: UInt32, signature _: OSType)
+    -> Bool
+  {
     true
   }
 

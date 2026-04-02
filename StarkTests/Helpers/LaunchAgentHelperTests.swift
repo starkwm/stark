@@ -18,7 +18,10 @@ import Testing
     )
     defer { resetState() }
 
-    #expect(LaunchAgentHelper.launchAgentFile()?.path == "/tmp/Library/LaunchAgents/dev.tombell.Stark.plist")
+    #expect(
+      LaunchAgentHelper.launchAgentFile()?.path
+        == "/tmp/Library/LaunchAgents/dev.tombell.Stark.plist"
+    )
   }
 
   @Test func enabledReturnsReachabilityForLaunchAgentFile() {
@@ -58,7 +61,9 @@ import Testing
     #expect(recorder.writtenPath == "/tmp/Library/LaunchAgents/dev.tombell.Stark.plist")
     #expect(recorder.writtenPlist.map { Set($0.keys) } == ["Label", "Program", "RunAtLoad"])
     #expect(recorder.writtenPlist?["Label"] as? String == "dev.tombell.Stark")
-    #expect(recorder.writtenPlist?["Program"] as? String == "/Applications/Stark.app/Contents/MacOS/Stark")
+    #expect(
+      recorder.writtenPlist?["Program"] as? String == "/Applications/Stark.app/Contents/MacOS/Stark"
+    )
     #expect(recorder.writtenPlist?["RunAtLoad"] as? Bool == true)
   }
 

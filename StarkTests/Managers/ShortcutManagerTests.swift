@@ -9,7 +9,9 @@ private final class RecordingShortcutRegistrar: ShortcutRegistrar {
   var installEventHandlerCallCount = 0
   var removeEventHandlerCallCount = 0
 
-  func register(keyCode _: UInt32, modifiers _: UInt32, hotKeyID: UInt32, signature _: OSType) -> Bool {
+  func register(keyCode _: UInt32, modifiers _: UInt32, hotKeyID: UInt32, signature _: OSType)
+    -> Bool
+  {
     registeredHotKeyIDs.append(hotKeyID)
     return true
   }

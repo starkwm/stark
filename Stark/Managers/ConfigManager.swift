@@ -43,10 +43,12 @@ final class ConfigManager {
     fileMonitorSetup: ((ConfigManager) -> Result<Void, FileError>)? = nil
   ) {
     self.fileSystem = fileSystem
-    self.executor = executor ?? ConfigExecutor(
-      createContext: { Self.liveCreateContext() },
-      executeScript: { context, script in Self.liveExecuteScript(in: context, script: script) }
-    )
+    self.executor =
+      executor
+      ?? ConfigExecutor(
+        createContext: { Self.liveCreateContext() },
+        executeScript: { context, script in Self.liveExecuteScript(in: context, script: script) }
+      )
     self.path = path ?? Self.resolvePrimaryPath(fileSystem: fileSystem)
     self.fileMonitorSetup = fileMonitorSetup ?? { manager in manager.liveSetupFileMonitor() }
   }
@@ -170,7 +172,9 @@ final class ConfigManager {
     return .success(scriptContents)
   }
 
-  private static func liveExecuteScript(in context: JSContext, script: String) -> Result<Void, Error> {
+  private static func liveExecuteScript(in context: JSContext, script: String) -> Result<
+    Void, Error
+  > {
     context.evaluateScript(script)
 
     if let exception = context.exception {
