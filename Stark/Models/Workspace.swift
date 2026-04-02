@@ -1,20 +1,49 @@
 import AppKit
 
+struct WorkspaceEnvironment {
+  var addActiveSpaceObserver: (Workspace) -> Void
+  var addObserver: (Workspace, Process, String, UnsafeMutableRawPointer?) -> Void
+  var removeObserver: (Workspace, Process, String, UnsafeMutableRawPointer?) -> Void
+  var postEvent: (EventType, Any?) -> Void
+
+  static let live = WorkspaceEnvironment(
+    addActiveSpaceObserver: { workspace in
+      NSWorkspace.shared.notificationCenter.addObserver(
+        workspace,
+        selector: #selector(Workspace.activeSpaceDidChange(_:)),
+        name: NSWorkspace.activeSpaceDidChangeNotification,
+        object: nil
+      )
+    },
+    addObserver: { _, process, keyPath, context in
+      process.application?.addObserver(
+        Workspace.shared,
+        forKeyPath: keyPath,
+        options: [.initial, .new],
+        context: context
+      )
+    },
+    removeObserver: { _, process, keyPath, context in
+      process.application?.removeObserver(Workspace.shared, forKeyPath: keyPath, context: context)
+    },
+    postEvent: { event, object in
+      EventManager.shared.post(event: event, with: object)
+    }
+  )
+}
+
 class Workspace: NSObject {
   static let shared = Workspace()
 
+  private let environment: WorkspaceEnvironment
   private var activationPolicyObserved = [UInt32]()
   private var finishedLaunchingObserved = [UInt32]()
 
-  override init() {
+  init(environment: WorkspaceEnvironment = .live) {
+    self.environment = environment
     super.init()
 
-    NSWorkspace.shared.notificationCenter.addObserver(
-      self,
-      selector: #selector(activeSpaceDidChange(_:)),
-      name: NSWorkspace.activeSpaceDidChangeNotification,
-      object: nil
-    )
+    environment.addActiveSpaceObserver(self)
   }
 
   func isObservable(_ process: Process) -> Bool {
@@ -36,12 +65,7 @@ class Workspace: NSObject {
     log("adding observer for activation policy \(process)")
     activationPolicyObserved.append(process.psn.lowLongOfPSN)
 
-    application.addObserver(
-      Workspace.shared,
-      forKeyPath: "activationPolicy",
-      options: [.initial, .new],
-      context: context
-    )
+    environment.addObserver(self, process, "activationPolicy", context)
   }
 
   func unobserveActivationPolicy(_ process: Process) {
@@ -52,7 +76,7 @@ class Workspace: NSObject {
 
       log("removing observer for activation policy \(process)")
       activationPolicyObserved.removeAll(where: { $0 == process.psn.lowLongOfPSN })
-      application.removeObserver(Workspace.shared, forKeyPath: "activationPolicy", context: context)
+      environment.removeObserver(self, process, "activationPolicy", context)
     }
   }
 
@@ -69,12 +93,7 @@ class Workspace: NSObject {
 
     log("adding observer for finished launching \(process)")
     finishedLaunchingObserved.append(process.psn.lowLongOfPSN)
-    application.addObserver(
-      Workspace.shared,
-      forKeyPath: "finishedLaunching",
-      options: [.initial, .new],
-      context: context
-    )
+    environment.addObserver(self, process, "finishedLaunching", context)
   }
 
   func unobserveFinishedLaunching(_ process: Process) {
@@ -85,17 +104,13 @@ class Workspace: NSObject {
 
       log("removing observer for finished launching \(process)")
       finishedLaunchingObserved.removeAll(where: { $0 == process.psn.lowLongOfPSN })
-      application.removeObserver(
-        Workspace.shared,
-        forKeyPath: "finishedLaunching",
-        context: context
-      )
+      environment.removeObserver(self, process, "finishedLaunching", context)
     }
   }
 
   @objc
   func activeSpaceDidChange(_: Notification) {
-    EventManager.shared.post(event: .spaceChanged, with: Space.active())
+    environment.postEvent(.spaceChanged, Space.active())
   }
 
   override func observeValue(
@@ -116,7 +131,7 @@ class Workspace: NSObject {
 
       if result != process.policy {
         unobserveActivationPolicy(process)
-        EventManager.shared.post(event: .applicationLaunched, with: process)
+        environment.postEvent(.applicationLaunched, process)
       }
     }
 
@@ -125,8 +140,16 @@ class Workspace: NSObject {
 
       if result {
         unobserveFinishedLaunching(process)
-        EventManager.shared.post(event: .applicationLaunched, with: process)
+        environment.postEvent(.applicationLaunched, process)
       }
     }
+  }
+
+  var activationPolicyObservedForTesting: [UInt32] {
+    activationPolicyObserved.sorted()
+  }
+
+  var finishedLaunchingObservedForTesting: [UInt32] {
+    finishedLaunchingObserved.sorted()
   }
 }

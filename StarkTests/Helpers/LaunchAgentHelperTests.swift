@@ -92,6 +92,65 @@ import Testing
     #expect(recorder.removedPaths == ["/tmp/Library/LaunchAgents/dev.tombell.Stark.plist"])
   }
 
+  @Test func missingLibraryDirectoryReturnsNilPathsAndDisabledFalse() {
+    useEnvironment(libraryDirectory: nil)
+    defer { resetState() }
+
+    #expect(LaunchAgentHelper.launchAgentDirectory() == nil)
+    #expect(LaunchAgentHelper.launchAgentFile() == nil)
+    #expect(!LaunchAgentHelper.enabled())
+  }
+
+  @Test func missingBundleIdentifierMakesAddAndRemoveNoOps() {
+    let recorder = Recorder()
+    useEnvironment(
+      libraryDirectory: URL(fileURLWithPath: "/tmp/Library"),
+      bundleIdentifier: nil,
+      createDirectory: { url in recorder.createdDirectories.append(url.path) },
+      writePlist: { _, url in recorder.writtenPath = url.path },
+      removeItem: { url in recorder.removedPaths.append(url.path) }
+    )
+    defer { resetState() }
+
+    LaunchAgentHelper.add()
+    LaunchAgentHelper.remove()
+
+    #expect(LaunchAgentHelper.launchAgentFile() == nil)
+    #expect(recorder.createdDirectories.isEmpty)
+    #expect(recorder.writtenPath == nil)
+    #expect(recorder.removedPaths.isEmpty)
+  }
+
+  @Test func missingExecutablePathSkipsPlistWriting() {
+    let recorder = Recorder()
+    useEnvironment(
+      libraryDirectory: URL(fileURLWithPath: "/tmp/Library"),
+      bundleIdentifier: "dev.tombell.Stark",
+      executablePath: nil,
+      isReachable: { _ in true },
+      writePlist: { _, url in recorder.writtenPath = url.path }
+    )
+    defer { resetState() }
+
+    LaunchAgentHelper.add()
+
+    #expect(recorder.writtenPath == nil)
+  }
+
+  @Test func removeDoesNothingWhenLaunchAgentFileCannotBeResolved() {
+    let recorder = Recorder()
+    useEnvironment(
+      libraryDirectory: URL(fileURLWithPath: "/tmp/Library"),
+      bundleIdentifier: nil,
+      removeItem: { url in recorder.removedPaths.append(url.path) }
+    )
+    defer { resetState() }
+
+    LaunchAgentHelper.remove()
+
+    #expect(recorder.removedPaths.isEmpty)
+  }
+
   private func useEnvironment(
     libraryDirectory: URL? = URL(fileURLWithPath: "/tmp/Library"),
     bundleIdentifier: String? = "dev.tombell.Stark",

@@ -48,6 +48,22 @@ class Process: CustomStringConvertible {
     }
   }
 
+  init(
+    psn: ProcessSerialNumber,
+    pid: pid_t,
+    name: String,
+    terminated: Bool = false,
+    application: NSRunningApplication? = nil,
+    policy: NSApplication.ActivationPolicy? = nil
+  ) {
+    self.psn = psn
+    self.pid = pid
+    self.name = name
+    self.terminated = terminated
+    self.application = application
+    self.policy = policy
+  }
+
   deinit {
     log("process deinit \(self)")
   }
