@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA100001AA100001AA100001 /* ModifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100011AA100011AA100011 /* ModifierTests.swift */; };
+		AA100002AA100002AA100002 /* KeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100012AA100012AA100012 /* KeyTests.swift */; };
+		AA100003AA100003AA100003 /* ConfigManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100013AA100013AA100013 /* ConfigManagerTests.swift */; };
+		AA100004AA100004AA100004 /* KeymapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100014AA100014AA100014 /* KeymapTests.swift */; };
 		F60DF8ED2CC2C8030083D3BE /* LogHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */; };
 		F61AF11C2BC488EC00FF39E0 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11B2BC488EC00FF39E0 /* EventManager.swift */; };
 		F61AF11E2BC4B80100FF39E0 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */; };
@@ -44,7 +48,22 @@
 		F6F4ECF92BC9BC13001234D4 /* Private.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6F4ECF82BC9BC13001234D4 /* Private.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		AA100031AA100031AA100031 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F6792C1F1C404B53007D9DF9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F6792C261C404B53007D9DF9;
+			remoteInfo = Stark;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		AA100011AA100011AA100011 /* ModifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifierTests.swift; sourceTree = "<group>"; };
+		AA100012AA100012AA100012 /* KeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyTests.swift; sourceTree = "<group>"; };
+		AA100013AA100013AA100013 /* ConfigManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigManagerTests.swift; sourceTree = "<group>"; };
+		AA100014AA100014AA100014 /* KeymapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeymapTests.swift; sourceTree = "<group>"; };
+		AA100015AA100015AA100015 /* StarkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StarkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogHelper.swift; sourceTree = "<group>"; };
 		F61AF11B2BC488EC00FF39E0 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
@@ -84,6 +103,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AA100041AA100041AA100041 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F6FFF1A61E1219B20023D78C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -120,6 +146,7 @@
 				F66509D925E594F0006C0C19 /* Frameworks */,
 				F6792C281C404B53007D9DF9 /* Products */,
 				F6792C291C404B53007D9DF9 /* Stark */,
+				AA100021AA100021AA100021 /* StarkTests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -127,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				F6792C271C404B53007D9DF9 /* Stark (Dev).app */,
+				AA100015AA100015AA100015 /* StarkTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -149,6 +177,33 @@
 				F6A2BBCE2F703E2B007C7701 /* Errors */,
 			);
 			path = Stark;
+			sourceTree = "<group>";
+		};
+		AA100021AA100021AA100021 /* StarkTests */ = {
+			isa = PBXGroup;
+			children = (
+				AA100022AA100022AA100022 /* Managers */,
+				AA100023AA100023AA100023 /* Models */,
+			);
+			path = StarkTests;
+			sourceTree = "<group>";
+		};
+		AA100022AA100022AA100022 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				AA100013AA100013AA100013 /* ConfigManagerTests.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		AA100023AA100023AA100023 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AA100012AA100012AA100012 /* KeyTests.swift */,
+				AA100014AA100014AA100014 /* KeymapTests.swift */,
+				AA100011AA100011AA100011 /* ModifierTests.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		F6792C381C404EF8007D9DF9 /* Helpers */ = {
@@ -221,6 +276,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		AA100051AA100051AA100051 /* StarkTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA100081AA100081AA100081 /* Build configuration list for PBXNativeTarget "StarkTests" */;
+			buildPhases = (
+				AA100043AA100043AA100043 /* Sources */,
+				AA100041AA100041AA100041 /* Frameworks */,
+				AA100042AA100042AA100042 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA100061AA100061AA100061 /* PBXTargetDependency */,
+			);
+			name = StarkTests;
+			packageProductDependencies = (
+			);
+			productName = StarkTests;
+			productReference = AA100015AA100015AA100015 /* StarkTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		F6792C261C404B53007D9DF9 /* Stark */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F6792C341C404B53007D9DF9 /* Build configuration list for PBXNativeTarget "Stark" */;
@@ -275,12 +350,20 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				AA100051AA100051AA100051 /* StarkTests */,
 				F6792C261C404B53007D9DF9 /* Stark */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		AA100042AA100042AA100042 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F6792C251C404B53007D9DF9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -293,6 +376,17 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AA100043AA100043AA100043 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA100003AA100003AA100003 /* ConfigManagerTests.swift in Sources */,
+				AA100002AA100002AA100002 /* KeyTests.swift in Sources */,
+				AA100004AA100004AA100004 /* KeymapTests.swift in Sources */,
+				AA100001AA100001AA100001 /* ModifierTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F6792C231C404B53007D9DF9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -333,7 +427,61 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		AA100061AA100061AA100061 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F6792C261C404B53007D9DF9 /* Stark */;
+			targetProxy = AA100031AA100031AA100031 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		AA100071AA100071AA100071 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGNING_ALLOWED = YES;
+				DEVELOPMENT_TEAM = Y54Z78V9M7;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.tombell.StarkTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Stark (Dev).app/Contents/MacOS/Stark (Dev)";
+				TEST_TARGET_NAME = Stark;
+			};
+			name = Debug;
+		};
+		AA100072AA100072AA100072 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGNING_ALLOWED = YES;
+				DEVELOPMENT_TEAM = Y54Z78V9M7;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.tombell.StarkTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Stark.app/Contents/MacOS/Stark";
+				TEST_TARGET_NAME = Stark;
+			};
+			name = Release;
+		};
 		F6792C321C404B53007D9DF9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -481,6 +629,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 3.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.tombell.Stark.dev;
+				PRODUCT_MODULE_NAME = Stark;
 				PRODUCT_NAME = "Stark (Dev)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -519,6 +668,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 3.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dev.tombell.Stark;
+				PRODUCT_MODULE_NAME = Stark;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
@@ -530,6 +680,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		AA100081AA100081AA100081 /* Build configuration list for PBXNativeTarget "StarkTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA100071AA100071AA100071 /* Debug */,
+				AA100072AA100072AA100072 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F6792C221C404B53007D9DF9 /* Build configuration list for PBXProject "Stark" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

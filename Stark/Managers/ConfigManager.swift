@@ -7,12 +7,14 @@ private let primaryPaths: [String] = [
   "~/Library/Application Support/Stark/stark.js",
 ]
 
-private func resolvePrimaryPath() -> String {
-  return primaryPaths
-    .lazy
-    .map { ($0 as NSString).resolvingSymlinksInPath }
-    .first { FileManager.default.fileExists(atPath: $0) }
-    ?? (primaryPaths[0] as NSString).resolvingSymlinksInPath
+struct ConfigFileSystem {
+  var fileExists: (String) -> Bool
+  var readFile: (String) -> String?
+
+  static let live = ConfigFileSystem(
+    fileExists: { FileManager.default.fileExists(atPath: $0) },
+    readFile: { try? String(contentsOfFile: $0, encoding: .utf8) }
+  )
 }
 
 /// Manages JavaScript configuration loading and monitoring.
@@ -20,11 +22,28 @@ private func resolvePrimaryPath() -> String {
 final class ConfigManager {
   static var shared = ConfigManager()
 
-  private var path: String = resolvePrimaryPath()
+  private let fileSystem: ConfigFileSystem
+  private var path: String
   private var fileSystemSource: DispatchSourceFileSystemObject?
   private let fileMonitorQueue = DispatchQueue(label: "dev.tombell.stark.config")
 
   private var context: JSContext?
+
+  init(fileSystem: ConfigFileSystem = .live, path: String? = nil) {
+    self.fileSystem = fileSystem
+    self.path = path ?? Self.resolvePrimaryPath(fileSystem: fileSystem)
+  }
+
+  static func resolvePrimaryPath(
+    paths: [String] = primaryPaths,
+    fileSystem: ConfigFileSystem = .live
+  ) -> String {
+    return paths
+      .lazy
+      .map { ($0 as NSString).resolvingSymlinksInPath }
+      .first { fileSystem.fileExists($0) }
+      ?? (paths[0] as NSString).resolvingSymlinksInPath
+  }
 
   /// Starts the configuration manager, loading the config file and setting up file monitoring.
   /// - Returns: Success or failure with error details
@@ -110,12 +129,13 @@ final class ConfigManager {
   }
 
   private func executeConfig(in context: JSContext) -> Result<Void, Error> {
-    if !FileManager.default.fileExists(atPath: path) {
-      return .failure(FileError.notFound(path))
-    }
+    let scriptContents: String
 
-    guard let scriptContents = try? String(contentsOfFile: path, encoding: .utf8) else {
-      return .failure(FileError.readFailed("could not read file \(path)"))
+    switch readConfigScript() {
+    case .success(let contents):
+      scriptContents = contents
+    case .failure(let error):
+      return .failure(error)
     }
 
     context.evaluateScript(scriptContents)
@@ -125,6 +145,18 @@ final class ConfigManager {
     }
 
     return .success(())
+  }
+
+  func readConfigScript() -> Result<String, Error> {
+    if !fileSystem.fileExists(path) {
+      return .failure(FileError.notFound(path))
+    }
+
+    guard let scriptContents = fileSystem.readFile(path) else {
+      return .failure(FileError.readFailed("could not read file \(path)"))
+    }
+
+    return .success(scriptContents)
   }
 
   private func setupFileMonitor() -> Result<Void, FileError> {

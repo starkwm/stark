@@ -46,6 +46,7 @@ class Keymap: NSObject, KeymapJSExport {
 
     for keymap in keymaps.values {
       removeManagedReference(for: keymap)
+      ShortcutManager.unregister(shortcut: keymap.shortcut)
     }
 
     keymaps = recordingKeymaps
@@ -123,6 +124,25 @@ class Keymap: NSObject, KeymapJSExport {
     }
 
     for id in keymaps.keys {
+      off(id)
+    }
+  }
+
+  static var activeIDsForTesting: [String] {
+    keymaps.keys.sorted()
+  }
+
+  static var recordingIDsForTesting: [String] {
+    recordingKeymaps?.keys.sorted() ?? []
+  }
+
+  static func resetForTesting() {
+    if recordingKeymaps != nil {
+      discardRecording()
+    }
+
+    let ids = Array(keymaps.keys)
+    for id in ids {
       off(id)
     }
   }

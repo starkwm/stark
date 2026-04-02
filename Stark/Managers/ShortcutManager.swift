@@ -1,13 +1,74 @@
 import Carbon
 
+protocol ShortcutRegistrar: AnyObject {
+  func register(keyCode: UInt32, modifiers: UInt32, hotKeyID: UInt32, signature: OSType) -> Bool
+  func unregister(hotKeyID: UInt32)
+  func installEventHandler() -> Bool
+  func removeEventHandler()
+}
+
+final class CarbonShortcutRegistrar: ShortcutRegistrar {
+  private var eventHotKeys = [UInt32: EventHotKeyRef]()
+  private var eventHandler: EventHandlerRef?
+
+  func register(keyCode: UInt32, modifiers: UInt32, hotKeyID: UInt32, signature: OSType) -> Bool {
+    let keyID = EventHotKeyID(signature: signature, id: hotKeyID)
+    var eventHotKeyRef: EventHotKeyRef?
+
+    let registerErr = RegisterEventHotKey(
+      keyCode,
+      modifiers,
+      keyID,
+      GetEventDispatcherTarget(),
+      0,
+      &eventHotKeyRef
+    )
+
+    guard registerErr == noErr, let eventHotKeyRef else { return false }
+
+    eventHotKeys[hotKeyID] = eventHotKeyRef
+    return true
+  }
+
+  func unregister(hotKeyID: UInt32) {
+    guard let eventHotKeyRef = eventHotKeys.removeValue(forKey: hotKeyID) else { return }
+
+    UnregisterEventHotKey(eventHotKeyRef)
+  }
+
+  func installEventHandler() -> Bool {
+    guard eventHandler == nil else { return true }
+
+    let eventSpec = [
+      EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
+    ]
+
+    let err = InstallEventHandler(
+      GetEventDispatcherTarget(),
+      shortcutEventHandler,
+      1,
+      eventSpec,
+      nil,
+      &eventHandler
+    )
+
+    return err == noErr
+  }
+
+  func removeEventHandler() {
+    guard let eventHandler else { return }
+
+    RemoveEventHandler(eventHandler)
+    self.eventHandler = nil
+  }
+}
+
 enum ShortcutManager {
   final class ShortcutBox {
     let identifier: UUID
 
     var shortcut: Shortcut?
     let carbonHotKeyID: UInt32
-
-    var carbonEventHotKey: EventHotKeyRef?
 
     init(shortcut: Shortcut, carbonHotKeyID: UInt32) {
       identifier = shortcut.identifier
@@ -21,7 +82,7 @@ enum ShortcutManager {
   private static var shortcuts = [UInt32: ShortcutBox]()
   private static var shortcutsCount: UInt32 = 0
 
-  private static var eventHandler: EventHandlerRef?
+  private static var registrar: ShortcutRegistrar = CarbonShortcutRegistrar()
 
   static func handle(event: EventRef?) -> OSStatus {
     guard let event = event else { return OSStatus(eventNotHandledErr) }
@@ -65,21 +126,12 @@ enum ShortcutManager {
       let keyModifiers = shortcut.modifierFlags
     else { return }
 
-    let keyID = EventHotKeyID(signature: signature, id: box.carbonHotKeyID)
-    var eventHotKeyRef: EventHotKeyRef?
-
-    let registerErr = RegisterEventHotKey(
-      keyCode,
-      keyModifiers,
-      keyID,
-      GetEventDispatcherTarget(),
-      0,
-      &eventHotKeyRef
+    _ = registrar.register(
+      keyCode: keyCode,
+      modifiers: keyModifiers,
+      hotKeyID: box.carbonHotKeyID,
+      signature: signature
     )
-
-    guard registerErr == noErr, eventHotKeyRef != nil else { return }
-
-    box.carbonEventHotKey = eventHotKeyRef
   }
 
   static func register(shortcuts: [Shortcut]) {
@@ -91,7 +143,7 @@ enum ShortcutManager {
   static func unregister(shortcut: Shortcut) {
     guard let box = box(for: shortcut) else { return }
 
-    UnregisterEventHotKey(box.carbonEventHotKey)
+    registrar.unregister(hotKeyID: box.carbonHotKeyID)
 
     box.shortcut = nil
     shortcuts.removeValue(forKey: box.carbonHotKeyID)
@@ -105,27 +157,29 @@ enum ShortcutManager {
   }
 
   static func start() {
-    guard shortcutsCount != 0 && eventHandler == nil else { return }
+    guard shortcutsCount != 0 else { return }
 
-    let eventSpec = [
-      EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventHotKeyPressed))
-    ]
-
-    InstallEventHandler(
-      GetEventDispatcherTarget(),
-      shortcutEventHandler,
-      1,
-      eventSpec,
-      nil,
-      &eventHandler
-    )
+    _ = registrar.installEventHandler()
   }
 
   static func stop() {
-    if eventHandler != nil {
-      RemoveEventHandler(eventHandler)
-      eventHandler = nil
-    }
+    registrar.removeEventHandler()
+  }
+
+  static var registeredShortcutCount: Int {
+    shortcuts.count
+  }
+
+  static func useRegistrar(_ registrar: ShortcutRegistrar) {
+    Self.registrar = registrar
+  }
+
+  static func resetForTesting() {
+    stop()
+    reset()
+    shortcuts.removeAll()
+    shortcutsCount = 0
+    registrar = CarbonShortcutRegistrar()
   }
 
   private static func shortcut(by id: UInt32) -> Shortcut? {
