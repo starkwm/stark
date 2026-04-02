@@ -311,6 +311,69 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
     }
   }
 
+  @Test func repeatedSuccessfulLoadsReplaceRecordedStateWithoutAccumulating() throws {
+    prepareState()
+    defer { resetState() }
+
+    var loadCount = 0
+    let manager = ConfigManager(
+      fileSystem: ConfigFileSystem(
+        fileExists: { _ in true },
+        readFile: { _ in "ignored" }
+      ),
+      executor: ConfigExecutor(
+        createContext: {
+          guard let context = JSContext() else {
+            return .failure(.exception("Could not create javascript context"))
+          }
+
+          return .success(context)
+        },
+        executeScript: { _, _ in
+          do {
+            loadCount += 1
+
+            if loadCount == 1 {
+              _ = Event.on("windowFocused", try self.callback())
+              _ = Keymap.on("return", ["cmd"], try self.callback())
+            } else {
+              _ = Event.on("windowMoved", try self.callback())
+              _ = Keymap.on("escape", ["shift"], try self.callback())
+            }
+
+            return .success(())
+          } catch {
+            return .failure(error)
+          }
+        }
+      ),
+      path: "/tmp/stark.js",
+      fileMonitorSetup: { _ in .success(()) }
+    )
+
+    switch manager.loadForTesting() {
+    case .success:
+      #expect(Event.activeListenerCount(for: .windowFocused) == 1)
+      #expect(Event.activeListenerCount(for: .windowMoved) == 0)
+      #expect(Keymap.activeIDsForTesting == ["return[cmd]"])
+    case .failure(let error):
+      Issue.record("Expected first successful load, got \(error)")
+      return
+    }
+
+    switch manager.loadForTesting() {
+    case .success:
+      #expect(Event.activeListenerCount(for: .windowFocused) == 0)
+      #expect(Event.activeListenerCount(for: .windowMoved) == 1)
+      #expect(Keymap.activeIDsForTesting == ["escape[shift]"])
+      #expect(Event.recordingListenerCount(for: .windowFocused) == 0)
+      #expect(Event.recordingListenerCount(for: .windowMoved) == 0)
+      #expect(Keymap.recordingIDsForTesting.isEmpty)
+    case .failure(let error):
+      Issue.record("Expected second successful load, got \(error)")
+    }
+  }
+
   private func prepareState() {
     resetState()
     ShortcutManager.useRegistrar(ConfigManagerShortcutRegistrar())
