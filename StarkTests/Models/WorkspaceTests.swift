@@ -192,6 +192,19 @@ private final class WorkspaceRecorder {
     #expect((recorder.postedEvents.first?.1 as? Stark.Process) === process)
   }
 
+  @Test func activeSpaceDidChangePostsSpaceChangedEvent() {
+    let recorder = WorkspaceRecorder()
+    let workspace = workspace(recorder: recorder)
+
+    workspace.activeSpaceDidChange(
+      Notification(name: NSWorkspace.activeSpaceDidChangeNotification)
+    )
+
+    #expect(recorder.postedEvents.count == 1)
+    #expect(recorder.postedEvents.first?.0 == .spaceChanged)
+    #expect(recorder.postedEvents.first?.1 is Space)
+  }
+
   private func workspace(recorder: WorkspaceRecorder? = nil) -> Workspace {
     Workspace(
       environment: WorkspaceEnvironment(
