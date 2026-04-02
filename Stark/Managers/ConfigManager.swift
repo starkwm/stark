@@ -169,12 +169,20 @@ final class ConfigManager {
   }
 
   private func reloadConfig() {
-    log("config file changed, reloading...", level: .info)
+    let reload = {
+      log("config file changed, reloading...", level: .info)
 
-    switch load() {
-    case .success: break
-    case .failure(let error):
-      log("could not reload config file: \(error)", level: .error)
+      switch self.load() {
+      case .success: break
+      case .failure(let error):
+        log("could not reload config file: \(error)", level: .error)
+      }
+    }
+
+    if Thread.isMainThread {
+      reload()
+    } else {
+      DispatchQueue.main.async(execute: reload)
     }
   }
 

@@ -1,68 +1,66 @@
 import Carbon
 
 /// Manages and dispatches window management events.
-/// Uses an OperationQueue to process events serially on a background thread.
+/// Processes events serially on the main queue so AppKit, AX callbacks, and
+/// window/application state all stay on the same thread.
 final class EventManager {
   static let shared = EventManager()
 
-  private let queue: OperationQueue = {
-    let queue = OperationQueue()
-    queue.maxConcurrentOperationCount = 1
-    return queue
-  }()
+  private let queue = OperationQueue.main
 
   /// Posts an event to be processed asynchronously.
   /// - Parameters:
   ///   - event: The type of event to post
   ///   - object: Optional data associated with the event
   func post(event: EventType, with object: Any?) {
-    queue.addOperation {
-      switch event {
-      case .applicationLaunched:
-        guard let process = object as? Process else { break }
-        self.applicationLaunched(for: process)
+    queue.addOperation { self.handle(event: event, with: object) }
+  }
 
-      case .applicationTerminated:
-        guard let process = object as? Process else { break }
-        self.applicationTerminated(for: process)
+  private func handle(event: EventType, with object: Any?) {
+    switch event {
+    case .applicationLaunched:
+      guard let process = object as? Process else { return }
+      applicationLaunched(for: process)
 
-      case .applicationFrontSwitched:
-        guard let process = object as? Process else { break }
-        self.applicationFrontSwitched(for: process)
+    case .applicationTerminated:
+      guard let process = object as? Process else { return }
+      applicationTerminated(for: process)
 
-      case .windowCreated:
-        guard let object else { break }
-        let element = object as! AXUIElement
-        self.windowCreated(with: element)
+    case .applicationFrontSwitched:
+      guard let process = object as? Process else { return }
+      applicationFrontSwitched(for: process)
 
-      case .windowDestroyed:
-        guard let window = object as? Window else { break }
-        self.windowDestroyed(with: window)
+    case .windowCreated:
+      guard let object else { return }
+      windowCreated(with: object as! AXUIElement)
 
-      case .windowFocused:
-        guard let windowID = object as? CGWindowID else { break }
-        self.windowFocused(with: windowID)
+    case .windowDestroyed:
+      guard let window = object as? Window else { return }
+      windowDestroyed(with: window)
 
-      case .windowMoved:
-        guard let windowID = object as? CGWindowID else { break }
-        self.windowMoved(with: windowID)
+    case .windowFocused:
+      guard let windowID = object as? CGWindowID else { return }
+      windowFocused(with: windowID)
 
-      case .windowResized:
-        guard let windowID = object as? CGWindowID else { break }
-        self.windowResized(with: windowID)
+    case .windowMoved:
+      guard let windowID = object as? CGWindowID else { return }
+      windowMoved(with: windowID)
 
-      case .windowMinimized:
-        guard let window = object as? Window else { break }
-        self.windowMinimized(with: window)
+    case .windowResized:
+      guard let windowID = object as? CGWindowID else { return }
+      windowResized(with: windowID)
 
-      case .windowDeminimized:
-        guard let window = object as? Window else { break }
-        self.windowDeminimized(with: window)
+    case .windowMinimized:
+      guard let window = object as? Window else { return }
+      windowMinimized(with: window)
 
-      case .spaceChanged:
-        guard let space = object as? Space else { break }
-        self.spaceChanged(with: space)
-      }
+    case .windowDeminimized:
+      guard let window = object as? Window else { return }
+      windowDeminimized(with: window)
+
+    case .spaceChanged:
+      guard let space = object as? Space else { return }
+      spaceChanged(with: space)
     }
   }
 }
