@@ -153,6 +153,22 @@ class Event: NSObject, EventJSExport {
     }
   }
 
+  static func activeListenerCount(for event: EventType) -> Int {
+    queue.sync { callbacks[event]?.count ?? 0 }
+  }
+
+  static func recordingListenerCount(for event: EventType) -> Int {
+    queue.sync { recordingCallbacks?[event]?.count ?? 0 }
+  }
+
+  static func resetForTesting() {
+    if recordingCallbacks != nil {
+      reset()
+    }
+
+    reset()
+  }
+
   private static func removeManagedReference(for listener: Event) {
     guard let callback = listener.callback?.value else { return }
 
