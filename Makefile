@@ -19,15 +19,9 @@ archive:
 	@cp -R $(STARK_ARCHIVE)/dSYMs $(BUILD_DIR)/
 	@(cd $(BUILD_DIR) && zip stark-dsyms.zip dSYMs/**/*)
 
-sentry-upload:
-	@sentry-cli debug-files upload --auth-token $$SENTRY_API_TOKEN \
-		--org stark-software \
-		--project stark \
-		$(DSYM_PATH)
-
 clean:
 	@xcodebuild $(XCODEFLAGS) clean
 	@rm -fr Build
 
 .DEFAULT_GOAL := build
-.PHONY: format lint build archive sentry-upload
+.PHONY: format lint build archive
