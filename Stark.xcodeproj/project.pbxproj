@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA100007AA100007AA100007 /* LaunchAgentHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */; };
 		AA100006AA100006AA100006 /* ShortcutManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100017AA100017AA100017 /* ShortcutManagerTests.swift */; };
 		AA100005AA100005AA100005 /* EventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100016AA100016AA100016 /* EventTests.swift */; };
 		AA100001AA100001AA100001 /* ModifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100011AA100011AA100011 /* ModifierTests.swift */; };
@@ -61,6 +62,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAgentHelperTests.swift; sourceTree = "<group>"; };
 		AA100017AA100017AA100017 /* ShortcutManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutManagerTests.swift; sourceTree = "<group>"; };
 		AA100016AA100016AA100016 /* EventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTests.swift; sourceTree = "<group>"; };
 		AA100011AA100011AA100011 /* ModifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifierTests.swift; sourceTree = "<group>"; };
@@ -186,10 +188,19 @@
 		AA100021AA100021AA100021 /* StarkTests */ = {
 			isa = PBXGroup;
 			children = (
+				AA100024AA100024AA100024 /* Helpers */,
 				AA100022AA100022AA100022 /* Managers */,
 				AA100023AA100023AA100023 /* Models */,
 			);
 			path = StarkTests;
+			sourceTree = "<group>";
+		};
+		AA100024AA100024AA100024 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		AA100022AA100022AA100022 /* Managers */ = {
@@ -390,6 +401,7 @@
 				AA100005AA100005AA100005 /* EventTests.swift in Sources */,
 				AA100002AA100002AA100002 /* KeyTests.swift in Sources */,
 				AA100004AA100004AA100004 /* KeymapTests.swift in Sources */,
+				AA100007AA100007AA100007 /* LaunchAgentHelperTests.swift in Sources */,
 				AA100001AA100001AA100001 /* ModifierTests.swift in Sources */,
 				AA100006AA100006AA100006 /* ShortcutManagerTests.swift in Sources */,
 			);
