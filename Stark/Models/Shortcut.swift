@@ -1,12 +1,14 @@
 import Foundation
 
 struct Shortcut {
-  let identifier = UUID()
+  let identifier: UUID
 
   var keyCode: UInt32?
   var modifierFlags: UInt32?
 
   var handler: (() -> Void)?
 
-  init() {}
+  init(identifier: UUID = UUID()) {
+    self.identifier = identifier
+  }
 }
