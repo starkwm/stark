@@ -17,21 +17,38 @@ struct ConfigFileSystem {
   )
 }
 
+struct ConfigExecutor {
+  var createContext: () -> Result<JSContext, JSExceptionError>
+  var executeScript: (JSContext, String) -> Result<Void, Error>
+}
+
 /// Manages JavaScript configuration loading and monitoring.
 /// Loads user configuration from ~/.stark.js and watches for changes.
 final class ConfigManager {
   static var shared = ConfigManager()
 
   private let fileSystem: ConfigFileSystem
+  private let executor: ConfigExecutor
+  private let fileMonitorSetup: (ConfigManager) -> Result<Void, FileError>
   private var path: String
   private var fileSystemSource: DispatchSourceFileSystemObject?
   private let fileMonitorQueue = DispatchQueue(label: "dev.tombell.stark.config")
 
   private var context: JSContext?
 
-  init(fileSystem: ConfigFileSystem = .live, path: String? = nil) {
+  init(
+    fileSystem: ConfigFileSystem = .live,
+    executor: ConfigExecutor? = nil,
+    path: String? = nil,
+    fileMonitorSetup: ((ConfigManager) -> Result<Void, FileError>)? = nil
+  ) {
     self.fileSystem = fileSystem
+    self.executor = executor ?? ConfigExecutor(
+      createContext: { Self.liveCreateContext() },
+      executeScript: { context, script in Self.liveExecuteScript(in: context, script: script) }
+    )
     self.path = path ?? Self.resolvePrimaryPath(fileSystem: fileSystem)
+    self.fileMonitorSetup = fileMonitorSetup ?? { manager in manager.liveSetupFileMonitor() }
   }
 
   static func resolvePrimaryPath(
@@ -55,7 +72,7 @@ final class ConfigManager {
       return .failure(error)
     }
 
-    switch setupFileMonitor() {
+    switch fileMonitorSetup(self) {
     case .success:
       return .success(())
     case .failure(let error):
@@ -74,7 +91,7 @@ final class ConfigManager {
   private func load() -> Result<Void, Error> {
     let nextContext: JSContext
 
-    switch createContext() {
+    switch executor.createContext() {
     case .success(let context):
       nextContext = context
     case .failure(let error):
@@ -103,7 +120,7 @@ final class ConfigManager {
     }
   }
 
-  private func createContext() -> Result<JSContext, JSExceptionError> {
+  private static func liveCreateContext() -> Result<JSContext, JSExceptionError> {
     let context = JSContext(virtualMachine: JSVirtualMachine())
 
     guard let context else {
@@ -138,13 +155,7 @@ final class ConfigManager {
       return .failure(error)
     }
 
-    context.evaluateScript(scriptContents)
-
-    if let exception = context.exception {
-      return .failure(JSExceptionError.exception("JS exception: \(exception)"))
-    }
-
-    return .success(())
+    return executor.executeScript(context, scriptContents)
   }
 
   func readConfigScript() -> Result<String, Error> {
@@ -159,7 +170,17 @@ final class ConfigManager {
     return .success(scriptContents)
   }
 
-  private func setupFileMonitor() -> Result<Void, FileError> {
+  private static func liveExecuteScript(in context: JSContext, script: String) -> Result<Void, Error> {
+    context.evaluateScript(script)
+
+    if let exception = context.exception {
+      return .failure(JSExceptionError.exception("JS exception: \(exception)"))
+    }
+
+    return .success(())
+  }
+
+  private func liveSetupFileMonitor() -> Result<Void, FileError> {
     let file = NSURL.fileURL(withPath: path)
     let fd = open(file.path, O_EVTONLY)
 
@@ -222,10 +243,14 @@ final class ConfigManager {
     fileSystemSource?.cancel()
     fileSystemSource = nil
 
-    switch setupFileMonitor() {
+    switch fileMonitorSetup(self) {
     case .success: break
     case .failure(let error):
       log("could not restart config monitor: \(error)", level: .error)
     }
+  }
+
+  func loadForTesting() -> Result<Void, Error> {
+    load()
   }
 }
