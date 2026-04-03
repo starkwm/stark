@@ -149,7 +149,6 @@
 		AA100021AA100021AA100021 /* StarkTests */ = {
 			isa = PBXGroup;
 			children = (
-				BB100001BB100001BB100001 /* App */,
 				AA100022AA100022AA100022 /* Features */,
 				AA100024AA100024AA100024 /* Infrastructure */,
 			);
@@ -179,18 +178,11 @@
 		AA100024AA100024AA100024 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				BB100005BB100005BB100005 /* Runtime */,
 				AA100020AA100020AA100020 /* LogHelperTests.swift */,
 				AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */,
 			);
 			path = Infrastructure;
-			sourceTree = "<group>";
-		};
-		BB100001BB100001BB100001 /* App */ = {
-			isa = PBXGroup;
-			children = (
-				AA100028AA100028AA100028 /* StarkRuntimeTests.swift */,
-			);
-			path = App;
 			sourceTree = "<group>";
 		};
 		BB100002BB100002BB100002 /* Config */ = {
@@ -199,6 +191,14 @@
 				AA100013AA100013AA100013 /* ConfigManagerTests.swift */,
 			);
 			path = Config;
+			sourceTree = "<group>";
+		};
+		BB100005BB100005BB100005 /* Runtime */ = {
+			isa = PBXGroup;
+			children = (
+				AA100028AA100028AA100028 /* StarkRuntimeTests.swift */,
+			);
+			path = Runtime;
 			sourceTree = "<group>";
 		};
 		BB100003BB100003BB100003 /* Shortcuts */ = {
@@ -279,6 +279,7 @@
 				BB000007BB000007BB000007 /* Accessibility */,
 				BB000008BB000008BB000008 /* JavaScript */,
 				BB000009BB000009BB000009 /* Logging */,
+				BB00000BBB00000BBB00000B /* Runtime */,
 				BB00000ABB00000ABB00000A /* System */,
 			);
 			path = Infrastructure;
@@ -320,7 +321,6 @@
 			isa = PBXGroup;
 			children = (
 				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
-				AA100032AA100032AA100032 /* StarkRuntime.swift */,
 				F6A2E7692BC8CB250024F674 /* main.swift */,
 			);
 			path = App;
@@ -408,6 +408,14 @@
 				F6F4ECF82BC9BC13001234D4 /* Private.swift */,
 			);
 			path = System;
+			sourceTree = "<group>";
+		};
+		BB00000BBB00000BBB00000B /* Runtime */ = {
+			isa = PBXGroup;
+			children = (
+				AA100032AA100032AA100032 /* StarkRuntime.swift */,
+			);
+			path = Runtime;
 			sourceTree = "<group>";
 		};
 		F6A50A252BC076AE002689F2 /* Applications */ = {

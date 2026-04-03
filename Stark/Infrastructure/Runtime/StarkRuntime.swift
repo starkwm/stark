@@ -30,6 +30,7 @@ protocol StarkStatusItemManaging {
   func setup()
 }
 
+/// Provides platform-facing hooks used while bootstrapping Stark's long-lived services.
 struct StarkRuntimeEnvironment {
   var sentryDSN: () -> String?
   var startSentry: (String) -> Void
@@ -57,6 +58,7 @@ struct StarkRuntimeEnvironment {
   )
 }
 
+/// Composes and coordinates startup and shutdown for Stark's runtime services.
 final class StarkRuntime: StarkRuntimeType {
   private let environment: StarkRuntimeEnvironment
   private let processManager: StarkProcessManaging
