@@ -1,139 +1,219 @@
+import IOKit.hidsystem
 import JavaScriptCore
 import Testing
 
 @testable import Stark
 
-private final class TestShortcutRegistrar: ShortcutRegistrar {
-  var registeredHotKeyIDs = [UInt32]()
-  var unregisteredHotKeyIDs = [UInt32]()
-  var installEventHandlerCallCount = 0
-  var removeEventHandlerCallCount = 0
+private final class TestShortcutTapRecorder {
+  final class SpyShortcutTap: ShortcutTapType {
+    let enableHandler: (Bool) -> Void
+    let invalidateHandler: () -> Void
 
-  func register(keyCode _: UInt32, modifiers _: UInt32, hotKeyID: UInt32, signature _: OSType)
-    -> Bool
-  {
-    registeredHotKeyIDs.append(hotKeyID)
-    return true
+    init(enableHandler: @escaping (Bool) -> Void, invalidateHandler: @escaping () -> Void) {
+      self.enableHandler = enableHandler
+      self.invalidateHandler = invalidateHandler
+    }
+
+    func enable(_ enabled: Bool) {
+      enableHandler(enabled)
+    }
+
+    func invalidate() {
+      invalidateHandler()
+    }
   }
 
-  func unregister(hotKeyID: UInt32) {
-    unregisteredHotKeyIDs.append(hotKeyID)
-  }
+  var createCallCount = 0
+  var invalidateCallCount = 0
+  var eventHandler: ShortcutManager.EventHandler?
 
-  func installEventHandler() -> Bool {
-    installEventHandlerCallCount += 1
-    return true
-  }
-
-  func removeEventHandler() {
-    removeEventHandlerCallCount += 1
+  func makeTap() -> ShortcutManager.TapFactory {
+    { eventHandler in
+      self.createCallCount += 1
+      self.eventHandler = eventHandler
+      return SpyShortcutTap(
+        enableHandler: { _ in },
+        invalidateHandler: {
+          self.invalidateCallCount += 1
+        }
+      )
+    }
   }
 }
 
 @Suite(.serialized) struct KeymapTests {
   @Test func createsStableIdentifiers() throws {
-    resetState()
-    let registrar = TestShortcutRegistrar()
-    ShortcutManager.useRegistrar(registrar)
+    let (_, _, callbackState) = prepareState()
     defer { resetState() }
 
-    let keymap = Keymap.on("return", ["cmd", "shift"], try callback())
+    let keymap = Keymap.on("return", ["cmd", "shift"], try callback(in: callbackState.context))
 
     #expect(keymap.id == "return[cmd|shift]")
-    #expect(Keymap.activeIDsForTesting == ["return[cmd|shift]"])
-    #expect(ShortcutManager.registeredShortcutCount == 1)
+  }
+
+  @Test func preservesRawSidedModifierIdentifiers() throws {
+    let (_, _, callbackState) = prepareState()
+    defer { resetState() }
+
+    let keymap = Keymap.on("return", ["lcmd", "shift"], try callback(in: callbackState.context))
+
+    #expect(keymap.id == "return[lcmd|shift]")
+  }
+
+  @Test func specialKeysKeepRawIdentifiersWhileInjectingFnInternally() throws {
+    let (manager, tapRecorder, callbackState) = prepareState()
+    defer { resetState() }
+
+    _ = Keymap.on("left", ["cmd"], try callback(in: callbackState.context))
+    manager.start()
+
+    #expect(
+      dispatchKeyDown(
+        with: tapRecorder,
+        keyCode: 123,
+        flags: [.maskCommand, .maskSecondaryFn]
+      ) == nil
+    )
+    #expect(callbackState.callCount() == 1)
+  }
+
+  @Test func removedAliasDoesNotRegisterShortcut() throws {
+    let (manager, tapRecorder, callbackState) = prepareState()
+    defer { resetState() }
+
+    let keymap = Keymap.on("return", ["option"], try callback(in: callbackState.context))
+    manager.start()
+
+    #expect(keymap.id == "return[option]")
+    #expect(tapRecorder.createCallCount == 0)
+    #expect(dispatchKeyDown(with: tapRecorder) == nil)
+    #expect(callbackState.callCount() == 0)
   }
 
   @Test func overwritesDuplicateActiveRegistrations() throws {
-    resetState()
-    let registrar = TestShortcutRegistrar()
-    ShortcutManager.useRegistrar(registrar)
+    let (manager, tapRecorder, callbackState) = prepareState()
     defer { resetState() }
 
-    _ = Keymap.on("return", ["cmd"], try callback())
-    _ = Keymap.on("return", ["cmd"], try callback())
+    _ = Keymap.on("return", ["cmd"], try callback(in: callbackState.context))
+    _ = Keymap.on("return", ["cmd"], try callback(in: callbackState.context))
+    manager.start()
 
-    #expect(Keymap.activeIDsForTesting == ["return[cmd]"])
-    #expect(ShortcutManager.registeredShortcutCount == 1)
-    #expect(registrar.unregisteredHotKeyIDs.count == 1)
+    #expect(dispatchKeyDown(with: tapRecorder) == nil)
+    #expect(callbackState.callCount() == 1)
   }
 
   @Test func commitRecordingSwapsActiveKeymaps() throws {
-    resetState()
-    let registrar = TestShortcutRegistrar()
-    ShortcutManager.useRegistrar(registrar)
+    let (manager, tapRecorder, callbackState) = prepareState()
     defer { resetState() }
 
-    _ = Keymap.on("return", ["cmd"], try callback())
+    _ = Keymap.on("return", ["cmd"], try callback(in: callbackState.context))
+    manager.start()
 
     Keymap.beginRecording()
-    _ = Keymap.on("escape", ["shift"], try callback())
-
-    #expect(Keymap.activeIDsForTesting == ["return[cmd]"])
-    #expect(Keymap.recordingIDsForTesting == ["escape[shift]"])
-
+    _ = Keymap.on("escape", ["shift"], try callback(in: callbackState.context))
     Keymap.commitRecording()
 
-    #expect(Keymap.recordingIDsForTesting.isEmpty)
-    #expect(Keymap.activeIDsForTesting == ["escape[shift]"])
-    #expect(ShortcutManager.registeredShortcutCount == 1)
-    #expect(registrar.unregisteredHotKeyIDs.count == 1)
+    #expect(dispatchKeyDown(with: tapRecorder, keyCode: 36, flags: [.maskCommand]) != nil)
+    #expect(dispatchKeyDown(with: tapRecorder, keyCode: 53, flags: [.maskShift]) == nil)
+    #expect(callbackState.callCount() == 1)
   }
 
   @Test func discardRecordingPreservesActiveKeymaps() throws {
-    resetState()
-    let registrar = TestShortcutRegistrar()
-    ShortcutManager.useRegistrar(registrar)
+    let (manager, tapRecorder, callbackState) = prepareState()
     defer { resetState() }
 
-    _ = Keymap.on("return", ["cmd"], try callback())
+    _ = Keymap.on("return", ["cmd"], try callback(in: callbackState.context))
+    manager.start()
 
     Keymap.beginRecording()
-    _ = Keymap.on("escape", ["shift"], try callback())
+    _ = Keymap.on("escape", ["shift"], try callback(in: callbackState.context))
     Keymap.discardRecording()
 
-    #expect(Keymap.recordingIDsForTesting.isEmpty)
-    #expect(Keymap.activeIDsForTesting == ["return[cmd]"])
-    #expect(ShortcutManager.registeredShortcutCount == 1)
+    #expect(dispatchKeyDown(with: tapRecorder, keyCode: 36, flags: [.maskCommand]) == nil)
+    #expect(dispatchKeyDown(with: tapRecorder, keyCode: 53, flags: [.maskShift]) != nil)
+    #expect(callbackState.callCount() == 1)
   }
 
   @Test func offAndResetClearRegisteredState() throws {
-    resetState()
-    let registrar = TestShortcutRegistrar()
-    ShortcutManager.useRegistrar(registrar)
+    let (manager, tapRecorder, callbackState) = prepareState()
     defer { resetState() }
 
-    _ = Keymap.on("return", ["cmd"], try callback())
-    _ = Keymap.on("escape", ["shift"], try callback())
+    _ = Keymap.on("return", ["cmd"], try callback(in: callbackState.context))
+    _ = Keymap.on("escape", ["shift"], try callback(in: callbackState.context))
+    manager.start()
 
     Keymap.off("return[cmd]")
-    #expect(Keymap.activeIDsForTesting == ["escape[shift]"])
-    #expect(ShortcutManager.registeredShortcutCount == 1)
+    #expect(dispatchKeyDown(with: tapRecorder, keyCode: 36, flags: [.maskCommand]) != nil)
+    #expect(dispatchKeyDown(with: tapRecorder, keyCode: 53, flags: [.maskShift]) == nil)
 
     Keymap.reset()
-    #expect(Keymap.activeIDsForTesting.isEmpty)
-    #expect(ShortcutManager.registeredShortcutCount == 0)
+    #expect(dispatchKeyDown(with: tapRecorder, keyCode: 53, flags: [.maskShift]) != nil)
+    #expect(callbackState.callCount() == 1)
   }
 
-  private func callback() throws -> JSValue {
-    guard let context = JSContext() else {
-      throw CallbackError.contextCreationFailed
-    }
+  private func prepareState() -> (ShortcutManager, TestShortcutTapRecorder, CallbackState) {
+    resetState()
 
-    guard let callback = context.evaluateScript("(() => {})") else {
+    let tapRecorder = TestShortcutTapRecorder()
+    let manager = ShortcutManager(
+      tapFactory: tapRecorder.makeTap(),
+      handlerInvoker: { handler in handler() }
+    )
+    Keymap.configureShortcutManager(manager)
+
+    return (manager, tapRecorder, CallbackState())
+  }
+
+  private func resetState() {
+    Keymap.discardRecording()
+    Keymap.reset()
+    Keymap.configureShortcutManager(ShortcutManager())
+  }
+
+  private func callback(in context: JSContext) throws -> JSValue {
+    guard let callback = context.evaluateScript("(() => { globalThis.calls += 1 })") else {
       throw CallbackError.callbackCreationFailed
     }
 
     return callback
   }
 
-  private func resetState() {
-    Keymap.resetForTesting()
-    ShortcutManager.resetForTesting()
+  private func dispatchKeyDown(
+    with tapRecorder: TestShortcutTapRecorder,
+    keyCode: UInt32 = 36,
+    flags: [CGEventFlags] = [.maskCommand],
+    deviceMasks: [Int32] = [NX_DEVICELCMDKEYMASK]
+  ) -> Unmanaged<CGEvent>? {
+    let event = CGEvent(
+      keyboardEventSource: nil,
+      virtualKey: CGKeyCode(keyCode),
+      keyDown: true
+    )!
+    event.flags = eventFlags(flags, deviceMasks: deviceMasks)
+    return tapRecorder.eventHandler?(.keyDown, event)
+  }
+
+  private func eventFlags(_ flags: [CGEventFlags], deviceMasks: [Int32] = []) -> CGEventFlags {
+    let rawValue =
+      flags.reduce(CGEventFlags()) { $0.union($1) }.rawValue
+      | UInt64(UInt32(bitPattern: deviceMasks.reduce(0, |)))
+    return CGEventFlags(rawValue: rawValue)
+  }
+}
+
+private final class CallbackState {
+  let context: JSContext
+
+  init() {
+    context = JSContext()!
+    _ = context.evaluateScript("globalThis.calls = 0")
+  }
+
+  func callCount() -> Int {
+    Int(context.objectForKeyedSubscript("calls").toInt32())
   }
 }
 
 private enum CallbackError: Error {
-  case contextCreationFailed
   case callbackCreationFailed
 }

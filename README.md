@@ -23,7 +23,7 @@ The official way to install **Stark** is via [Homebrew](https://brew.sh).
 brew install starkwm/formulae/stark
 ```
 
-You can then launch **Stark** and grant it accessibility permissions, and restart it. If you would like **Stark** to run when you log in, you can enable the _Launch at login_ menu item.
+You can then launch **Stark**, grant it accessibility permissions, and allow keyboard monitoring/input monitoring so global shortcuts can be intercepted. Restart the app after granting permissions. If you would like **Stark** to run when you log in, you can enable the _Launch at login_ menu item.
 
 There is also a _tip_ version of **Stark** available in the Homebrew tap.
 
@@ -151,6 +151,9 @@ The `Screen` class wraps `NSScreen` and provides screen information.
 ### Keymap
 
 The `Keymap` class allows binding keyboard shortcuts.
+
+Global shortcuts are matched through a keyboard event tap. When a shortcut matches, Stark swallows the original key event so it is not delivered to the foreground app.
+Supported modifier values are `cmd`, `ctrl`, `alt`, `shift`, and `fn`, plus `lcmd`, `rcmd`, `lctrl`, `rctrl`, `lalt`, `ralt`, `lshift`, and `rshift` for side-specific bindings. `meh` and `hyper` remain available as composites. Older aliases such as `option`, `opt`, `control`, and `command` are no longer supported.
 
 #### Methods
 

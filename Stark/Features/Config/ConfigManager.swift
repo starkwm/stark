@@ -10,12 +10,11 @@ private let primaryPaths: [String] = [
 /// Manages JavaScript configuration loading and monitoring.
 /// Loads user configuration from ~/.stark.js and watches for changes.
 final class ConfigManager {
-  static var shared = ConfigManager()
-
   private let fileSystem: ConfigFileSystem
   private let executor: ConfigExecutor
   private let fileWatcher: ConfigFileWatcher
   private let fileMonitorSetup: (ConfigManager) -> Result<Void, FileError>
+  private let shortcutManager: ShortcutManager
   private var path: String
   private var fileSystemSource: DispatchSourceFileSystemObject?
   private let fileMonitorQueue = DispatchQueue(label: "dev.tombell.stark.config")
@@ -23,6 +22,7 @@ final class ConfigManager {
   private var context: JSContext?
 
   init(
+    shortcutManager: ShortcutManager = ShortcutManager(),
     fileSystem: ConfigFileSystem = .live,
     executor: ConfigExecutor? = nil,
     path: String? = nil,
@@ -33,6 +33,7 @@ final class ConfigManager {
     let runtimeFactory = ScriptRuntimeFactory.live()
     let scriptExecutor = ConfigScriptExecutor.live
 
+    self.shortcutManager = shortcutManager
     self.fileSystem = fileSystem
     self.executor =
       executor
@@ -76,11 +77,11 @@ final class ConfigManager {
     fileSystemSource?.cancel()
     fileSystemSource = nil
 
-    ShortcutManager.stop()
+    shortcutManager.stop()
   }
 
   /// Builds a fresh JS context and atomically swaps newly declared bindings into the live runtime.
-  private func load() -> Result<Void, Error> {
+  func load() -> Result<Void, Error> {
     let nextContext: JSContext
 
     switch executor.createContext() {
@@ -90,19 +91,20 @@ final class ConfigManager {
       return .failure(error)
     }
 
+    Keymap.configureShortcutManager(shortcutManager)
     Keymap.beginRecording()
     Event.beginRecording()
 
     switch executeConfig(in: nextContext) {
     case .success:
-      ShortcutManager.stop()
-      ShortcutManager.reset()
+      shortcutManager.stop()
+      shortcutManager.reset()
 
       context = nextContext
 
       Event.commitRecording()
       Keymap.commitRecording()
-      ShortcutManager.start()
+      shortcutManager.start()
 
       return .success(())
     case .failure(let error):
@@ -190,8 +192,4 @@ final class ConfigManager {
     reloadConfig()
   }
 
-  /// Exposes the core load path without installing file monitoring.
-  func loadForTesting() -> Result<Void, Error> {
-    load()
-  }
 }

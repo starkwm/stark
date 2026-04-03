@@ -21,6 +21,10 @@ import Testing
           recorder.record("askForAccessibility")
           return true
         },
+        canListenToKeyboardEvents: {
+          recorder.record("canListenToKeyboardEvents")
+          return true
+        },
         terminateApplication: { recorder.record("terminateApplication") },
         writeLog: { message, level in
           loggedMessages.append(LoggedMessage(message: message, level: level))
@@ -38,6 +42,7 @@ import Testing
       recorder.events == [
         "startSentry",
         "askForAccessibility",
+        "canListenToKeyboardEvents",
         "process.start",
         "window.start",
         "config.start",
@@ -58,6 +63,10 @@ import Testing
           recorder.record("askForAccessibility")
           return true
         },
+        canListenToKeyboardEvents: {
+          recorder.record("canListenToKeyboardEvents")
+          return true
+        },
         terminateApplication: { recorder.record("terminateApplication") },
         writeLog: { _, _ in recorder.record("writeLog") }
       ),
@@ -72,6 +81,7 @@ import Testing
     #expect(
       recorder.events == [
         "askForAccessibility",
+        "canListenToKeyboardEvents",
         "process.start",
         "window.start",
         "config.start",
@@ -90,6 +100,10 @@ import Testing
         askForAccessibility: {
           recorder.record("askForAccessibility")
           return false
+        },
+        canListenToKeyboardEvents: {
+          recorder.record("canListenToKeyboardEvents")
+          return true
         },
         terminateApplication: { recorder.record("terminateApplication") },
         writeLog: { _, _ in recorder.record("writeLog") }
@@ -123,6 +137,10 @@ import Testing
           recorder.record("askForAccessibility")
           return true
         },
+        canListenToKeyboardEvents: {
+          recorder.record("canListenToKeyboardEvents")
+          return true
+        },
         terminateApplication: { recorder.record("terminateApplication") },
         writeLog: { message, level in
           loggedMessages.append(LoggedMessage(message: message, level: level))
@@ -142,6 +160,7 @@ import Testing
     #expect(
       recorder.events == [
         "askForAccessibility",
+        "canListenToKeyboardEvents",
         "process.start",
       ]
     )
@@ -163,6 +182,10 @@ import Testing
           recorder.record("askForAccessibility")
           return true
         },
+        canListenToKeyboardEvents: {
+          recorder.record("canListenToKeyboardEvents")
+          return true
+        },
         terminateApplication: { recorder.record("terminateApplication") },
         writeLog: { message, level in
           loggedMessages.append(LoggedMessage(message: message, level: level))
@@ -182,6 +205,7 @@ import Testing
     #expect(
       recorder.events == [
         "askForAccessibility",
+        "canListenToKeyboardEvents",
         "process.start",
         "window.start",
         "config.start",
@@ -205,6 +229,10 @@ import Testing
           recorder.record("askForAccessibility")
           return true
         },
+        canListenToKeyboardEvents: {
+          recorder.record("canListenToKeyboardEvents")
+          return true
+        },
         terminateApplication: { recorder.record("terminateApplication") },
         writeLog: { _, _ in recorder.record("writeLog") }
       ),
@@ -217,6 +245,50 @@ import Testing
     runtime.stop()
 
     #expect(recorder.events == ["config.stop"])
+  }
+
+  @Test func startLogsAndContinuesWhenKeyboardMonitoringIsDenied() {
+    let recorder = RuntimeCallRecorder()
+    var loggedMessages = [LoggedMessage]()
+    let runtime = StarkRuntime(
+      environment: StarkRuntimeEnvironment(
+        isDevelopmentBuild: { false },
+        sentryDSN: { nil },
+        startSentry: { _ in recorder.record("startSentry") },
+        askForAccessibility: {
+          recorder.record("askForAccessibility")
+          return true
+        },
+        canListenToKeyboardEvents: {
+          recorder.record("canListenToKeyboardEvents")
+          return false
+        },
+        terminateApplication: { recorder.record("terminateApplication") },
+        writeLog: { message, level in
+          loggedMessages.append(LoggedMessage(message: message, level: level))
+        }
+      ),
+      processManager: RecordingProcessManager(recorder: recorder, result: .success(())),
+      windowManager: RecordingWindowManager(recorder: recorder),
+      configManager: RecordingConfigManager(recorder: recorder, startResult: .success(())),
+      statusItem: RecordingStatusItem(recorder: recorder)
+    )
+
+    runtime.start()
+
+    #expect(
+      recorder.events == [
+        "askForAccessibility",
+        "canListenToKeyboardEvents",
+        "process.start",
+        "window.start",
+        "config.start",
+        "statusItem.setup",
+      ]
+    )
+    #expect(loggedMessages.count == 1)
+    #expect(loggedMessages[0].level == .error)
+    #expect(loggedMessages[0].message.contains("global shortcuts are disabled"))
   }
 
   @Test func appDelegateStartsAndStopsInjectedRuntime() {

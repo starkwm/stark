@@ -36,6 +36,7 @@ struct StarkRuntimeEnvironment {
   var sentryDSN: () -> String?
   var startSentry: (String) -> Void
   var askForAccessibility: () -> Bool
+  var canListenToKeyboardEvents: () -> Bool
   var terminateApplication: () -> Void
   var writeLog: (String, LogLevel) -> Void
 
@@ -58,6 +59,9 @@ struct StarkRuntimeEnvironment {
       let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue(): true]
       return AXIsProcessTrustedWithOptions(options as CFDictionary?)
     },
+    canListenToKeyboardEvents: {
+      CGPreflightListenEventAccess()
+    },
     terminateApplication: {
       NSApplication.shared.terminate(nil)
     },
@@ -79,13 +83,14 @@ final class StarkRuntime: StarkRuntimeType {
     environment: StarkRuntimeEnvironment = .live,
     processManager: StarkProcessManaging = ProcessManager.shared,
     windowManager: StarkWindowManaging = WindowManager.shared,
-    configManager: StarkConfigManaging = ConfigManager.shared,
+    shortcutManager: ShortcutManager = ShortcutManager(),
+    configManager: StarkConfigManaging? = nil,
     statusItem: StarkStatusItemManaging = StarkStatusItem()
   ) {
     self.environment = environment
     self.processManager = processManager
     self.windowManager = windowManager
-    self.configManager = configManager
+    self.configManager = configManager ?? ConfigManager(shortcutManager: shortcutManager)
     self.statusItem = statusItem
   }
 
@@ -103,6 +108,13 @@ final class StarkRuntime: StarkRuntimeType {
     guard environment.askForAccessibility() else {
       environment.terminateApplication()
       return
+    }
+
+    if !environment.canListenToKeyboardEvents() {
+      environment.writeLog(
+        "keyboard monitoring permission is not granted; global shortcuts are disabled",
+        .error
+      )
     }
 
     switch processManager.start() {

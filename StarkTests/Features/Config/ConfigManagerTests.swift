@@ -1,28 +1,44 @@
 import Foundation
+import IOKit.hidsystem
 import JavaScriptCore
 import Testing
 
 @testable import Stark
 
-private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
-  var installEventHandlerCallCount = 0
-  var removeEventHandlerCallCount = 0
+private final class ConfigManagerShortcutTapRecorder {
+  final class SpyShortcutTap: ShortcutTapType {
+    let enableHandler: (Bool) -> Void
+    let invalidateHandler: () -> Void
 
-  func register(keyCode _: UInt32, modifiers _: UInt32, hotKeyID _: UInt32, signature _: OSType)
-    -> Bool
-  {
-    true
+    init(enableHandler: @escaping (Bool) -> Void, invalidateHandler: @escaping () -> Void) {
+      self.enableHandler = enableHandler
+      self.invalidateHandler = invalidateHandler
+    }
+
+    func enable(_ enabled: Bool) {
+      enableHandler(enabled)
+    }
+
+    func invalidate() {
+      invalidateHandler()
+    }
   }
 
-  func unregister(hotKeyID _: UInt32) {}
+  var createCallCount = 0
+  var invalidateCallCount = 0
+  var eventHandler: ShortcutManager.EventHandler?
 
-  func installEventHandler() -> Bool {
-    installEventHandlerCallCount += 1
-    return true
-  }
-
-  func removeEventHandler() {
-    removeEventHandlerCallCount += 1
+  func makeTap() -> ShortcutManager.TapFactory {
+    { eventHandler in
+      self.createCallCount += 1
+      self.eventHandler = eventHandler
+      return SpyShortcutTap(
+        enableHandler: { _ in },
+        invalidateHandler: {
+          self.invalidateCallCount += 1
+        }
+      )
+    }
   }
 }
 
@@ -62,6 +78,7 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
   @Test func returnsNotFoundWhenConfigFileDoesNotExist() throws {
     let path = "/tmp/stark.js"
     let manager = ConfigManager(
+      shortcutManager: ShortcutManager(),
       fileSystem: ConfigFileSystem(
         fileExists: { _ in false },
         readFile: { _ in nil }
@@ -89,6 +106,7 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
   @Test func returnsReadFailedWhenConfigCannotBeRead() throws {
     let path = "/tmp/stark.js"
     let manager = ConfigManager(
+      shortcutManager: ShortcutManager(),
       fileSystem: ConfigFileSystem(
         fileExists: { _ in true },
         readFile: { _ in nil }
@@ -114,13 +132,14 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
   }
 
   @Test func successfulLoadCommitsRecordedState() throws {
-    prepareState()
+    let (shortcutManager, registrar) = prepareRegistrar()
     defer { resetState() }
 
     _ = Event.on("windowFocused", try callback())
     _ = Keymap.on("return", ["cmd"], try callback())
 
     let manager = ConfigManager(
+      shortcutManager: shortcutManager,
       fileSystem: ConfigFileSystem(
         fileExists: { _ in true },
         readFile: { _ in "ignored" }
@@ -153,21 +172,22 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
     case .success:
       #expect(Event.activeListenerCount(for: .windowFocused) == 0)
       #expect(Event.activeListenerCount(for: .windowMoved) == 1)
-      #expect(Keymap.activeIDsForTesting == ["escape[shift]"])
-      #expect(Keymap.recordingIDsForTesting.isEmpty)
+      #expect(dispatchShortcut(with: registrar, keyCode: 53, flags: [.maskShift]))
+      #expect(!dispatchShortcut(with: registrar, keyCode: 36, flags: [.maskCommand]))
     case .failure(let error):
       Issue.record("Expected successful load, got \(error)")
     }
   }
 
   @Test func failedLoadDiscardsRecordedStateAndPreservesActiveState() throws {
-    prepareState()
+    let (shortcutManager, registrar) = prepareRegistrar()
     defer { resetState() }
 
     _ = Event.on("windowFocused", try callback())
     _ = Keymap.on("return", ["cmd"], try callback())
 
     let manager = ConfigManager(
+      shortcutManager: shortcutManager,
       fileSystem: ConfigFileSystem(
         fileExists: { _ in true },
         readFile: { _ in "ignored" }
@@ -200,20 +220,22 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
     case .success:
       Issue.record("Expected failed load")
     case .failure:
+      shortcutManager.start()
       #expect(Event.activeListenerCount(for: .windowFocused) == 1)
       #expect(Event.activeListenerCount(for: .windowMoved) == 0)
       #expect(Event.recordingListenerCount(for: .windowMoved) == 0)
-      #expect(Keymap.activeIDsForTesting == ["return[cmd]"])
-      #expect(Keymap.recordingIDsForTesting.isEmpty)
+      #expect(dispatchShortcut(with: registrar, keyCode: 36, flags: [.maskCommand]))
+      #expect(!dispatchShortcut(with: registrar, keyCode: 53, flags: [.maskShift]))
     }
   }
 
   @Test func startReturnsLoadFailureWithoutStartingMonitor() {
-    prepareState()
+    let shortcutManager = prepareState()
     defer { resetState() }
 
     var monitorSetupCallCount = 0
     let manager = ConfigManager(
+      shortcutManager: shortcutManager,
       fileSystem: ConfigFileSystem(
         fileExists: { _ in false },
         readFile: { _ in nil }
@@ -236,10 +258,11 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
   }
 
   @Test func startReturnsMonitorFailureAfterSuccessfulLoad() throws {
-    prepareState()
+    let (shortcutManager, registrar) = prepareRegistrar()
     defer { resetState() }
 
     let manager = ConfigManager(
+      shortcutManager: shortcutManager,
       fileSystem: ConfigFileSystem(
         fileExists: { _ in true },
         readFile: { _ in "ignored" }
@@ -274,7 +297,8 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
       switch error {
       case .monitorFailed(let message):
         #expect(message == "boom")
-        #expect(Keymap.activeIDsForTesting == ["escape[shift]"])
+        #expect(registrar.createCallCount == 1)
+        #expect(dispatchShortcut(with: registrar, keyCode: 53, flags: [.maskShift]))
       default:
         Issue.record("Expected FileError.monitorFailed, got \(error)")
       }
@@ -284,10 +308,11 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
   }
 
   @Test func executorJavascriptExceptionsArePropagated() {
-    prepareState()
+    let shortcutManager = prepareState()
     defer { resetState() }
 
     let manager = ConfigManager(
+      shortcutManager: shortcutManager,
       fileSystem: ConfigFileSystem(
         fileExists: { _ in true },
         readFile: { _ in "ignored" }
@@ -324,11 +349,12 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
   }
 
   @Test func repeatedSuccessfulLoadsReplaceRecordedStateWithoutAccumulating() throws {
-    prepareState()
+    let (shortcutManager, registrar) = prepareRegistrar()
     defer { resetState() }
 
     var loadCount = 0
     let manager = ConfigManager(
+      shortcutManager: shortcutManager,
       fileSystem: ConfigFileSystem(
         fileExists: { _ in true },
         readFile: { _ in "ignored" }
@@ -367,7 +393,8 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
     case .success:
       #expect(Event.activeListenerCount(for: .windowFocused) == 1)
       #expect(Event.activeListenerCount(for: .windowMoved) == 0)
-      #expect(Keymap.activeIDsForTesting == ["return[cmd]"])
+      #expect(dispatchShortcut(with: registrar, keyCode: 36, flags: [.maskCommand]))
+      #expect(!dispatchShortcut(with: registrar, keyCode: 53, flags: [.maskShift]))
     case .failure(let error):
       Issue.record("Expected first successful load, got \(error)")
       return
@@ -377,21 +404,22 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
     case .success:
       #expect(Event.activeListenerCount(for: .windowFocused) == 0)
       #expect(Event.activeListenerCount(for: .windowMoved) == 1)
-      #expect(Keymap.activeIDsForTesting == ["escape[shift]"])
       #expect(Event.recordingListenerCount(for: .windowFocused) == 0)
       #expect(Event.recordingListenerCount(for: .windowMoved) == 0)
-      #expect(Keymap.recordingIDsForTesting.isEmpty)
+      #expect(dispatchShortcut(with: registrar, keyCode: 53, flags: [.maskShift]))
+      #expect(!dispatchShortcut(with: registrar, keyCode: 36, flags: [.maskCommand]))
     case .failure(let error):
       Issue.record("Expected second successful load, got \(error)")
     }
   }
 
   @Test func failedReloadPreservesPreviouslyLoadedConfiguration() throws {
-    let registrar = prepareRegistrar()
+    let (shortcutManager, registrar) = prepareRegistrar()
     defer { resetState() }
 
     var loadCount = 0
     let manager = ConfigManager(
+      shortcutManager: shortcutManager,
       fileSystem: ConfigFileSystem(
         fileExists: { _ in true },
         readFile: { _ in "ignored" }
@@ -430,8 +458,8 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
     case .success:
       #expect(Event.activeListenerCount(for: .windowFocused) == 1)
       #expect(Event.activeListenerCount(for: .windowMoved) == 0)
-      #expect(Keymap.activeIDsForTesting == ["return[cmd]"])
-      #expect(registrar.installEventHandlerCallCount == 1)
+      #expect(dispatchShortcut(with: registrar, keyCode: 36, flags: [.maskCommand]))
+      #expect(registrar.createCallCount == 1)
     case .failure(let error):
       Issue.record("Expected first successful load, got \(error)")
       return
@@ -443,18 +471,19 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
     case .failure:
       #expect(Event.activeListenerCount(for: .windowFocused) == 1)
       #expect(Event.activeListenerCount(for: .windowMoved) == 0)
-      #expect(Keymap.activeIDsForTesting == ["return[cmd]"])
-      #expect(Keymap.recordingIDsForTesting.isEmpty)
-      #expect(registrar.installEventHandlerCallCount == 1)
+      #expect(dispatchShortcut(with: registrar, keyCode: 36, flags: [.maskCommand]))
+      #expect(!dispatchShortcut(with: registrar, keyCode: 53, flags: [.maskShift]))
+      #expect(registrar.createCallCount == 1)
     }
   }
 
   @Test func successfulStartSetsUpMonitorAndStopTearsDownShortcutHandling() throws {
-    let registrar = prepareRegistrar()
+    let (shortcutManager, registrar) = prepareRegistrar()
     defer { resetState() }
 
     var monitorSetupCallCount = 0
     let manager = ConfigManager(
+      shortcutManager: shortcutManager,
       fileSystem: ConfigFileSystem(
         fileExists: { _ in true },
         readFile: { _ in "ignored" }
@@ -486,8 +515,8 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
     switch manager.start() {
     case .success:
       #expect(monitorSetupCallCount == 1)
-      #expect(Keymap.activeIDsForTesting == ["escape[shift]"])
-      #expect(registrar.installEventHandlerCallCount == 1)
+      #expect(registrar.createCallCount == 1)
+      #expect(dispatchShortcut(with: registrar, keyCode: 53, flags: [.maskShift]))
     case .failure(let error):
       Issue.record("Expected start success, got \(error)")
       return
@@ -495,26 +524,182 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
 
     manager.stop()
 
-    #expect(registrar.removeEventHandlerCallCount == 2)
+    #expect(registrar.invalidateCallCount == 1)
   }
 
-  private func prepareState() {
-    _ = prepareRegistrar()
+  @Test func sidedModifierBindingsSurviveReload() throws {
+    let (shortcutManager, registrar) = prepareRegistrar()
+    defer { resetState() }
+
+    var loadCount = 0
+    let manager = ConfigManager(
+      shortcutManager: shortcutManager,
+      fileSystem: ConfigFileSystem(
+        fileExists: { _ in true },
+        readFile: { _ in "ignored" }
+      ),
+      executor: ConfigExecutor(
+        createContext: {
+          guard let context = JSContext() else {
+            return .failure(.exception("Could not create javascript context"))
+          }
+
+          return .success(context)
+        },
+        executeScript: { _, _ in
+          do {
+            loadCount += 1
+
+            if loadCount == 1 {
+              _ = Keymap.on("return", ["lcmd"], try self.callback())
+            } else {
+              _ = Keymap.on("escape", ["rshift"], try self.callback())
+            }
+
+            return .success(())
+          } catch {
+            return .failure(error)
+          }
+        }
+      ),
+      path: "/tmp/stark.js",
+      fileMonitorSetup: { _ in .success(()) }
+    )
+
+    switch manager.loadForTesting() {
+    case .success:
+      #expect(
+        dispatchShortcut(
+          with: registrar,
+          keyCode: 36,
+          flags: [.maskCommand],
+          deviceMasks: [NX_DEVICELCMDKEYMASK]
+        )
+      )
+      #expect(
+        !dispatchShortcut(
+          with: registrar,
+          keyCode: 36,
+          flags: [.maskCommand],
+          deviceMasks: [NX_DEVICERCMDKEYMASK]
+        )
+      )
+      #expect(registrar.createCallCount == 1)
+    case .failure(let error):
+      Issue.record("Expected first load success, got \(error)")
+      return
+    }
+
+    switch manager.loadForTesting() {
+    case .success:
+      #expect(
+        dispatchShortcut(
+          with: registrar,
+          keyCode: 53,
+          flags: [.maskShift],
+          deviceMasks: [NX_DEVICERSHIFTKEYMASK]
+        )
+      )
+      #expect(
+        !dispatchShortcut(
+          with: registrar,
+          keyCode: 53,
+          flags: [.maskShift],
+          deviceMasks: [NX_DEVICELSHIFTKEYMASK]
+        )
+      )
+      #expect(registrar.createCallCount == 2)
+    case .failure(let error):
+      Issue.record("Expected second load success, got \(error)")
+    }
   }
 
-  private func prepareRegistrar() -> ConfigManagerShortcutRegistrar {
+  @Test func removedModifierAliasesDoNotRegisterShortcuts() throws {
+    let (shortcutManager, registrar) = prepareRegistrar()
+    defer { resetState() }
+
+    let manager = ConfigManager(
+      shortcutManager: shortcutManager,
+      fileSystem: ConfigFileSystem(
+        fileExists: { _ in true },
+        readFile: { _ in "ignored" }
+      ),
+      executor: ConfigExecutor(
+        createContext: {
+          guard let context = JSContext() else {
+            return .failure(.exception("Could not create javascript context"))
+          }
+
+          return .success(context)
+        },
+        executeScript: { _, _ in
+          do {
+            _ = Keymap.on("return", ["option"], try self.callback())
+            return .success(())
+          } catch {
+            return .failure(error)
+          }
+        }
+      ),
+      path: "/tmp/stark.js",
+      fileMonitorSetup: { _ in .success(()) }
+    )
+
+    switch manager.loadForTesting() {
+    case .success:
+      #expect(registrar.createCallCount == 0)
+      #expect(!dispatchShortcut(with: registrar, keyCode: 36, flags: [.maskCommand]))
+    case .failure(let error):
+      Issue.record("Expected successful load with ignored invalid shortcut, got \(error)")
+    }
+  }
+
+  private func prepareState() -> ShortcutManager {
+    let (shortcutManager, _) = prepareRegistrar()
+    return shortcutManager
+  }
+
+  private func prepareRegistrar() -> (ShortcutManager, ConfigManagerShortcutTapRecorder) {
     resetState()
 
-    let registrar = ConfigManagerShortcutRegistrar()
-    ShortcutManager.useRegistrar(registrar)
+    let registrar = ConfigManagerShortcutTapRecorder()
+    let shortcutManager = ShortcutManager(
+      tapFactory: registrar.makeTap(),
+      handlerInvoker: { handler in handler() }
+    )
+    Keymap.configureShortcutManager(shortcutManager)
 
-    return registrar
+    return (shortcutManager, registrar)
   }
 
   private func resetState() {
     Event.resetForTesting()
-    Keymap.resetForTesting()
-    ShortcutManager.resetForTesting()
+    Keymap.discardRecording()
+    Keymap.reset()
+    Keymap.configureShortcutManager(ShortcutManager())
+  }
+
+  private func dispatchShortcut(
+    with registrar: ConfigManagerShortcutTapRecorder,
+    keyCode: UInt32,
+    flags: [CGEventFlags],
+    deviceMasks: [Int32] = []
+  ) -> Bool {
+    let event = CGEvent(
+      keyboardEventSource: nil,
+      virtualKey: CGKeyCode(keyCode),
+      keyDown: true
+    )!
+    let rawValue =
+      flags.reduce(CGEventFlags()) { $0.union($1) }.rawValue
+      | UInt64(UInt32(bitPattern: deviceMasks.reduce(0, |)))
+    event.flags = CGEventFlags(rawValue: rawValue)
+
+    guard let eventHandler = registrar.eventHandler else {
+      return false
+    }
+
+    return eventHandler(.keyDown, event) == nil
   }
 
   private func callback() throws -> JSValue {
@@ -533,4 +718,10 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
 private enum CallbackError: Error {
   case contextCreationFailed
   case callbackCreationFailed
+}
+
+extension ConfigManager {
+  fileprivate func loadForTesting() -> Result<Void, Error> {
+    load()
+  }
 }

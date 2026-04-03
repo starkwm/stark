@@ -24,66 +24,63 @@ private let relocatableKeyCodes: [Int] = [
   kVK_ANSI_Minus,
 ]
 
-let keyToCode: [String: Int] = [
-  "space": kVK_Space,
-  "tab": kVK_Tab,
-  "return": kVK_Return,
-  "enter": kVK_Return,
-
-  "capslock": kVK_CapsLock,
-  "caps": kVK_CapsLock,
-
-  "pageup": kVK_PageUp,
-  "pagedown": kVK_PageDown,
-  "home": kVK_Home,
-  "end": kVK_End,
-  "up": kVK_UpArrow,
-  "right": kVK_RightArrow,
-  "down": kVK_DownArrow,
-  "left": kVK_LeftArrow,
-
-  "f1": kVK_F1,
-  "f2": kVK_F2,
-  "f3": kVK_F3,
-  "f4": kVK_F4,
-  "f5": kVK_F5,
-  "f6": kVK_F6,
-  "f7": kVK_F7,
-  "f8": kVK_F8,
-  "f9": kVK_F9,
-  "f10": kVK_F10,
-  "f11": kVK_F11,
-  "f12": kVK_F12,
-  "f13": kVK_F13,
-  "f14": kVK_F14,
-  "f15": kVK_F15,
-  "f16": kVK_F16,
-  "f17": kVK_F17,
-  "f18": kVK_F18,
-  "f19": kVK_F19,
-  "f20": kVK_F20,
-
-  "escape": kVK_Escape,
-  "esc": kVK_Escape,
-  "delete": kVK_Delete,
-  "del": kVK_Delete,
-
-  "grave": kVK_ANSI_Grave,
-  "backtick": kVK_ANSI_Grave,
-  "minus": kVK_ANSI_Minus,
-  "dash": kVK_ANSI_Minus,
-  "equal": kVK_ANSI_Equal,
-  "equals": kVK_ANSI_Equal,
-  "leftbracket": kVK_ANSI_LeftBracket,
-  "rightbracket": kVK_ANSI_RightBracket,
-  "semicolon": kVK_ANSI_Semicolon,
-  "quote": kVK_ANSI_Quote,
-  "singlequote": kVK_ANSI_Quote,
-  "backslash": kVK_ANSI_Backslash,
-  "period": kVK_ANSI_Period,
-  "comma": kVK_ANSI_Comma,
-  "slash": kVK_ANSI_Slash,
-  "forwardslash": kVK_ANSI_Slash,
+private let specialKeys: [String: (keyCode: UInt32, modifiers: Modifier)] = [
+  "return": (keyCode: UInt32(kVK_Return), modifiers: []),
+  "enter": (keyCode: UInt32(kVK_Return), modifiers: []),
+  "tab": (keyCode: UInt32(kVK_Tab), modifiers: []),
+  "space": (keyCode: UInt32(kVK_Space), modifiers: []),
+  "backspace": (keyCode: UInt32(kVK_Delete), modifiers: []),
+  "capslock": (keyCode: UInt32(kVK_CapsLock), modifiers: []),
+  "caps": (keyCode: UInt32(kVK_CapsLock), modifiers: []),
+  "escape": (keyCode: UInt32(kVK_Escape), modifiers: []),
+  "esc": (keyCode: UInt32(kVK_Escape), modifiers: []),
+  "backtick": (keyCode: UInt32(kVK_ANSI_Grave), modifiers: []),
+  "grave": (keyCode: UInt32(kVK_ANSI_Grave), modifiers: []),
+  "delete": (keyCode: UInt32(kVK_ForwardDelete), modifiers: [.fn]),
+  "del": (keyCode: UInt32(kVK_ForwardDelete), modifiers: [.fn]),
+  "home": (keyCode: UInt32(kVK_Home), modifiers: [.fn]),
+  "end": (keyCode: UInt32(kVK_End), modifiers: [.fn]),
+  "pageup": (keyCode: UInt32(kVK_PageUp), modifiers: [.fn]),
+  "pagedown": (keyCode: UInt32(kVK_PageDown), modifiers: [.fn]),
+  "insert": (keyCode: UInt32(kVK_Help), modifiers: [.fn]),
+  "left": (keyCode: UInt32(kVK_LeftArrow), modifiers: [.fn]),
+  "right": (keyCode: UInt32(kVK_RightArrow), modifiers: [.fn]),
+  "up": (keyCode: UInt32(kVK_UpArrow), modifiers: [.fn]),
+  "down": (keyCode: UInt32(kVK_DownArrow), modifiers: [.fn]),
+  "f1": (keyCode: UInt32(kVK_F1), modifiers: [.fn]),
+  "f2": (keyCode: UInt32(kVK_F2), modifiers: [.fn]),
+  "f3": (keyCode: UInt32(kVK_F3), modifiers: [.fn]),
+  "f4": (keyCode: UInt32(kVK_F4), modifiers: [.fn]),
+  "f5": (keyCode: UInt32(kVK_F5), modifiers: [.fn]),
+  "f6": (keyCode: UInt32(kVK_F6), modifiers: [.fn]),
+  "f7": (keyCode: UInt32(kVK_F7), modifiers: [.fn]),
+  "f8": (keyCode: UInt32(kVK_F8), modifiers: [.fn]),
+  "f9": (keyCode: UInt32(kVK_F9), modifiers: [.fn]),
+  "f10": (keyCode: UInt32(kVK_F10), modifiers: [.fn]),
+  "f11": (keyCode: UInt32(kVK_F11), modifiers: [.fn]),
+  "f12": (keyCode: UInt32(kVK_F12), modifiers: [.fn]),
+  "f13": (keyCode: UInt32(kVK_F13), modifiers: [.fn]),
+  "f14": (keyCode: UInt32(kVK_F14), modifiers: [.fn]),
+  "f15": (keyCode: UInt32(kVK_F15), modifiers: [.fn]),
+  "f16": (keyCode: UInt32(kVK_F16), modifiers: [.fn]),
+  "f17": (keyCode: UInt32(kVK_F17), modifiers: [.fn]),
+  "f18": (keyCode: UInt32(kVK_F18), modifiers: [.fn]),
+  "f19": (keyCode: UInt32(kVK_F19), modifiers: [.fn]),
+  "f20": (keyCode: UInt32(kVK_F20), modifiers: [.fn]),
+  "minus": (keyCode: UInt32(kVK_ANSI_Minus), modifiers: []),
+  "dash": (keyCode: UInt32(kVK_ANSI_Minus), modifiers: []),
+  "equal": (keyCode: UInt32(kVK_ANSI_Equal), modifiers: []),
+  "equals": (keyCode: UInt32(kVK_ANSI_Equal), modifiers: []),
+  "leftbracket": (keyCode: UInt32(kVK_ANSI_LeftBracket), modifiers: []),
+  "rightbracket": (keyCode: UInt32(kVK_ANSI_RightBracket), modifiers: []),
+  "semicolon": (keyCode: UInt32(kVK_ANSI_Semicolon), modifiers: []),
+  "quote": (keyCode: UInt32(kVK_ANSI_Quote), modifiers: []),
+  "singlequote": (keyCode: UInt32(kVK_ANSI_Quote), modifiers: []),
+  "backslash": (keyCode: UInt32(kVK_ANSI_Backslash), modifiers: []),
+  "period": (keyCode: UInt32(kVK_ANSI_Period), modifiers: []),
+  "comma": (keyCode: UInt32(kVK_ANSI_Comma), modifiers: []),
+  "slash": (keyCode: UInt32(kVK_ANSI_Slash), modifiers: []),
+  "forwardslash": (keyCode: UInt32(kVK_ANSI_Slash), modifiers: []),
 ]
 
 enum Key {
@@ -100,12 +97,18 @@ enum Key {
     return keys
   }()
 
-  static func code(for key: String) -> UInt32 {
-    if let keyCode = relocatable[key.lowercased()] {
-      return UInt32(keyCode)
+  static func resolve(_ key: String) -> (keyCode: UInt32, modifiers: Modifier) {
+    let normalizedKey = key.lowercased()
+
+    if let specialKey = specialKeys[normalizedKey] {
+      return specialKey
     }
 
-    return UInt32(keyToCode[key.lowercased()] ?? 0)
+    if let keyCode = relocatable[normalizedKey] {
+      return (keyCode: UInt32(keyCode), modifiers: [])
+    }
+
+    return (keyCode: 0, modifiers: [])
   }
 
   private static func getKeyboardLayoutData() -> UnsafePointer<UCKeyboardLayout>? {
