@@ -21,11 +21,11 @@
 		AA100004AA100004AA100004 /* KeymapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100014AA100014AA100014 /* KeymapTests.swift */; };
 		AA100033AA100033AA100033 /* StarkRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100032AA100032AA100032 /* StarkRuntime.swift */; };
 		F60DF8ED2CC2C8030083D3BE /* LogHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */; };
-		F60DF8EF2CC2C8040083D3BE /* JavaScriptSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60DF8EE2CC2C8040083D3BE /* JavaScriptSupport.swift */; };
-		F60DF8F12CC2C8050083D3BE /* SystemClients.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60DF8F02CC2C8050083D3BE /* SystemClients.swift */; };
+		F60DF8EF2CC2C8040083D3BE /* JavaScriptRuntimeSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60DF8EE2CC2C8040083D3BE /* JavaScriptRuntimeSupport.swift */; };
+		F60DF8F12CC2C8050083D3BE /* SystemAdapters.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60DF8F02CC2C8050083D3BE /* SystemAdapters.swift */; };
 		F61AF11C2BC488EC00FF39E0 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11B2BC488EC00FF39E0 /* EventManager.swift */; };
 		F61AF11E2BC4B80100FF39E0 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */; };
-		F61AF1202BC4B80200FF39E0 /* ConfigPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11F2BC4B80200FF39E0 /* ConfigPipeline.swift */; };
+		F61AF1202BC4B80200FF39E0 /* ConfigSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11F2BC4B80200FF39E0 /* ConfigSupport.swift */; };
 		F627C49E2F74A75800C81D16 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = F627C49D2F74A75800C81D16 /* Sentry */; };
 		F63B99252BC73FB100355240 /* ApplicationNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63B99242BC73FB100355240 /* ApplicationNotifications.swift */; };
 		F644DFF61FB5110B00944C6B /* Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = F644DFF51FB5110B00944C6B /* Space.swift */; };
@@ -86,11 +86,11 @@
 		AA100015AA100015AA100015 /* StarkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StarkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA100032AA100032AA100032 /* StarkRuntime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkRuntime.swift; sourceTree = "<group>"; };
 		F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogHelper.swift; sourceTree = "<group>"; };
-		F60DF8EE2CC2C8040083D3BE /* JavaScriptSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavaScriptSupport.swift; sourceTree = "<group>"; };
-		F60DF8F02CC2C8050083D3BE /* SystemClients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemClients.swift; sourceTree = "<group>"; };
+		F60DF8EE2CC2C8040083D3BE /* JavaScriptRuntimeSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavaScriptRuntimeSupport.swift; sourceTree = "<group>"; };
+		F60DF8F02CC2C8050083D3BE /* SystemAdapters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemAdapters.swift; sourceTree = "<group>"; };
 		F61AF11B2BC488EC00FF39E0 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
-		F61AF11F2BC4B80200FF39E0 /* ConfigPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigPipeline.swift; sourceTree = "<group>"; };
+		F61AF11F2BC4B80200FF39E0 /* ConfigSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigSupport.swift; sourceTree = "<group>"; };
 		F63B99242BC73FB100355240 /* ApplicationNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationNotifications.swift; sourceTree = "<group>"; };
 		F644DFF51FB5110B00944C6B /* Space.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Space.swift; sourceTree = "<group>"; };
 		F645D0472BC37DF300BED730 /* ProcessManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessManager.swift; sourceTree = "<group>"; };
@@ -250,9 +250,9 @@
 		F6792C381C404EF8007D9DF9 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				F60DF8EE2CC2C8040083D3BE /* JavaScriptSupport.swift */,
+				F60DF8EE2CC2C8040083D3BE /* JavaScriptRuntimeSupport.swift */,
 				F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */,
-				F60DF8F02CC2C8050083D3BE /* SystemClients.swift */,
+				F60DF8F02CC2C8050083D3BE /* SystemAdapters.swift */,
 				F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */,
 				F6A2BBDB2F7049C9007C7701 /* AccessibilityHelper.swift */,
 			);
@@ -263,7 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				F67DB62E2E30159D007C78D6 /* ConfigManager.swift */,
-				F61AF11F2BC4B80200FF39E0 /* ConfigPipeline.swift */,
+				F61AF11F2BC4B80200FF39E0 /* ConfigSupport.swift */,
 				F61AF11B2BC488EC00FF39E0 /* EventManager.swift */,
 				F645D0472BC37DF300BED730 /* ProcessManager.swift */,
 				F685270C2D398B6D008EC4C1 /* ShortcutManager.swift */,
@@ -456,9 +456,9 @@
 				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
 				AA100033AA100033AA100033 /* StarkRuntime.swift in Sources */,
 				F6A2BBD02F703EB2007C7701 /* AXError.swift in Sources */,
-				F60DF8EF2CC2C8040083D3BE /* JavaScriptSupport.swift in Sources */,
+				F60DF8EF2CC2C8040083D3BE /* JavaScriptRuntimeSupport.swift in Sources */,
 				F60DF8ED2CC2C8030083D3BE /* LogHelper.swift in Sources */,
-				F60DF8F12CC2C8050083D3BE /* SystemClients.swift in Sources */,
+				F60DF8F12CC2C8050083D3BE /* SystemAdapters.swift in Sources */,
 				F6A2E76A2BC8CB250024F674 /* main.swift in Sources */,
 				F6A2BBD82F703EB7007C7701 /* StateError.swift in Sources */,
 				F68527132D398B83008EC4C1 /* Shortcut.swift in Sources */,
@@ -469,7 +469,7 @@
 				F645D0482BC37DF300BED730 /* ProcessManager.swift in Sources */,
 				F6792C431C4055A2007D9DF9 /* Window.swift in Sources */,
 				F6A2BBD22F703EB3007C7701 /* FileError.swift in Sources */,
-				F61AF1202BC4B80200FF39E0 /* ConfigPipeline.swift in Sources */,
+				F61AF1202BC4B80200FF39E0 /* ConfigSupport.swift in Sources */,
 				F67DB62F2E30159F007C78D6 /* ConfigManager.swift in Sources */,
 				F6EA81542BCD740F00F0F68C /* WindowNotifications.swift in Sources */,
 				F685270F2D398B79008EC4C1 /* Key.swift in Sources */,
