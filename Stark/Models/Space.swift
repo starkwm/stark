@@ -1,10 +1,6 @@
 import AppKit
 import JavaScriptCore
 
-private let screenIDKey = "Display Identifier"
-private let spaceIDKey = "ManagedSpaceID"
-private let spacesKey = "Spaces"
-
 /// Protocol exposing Space (virtual desktop) functionality to JavaScript.
 /// Provides access to macOS Spaces and their windows.
 @objc protocol SpaceJSExport: JSExport {
@@ -46,26 +42,12 @@ private let spacesKey = "Spaces"
 }
 
 class Space: NSObject, SpaceJSExport {
-  static let connection = SLSMainConnectionID()
+  private static let windowServerClient = WindowServerClient.live
+
+  static let connection = windowServerClient.mainConnectionID()
 
   static func all() -> [Space] {
-    var spaces: [Space] = []
-
-    let displaySpacesInfo = SLSCopyManagedDisplaySpaces(connection) as NSArray
-
-    for item in displaySpacesInfo {
-      guard let info = item as? [String: AnyObject] else { continue }
-
-      guard let spacesInfo = info[spacesKey] as? [[String: AnyObject]] else { continue }
-
-      for spaceInfo in spacesInfo {
-        guard let id = spaceInfo[spaceIDKey] as? uint64 else { continue }
-
-        spaces.append(Space(id: id))
-      }
-    }
-
-    return spaces
+    windowServerClient.allSpaceIDs(connectionID: connection).map(Space.init(id:))
   }
 
   static func at(_ index: Int) -> Space? {
@@ -77,30 +59,16 @@ class Space: NSObject, SpaceJSExport {
   }
 
   static func active() -> Space {
-    Space(id: SLSGetActiveSpace(connection))
+    Space(id: windowServerClient.activeSpace(connectionID: connection))
   }
 
   static func current(for screen: NSScreen) -> Space? {
-    Space(id: SLSManagedDisplayGetCurrentSpace(connection, screen.id as CFString))
+    Space(id: windowServerClient.currentSpace(connectionID: connection, screenID: screen.id))
   }
 
   static func spaces(containing window: Window) -> [Space] {
-    let identifiers =
-      SLSCopySpacesForWindows(
-        connection,
-        0x7,
-        [window.id] as CFArray
-      ) as NSArray
-
-    var spaces: [Space] = []
-
-    for space in all() {
-      if identifiers.contains(space.id) {
-        spaces.append(space)
-      }
-    }
-
-    return spaces
+    let identifiers = Set(windowServerClient.spaceIDs(containing: window.id, connectionID: connection))
+    return all().filter { identifiers.contains($0.id) }
   }
 
   override var description: String {
@@ -117,7 +85,7 @@ class Space: NSObject, SpaceJSExport {
 
   init(id: uint64) {
     self.id = id
-    type = SpaceType(rawValue: SLSSpaceGetType(Space.connection, self.id)) ?? .unknown
+    type = Self.windowServerClient.spaceType(connectionID: Space.connection, spaceID: self.id)
   }
 
   deinit {
@@ -135,25 +103,11 @@ class Space: NSObject, SpaceJSExport {
       return NSScreen.screens
     }
 
-    let displaySpacesInfo = SLSCopyManagedDisplaySpaces(Space.connection) as NSArray
-
-    var screen: NSScreen?
-
-    for item in displaySpacesInfo {
-      guard let info = item as? [String: AnyObject] else { continue }
-      guard let screenID = info[screenIDKey] as? String else { continue }
-      guard let spacesInfo = info[spacesKey] as? [[String: AnyObject]] else { continue }
-
-      for spaceInfo in spacesInfo {
-        guard let id = spaceInfo[spaceIDKey] as? uint64 else { continue }
-
-        if id == self.id {
-          screen = NSScreen.screen(for: screenID)
-        }
-      }
+    guard let screenID = Self.windowServerClient.screenID(forSpaceID: id, connectionID: Space.connection),
+      let screen = NSScreen.screen(for: screenID)
+    else {
+      return []
     }
-
-    guard let screen = screen else { return [] }
 
     return [screen]
   }

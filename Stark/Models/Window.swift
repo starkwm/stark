@@ -86,6 +86,8 @@ private let kAXFullScreenAttribute = "AXFullScreen"
 }
 
 class Window: NSObject, WindowJSExport {
+  private static let accessibilityClient = AccessibilityClient.live
+
   static func all() -> [Window] {
     WindowManager.shared.allWindows()
   }
@@ -93,24 +95,15 @@ class Window: NSObject, WindowJSExport {
   static func focused() -> Window? {
     guard let application = Application.focused() else { return nil }
 
-    var windowElement: AnyObject?
-
-    guard
-      AXUIElementCopyAttributeValue(
-        application.element,
-        kAXFocusedWindowAttribute as CFString,
-        &windowElement
-      ) == .success
-    else { return nil }
-    let axElement = windowElement as! AXUIElement
+    guard let axElement = accessibilityClient.focusedWindowElement(for: application.element) else {
+      return nil
+    }
 
     return WindowManager.shared.window(by: Window.id(for: axElement))
   }
 
   static func id(for element: AXUIElement) -> CGWindowID {
-    var id: CGWindowID = 0
-    _AXUIElementGetWindow(element, &id)
-    return id
+    accessibilityClient.windowID(for: element)
   }
 
   static func validID(for element: AXUIElement) -> CGWindowID? {
@@ -119,16 +112,11 @@ class Window: NSObject, WindowJSExport {
   }
 
   static func isWindow(_ element: AXUIElement) -> Bool {
-    var role: CFTypeRef?
-    guard AXUIElementCopyAttributeValue(element, kAXRoleAttribute as CFString, &role) == .success
-    else { return false }
-    return role as? String == kAXWindowRole
+    accessibilityClient.isWindow(element)
   }
 
   static func pid(for element: AXUIElement) -> pid_t? {
-    var pid: pid_t = 0
-    guard AXUIElementGetPid(element, &pid) == .success else { return nil }
-    return pid
+    accessibilityClient.processID(for: element)
   }
 
   override var description: String {
@@ -151,7 +139,7 @@ class Window: NSObject, WindowJSExport {
 
   var title: String {
     guard let element else { return "" }
-    return AccessibilityHelper.stringAttribute(for: element, attribute: kAXTitleAttribute as String)
+    return Self.accessibilityClient.stringAttribute(for: element, attribute: kAXTitleAttribute as String)
       ?? ""
   }
 
@@ -161,43 +149,24 @@ class Window: NSObject, WindowJSExport {
 
   var topLeft: CGPoint {
     guard let element else { return CGPoint.zero }
-    return AccessibilityHelper.pointAttribute(
-      for: element,
-      attribute: kAXPositionAttribute as String
-    ) ?? CGPoint.zero
+    return Self.accessibilityClient.pointAttribute(for: element, attribute: kAXPositionAttribute as String)
+      ?? CGPoint.zero
   }
 
   var size: CGSize {
     guard let element else { return CGSize.zero }
-    return AccessibilityHelper.sizeAttribute(for: element, attribute: kAXSizeAttribute as String)
+    return Self.accessibilityClient.sizeAttribute(for: element, attribute: kAXSizeAttribute as String)
       ?? CGSize.zero
   }
 
   var isMain: Bool {
     guard let element else { return false }
-
-    var value: AnyObject?
-
-    guard AXUIElementCopyAttributeValue(element, kAXMainAttribute as CFString, &value) == .success
-    else { return false }
-    guard let number = value as? NSNumber else { return false }
-
-    return number.boolValue
+    return Self.accessibilityClient.isMainWindow(element)
   }
 
   var subrole: String? {
     guard let element else { return nil }
-
-    var value: AnyObject?
-
-    guard
-      AXUIElementCopyAttributeValue(element, kAXSubroleAttribute as CFString, &value) == .success
-    else {
-      return nil
-    }
-    guard let subrole = value as? String else { return nil }
-
-    return subrole
+    return Self.accessibilityClient.subrole(for: element)
   }
 
   var isStandard: Bool {
@@ -206,13 +175,12 @@ class Window: NSObject, WindowJSExport {
 
   var isFullscreen: Bool {
     guard let element else { return false }
-    return AccessibilityHelper.boolAttribute(for: element, attribute: kAXFullScreenAttribute)
-      ?? false
+    return Self.accessibilityClient.boolAttribute(for: element, attribute: kAXFullScreenAttribute) ?? false
   }
 
   var isMinimized: Bool {
     guard let element else { return false }
-    return AccessibilityHelper.boolAttribute(
+    return Self.accessibilityClient.boolAttribute(
       for: element,
       attribute: kAXMinimizedAttribute as String
     ) ?? false
@@ -262,45 +230,55 @@ class Window: NSObject, WindowJSExport {
   func setTopLeft(_ topLeft: CGPoint) {
     application?.enhancedUIWorkaround {
       guard let element else { return }
-      AccessibilityHelper.setPoint(
-        topLeft,
-        for: element,
-        attribute: kAXPositionAttribute as String
-      )
+      Self.accessibilityClient.setPoint(topLeft, for: element, attribute: kAXPositionAttribute as String)
     }
   }
 
   func setSize(_ size: CGSize) {
     application?.enhancedUIWorkaround {
       guard let element else { return }
-      AccessibilityHelper.setSize(size, for: element, attribute: kAXSizeAttribute as String)
+      Self.accessibilityClient.setSize(size, for: element, attribute: kAXSizeAttribute as String)
     }
   }
 
   func setFullscreen(_ value: Bool) {
     guard let element else { return }
 
-    AXUIElementSetAttributeValue(element, kAXFullScreenAttribute as CFString, value as CFTypeRef)
+    Self.accessibilityClient.setAttributeValue(
+      value as CFTypeRef,
+      for: element,
+      attribute: kAXFullScreenAttribute
+    )
   }
 
   func minimize() {
     guard let element else { return }
 
-    AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, true as CFTypeRef)
+    Self.accessibilityClient.setAttributeValue(
+      true as CFTypeRef,
+      for: element,
+      attribute: kAXMinimizedAttribute as String
+    )
   }
 
   func unminimize() {
     guard let element else { return }
 
-    AXUIElementSetAttributeValue(element, kAXMinimizedAttribute as CFString, false as CFTypeRef)
+    Self.accessibilityClient.setAttributeValue(
+      false as CFTypeRef,
+      for: element,
+      attribute: kAXMinimizedAttribute as String
+    )
   }
 
   func focus() {
     guard let element else { return }
 
-    if AXUIElementSetAttributeValue(element, kAXMainAttribute as CFString, kCFBooleanTrue)
-      != .success
-    {
+    if !Self.accessibilityClient.setAttributeValue(
+      kCFBooleanTrue,
+      for: element,
+      attribute: kAXMainAttribute as String
+    ) {
       return
     }
 
@@ -322,7 +300,12 @@ class Window: NSObject, WindowJSExport {
     let context = UnsafeMutableRawPointer(bitPattern: UInt(id))
 
     for (idx, notification) in windowNotifications.enumerated() {
-      let result = AXObserverAddNotification(observer, element, notification as CFString, context)
+      let result = Self.accessibilityClient.addNotification(
+        observer: observer,
+        element: element,
+        notification: notification,
+        context: context
+      )
 
       if result == .success || result == .notificationAlreadyRegistered {
         observedNotifications.insert(WindowNotifications(rawValue: 1 << idx))
@@ -342,7 +325,11 @@ class Window: NSObject, WindowJSExport {
       let notif = WindowNotifications(rawValue: 1 << idx)
 
       if observedNotifications.contains(notif) {
-        AXObserverRemoveNotification(observer, element, notification as CFString)
+        Self.accessibilityClient.removeNotification(
+          observer: observer,
+          element: element,
+          notification: notification
+        )
         observedNotifications.remove(notif)
       }
     }

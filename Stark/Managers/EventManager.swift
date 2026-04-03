@@ -7,6 +7,10 @@ final class EventManager {
   static let shared = EventManager()
 
   private let queue = OperationQueue.main
+  private let accessibilityQueue = DispatchQueue(
+    label: "dev.tombell.Stark.EventManager.accessibility",
+    qos: .userInitiated
+  )
 
   /// Posts an event to be processed asynchronously.
   /// - Parameters:
@@ -14,6 +18,16 @@ final class EventManager {
   ///   - object: Optional data associated with the event
   func post(event: EventType, with object: Any?) {
     queue.addOperation { self.handle(event: event, with: object) }
+  }
+
+  /// Resolves a window identifier off the main run loop before dispatching the event.
+  /// This keeps AX observer callbacks lightweight and avoids blocking the app on
+  /// `_AXUIElementGetWindow` when the target process is slow to respond.
+  func post(event: EventType, withWindowElement element: AXUIElement) {
+    accessibilityQueue.async {
+      let windowID = Window.id(for: element)
+      self.post(event: event, with: windowID)
+    }
   }
 
   private func handle(event: EventType, with object: Any?) {

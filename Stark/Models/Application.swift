@@ -69,16 +69,16 @@ private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
 }
 
 class Application: NSObject, ApplicationJSExport {
+  private static let accessibilityClient = AccessibilityClient.live
+  private static let processClient = ProcessClient.live
+  private static let windowServerClient = WindowServerClient.live
+
   static func all() -> [Application] {
     WindowManager.shared.allApplications()
   }
 
   static func focused() -> Application? {
-    var psn = ProcessSerialNumber()
-    guard _SLPSGetFrontProcess(&psn) == noErr else { return nil }
-
-    var pid = pid_t()
-    guard GetProcessPID(&psn, &pid) == noErr else { return nil }
+    guard let pid = processClient.frontmostProcessID() else { return nil }
 
     guard let application = WindowManager.shared.application(by: pid) else { return nil }
 
@@ -110,16 +110,8 @@ class Application: NSObject, ApplicationJSExport {
   }
 
   var isHidden: Bool {
-    var value: AnyObject?
-
-    guard
-      AXUIElementCopyAttributeValue(element, kAXHiddenAttribute as CFString, &value) == .success,
-      let number = value as? NSNumber
-    else {
-      return false
-    }
-
-    return number.boolValue
+    Self.accessibilityClient.boolAttribute(for: element, attribute: kAXHiddenAttribute as String)
+      ?? false
   }
 
   var isTerminated: Bool {
@@ -139,14 +131,19 @@ class Application: NSObject, ApplicationJSExport {
   private var observing = false
 
   init?(for process: Process) {
-    element = AXUIElementCreateApplication(process.pid)
+    element = Self.accessibilityClient.applicationElement(for: process.pid)
 
     guard let app = NSRunningApplication(processIdentifier: process.pid) else {
       return nil
     }
     application = app
 
-    SLSGetConnectionIDForPSN(Space.connection, &process.psn, &connection)
+    if let connectionID = Self.processClient.connectionID(
+      for: process.psn,
+      mainConnectionID: Space.connection
+    ) {
+      connection = connectionID
+    }
   }
 
   deinit {
@@ -179,20 +176,27 @@ class Application: NSObject, ApplicationJSExport {
   }
 
   func observe() -> Result<Void, AXError> {
-    let result = AXObserverCreate(
-      application.processIdentifier,
-      accessibilityObserverCallback,
-      &observer
-    )
-
-    guard result == .success, let observer = observer else {
-      return .failure(.observerCreationFailed)
+    switch Self.accessibilityClient.createObserver(
+      processID: application.processIdentifier,
+      callback: accessibilityObserverCallback
+    ) {
+    case .success(let observer):
+      self.observer = observer
+    case .failure(let error):
+      return .failure(error)
     }
+
+    guard let observer else { return .failure(.observerCreationFailed) }
 
     let context: UnsafeMutableRawPointer? = Unmanaged.passUnretained(self).toOpaque()
 
     for (idx, notification) in applicationNotifications.enumerated() {
-      let result = AXObserverAddNotification(observer, element, notification as CFString, context)
+      let result = Self.accessibilityClient.addNotification(
+        observer: observer,
+        element: element,
+        notification: notification,
+        context: context
+      )
 
       if result == .success || result == .notificationAlreadyRegistered {
         observedNotifications.insert(ApplicationNotifications(rawValue: 1 << idx))
@@ -230,7 +234,11 @@ class Application: NSObject, ApplicationJSExport {
 
       guard observedNotifications.contains(notif) else { continue }
 
-      AXObserverRemoveNotification(observer, element, notification as CFString)
+      Self.accessibilityClient.removeNotification(
+        observer: observer,
+        element: element,
+        notification: notification
+      )
       observedNotifications.remove(notif)
     }
 
@@ -243,54 +251,15 @@ class Application: NSObject, ApplicationJSExport {
   }
 
   func windowIdentifiers() -> [CGWindowID] {
-    let spaces = Space.all().map(\.id) as CFArray
-
-    let options: UInt32 = 0x7
-    var setTags: UInt64 = 0
-    var clearTags: UInt64 = 0
-
-    let windows = SLSCopyWindowsWithOptionsAndTags(
-      Space.connection,
-      UInt32(connection),
-      spaces,
-      options,
-      &setTags,
-      &clearTags
+    Self.windowServerClient.windowIdentifiers(
+      connectionID: Space.connection,
+      applicationConnectionID: connection,
+      spaceIDs: Space.all().map(\.id)
     )
-
-    let query = SLSWindowQueryWindows(Space.connection, windows, Int32(CFArrayGetCount(windows)))
-    let iterator = SLSWindowQueryResultCopyWindows(query)
-
-    var windowIDs = [CGWindowID]()
-
-    while SLSWindowIteratorAdvance(iterator) {
-      guard SLSWindowIteratorGetParentID(iterator) == 0 else { continue }
-
-      let level = NSWindow.Level(rawValue: SLSWindowIteratorGetLevel(iterator))
-      guard level == .normal || level == .floating || level == .modalPanel else { continue }
-
-      let attributes = SLSWindowIteratorGetAttributes(iterator)
-      let tags = SLSWindowIteratorGetTags(iterator)
-      guard validWindow(attributes, tags) else { continue }
-
-      let id = SLSWindowIteratorGetWindowID(iterator)
-      windowIDs.append(id)
-    }
-
-    return windowIDs
   }
 
   func windowElements() -> [AXUIElement] {
-    var values: AnyObject?
-
-    if AXUIElementCopyAttributeValue(element, kAXWindowsAttribute as CFString, &values) != .success
-    {
-      return []
-    }
-
-    guard let windows = values as? [AXUIElement] else { return [] }
-
-    return windows
+    Self.accessibilityClient.windowElements(for: element)
   }
 
   /// Workaround for applications with Enhanced User Interface enabled (e.g., Slack, Discord).
@@ -301,61 +270,31 @@ class Application: NSObject, ApplicationJSExport {
     let enhancedUserInterfaceEnabled = isEnhancedUIEnabled()
 
     if enhancedUserInterfaceEnabled {
-      AXUIElementSetAttributeValue(element, kAXEnhancedUserInterface as CFString, kCFBooleanFalse)
+      Self.accessibilityClient.setAttributeValue(
+        kCFBooleanFalse,
+        for: element,
+        attribute: kAXEnhancedUserInterface
+      )
     }
 
     callback()
 
     if enhancedUserInterfaceEnabled {
-      AXUIElementSetAttributeValue(element, kAXEnhancedUserInterface as CFString, kCFBooleanTrue)
+      Self.accessibilityClient.setAttributeValue(
+        kCFBooleanTrue,
+        for: element,
+        attribute: kAXEnhancedUserInterface
+      )
     }
   }
 
   /// Checks if Enhanced User Interface is enabled for this application.
   /// - Returns: true if Enhanced UI is enabled
   private func isEnhancedUIEnabled() -> Bool {
-    var value: AnyObject?
-    let result = AXUIElementCopyAttributeValue(
-      element,
-      kAXEnhancedUserInterface as CFString,
-      &value
+    Self.accessibilityClient.enhancedUIEnabled(
+      for: element,
+      attribute: kAXEnhancedUserInterface
     )
-
-    if result == .success,
-      CFGetTypeID(value) == CFBooleanGetTypeID()
-    {
-      let boolValue = value as! CFBoolean
-      return CFBooleanGetValue(boolValue)
-    }
-
-    return false
-  }
-
-  /// Validates window attributes and tags to determine if it's a real window we should manage.
-  /// Uses bitwise operations on window flags from the WindowServer to filter out non-window elements.
-  /// - Parameters:
-  ///   - attributes: Window attributes from the WindowServer
-  ///   - tags: Window tags from the WindowServer
-  /// - Returns: true if this represents a valid window we should manage
-  private func validWindow(_ attributes: UInt64, _ tags: UInt64) -> Bool {
-    // Check for standard window attributes (bit 0x2) or window tags (bit 0x400...)
-    // combined with visibility tags (bit 0x1) or active window tags
-    if ((attributes & 0x2) != 0 || (tags & 0x400_0000_0000_0000) != 0)
-      && (((tags & 0x1) != 0) || ((tags & 0x2) != 0 && (tags & 0x8000_0000) != 0))
-    {
-      return true
-    }
-
-    // Alternative validation for certain window types
-    // Checks for minimal attributes with specific tag combinations
-    if (attributes == 0x0 || attributes == 0x1)
-      && ((tags & 0x1000_0000_0000_0000) != 0 || (tags & 0x300_0000_0000_0000) != 0)
-      && (((tags & 0x1) != 0) || ((tags & 0x2) != 0 && (tags & 0x8000_0000) != 0))
-    {
-      return true
-    }
-
-    return false
   }
 }
 
@@ -370,13 +309,13 @@ private func accessibilityObserverCallback(
     EventManager.shared.post(event: .windowCreated, with: element)
 
   case kAXFocusedWindowChangedNotification:
-    EventManager.shared.post(event: .windowFocused, with: Window.id(for: element))
+    EventManager.shared.post(event: .windowFocused, withWindowElement: element)
 
   case kAXWindowMovedNotification:
-    EventManager.shared.post(event: .windowMoved, with: Window.id(for: element))
+    EventManager.shared.post(event: .windowMoved, withWindowElement: element)
 
   case kAXWindowResizedNotification:
-    EventManager.shared.post(event: .windowResized, with: Window.id(for: element))
+    EventManager.shared.post(event: .windowResized, withWindowElement: element)
 
   case kAXWindowMiniaturizedNotification:
     guard let context else { return }
