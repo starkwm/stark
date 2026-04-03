@@ -1,5 +1,31 @@
 import Carbon
 
+protocol EventWorkspaceManaging {
+  func isFinishedLaunching(_ process: Process) -> Bool
+  func observeFinishedLaunching(_ process: Process)
+  func unobserveFinishedLaunching(_ process: Process)
+  func isObservable(_ process: Process) -> Bool
+  func observeActivationPolicy(_ process: Process)
+  func unobserveActivationPolicy(_ process: Process)
+}
+
+protocol EventWindowManaging {
+  func add(application: Application)
+  func remove(application: Application)
+  func application(by pid: pid_t) -> Application?
+  func addWindow(for application: Application, with element: AXUIElement) -> Window?
+  func addWindows(for application: Application) -> [Window]
+  func remove(by windowID: CGWindowID)
+  func window(by id: CGWindowID) -> Window?
+  func allWindows(for application: Application) -> [Window]
+  func refreshWindows()
+  func refreshWindows(for application: Application)
+}
+
+protocol EventProcessLookup {
+  func find(by psn: ProcessSerialNumber) -> Process?
+}
+
 /// Manages and dispatches window management events.
 /// Processes events serially on the main queue so AppKit, AX callbacks, and
 /// window/application state all stay on the same thread.
@@ -12,9 +38,30 @@ final class EventManager {
     qos: .userInitiated
   )
 
-  private let applicationHandler = ApplicationLifecycleHandler()
-  private let windowHandler = WindowLifecycleHandler()
-  private let spaceHandler = SpaceLifecycleHandler()
+  private let workspace: EventWorkspaceManaging
+  private let windowManager: EventWindowManaging
+  private let processLookup: EventProcessLookup
+
+  private lazy var applicationHandler = ApplicationLifecycleHandler(
+    workspace: workspace,
+    windowManager: windowManager,
+    processLookup: processLookup,
+    postEvent: { [weak self] event in
+      self?.post(event)
+    }
+  )
+  private lazy var windowHandler = WindowLifecycleHandler(windowManager: windowManager)
+  private lazy var spaceHandler = SpaceLifecycleHandler(windowManager: windowManager)
+
+  init(
+    workspace: EventWorkspaceManaging = Workspace.shared,
+    windowManager: EventWindowManaging = WindowManager.shared,
+    processLookup: EventProcessLookup = ProcessManager.shared
+  ) {
+    self.workspace = workspace
+    self.windowManager = windowManager
+    self.processLookup = processLookup
+  }
 
   /// Posts a typed runtime event to be processed asynchronously.
   func post(_ event: RuntimeEvent) {
@@ -61,6 +108,11 @@ enum WindowIdentifierEvent {
 }
 
 private struct ApplicationLifecycleHandler {
+  let workspace: EventWorkspaceManaging
+  let windowManager: EventWindowManaging
+  let processLookup: EventProcessLookup
+  let postEvent: (RuntimeEvent) -> Void
+
   func handle(_ event: ApplicationEvent) {
     switch event {
     case .launched(let process):
@@ -78,23 +130,23 @@ private struct ApplicationLifecycleHandler {
       return
     }
 
-    if !Workspace.shared.isFinishedLaunching(process) {
+    if !workspace.isFinishedLaunching(process) {
       log("application has not finished launching \(process)")
-      Workspace.shared.observeFinishedLaunching(process)
+      workspace.observeFinishedLaunching(process)
 
-      guard Workspace.shared.isFinishedLaunching(process) else { return }
-      Workspace.shared.unobserveFinishedLaunching(process)
+      guard workspace.isFinishedLaunching(process) else { return }
+      workspace.unobserveFinishedLaunching(process)
     }
 
-    if !Workspace.shared.isObservable(process) {
+    if !workspace.isObservable(process) {
       log("application is not observable \(process)")
-      Workspace.shared.observeActivationPolicy(process)
+      workspace.observeActivationPolicy(process)
 
-      guard Workspace.shared.isObservable(process) else { return }
-      Workspace.shared.unobserveActivationPolicy(process)
+      guard workspace.isObservable(process) else { return }
+      workspace.unobserveActivationPolicy(process)
     }
 
-    guard WindowManager.shared.application(by: process.pid) == nil else { return }
+    guard windowManager.application(by: process.pid) == nil else { return }
 
     guard let application = Application(for: process) else {
       log("could not create application for process \(process)", level: .warn)
@@ -110,16 +162,16 @@ private struct ApplicationLifecycleHandler {
 
       if application.retryObserving {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-          guard let process = ProcessManager.shared.find(by: process.psn) else { return }
-          EventManager.shared.post(.application(.launched(process)))
+          guard let process = processLookup.find(by: process.psn) else { return }
+          postEvent(.application(.launched(process)))
         }
       }
 
       return
     }
 
-    WindowManager.shared.add(application: application)
-    WindowManager.shared.addWindows(for: application)
+    windowManager.add(application: application)
+    _ = windowManager.addWindows(for: application)
 
     log("application launched \(application)", level: .info)
 
@@ -129,21 +181,21 @@ private struct ApplicationLifecycleHandler {
   }
 
   private func applicationTerminated(for process: Process) {
-    Workspace.shared.unobserveActivationPolicy(process)
-    Workspace.shared.unobserveFinishedLaunching(process)
+    workspace.unobserveActivationPolicy(process)
+    workspace.unobserveFinishedLaunching(process)
 
-    guard let application = WindowManager.shared.application(by: process.pid) else { return }
+    guard let application = windowManager.application(by: process.pid) else { return }
 
     for listener in Event.callbacks(for: .applicationTerminated) {
       listener.call(withArguments: [application])
     }
 
-    WindowManager.shared.remove(application: application)
+    windowManager.remove(application: application)
 
-    let windows = WindowManager.shared.allWindows(for: application)
+    let windows = windowManager.allWindows(for: application)
 
     for window in windows {
-      WindowManager.shared.remove(by: window.id)
+      windowManager.remove(by: window.id)
       window.invalidate()
     }
 
@@ -153,9 +205,9 @@ private struct ApplicationLifecycleHandler {
   }
 
   private func applicationFrontSwitched(for process: Process) {
-    guard let application = WindowManager.shared.application(by: process.pid) else { return }
+    guard let application = windowManager.application(by: process.pid) else { return }
 
-    WindowManager.shared.refreshWindows(for: application)
+    windowManager.refreshWindows(for: application)
 
     log("frontmost application switched \(application)", level: .info)
 
@@ -166,6 +218,8 @@ private struct ApplicationLifecycleHandler {
 }
 
 private struct WindowLifecycleHandler {
+  let windowManager: EventWindowManaging
+
   func handle(_ event: WindowEvent) {
     switch event {
     case .created(let element):
@@ -188,10 +242,10 @@ private struct WindowLifecycleHandler {
   private func windowCreated(with element: AXUIElement) {
     let windowID = Window.id(for: element)
 
-    guard WindowManager.shared.window(by: windowID) == nil else { return }
+    guard windowManager.window(by: windowID) == nil else { return }
     guard let pid = Window.pid(for: element) else { return }
-    guard let application = WindowManager.shared.application(by: pid) else { return }
-    guard let window = WindowManager.shared.addWindow(for: application, with: element) else {
+    guard let application = windowManager.application(by: pid) else { return }
+    guard let window = windowManager.addWindow(for: application, with: element) else {
       return
     }
 
@@ -211,13 +265,13 @@ private struct WindowLifecycleHandler {
 
     log("window destroyed \(window)", level: .info)
 
-    WindowManager.shared.remove(by: window.id)
+    windowManager.remove(by: window.id)
     window.invalidate()
   }
 
   private func windowFocused(with windowID: CGWindowID) {
     guard windowID != 0 else { return }
-    guard let window = WindowManager.shared.window(by: windowID) else { return }
+    guard let window = windowManager.window(by: windowID) else { return }
 
     log("window focused \(window)", level: .info)
 
@@ -228,7 +282,7 @@ private struct WindowLifecycleHandler {
 
   private func windowMoved(with windowID: CGWindowID) {
     guard windowID != 0 else { return }
-    guard let window = WindowManager.shared.window(by: windowID) else { return }
+    guard let window = windowManager.window(by: windowID) else { return }
 
     log("window moved \(window)", level: .info)
 
@@ -239,7 +293,7 @@ private struct WindowLifecycleHandler {
 
   private func windowResized(with windowID: CGWindowID) {
     guard windowID != 0 else { return }
-    guard let window = WindowManager.shared.window(by: windowID) else { return }
+    guard let window = windowManager.window(by: windowID) else { return }
 
     log("window resized \(window)", level: .info)
 
@@ -266,6 +320,8 @@ private struct WindowLifecycleHandler {
 }
 
 private struct SpaceLifecycleHandler {
+  let windowManager: EventWindowManaging
+
   func handle(_ event: SpaceEvent) {
     switch event {
     case .changed(let space):
@@ -274,7 +330,7 @@ private struct SpaceLifecycleHandler {
   }
 
   private func spaceChanged(with space: Space) {
-    WindowManager.shared.refreshWindows()
+    windowManager.refreshWindows()
 
     log("space changed \(space)", level: .info)
 
@@ -283,3 +339,7 @@ private struct SpaceLifecycleHandler {
     }
   }
 }
+
+extension Workspace: EventWorkspaceManaging {}
+extension WindowManager: EventWindowManaging {}
+extension ProcessManager: EventProcessLookup {}

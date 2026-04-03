@@ -15,16 +15,16 @@ struct WorkspaceEnvironment {
         object: nil
       )
     },
-    addObserver: { _, process, keyPath, context in
+    addObserver: { workspace, process, keyPath, context in
       process.application?.addObserver(
-        Workspace.shared,
+        workspace,
         forKeyPath: keyPath,
         options: [.initial, .new],
         context: context
       )
     },
-    removeObserver: { _, process, keyPath, context in
-      process.application?.removeObserver(Workspace.shared, forKeyPath: keyPath, context: context)
+    removeObserver: { workspace, process, keyPath, context in
+      process.application?.removeObserver(workspace, forKeyPath: keyPath, context: context)
     },
     postEvent: { event in
       EventManager.shared.post(event)

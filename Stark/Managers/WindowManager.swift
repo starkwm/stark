@@ -1,21 +1,40 @@
 import Carbon
 
+protocol WindowManagerProcessListing {
+  func all() -> [Process]
+}
+
+protocol WindowManagerWorkspaceObserving {
+  func isObservable(_ process: Process) -> Bool
+  func observeActivationPolicy(_ process: Process)
+}
+
 /// Manages all windows and applications in the system.
 /// Coordinates window discovery, observation, and lifecycle management.
 final class WindowManager {
   static let shared = WindowManager()
 
+  private let processManager: WindowManagerProcessListing
+  private let workspace: WindowManagerWorkspaceObserving
   private let applications = ManagedApplicationStore()
   private let refreshQueue = UnresolvedWindowRefreshQueue()
   private let resolver = RemoteWindowResolver()
   private let windows = ManagedWindowStore()
 
+  init(
+    processManager: WindowManagerProcessListing = ProcessManager.shared,
+    workspace: WindowManagerWorkspaceObserving = Workspace.shared
+  ) {
+    self.processManager = processManager
+    self.workspace = workspace
+  }
+
   /// Initializes window management by observing all running applications.
   func start() {
-    for process in ProcessManager.shared.all() {
-      guard Workspace.shared.isObservable(process) else {
+    for process in processManager.all() {
+      guard workspace.isObservable(process) else {
         log("application is not observable \(process)", level: .warn)
-        Workspace.shared.observeActivationPolicy(process)
+        workspace.observeActivationPolicy(process)
         continue
       }
 
@@ -216,6 +235,9 @@ final class WindowManager {
     return false
   }
 }
+
+extension ProcessManager: WindowManagerProcessListing {}
+extension Workspace: WindowManagerWorkspaceObserving {}
 
 private enum WindowDiscoveryMode {
   case initialDiscovery
