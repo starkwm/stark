@@ -40,10 +40,12 @@ class Keymap: NSObject, KeymapJSExport {
     String(format: "%@[%@]", key, modifiers.joined(separator: "|"))
   }
 
+  /// Starts staging keymap mutations so config reloads can commit atomically.
   static func beginRecording() {
     keymaps.beginRecording()
   }
 
+  /// Swaps staged keymaps into the active set and re-registers hotkeys to match.
   static func commitRecording() {
     guard let transition = keymaps.commit() else { return }
 
@@ -57,6 +59,7 @@ class Keymap: NSObject, KeymapJSExport {
     }
   }
 
+  /// Drops staged keymaps without disturbing the currently active registrations.
   static func discardRecording() {
     guard let recordingKeymaps = keymaps.discard() else { return }
 
@@ -65,6 +68,7 @@ class Keymap: NSObject, KeymapJSExport {
     }
   }
 
+  /// Registers a keymap immediately or stages it during a config reload.
   static func on(_ key: String, _ modifiers: [String], _ callback: JSValue) -> Keymap {
     let keymap = Keymap(key: key, modifiers: modifiers, callback: callback)
 
@@ -95,6 +99,7 @@ class Keymap: NSObject, KeymapJSExport {
     return keymap
   }
 
+  /// Removes a keymap from either staged or active storage, unregistering it if needed.
   static func off(_ id: String) {
     let result = keymaps.mutate { keymaps, recordingKeymaps in
       if recordingKeymaps != nil {
@@ -115,6 +120,7 @@ class Keymap: NSObject, KeymapJSExport {
     }
   }
 
+  /// Clears every registered keymap from the current storage mode.
   static func reset() {
     let result = keymaps.mutate { keymaps, recordingKeymaps in
       if recordingKeymaps != nil {
@@ -189,10 +195,12 @@ class Keymap: NSObject, KeymapJSExport {
     log("keymap deinit \(self)")
   }
 
+  /// Registers the underlying Carbon hotkey for this keymap.
   func activate() {
     ShortcutManager.register(shortcut: shortcut)
   }
 
+  /// Invokes the JavaScript callback bound to this keymap.
   private func call() {
     JSCallbackInvoker.call(callback, withArguments: [])
   }

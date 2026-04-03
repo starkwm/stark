@@ -73,10 +73,12 @@ class Application: NSObject, ApplicationJSExport {
   private static let processClient = ProcessClient.live
   private static let windowServerClient = WindowServerClient.live
 
+  /// Returns all applications currently tracked by the window manager.
   static func all() -> [Application] {
     WindowManager.shared.allApplications()
   }
 
+  /// Returns the frontmost tracked application, if one can be resolved.
   static func focused() -> Application? {
     guard let pid = processClient.frontmostProcessID() else { return nil }
 
@@ -85,6 +87,7 @@ class Application: NSObject, ApplicationJSExport {
     return WindowManager.shared.application(by: application.processID)
   }
 
+  /// Looks up a tracked application by its localized name.
   static func find(_ name: String) -> Application? {
     WindowManager.shared.application(by: name)
   }
@@ -130,6 +133,7 @@ class Application: NSObject, ApplicationJSExport {
   private var observedNotifications = ApplicationNotifications(rawValue: 0)
   private var observing = false
 
+  /// Wraps a running process with its AX application element and SkyLight connection id.
   init?(for process: Process) {
     element = Self.accessibilityClient.applicationElement(for: process.pid)
 
@@ -151,6 +155,7 @@ class Application: NSObject, ApplicationJSExport {
     log("application deinit \(self)")
   }
 
+  /// Returns the tracked windows currently associated with this application.
   func windows() -> [Window] {
     WindowManager.shared.allWindows(for: self)
   }
@@ -175,6 +180,7 @@ class Application: NSObject, ApplicationJSExport {
     application.terminate()
   }
 
+  /// Installs the AX observer and subscribes to app-level window notifications.
   func observe() -> Result<Void, AXError> {
     switch Self.accessibilityClient.createObserver(
       processID: application.processIdentifier,
@@ -226,6 +232,7 @@ class Application: NSObject, ApplicationJSExport {
     return .success(())
   }
 
+  /// Removes any AX notifications and invalidates the app-level observer.
   func unobserve() {
     guard let observer = observer else { return }
 
@@ -250,6 +257,7 @@ class Application: NSObject, ApplicationJSExport {
     self.observer = nil
   }
 
+  /// Returns the window server ids currently owned by this application across all spaces.
   func windowIdentifiers() -> [CGWindowID] {
     Self.windowServerClient.windowIdentifiers(
       connectionID: Space.connection,
@@ -258,6 +266,7 @@ class Application: NSObject, ApplicationJSExport {
     )
   }
 
+  /// Returns the application's current AX window elements.
   func windowElements() -> [AXUIElement] {
     Self.accessibilityClient.windowElements(for: element)
   }

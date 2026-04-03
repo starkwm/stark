@@ -38,10 +38,12 @@ struct LaunchAgentEnvironment {
 enum LaunchAgentHelper {
   private static var environment = LaunchAgentEnvironment.live
 
+  /// Returns the per-user LaunchAgents directory used for login items.
   static func launchAgentDirectory() -> URL? {
     environment.libraryDirectory()?.appendingPathComponent("LaunchAgents")
   }
 
+  /// Returns the plist path Stark uses for launch-at-login registration.
   static func launchAgentFile() -> URL? {
     guard
       let launchAgentDirectory = launchAgentDirectory(),
@@ -51,6 +53,7 @@ enum LaunchAgentHelper {
     return launchAgentDirectory.appendingPathComponent("\(bundleIdentifier).plist")
   }
 
+  /// Creates or updates the launch agent plist so Stark starts at login.
   static func add() {
     guard let bundleIdentifier = environment.bundleIdentifier() else {
       log("could not access launch agent plist file", level: .error)
@@ -82,22 +85,26 @@ enum LaunchAgentHelper {
     environment.writePlist(plist, launchAgentFile)
   }
 
+  /// Removes Stark's launch agent plist if it exists.
   static func remove() {
     guard let launchAgentFile = launchAgentFile() else { return }
 
     environment.removeItem(launchAgentFile)
   }
 
+  /// Returns whether the launch agent plist currently exists on disk.
   static func enabled() -> Bool {
     guard let launchAgentFile = launchAgentFile() else { return false }
 
     return environment.isReachable(launchAgentFile)
   }
 
+  /// Replaces the live environment with a test double.
   static func useEnvironment(_ environment: LaunchAgentEnvironment) {
     Self.environment = environment
   }
 
+  /// Restores the helper's environment to the live implementation.
   static func resetForTesting() {
     environment = .live
   }

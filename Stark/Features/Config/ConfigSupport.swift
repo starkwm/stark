@@ -42,6 +42,7 @@ struct JSBridgeInstaller {
 struct ScriptRuntimeFactory {
   var createContext: () -> Result<JSContext, JSExceptionError>
 
+  /// Creates a JS context factory preloaded with Stark's bridge objects.
   static func live(bridgeInstaller: JSBridgeInstaller = .live) -> ScriptRuntimeFactory {
     ScriptRuntimeFactory(
       createContext: {

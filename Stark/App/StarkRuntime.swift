@@ -2,24 +2,31 @@ import AppKit
 import Sentry
 
 protocol StarkRuntimeType: AnyObject {
+  /// Starts all runtime services required for the app to function.
   func start()
+  /// Stops runtime services that hold external state or observers.
   func stop()
 }
 
 protocol StarkProcessManaging {
+  /// Starts process discovery and lifecycle monitoring.
   func start() -> Result<Void, AXError>
 }
 
 protocol StarkWindowManaging {
+  /// Starts observing applications and windows that Stark can manage.
   func start()
 }
 
 protocol StarkConfigManaging {
+  /// Loads the user configuration and begins watching it for changes.
   func start() -> Result<Void, Error>
+  /// Stops configuration monitoring and associated shortcut registration.
   func stop()
 }
 
 protocol StarkStatusItemManaging {
+  /// Installs the menu bar status item and its menu actions.
   func setup()
 }
 
@@ -71,10 +78,12 @@ final class StarkRuntime: StarkRuntimeType {
     self.statusItem = statusItem
   }
 
+  /// Builds the default runtime wired to the app's singleton services.
   static func live() -> StarkRuntime {
     StarkRuntime()
   }
 
+  /// Boots the runtime in dependency order so each subsystem sees initialized state.
   func start() {
     if let dsn = environment.sentryDSN() {
       environment.startSentry(dsn)
@@ -106,6 +115,7 @@ final class StarkRuntime: StarkRuntimeType {
     statusItem.setup()
   }
 
+  /// Stops services that keep long-lived state between app events.
   func stop() {
     configManager.stop()
   }

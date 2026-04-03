@@ -98,6 +98,7 @@ enum WindowIdentifierEvent {
   case moved
   case resized
 
+  /// Converts a deferred AX window lookup into the corresponding runtime event.
   func runtimeEvent(windowID: CGWindowID) -> WindowEvent {
     switch self {
     case .focused:
@@ -116,6 +117,7 @@ private struct ApplicationLifecycleHandler {
   let processLookup: EventProcessLookup
   let postEvent: (RuntimeEvent) -> Void
 
+  /// Routes application lifecycle events to the appropriate handler.
   func handle(_ event: ApplicationEvent) {
     switch event {
     case .launched(let process):
@@ -223,6 +225,7 @@ private struct ApplicationLifecycleHandler {
 private struct WindowLifecycleHandler {
   let windowManager: EventWindowManaging
 
+  /// Routes window lifecycle events to the appropriate handler.
   func handle(_ event: WindowEvent) {
     switch event {
     case .created(let element):
@@ -325,6 +328,7 @@ private struct WindowLifecycleHandler {
 private struct SpaceLifecycleHandler {
   let windowManager: EventWindowManaging
 
+  /// Routes space lifecycle events to the appropriate handler.
   func handle(_ event: SpaceEvent) {
     switch event {
     case .changed(let space):

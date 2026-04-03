@@ -152,12 +152,14 @@ final class WindowManager {
     windows.all()
   }
 
+  /// Retries window discovery for every application still waiting on remote resolution.
   func refreshWindows() {
     for application in refreshQueue.all() {
       refreshWindows(for: application)
     }
   }
 
+  /// Retries deferred window discovery for a single application.
   func refreshWindows(for application: Application) {
     guard refreshQueue.contains(application) else { return }
 
@@ -165,6 +167,7 @@ final class WindowManager {
     _ = reconcileWindows(for: application, mode: .refreshAttempt)
   }
 
+  /// Reconciles AX-reported windows against the window server list and runs the fallback resolver.
   @discardableResult
   private func reconcileWindows(
     for application: Application,

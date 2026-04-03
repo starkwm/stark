@@ -60,6 +60,7 @@ final class ConfigManager {
     self.fileMonitorSetup = fileMonitorSetup ?? { manager in manager.setupFileMonitor() }
   }
 
+  /// Resolves the highest-priority config path, even if the file does not yet exist.
   static func resolvePrimaryPath(
     paths: [String] = primaryPaths,
     fileSystem: ConfigFileSystem = .live
@@ -93,6 +94,7 @@ final class ConfigManager {
     ShortcutManager.stop()
   }
 
+  /// Builds a fresh JS context and atomically swaps newly declared bindings into the live runtime.
   private func load() -> Result<Void, Error> {
     let nextContext: JSContext
 
@@ -125,6 +127,7 @@ final class ConfigManager {
     }
   }
 
+  /// Reads the current config file and evaluates it inside the provided JS context.
   private func executeConfig(in context: JSContext) -> Result<Void, Error> {
     let scriptContents: String
 
@@ -138,6 +141,7 @@ final class ConfigManager {
     return executor.executeScript(context, scriptContents)
   }
 
+  /// Reads the selected configuration script from disk.
   func readConfigScript() -> Result<String, Error> {
     if !fileSystem.fileExists(path) {
       return .failure(FileError.notFound(path))
@@ -150,6 +154,7 @@ final class ConfigManager {
     return .success(scriptContents)
   }
 
+  /// Starts watching the active config file for writes, renames, and deletes.
   private func setupFileMonitor() -> Result<Void, FileError> {
     switch fileWatcher.startMonitoring(path, fileMonitorQueue, handleFileWatchReload) {
     case .success(let source):
@@ -160,6 +165,7 @@ final class ConfigManager {
     }
   }
 
+  /// Reloads the configuration on the main thread so AppKit and JS state stay serialized.
   private func reloadConfig() {
     let reload = {
       log("config file changed, reloading...", level: .info)
@@ -178,6 +184,7 @@ final class ConfigManager {
     }
   }
 
+  /// Recreates the file watcher after the underlying file descriptor becomes invalid.
   private func restartFileMonitor() {
     fileSystemSource?.cancel()
     fileSystemSource = nil
@@ -189,6 +196,7 @@ final class ConfigManager {
     }
   }
 
+  /// Handles file watcher events that may require both a reload and watcher restart.
   private func handleFileWatchReload(needsMonitorRestart: Bool) {
     if needsMonitorRestart {
       restartFileMonitor()
@@ -197,6 +205,7 @@ final class ConfigManager {
     reloadConfig()
   }
 
+  /// Exposes the core load path without installing file monitoring.
   func loadForTesting() -> Result<Void, Error> {
     load()
   }

@@ -24,10 +24,12 @@ struct LogFileSystem {
 struct LogHelper: TextOutputStream {
   let fileSystem: LogFileSystem
 
+  /// Creates a logger that writes to the configured file system abstraction.
   init(fileSystem: LogFileSystem = .live) {
     self.fileSystem = fileSystem
   }
 
+  /// Appends a log line to `~/.stark.log`, creating the file if necessary.
   func write(_ string: String) {
     let dir = URL(fileURLWithPath: fileSystem.homeDirectory())
     let file = dir.appendingPathComponent(".stark.log")
@@ -51,6 +53,7 @@ enum LogLevel: String {
   case error = "ERROR"
 }
 
+/// Formats a log entry and writes it either to disk or the console based on user settings.
 func log(_ message: @autoclosure () -> String, level: LogLevel = .debug) {
   let now = logDateProvider()
   let text = "\(now) \(level.rawValue): \(message())"

@@ -1,9 +1,13 @@
 import Carbon
 
 protocol ShortcutRegistrar: AnyObject {
+  /// Registers a Carbon hotkey and associates it with a Stark-owned identifier.
   func register(keyCode: UInt32, modifiers: UInt32, hotKeyID: UInt32, signature: OSType) -> Bool
+  /// Unregisters a previously installed Carbon hotkey.
   func unregister(hotKeyID: UInt32)
+  /// Installs the shared Carbon hotkey event handler.
   func installEventHandler() -> Bool
+  /// Removes the shared Carbon hotkey event handler.
   func removeEventHandler()
 }
 
@@ -11,6 +15,7 @@ final class CarbonShortcutRegistrar: ShortcutRegistrar {
   private var eventHotKeys = [UInt32: EventHotKeyRef]()
   private var eventHandler: EventHandlerRef?
 
+  /// Registers a Carbon hotkey and retains its reference for later cleanup.
   func register(keyCode: UInt32, modifiers: UInt32, hotKeyID: UInt32, signature: OSType) -> Bool {
     let keyID = EventHotKeyID(signature: signature, id: hotKeyID)
     var eventHotKeyRef: EventHotKeyRef?
@@ -30,12 +35,14 @@ final class CarbonShortcutRegistrar: ShortcutRegistrar {
     return true
   }
 
+  /// Unregisters a Carbon hotkey if its reference is still tracked.
   func unregister(hotKeyID: UInt32) {
     guard let eventHotKeyRef = eventHotKeys.removeValue(forKey: hotKeyID) else { return }
 
     UnregisterEventHotKey(eventHotKeyRef)
   }
 
+  /// Installs the single dispatcher callback used for all registered shortcuts.
   func installEventHandler() -> Bool {
     guard eventHandler == nil else { return true }
 
@@ -55,6 +62,7 @@ final class CarbonShortcutRegistrar: ShortcutRegistrar {
     return err == noErr
   }
 
+  /// Removes the shared dispatcher callback when shortcut handling stops.
   func removeEventHandler() {
     guard let eventHandler else { return }
 
@@ -84,6 +92,7 @@ enum ShortcutManager {
 
   private static var registrar: ShortcutRegistrar = CarbonShortcutRegistrar()
 
+  /// Handles a Carbon hotkey event and dispatches it to the matching shortcut callback.
   static func handle(event: EventRef?) -> OSStatus {
     guard let event = event else { return OSStatus(eventNotHandledErr) }
 
@@ -111,6 +120,7 @@ enum ShortcutManager {
     return noErr
   }
 
+  /// Registers a single shortcut if it has not already been tracked.
   static func register(shortcut: Shortcut) {
     guard !shortcuts.values.contains(where: { $0.identifier == shortcut.identifier }) else {
       return
@@ -134,12 +144,14 @@ enum ShortcutManager {
     )
   }
 
+  /// Registers a batch of shortcuts using the single-shortcut code path.
   static func register(shortcuts: [Shortcut]) {
     for shortcut in shortcuts {
       register(shortcut: shortcut)
     }
   }
 
+  /// Removes a tracked shortcut and unregisters its Carbon hotkey.
   static func unregister(shortcut: Shortcut) {
     guard let box = box(for: shortcut) else { return }
 
@@ -149,6 +161,7 @@ enum ShortcutManager {
     shortcuts.removeValue(forKey: box.carbonHotKeyID)
   }
 
+  /// Unregisters every tracked shortcut while preserving allocated hotkey ids.
   static func reset() {
     for (_, box) in shortcuts {
       guard let shortcut = box.shortcut else { continue }
@@ -156,12 +169,14 @@ enum ShortcutManager {
     }
   }
 
+  /// Installs the shared event handler once at least one shortcut has been allocated.
   static func start() {
     guard shortcutsCount != 0 else { return }
 
     _ = registrar.installEventHandler()
   }
 
+  /// Removes the shared event handler without altering tracked shortcuts.
   static func stop() {
     registrar.removeEventHandler()
   }
@@ -174,6 +189,7 @@ enum ShortcutManager {
     Self.registrar = registrar
   }
 
+  /// Resets all shortcut state and restores the default registrar for isolated tests.
   static func resetForTesting() {
     stop()
     reset()

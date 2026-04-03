@@ -46,14 +46,17 @@ import JavaScriptCore
 extension AppKit.NSScreen: JavaScriptCore.JSExport {}
 
 extension NSScreen: NSScreenJSExport {
+  /// Returns the current list of connected screens.
   static func all() -> [NSScreen] {
     screens
   }
 
+  /// Returns the main AppKit screen.
   static func focused() -> NSScreen? {
     main
   }
 
+  /// Looks up a screen by its stable display UUID string.
   static func screen(for id: String) -> NSScreen? {
     screens.first { $0.id == id }
   }
@@ -100,10 +103,12 @@ extension NSScreen: NSScreenJSExport {
     return NSScreen.screens[previousIndex]
   }
 
+  /// Returns every space whose screen list currently includes this screen.
   func spaces() -> [Space] {
     Space.all().filter { $0.screens().contains(self) }
   }
 
+  /// Returns the space currently shown on this screen.
   func currentSpace() -> Space? {
     Space.current(for: self)
   }

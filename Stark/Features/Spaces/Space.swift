@@ -62,10 +62,12 @@ class Space: NSObject, SpaceJSExport {
     Space(id: windowServerClient.activeSpace(connectionID: connection))
   }
 
+  /// Returns the space currently visible on the provided screen.
   static func current(for screen: NSScreen) -> Space? {
     Space(id: windowServerClient.currentSpace(connectionID: connection, screenID: screen.id))
   }
 
+  /// Returns every space that currently contains the given window.
   static func spaces(containing window: Window) -> [Space] {
     let identifiers = Set(
       windowServerClient.spaceIDs(containing: window.id, connectionID: connection)
@@ -85,6 +87,7 @@ class Space: NSObject, SpaceJSExport {
 
   private var type: SpaceType
 
+  /// Captures the space identifier and resolves its current SkyLight-reported type.
   init(id: uint64) {
     self.id = id
     type = Self.windowServerClient.spaceType(connectionID: Space.connection, spaceID: self.id)
@@ -100,6 +103,7 @@ class Space: NSObject, SpaceJSExport {
     return id == space.id
   }
 
+  /// Resolves the screen or screens that are currently presenting this space.
   func screens() -> [NSScreen] {
     if !NSScreen.screensHaveSeparateSpaces {
       return NSScreen.screens
@@ -118,6 +122,7 @@ class Space: NSObject, SpaceJSExport {
     return [screen]
   }
 
+  /// Filters managed windows to those assigned to this space.
   func windows() -> [Window] {
     Window.all().filter { $0.spaces().contains(self) }
   }
