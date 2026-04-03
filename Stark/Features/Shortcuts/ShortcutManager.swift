@@ -1,157 +1,179 @@
-import Carbon
+import CoreGraphics
+import Foundation
 
-protocol ShortcutRegistrar: AnyObject {
-  /// Registers a Carbon hotkey and associates it with a Stark-owned identifier.
-  func register(keyCode: UInt32, modifiers: UInt32, hotKeyID: UInt32, signature: OSType) -> Bool
-  /// Unregisters a previously installed Carbon hotkey.
-  func unregister(hotKeyID: UInt32)
-  /// Installs the shared Carbon hotkey event handler.
-  func installEventHandler() -> Bool
-  /// Removes the shared Carbon hotkey event handler.
-  func removeEventHandler()
+protocol ShortcutTapType: AnyObject {
+  func enable(_ enabled: Bool)
+  func invalidate()
 }
 
-enum ShortcutManager {
-  final class ShortcutBox {
-    let identifier: UUID
+final class ShortcutManager {
+  typealias HandlerInvoker = (@escaping () -> Void) -> Void
+  typealias EventHandler = (CGEventType, CGEvent) -> Unmanaged<CGEvent>?
+  typealias TapFactory = (@escaping EventHandler) -> ShortcutTapType?
 
-    var shortcut: Shortcut?
-    let carbonHotKeyID: UInt32
-
-    init(shortcut: Shortcut, carbonHotKeyID: UInt32) {
-      identifier = shortcut.identifier
-      self.shortcut = shortcut
-      self.carbonHotKeyID = carbonHotKeyID
+  private static let defaultHandlerInvoker: HandlerInvoker = { handler in
+    if Thread.isMainThread {
+      handler()
+    } else {
+      DispatchQueue.main.async(execute: handler)
     }
   }
 
-  private static let signature = "strk".utf16.reduce(0) { ($0 << 8) + OSType($1) }
+  private var shortcutsByKeyCode = [UInt32: [Shortcut]]()
+  private var shortcutByIdentifier = [UUID: Shortcut]()
+  private var isStarted = false
+  private var tap: ShortcutTapType?
+  private var tapFactory: TapFactory?
+  private var handlerInvoker = defaultHandlerInvoker
 
-  private static var shortcuts = [UInt32: ShortcutBox]()
-  private static var shortcutsCount: UInt32 = 0
-
-  private static var registrar: ShortcutRegistrar = CarbonShortcutRegistrar()
-
-  /// Handles a Carbon hotkey event and dispatches it to the matching shortcut callback.
-  static func handle(event: EventRef?) -> OSStatus {
-    guard let event = event else { return OSStatus(eventNotHandledErr) }
-
-    var hotKeyID = EventHotKeyID()
-
-    let err = GetEventParameter(
-      event,
-      UInt32(kEventParamDirectObject),
-      UInt32(typeEventHotKeyID),
-      nil,
-      MemoryLayout<EventHotKeyID>.size,
-      nil,
-      &hotKeyID
-    )
-
-    guard err == noErr else { return err }
-
-    guard
-      hotKeyID.signature == signature,
-      let shortcut = shortcut(by: hotKeyID.id)
-    else { return OSStatus(eventNotHandledErr) }
-
-    shortcut.handler?()
-
-    return noErr
+  init(
+    tapFactory: TapFactory? = nil,
+    handlerInvoker: @escaping HandlerInvoker = ShortcutManager.defaultHandlerInvoker
+  ) {
+    self.tapFactory = tapFactory
+    self.handlerInvoker = handlerInvoker
   }
 
-  /// Registers a single shortcut if it has not already been tracked.
-  static func register(shortcut: Shortcut) {
-    guard !shortcuts.values.contains(where: { $0.identifier == shortcut.identifier }) else {
+  func register(shortcut: Shortcut) {
+    guard shortcutByIdentifier[shortcut.identifier] == nil else {
       return
     }
 
-    shortcutsCount += 1
+    removeShortcut(keyCode: shortcut.keyCode, modifiers: shortcut.modifiers)
 
-    let box = ShortcutBox(shortcut: shortcut, carbonHotKeyID: shortcutsCount)
-    shortcuts[box.carbonHotKeyID] = box
-
-    guard
-      let keyCode = shortcut.keyCode,
-      let keyModifiers = shortcut.modifierFlags
-    else { return }
-
-    _ = registrar.register(
-      keyCode: keyCode,
-      modifiers: keyModifiers,
-      hotKeyID: box.carbonHotKeyID,
-      signature: signature
-    )
+    shortcutsByKeyCode[shortcut.keyCode, default: []].insert(shortcut, at: 0)
+    shortcutByIdentifier[shortcut.identifier] = shortcut
+    ensureTapState()
   }
 
-  /// Registers a batch of shortcuts using the single-shortcut code path.
-  static func register(shortcuts: [Shortcut]) {
-    for shortcut in shortcuts {
-      register(shortcut: shortcut)
+  func unregister(shortcut: Shortcut) {
+    removeShortcut(identifier: shortcut.identifier)
+    ensureTapState()
+  }
+
+  func reset() {
+    shortcutsByKeyCode.removeAll()
+    shortcutByIdentifier.removeAll()
+    ensureTapState()
+  }
+
+  func start() {
+    isStarted = true
+    ensureTapState()
+  }
+
+  func stop() {
+    isStarted = false
+    ensureTapState()
+  }
+
+  private func handleTapEvent(eventType: CGEventType, event: CGEvent) -> Unmanaged<CGEvent>? {
+    switch eventType {
+    case .tapDisabledByTimeout, .tapDisabledByUserInput:
+      return handleTapDisabled(event)
+    case .keyDown:
+      return handleKeyDown(event)
+    default:
+      return Unmanaged.passUnretained(event)
     }
   }
 
-  /// Removes a tracked shortcut and unregisters its Carbon hotkey.
-  static func unregister(shortcut: Shortcut) {
-    guard let box = box(for: shortcut) else { return }
+  private func handleKeyEvent(keyCode: UInt32, flags: CGEventFlags, isAutorepeat: Bool) -> Bool {
+    guard !isAutorepeat else { return false }
+    guard let matchedShortcut = matchingShortcut(for: keyCode, flags: flags) else { return false }
 
-    registrar.unregister(hotKeyID: box.carbonHotKeyID)
+    if let handler = matchedShortcut.handler {
+      handlerInvoker(handler)
+    }
 
-    box.shortcut = nil
-    shortcuts.removeValue(forKey: box.carbonHotKeyID)
+    return true
   }
 
-  /// Unregisters every tracked shortcut while preserving allocated hotkey ids.
-  static func reset() {
-    for (_, box) in shortcuts {
-      guard let shortcut = box.shortcut else { continue }
-      unregister(shortcut: shortcut)
+  private func ensureTapState() {
+    guard isStarted, !shortcutByIdentifier.isEmpty else {
+      tearDownTap()
+      return
+    }
+
+    guard tap == nil else { return }
+
+    tap = (tapFactory ?? ShortcutTap.makeLive)(makeEventHandler())
+  }
+
+  private func tearDownTap() {
+    guard let tap else { return }
+
+    tap.enable(false)
+    tap.invalidate()
+    self.tap = nil
+  }
+
+  private func makeEventHandler() -> EventHandler {
+    { [weak self] type, event in
+      guard let self else {
+        return Unmanaged.passUnretained(event)
+      }
+
+      return self.handleTapEvent(eventType: type, event: event)
     }
   }
 
-  /// Installs the shared event handler once at least one shortcut has been allocated.
-  static func start() {
-    guard shortcutsCount != 0 else { return }
-
-    _ = registrar.installEventHandler()
+  private func handleTapDisabled(_ event: CGEvent) -> Unmanaged<CGEvent> {
+    tap?.enable(true)
+    return Unmanaged.passUnretained(event)
   }
 
-  /// Removes the shared event handler without altering tracked shortcuts.
-  static func stop() {
-    registrar.removeEventHandler()
-  }
+  private func handleKeyDown(_ event: CGEvent) -> Unmanaged<CGEvent>? {
+    let keyCode = UInt32(event.getIntegerValueField(.keyboardEventKeycode))
+    let isAutorepeat = event.getIntegerValueField(.keyboardEventAutorepeat) != 0
 
-  static var registeredShortcutCount: Int {
-    shortcuts.count
-  }
-
-  static func useRegistrar(_ registrar: ShortcutRegistrar) {
-    Self.registrar = registrar
-  }
-
-  /// Resets all shortcut state and restores the default registrar for isolated tests.
-  static func resetForTesting() {
-    stop()
-    reset()
-    shortcuts.removeAll()
-    shortcutsCount = 0
-    registrar = CarbonShortcutRegistrar()
-  }
-
-  private static func shortcut(by id: UInt32) -> Shortcut? {
-    if let shortcut = shortcuts[id]?.shortcut {
-      return shortcut
+    guard !handleKeyEvent(keyCode: keyCode, flags: event.flags, isAutorepeat: isAutorepeat) else {
+      return nil
     }
 
-    shortcuts.removeValue(forKey: id)
-    return nil
+    return Unmanaged.passUnretained(event)
   }
 
-  private static func box(for shortcut: Shortcut) -> ShortcutBox? {
-    for box in shortcuts.values where box.identifier == shortcut.identifier {
-      return box
+  private func matchingShortcut(for keyCode: UInt32, flags: CGEventFlags) -> Shortcut? {
+    let eventModifiers = Modifier.from(flags)
+
+    return shortcutsByKeyCode[keyCode]?.first(where: {
+      Modifier.compare($0.modifiers, eventModifiers)
+    })
+  }
+
+  private func removeShortcut(keyCode: UInt32, modifiers: Modifier) {
+    guard let shortcuts = shortcutsByKeyCode[keyCode] else { return }
+
+    let remainingShortcuts = shortcuts.filter { shortcut in
+      shortcut.keyCode != keyCode || shortcut.modifiers != modifiers
     }
 
-    return nil
+    if let replacedShortcut = shortcuts.first(where: {
+      $0.keyCode == keyCode && $0.modifiers == modifiers
+    }) {
+      shortcutByIdentifier.removeValue(forKey: replacedShortcut.identifier)
+    }
+
+    if remainingShortcuts.isEmpty {
+      shortcutsByKeyCode.removeValue(forKey: keyCode)
+    } else {
+      shortcutsByKeyCode[keyCode] = remainingShortcuts
+    }
+  }
+
+  private func removeShortcut(identifier: UUID) {
+    guard let shortcut = shortcutByIdentifier.removeValue(forKey: identifier) else { return }
+    guard let shortcuts = shortcutsByKeyCode[shortcut.keyCode] else { return }
+
+    let remainingShortcuts = shortcuts.filter { shortcut in
+      shortcut.identifier != identifier
+    }
+
+    if remainingShortcuts.isEmpty {
+      shortcutsByKeyCode.removeValue(forKey: shortcut.keyCode)
+    } else {
+      shortcutsByKeyCode[shortcut.keyCode] = remainingShortcuts
+    }
   }
 }
