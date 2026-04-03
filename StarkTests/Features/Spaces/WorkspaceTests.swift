@@ -266,7 +266,7 @@ private func testApplication(
   TestRunningApplication(policy: policy, finishedLaunching: finishedLaunching)
 }
 
-private final class TestRunningApplication: NSRunningApplication {
+private final class TestRunningApplication: NSRunningApplication, @unchecked Sendable {
   private let testPolicy: NSApplication.ActivationPolicy
   private let testFinishedLaunching: Bool
 
