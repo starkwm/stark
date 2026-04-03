@@ -198,11 +198,122 @@
 		AA100024AA100024AA100024 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				F62C3C422F8021000089A4EB /* Logging */,
 				BB100005BB100005BB100005 /* Runtime */,
-				AA100020AA100020AA100020 /* LogHelperTests.swift */,
-				AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */,
+				F62C3C412F8020F50089A4EB /* System */,
 			);
 			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		BB000001BB000001BB000001 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
+				F6A2E7692BC8CB250024F674 /* main.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		BB000002BB000002BB000002 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				F6A2BBCE2F703E2B007C7701 /* Errors */,
+				F6A0DB63204724AF00471843 /* Extensions */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		BB000003BB000003BB000003 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				C0DE1000000000000000000A /* ConfigExecutor.swift */,
+				C0DE10000000000000000009 /* ConfigFileSystem.swift */,
+				C0DE10000000000000000008 /* ConfigFileWatcher.swift */,
+				F67DB62E2E30159D007C78D6 /* ConfigManager.swift */,
+				C0DE10000000000000000004 /* ConfigPathResolver.swift */,
+				C0DE10000000000000000007 /* ConfigScriptExecutor.swift */,
+				C0DE10000000000000000005 /* JSBridgeInstaller.swift */,
+				C0DE10000000000000000006 /* ScriptRuntimeFactory.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		BB000004BB000004BB000004 /* Shortcuts */ = {
+			isa = PBXGroup;
+			children = (
+				C0DE1000000000000000000D /* CarbonShortcutRegistrar.swift */,
+				F685270E2D398B77008EC4C1 /* Key.swift */,
+				F66C39C51C6AD73E0008FDD5 /* Keymap.swift */,
+				F68527102D398B7C008EC4C1 /* Modifier.swift */,
+				F68527122D398B81008EC4C1 /* Shortcut.swift */,
+				F685270C2D398B6D008EC4C1 /* ShortcutManager.swift */,
+			);
+			path = Shortcuts;
+			sourceTree = "<group>";
+		};
+		BB000005BB000005BB000005 /* Spaces */ = {
+			isa = PBXGroup;
+			children = (
+				F644DFF51FB5110B00944C6B /* Space.swift */,
+				F6CEF4F82E48049300C975E4 /* SpaceType.swift */,
+				F6A5DFCE2BCDE914000C1630 /* Workspace.swift */,
+			);
+			path = Spaces;
+			sourceTree = "<group>";
+		};
+		BB000006BB000006BB000006 /* Windows */ = {
+			isa = PBXGroup;
+			children = (
+				F6792C421C4055A2007D9DF9 /* Window.swift */,
+				F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */,
+				F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */,
+			);
+			path = Windows;
+			sourceTree = "<group>";
+		};
+		BB000007BB000007BB000007 /* Accessibility */ = {
+			isa = PBXGroup;
+			children = (
+				F6A2BBDB2F7049C9007C7701 /* AccessibilityHelper.swift */,
+			);
+			path = Accessibility;
+			sourceTree = "<group>";
+		};
+		BB000008BB000008BB000008 /* JavaScript */ = {
+			isa = PBXGroup;
+			children = (
+				C0DE1000000000000000000C /* JSCallbackInvoker.swift */,
+				C0DE1000000000000000000B /* StagedStorage.swift */,
+			);
+			path = JavaScript;
+			sourceTree = "<group>";
+		};
+		BB000009BB000009BB000009 /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */,
+			);
+			path = Logging;
+			sourceTree = "<group>";
+		};
+		BB00000ABB00000ABB00000A /* System */ = {
+			isa = PBXGroup;
+			children = (
+				C0DE10000000000000000002 /* AccessibilityClient.swift */,
+				F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */,
+				F6F4ECF82BC9BC13001234D4 /* Private.swift */,
+				C0DE10000000000000000001 /* ProcessClient.swift */,
+				C0DE10000000000000000003 /* WindowServerClient.swift */,
+			);
+			path = System;
+			sourceTree = "<group>";
+		};
+		BB00000BBB00000BBB00000B /* Runtime */ = {
+			isa = PBXGroup;
+			children = (
+				AA100032AA100032AA100032 /* StarkRuntime.swift */,
+			);
+			path = Runtime;
 			sourceTree = "<group>";
 		};
 		BB100002BB100002BB100002 /* Config */ = {
@@ -213,21 +324,13 @@
 			path = Config;
 			sourceTree = "<group>";
 		};
-		BB100005BB100005BB100005 /* Runtime */ = {
-			isa = PBXGroup;
-			children = (
-				AA100028AA100028AA100028 /* StarkRuntimeTests.swift */,
-			);
-			path = Runtime;
-			sourceTree = "<group>";
-		};
 		BB100003BB100003BB100003 /* Shortcuts */ = {
 			isa = PBXGroup;
 			children = (
-				AA100017AA100017AA100017 /* ShortcutManagerTests.swift */,
 				AA100014AA100014AA100014 /* KeymapTests.swift */,
 				AA100012AA100012AA100012 /* KeyTests.swift */,
 				AA100011AA100011AA100011 /* ModifierTests.swift */,
+				AA100017AA100017AA100017 /* ShortcutManagerTests.swift */,
 			);
 			path = Shortcuts;
 			sourceTree = "<group>";
@@ -241,12 +344,36 @@
 			path = Spaces;
 			sourceTree = "<group>";
 		};
+		BB100005BB100005BB100005 /* Runtime */ = {
+			isa = PBXGroup;
+			children = (
+				AA100028AA100028AA100028 /* StarkRuntimeTests.swift */,
+			);
+			path = Runtime;
+			sourceTree = "<group>";
+		};
+		F62C3C412F8020F50089A4EB /* System */ = {
+			isa = PBXGroup;
+			children = (
+				AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */,
+			);
+			path = System;
+			sourceTree = "<group>";
+		};
+		F62C3C422F8021000089A4EB /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				AA100020AA100020AA100020 /* LogHelperTests.swift */,
+			);
+			path = Logging;
+			sourceTree = "<group>";
+		};
 		F63B99232BC73FA100355240 /* Events */ = {
 			isa = PBXGroup;
 			children = (
+				F6EA81572BCD810500F0F68C /* Event.swift */,
 				F61AF11B2BC488EC00FF39E0 /* EventManager.swift */,
 				F6EA81552BCD810400F0F68C /* Events.swift */,
-				F6EA81572BCD810500F0F68C /* Event.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -335,117 +462,6 @@
 				F6A2BBD72F703EB7007C7701 /* StateError.swift */,
 			);
 			path = Errors;
-			sourceTree = "<group>";
-		};
-		BB000001BB000001BB000001 /* App */ = {
-			isa = PBXGroup;
-			children = (
-				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
-				F6A2E7692BC8CB250024F674 /* main.swift */,
-			);
-			path = App;
-			sourceTree = "<group>";
-		};
-		BB000002BB000002BB000002 /* Shared */ = {
-			isa = PBXGroup;
-			children = (
-				F6A2BBCE2F703E2B007C7701 /* Errors */,
-				F6A0DB63204724AF00471843 /* Extensions */,
-			);
-			path = Shared;
-			sourceTree = "<group>";
-		};
-		BB000003BB000003BB000003 /* Config */ = {
-			isa = PBXGroup;
-			children = (
-				C0DE1000000000000000000A /* ConfigExecutor.swift */,
-				C0DE10000000000000000008 /* ConfigFileWatcher.swift */,
-				C0DE10000000000000000009 /* ConfigFileSystem.swift */,
-				F67DB62E2E30159D007C78D6 /* ConfigManager.swift */,
-				C0DE10000000000000000004 /* ConfigPathResolver.swift */,
-				C0DE10000000000000000007 /* ConfigScriptExecutor.swift */,
-				C0DE10000000000000000005 /* JSBridgeInstaller.swift */,
-				C0DE10000000000000000006 /* ScriptRuntimeFactory.swift */,
-			);
-			path = Config;
-			sourceTree = "<group>";
-		};
-		BB000004BB000004BB000004 /* Shortcuts */ = {
-			isa = PBXGroup;
-			children = (
-				C0DE1000000000000000000D /* CarbonShortcutRegistrar.swift */,
-				F685270C2D398B6D008EC4C1 /* ShortcutManager.swift */,
-				F685270E2D398B77008EC4C1 /* Key.swift */,
-				F66C39C51C6AD73E0008FDD5 /* Keymap.swift */,
-				F68527102D398B7C008EC4C1 /* Modifier.swift */,
-				F68527122D398B81008EC4C1 /* Shortcut.swift */,
-			);
-			path = Shortcuts;
-			sourceTree = "<group>";
-		};
-		BB000005BB000005BB000005 /* Spaces */ = {
-			isa = PBXGroup;
-			children = (
-				F644DFF51FB5110B00944C6B /* Space.swift */,
-				F6CEF4F82E48049300C975E4 /* SpaceType.swift */,
-				F6A5DFCE2BCDE914000C1630 /* Workspace.swift */,
-			);
-			path = Spaces;
-			sourceTree = "<group>";
-		};
-		BB000006BB000006BB000006 /* Windows */ = {
-			isa = PBXGroup;
-			children = (
-				F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */,
-				F6792C421C4055A2007D9DF9 /* Window.swift */,
-				F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */,
-			);
-			path = Windows;
-			sourceTree = "<group>";
-		};
-		BB000007BB000007BB000007 /* Accessibility */ = {
-			isa = PBXGroup;
-			children = (
-				F6A2BBDB2F7049C9007C7701 /* AccessibilityHelper.swift */,
-			);
-			path = Accessibility;
-			sourceTree = "<group>";
-		};
-		BB000008BB000008BB000008 /* JavaScript */ = {
-			isa = PBXGroup;
-			children = (
-				C0DE1000000000000000000C /* JSCallbackInvoker.swift */,
-				C0DE1000000000000000000B /* StagedStorage.swift */,
-			);
-			path = JavaScript;
-			sourceTree = "<group>";
-		};
-		BB000009BB000009BB000009 /* Logging */ = {
-			isa = PBXGroup;
-			children = (
-				F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */,
-			);
-			path = Logging;
-			sourceTree = "<group>";
-		};
-		BB00000ABB00000ABB00000A /* System */ = {
-			isa = PBXGroup;
-			children = (
-				C0DE10000000000000000002 /* AccessibilityClient.swift */,
-				F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */,
-				C0DE10000000000000000001 /* ProcessClient.swift */,
-				F6F4ECF82BC9BC13001234D4 /* Private.swift */,
-				C0DE10000000000000000003 /* WindowServerClient.swift */,
-			);
-			path = System;
-			sourceTree = "<group>";
-		};
-		BB00000BBB00000BBB00000B /* Runtime */ = {
-			isa = PBXGroup;
-			children = (
-				AA100032AA100032AA100032 /* StarkRuntime.swift */,
-			);
-			path = Runtime;
 			sourceTree = "<group>";
 		};
 		F6A50A252BC076AE002689F2 /* Applications */ = {
