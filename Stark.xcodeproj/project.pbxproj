@@ -24,6 +24,7 @@
 		F60DF8EF2CC2C8040083D3BE /* JavaScriptSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60DF8EE2CC2C8040083D3BE /* JavaScriptSupport.swift */; };
 		F61AF11C2BC488EC00FF39E0 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11B2BC488EC00FF39E0 /* EventManager.swift */; };
 		F61AF11E2BC4B80100FF39E0 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */; };
+		F61AF1202BC4B80200FF39E0 /* ConfigPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11F2BC4B80200FF39E0 /* ConfigPipeline.swift */; };
 		F627C49E2F74A75800C81D16 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = F627C49D2F74A75800C81D16 /* Sentry */; };
 		F63B99252BC73FB100355240 /* ApplicationNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63B99242BC73FB100355240 /* ApplicationNotifications.swift */; };
 		F644DFF61FB5110B00944C6B /* Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = F644DFF51FB5110B00944C6B /* Space.swift */; };
@@ -87,6 +88,7 @@
 		F60DF8EE2CC2C8040083D3BE /* JavaScriptSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavaScriptSupport.swift; sourceTree = "<group>"; };
 		F61AF11B2BC488EC00FF39E0 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
+		F61AF11F2BC4B80200FF39E0 /* ConfigPipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigPipeline.swift; sourceTree = "<group>"; };
 		F63B99242BC73FB100355240 /* ApplicationNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationNotifications.swift; sourceTree = "<group>"; };
 		F644DFF51FB5110B00944C6B /* Space.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Space.swift; sourceTree = "<group>"; };
 		F645D0472BC37DF300BED730 /* ProcessManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessManager.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 			isa = PBXGroup;
 			children = (
 				F67DB62E2E30159D007C78D6 /* ConfigManager.swift */,
+				F61AF11F2BC4B80200FF39E0 /* ConfigPipeline.swift */,
 				F61AF11B2BC488EC00FF39E0 /* EventManager.swift */,
 				F645D0472BC37DF300BED730 /* ProcessManager.swift */,
 				F685270C2D398B6D008EC4C1 /* ShortcutManager.swift */,
@@ -462,6 +465,7 @@
 				F645D0482BC37DF300BED730 /* ProcessManager.swift in Sources */,
 				F6792C431C4055A2007D9DF9 /* Window.swift in Sources */,
 				F6A2BBD22F703EB3007C7701 /* FileError.swift in Sources */,
+				F61AF1202BC4B80200FF39E0 /* ConfigPipeline.swift in Sources */,
 				F67DB62F2E30159F007C78D6 /* ConfigManager.swift in Sources */,
 				F6EA81542BCD740F00F0F68C /* WindowNotifications.swift in Sources */,
 				F685270F2D398B79008EC4C1 /* Key.swift in Sources */,

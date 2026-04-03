@@ -29,6 +29,7 @@ final class ConfigManager {
 
   private let fileSystem: ConfigFileSystem
   private let executor: ConfigExecutor
+  private let fileWatcher: ConfigFileWatcher
   private let fileMonitorSetup: (ConfigManager) -> Result<Void, FileError>
   private var path: String
   private var fileSystemSource: DispatchSourceFileSystemObject?
@@ -40,28 +41,30 @@ final class ConfigManager {
     fileSystem: ConfigFileSystem = .live,
     executor: ConfigExecutor? = nil,
     path: String? = nil,
+    pathResolver: ConfigPathResolver = .live,
+    fileWatcher: ConfigFileWatcher = .live,
     fileMonitorSetup: ((ConfigManager) -> Result<Void, FileError>)? = nil
   ) {
+    let runtimeFactory = ScriptRuntimeFactory.live()
+    let scriptExecutor = ConfigScriptExecutor.live
+
     self.fileSystem = fileSystem
     self.executor =
       executor
       ?? ConfigExecutor(
-        createContext: { Self.liveCreateContext() },
-        executeScript: { context, script in Self.liveExecuteScript(in: context, script: script) }
+        createContext: runtimeFactory.createContext,
+        executeScript: scriptExecutor.executeScript
       )
-    self.path = path ?? Self.resolvePrimaryPath(fileSystem: fileSystem)
-    self.fileMonitorSetup = fileMonitorSetup ?? { manager in manager.liveSetupFileMonitor() }
+    self.fileWatcher = fileWatcher
+    self.path = path ?? pathResolver.resolvePrimaryPath(primaryPaths, fileSystem)
+    self.fileMonitorSetup = fileMonitorSetup ?? { manager in manager.setupFileMonitor() }
   }
 
   static func resolvePrimaryPath(
     paths: [String] = primaryPaths,
     fileSystem: ConfigFileSystem = .live
   ) -> String {
-    return paths
-      .lazy
-      .map { ($0 as NSString).resolvingSymlinksInPath }
-      .first { fileSystem.fileExists($0) }
-      ?? (paths[0] as NSString).resolvingSymlinksInPath
+    ConfigPathResolver.live.resolvePrimaryPath(paths, fileSystem)
   }
 
   /// Starts the configuration manager, loading the config file and setting up file monitoring.
@@ -122,31 +125,6 @@ final class ConfigManager {
     }
   }
 
-  private static func liveCreateContext() -> Result<JSContext, JSExceptionError> {
-    let context = JSContext(virtualMachine: JSVirtualMachine())
-
-    guard let context else {
-      return .failure(.exception("Could not create javascript context"))
-    }
-
-    context.exceptionHandler = { _, err in
-      log("javascript exception - \(String(describing: err))", level: .error)
-    }
-
-    let print: @convention(block) (String) -> Void = { message in
-      log(message, level: .info)
-    }
-    context.setObject(print, forKeyedSubscript: "print" as NSString)
-    context.setObject(Keymap.self, forKeyedSubscript: "Keymap" as NSString)
-    context.setObject(Event.self, forKeyedSubscript: "Event" as NSString)
-    context.setObject(NSScreen.self, forKeyedSubscript: "Screen" as NSString)
-    context.setObject(Space.self, forKeyedSubscript: "Space" as NSString)
-    context.setObject(Application.self, forKeyedSubscript: "Application" as NSString)
-    context.setObject(Window.self, forKeyedSubscript: "Window" as NSString)
-
-    return .success(context)
-  }
-
   private func executeConfig(in context: JSContext) -> Result<Void, Error> {
     let scriptContents: String
 
@@ -172,57 +150,14 @@ final class ConfigManager {
     return .success(scriptContents)
   }
 
-  private static func liveExecuteScript(in context: JSContext, script: String) -> Result<
-    Void, Error
-  > {
-    context.evaluateScript(script)
-
-    if let exception = context.exception {
-      return .failure(JSExceptionError.exception("JS exception: \(exception)"))
+  private func setupFileMonitor() -> Result<Void, FileError> {
+    switch fileWatcher.startMonitoring(path, fileMonitorQueue, handleFileWatchReload) {
+    case .success(let source):
+      fileSystemSource = source
+      return .success(())
+    case .failure(let error):
+      return .failure(error)
     }
-
-    return .success(())
-  }
-
-  private func liveSetupFileMonitor() -> Result<Void, FileError> {
-    let file = NSURL.fileURL(withPath: path)
-    let fd = open(file.path, O_EVTONLY)
-
-    guard fd >= 0 else {
-      return .failure(.monitorFailed("could not open config file for monitoring"))
-    }
-
-    let source = DispatchSource.makeFileSystemObjectSource(
-      fileDescriptor: fd,
-      eventMask: [.write, .delete, .rename],
-      queue: fileMonitorQueue
-    )
-
-    fileSystemSource = source
-
-    source.setEventHandler { [weak self, weak source] in
-      guard let self, let source else { return }
-
-      let events = source.data
-      let needsMonitorRestart = events.contains(.delete) || events.contains(.rename)
-      let needsReload = needsMonitorRestart || events.contains(.write)
-
-      if needsMonitorRestart {
-        self.restartFileMonitor()
-      }
-
-      if needsReload {
-        self.reloadConfig()
-      }
-    }
-
-    source.setCancelHandler {
-      close(fd)
-    }
-
-    source.resume()
-
-    return .success(())
   }
 
   private func reloadConfig() {
@@ -252,6 +187,14 @@ final class ConfigManager {
     case .failure(let error):
       log("could not restart config monitor: \(error)", level: .error)
     }
+  }
+
+  private func handleFileWatchReload(needsMonitorRestart: Bool) {
+    if needsMonitorRestart {
+      restartFileMonitor()
+    }
+
+    reloadConfig()
   }
 
   func loadForTesting() -> Result<Void, Error> {
