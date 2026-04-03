@@ -7,18 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA100001AA100001AA100001 /* ModifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100011AA100011AA100011 /* ModifierTests.swift */; };
+		AA100002AA100002AA100002 /* KeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100012AA100012AA100012 /* KeyTests.swift */; };
+		AA100003AA100003AA100003 /* ConfigManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100013AA100013AA100013 /* ConfigManagerTests.swift */; };
+		AA100004AA100004AA100004 /* KeymapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100014AA100014AA100014 /* KeymapTests.swift */; };
+		AA100005AA100005AA100005 /* EventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100016AA100016AA100016 /* EventTests.swift */; };
+		AA100006AA100006AA100006 /* ShortcutManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100017AA100017AA100017 /* ShortcutManagerTests.swift */; };
+		AA100007AA100007AA100007 /* LaunchAgentHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */; };
 		AA100008AA100008AA100008 /* WorkspaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100019AA100019AA100019 /* WorkspaceTests.swift */; };
 		AA100009AA100009AA100009 /* LogHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100020AA100020AA100020 /* LogHelperTests.swift */; };
 		AA10000AAA10000AAA10000A /* SpaceTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100025AA100025AA100025 /* SpaceTypeTests.swift */; };
 		AA10000CAA10000CAA10000C /* EventManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100027AA100027AA100027 /* EventManagerTests.swift */; };
 		AA100029AA100029AA100029 /* StarkRuntimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100028AA100028AA100028 /* StarkRuntimeTests.swift */; };
-		AA100007AA100007AA100007 /* LaunchAgentHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */; };
-		AA100006AA100006AA100006 /* ShortcutManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100017AA100017AA100017 /* ShortcutManagerTests.swift */; };
-		AA100005AA100005AA100005 /* EventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100016AA100016AA100016 /* EventTests.swift */; };
-		AA100001AA100001AA100001 /* ModifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100011AA100011AA100011 /* ModifierTests.swift */; };
-		AA100002AA100002AA100002 /* KeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100012AA100012AA100012 /* KeyTests.swift */; };
-		AA100003AA100003AA100003 /* ConfigManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100013AA100013AA100013 /* ConfigManagerTests.swift */; };
-		AA100004AA100004AA100004 /* KeymapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100014AA100014AA100014 /* KeymapTests.swift */; };
 		AA100033AA100033AA100033 /* StarkRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100032AA100032AA100032 /* StarkRuntime.swift */; };
 		F60DF8ED2CC2C8030083D3BE /* LogHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */; };
 		F60DF8EF2CC2C8040083D3BE /* JavaScriptRuntimeSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60DF8EE2CC2C8040083D3BE /* JavaScriptRuntimeSupport.swift */; };
@@ -71,19 +71,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AA100019AA100019AA100019 /* WorkspaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceTests.swift; sourceTree = "<group>"; };
-		AA100020AA100020AA100020 /* LogHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogHelperTests.swift; sourceTree = "<group>"; };
-		AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAgentHelperTests.swift; sourceTree = "<group>"; };
-		AA100025AA100025AA100025 /* SpaceTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceTypeTests.swift; sourceTree = "<group>"; };
-		AA100027AA100027AA100027 /* EventManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManagerTests.swift; sourceTree = "<group>"; };
-		AA100028AA100028AA100028 /* StarkRuntimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkRuntimeTests.swift; sourceTree = "<group>"; };
-		AA100017AA100017AA100017 /* ShortcutManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutManagerTests.swift; sourceTree = "<group>"; };
-		AA100016AA100016AA100016 /* EventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTests.swift; sourceTree = "<group>"; };
 		AA100011AA100011AA100011 /* ModifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifierTests.swift; sourceTree = "<group>"; };
 		AA100012AA100012AA100012 /* KeyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyTests.swift; sourceTree = "<group>"; };
 		AA100013AA100013AA100013 /* ConfigManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigManagerTests.swift; sourceTree = "<group>"; };
 		AA100014AA100014AA100014 /* KeymapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeymapTests.swift; sourceTree = "<group>"; };
 		AA100015AA100015AA100015 /* StarkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StarkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA100016AA100016AA100016 /* EventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTests.swift; sourceTree = "<group>"; };
+		AA100017AA100017AA100017 /* ShortcutManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutManagerTests.swift; sourceTree = "<group>"; };
+		AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAgentHelperTests.swift; sourceTree = "<group>"; };
+		AA100019AA100019AA100019 /* WorkspaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceTests.swift; sourceTree = "<group>"; };
+		AA100020AA100020AA100020 /* LogHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogHelperTests.swift; sourceTree = "<group>"; };
+		AA100025AA100025AA100025 /* SpaceTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceTypeTests.swift; sourceTree = "<group>"; };
+		AA100027AA100027AA100027 /* EventManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManagerTests.swift; sourceTree = "<group>"; };
+		AA100028AA100028AA100028 /* StarkRuntimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkRuntimeTests.swift; sourceTree = "<group>"; };
 		AA100032AA100032AA100032 /* StarkRuntime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkRuntime.swift; sourceTree = "<group>"; };
 		F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogHelper.swift; sourceTree = "<group>"; };
 		F60DF8EE2CC2C8040083D3BE /* JavaScriptRuntimeSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JavaScriptRuntimeSupport.swift; sourceTree = "<group>"; };
@@ -146,6 +146,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA100021AA100021AA100021 /* StarkTests */ = {
+			isa = PBXGroup;
+			children = (
+				AA100024AA100024AA100024 /* Helpers */,
+				AA100022AA100022AA100022 /* Managers */,
+				AA100023AA100023AA100023 /* Models */,
+			);
+			path = StarkTests;
+			sourceTree = "<group>";
+		};
+		AA100022AA100022AA100022 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				AA100013AA100013AA100013 /* ConfigManagerTests.swift */,
+				AA100027AA100027AA100027 /* EventManagerTests.swift */,
+				AA100028AA100028AA100028 /* StarkRuntimeTests.swift */,
+				AA100017AA100017AA100017 /* ShortcutManagerTests.swift */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		AA100023AA100023AA100023 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				AA100016AA100016AA100016 /* EventTests.swift */,
+				AA100012AA100012AA100012 /* KeyTests.swift */,
+				AA100014AA100014AA100014 /* KeymapTests.swift */,
+				AA100011AA100011AA100011 /* ModifierTests.swift */,
+				AA100025AA100025AA100025 /* SpaceTypeTests.swift */,
+				AA100019AA100019AA100019 /* WorkspaceTests.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		AA100024AA100024AA100024 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				AA100020AA100020AA100020 /* LogHelperTests.swift */,
+				AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		F63B99232BC73FA100355240 /* Notifications */ = {
 			isa = PBXGroup;
 			children = (
@@ -202,49 +245,6 @@
 				F6A2BBCE2F703E2B007C7701 /* Errors */,
 			);
 			path = Stark;
-			sourceTree = "<group>";
-		};
-		AA100021AA100021AA100021 /* StarkTests */ = {
-			isa = PBXGroup;
-			children = (
-				AA100024AA100024AA100024 /* Helpers */,
-				AA100022AA100022AA100022 /* Managers */,
-				AA100023AA100023AA100023 /* Models */,
-			);
-			path = StarkTests;
-			sourceTree = "<group>";
-		};
-		AA100024AA100024AA100024 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				AA100020AA100020AA100020 /* LogHelperTests.swift */,
-				AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */,
-			);
-			path = Helpers;
-			sourceTree = "<group>";
-		};
-		AA100022AA100022AA100022 /* Managers */ = {
-			isa = PBXGroup;
-			children = (
-				AA100013AA100013AA100013 /* ConfigManagerTests.swift */,
-				AA100027AA100027AA100027 /* EventManagerTests.swift */,
-				AA100028AA100028AA100028 /* StarkRuntimeTests.swift */,
-				AA100017AA100017AA100017 /* ShortcutManagerTests.swift */,
-			);
-			path = Managers;
-			sourceTree = "<group>";
-		};
-		AA100023AA100023AA100023 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				AA100016AA100016AA100016 /* EventTests.swift */,
-				AA100012AA100012AA100012 /* KeyTests.swift */,
-				AA100014AA100014AA100014 /* KeymapTests.swift */,
-				AA100011AA100011AA100011 /* ModifierTests.swift */,
-				AA100025AA100025AA100025 /* SpaceTypeTests.swift */,
-				AA100019AA100019AA100019 /* WorkspaceTests.swift */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		F6792C381C404EF8007D9DF9 /* Helpers */ = {
@@ -496,10 +496,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CODE_SIGNING_ALLOWED = YES;
 				DEVELOPMENT_TEAM = Y54Z78V9M7;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -519,10 +519,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CODE_SIGNING_ALLOWED = YES;
 				DEVELOPMENT_TEAM = Y54Z78V9M7;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -666,7 +666,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 26;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = Y54Z78V9M7;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -705,7 +705,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 25;
+				CURRENT_PROJECT_VERSION = 26;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = Y54Z78V9M7;
 				ENABLE_HARDENED_RUNTIME = YES;
