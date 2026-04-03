@@ -31,6 +31,12 @@ import Testing
     #expect(event.type == .windowFocused)
   }
 
+  @Test func createdWindowEventExposesUnderlyingEventType() {
+    let event = RuntimeEvent.window(.created(123, 42))
+
+    #expect(event.type == .windowCreated)
+  }
+
   @Test func applicationEventExposesUnderlyingEventType() {
     let process = Stark.Process(
       psn: ProcessSerialNumber(highLongOfPSN: 0, lowLongOfPSN: 1),
