@@ -149,54 +149,86 @@
 		AA100021AA100021AA100021 /* StarkTests */ = {
 			isa = PBXGroup;
 			children = (
-				AA100024AA100024AA100024 /* Helpers */,
-				AA100022AA100022AA100022 /* Managers */,
-				AA100023AA100023AA100023 /* Models */,
+				BB100001BB100001BB100001 /* App */,
+				AA100022AA100022AA100022 /* Features */,
+				AA100024AA100024AA100024 /* Infrastructure */,
 			);
 			path = StarkTests;
 			sourceTree = "<group>";
 		};
-		AA100022AA100022AA100022 /* Managers */ = {
+		AA100022AA100022AA100022 /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				AA100013AA100013AA100013 /* ConfigManagerTests.swift */,
+				BB100002BB100002BB100002 /* Config */,
+				AA100023AA100023AA100023 /* Events */,
+				BB100003BB100003BB100003 /* Shortcuts */,
+				BB100004BB100004BB100004 /* Spaces */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		AA100023AA100023AA100023 /* Events */ = {
+			isa = PBXGroup;
+			children = (
 				AA100027AA100027AA100027 /* EventManagerTests.swift */,
-				AA100028AA100028AA100028 /* StarkRuntimeTests.swift */,
-				AA100017AA100017AA100017 /* ShortcutManagerTests.swift */,
-			);
-			path = Managers;
-			sourceTree = "<group>";
-		};
-		AA100023AA100023AA100023 /* Models */ = {
-			isa = PBXGroup;
-			children = (
 				AA100016AA100016AA100016 /* EventTests.swift */,
-				AA100012AA100012AA100012 /* KeyTests.swift */,
-				AA100014AA100014AA100014 /* KeymapTests.swift */,
-				AA100011AA100011AA100011 /* ModifierTests.swift */,
-				AA100025AA100025AA100025 /* SpaceTypeTests.swift */,
-				AA100019AA100019AA100019 /* WorkspaceTests.swift */,
 			);
-			path = Models;
+			path = Events;
 			sourceTree = "<group>";
 		};
-		AA100024AA100024AA100024 /* Helpers */ = {
+		AA100024AA100024AA100024 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
 				AA100020AA100020AA100020 /* LogHelperTests.swift */,
 				AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */,
 			);
-			path = Helpers;
+			path = Infrastructure;
 			sourceTree = "<group>";
 		};
-		F63B99232BC73FA100355240 /* Notifications */ = {
+		BB100001BB100001BB100001 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				F63B99242BC73FB100355240 /* ApplicationNotifications.swift */,
-				F6EA81552BCD810400F0F68C /* Events.swift */,
-				F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */,
+				AA100028AA100028AA100028 /* StarkRuntimeTests.swift */,
 			);
-			path = Notifications;
+			path = App;
+			sourceTree = "<group>";
+		};
+		BB100002BB100002BB100002 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				AA100013AA100013AA100013 /* ConfigManagerTests.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		BB100003BB100003BB100003 /* Shortcuts */ = {
+			isa = PBXGroup;
+			children = (
+				AA100017AA100017AA100017 /* ShortcutManagerTests.swift */,
+				AA100014AA100014AA100014 /* KeymapTests.swift */,
+				AA100012AA100012AA100012 /* KeyTests.swift */,
+				AA100011AA100011AA100011 /* ModifierTests.swift */,
+			);
+			path = Shortcuts;
+			sourceTree = "<group>";
+		};
+		BB100004BB100004BB100004 /* Spaces */ = {
+			isa = PBXGroup;
+			children = (
+				AA100025AA100025AA100025 /* SpaceTypeTests.swift */,
+				AA100019AA100019AA100019 /* WorkspaceTests.swift */,
+			);
+			path = Spaces;
+			sourceTree = "<group>";
+		};
+		F63B99232BC73FA100355240 /* Events */ = {
+			isa = PBXGroup;
+			children = (
+				F61AF11B2BC488EC00FF39E0 /* EventManager.swift */,
+				F6EA81552BCD810400F0F68C /* Events.swift */,
+				F6EA81572BCD810500F0F68C /* Event.swift */,
+			);
+			path = Events;
 			sourceTree = "<group>";
 		};
 		F66509D925E594F0006C0C19 /* Frameworks */ = {
@@ -229,47 +261,40 @@
 		F6792C291C404B53007D9DF9 /* Stark */ = {
 			isa = PBXGroup;
 			children = (
+				BB000001BB000001BB000001 /* App */,
+				F68B121F2BC3172800E3F7FF /* Features */,
+				F6792C381C404EF8007D9DF9 /* Infrastructure */,
+				BB000002BB000002BB000002 /* Shared */,
+				F6A50A272BC07CAA002689F2 /* UI */,
 				F6792C311C404B53007D9DF9 /* Stark-Info.plist */,
-				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
-				AA100032AA100032AA100032 /* StarkRuntime.swift */,
-				F6A2E7692BC8CB250024F674 /* main.swift */,
-				F6F4ECF82BC9BC13001234D4 /* Private.swift */,
 				F6792C2C1C404B53007D9DF9 /* Assets.xcassets */,
 				F6CC6A952E7F755900AB781C /* Stark.icon */,
-				F6A0DB63204724AF00471843 /* Extensions */,
-				F6792C381C404EF8007D9DF9 /* Helpers */,
-				F68B121F2BC3172800E3F7FF /* Managers */,
-				F6A50A252BC076AE002689F2 /* Models */,
-				F63B99232BC73FA100355240 /* Notifications */,
-				F6A50A272BC07CAA002689F2 /* UI */,
-				F6A2BBCE2F703E2B007C7701 /* Errors */,
 			);
 			path = Stark;
 			sourceTree = "<group>";
 		};
-		F6792C381C404EF8007D9DF9 /* Helpers */ = {
+		F6792C381C404EF8007D9DF9 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
-				F60DF8EE2CC2C8040083D3BE /* JavaScriptRuntimeSupport.swift */,
-				F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */,
-				F60DF8F02CC2C8050083D3BE /* SystemAdapters.swift */,
-				F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */,
-				F6A2BBDB2F7049C9007C7701 /* AccessibilityHelper.swift */,
+				BB000007BB000007BB000007 /* Accessibility */,
+				BB000008BB000008BB000008 /* JavaScript */,
+				BB000009BB000009BB000009 /* Logging */,
+				BB00000ABB00000ABB00000A /* System */,
 			);
-			path = Helpers;
+			path = Infrastructure;
 			sourceTree = "<group>";
 		};
-		F68B121F2BC3172800E3F7FF /* Managers */ = {
+		F68B121F2BC3172800E3F7FF /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				F67DB62E2E30159D007C78D6 /* ConfigManager.swift */,
-				F61AF11F2BC4B80200FF39E0 /* ConfigSupport.swift */,
-				F61AF11B2BC488EC00FF39E0 /* EventManager.swift */,
-				F645D0472BC37DF300BED730 /* ProcessManager.swift */,
-				F685270C2D398B6D008EC4C1 /* ShortcutManager.swift */,
-				F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */,
+				F6A50A252BC076AE002689F2 /* Applications */,
+				BB000003BB000003BB000003 /* Config */,
+				F63B99232BC73FA100355240 /* Events */,
+				BB000004BB000004BB000004 /* Shortcuts */,
+				BB000005BB000005BB000005 /* Spaces */,
+				BB000006BB000006BB000006 /* Windows */,
 			);
-			path = Managers;
+			path = Features;
 			sourceTree = "<group>";
 		};
 		F6A0DB63204724AF00471843 /* Extensions */ = {
@@ -291,22 +316,109 @@
 			path = Errors;
 			sourceTree = "<group>";
 		};
-		F6A50A252BC076AE002689F2 /* Models */ = {
+		BB000001BB000001BB000001 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				F6792C401C405598007D9DF9 /* Application.swift */,
-				F6EA81572BCD810500F0F68C /* Event.swift */,
+				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
+				AA100032AA100032AA100032 /* StarkRuntime.swift */,
+				F6A2E7692BC8CB250024F674 /* main.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		BB000002BB000002BB000002 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				F6A2BBCE2F703E2B007C7701 /* Errors */,
+				F6A0DB63204724AF00471843 /* Extensions */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		BB000003BB000003BB000003 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				F67DB62E2E30159D007C78D6 /* ConfigManager.swift */,
+				F61AF11F2BC4B80200FF39E0 /* ConfigSupport.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		BB000004BB000004BB000004 /* Shortcuts */ = {
+			isa = PBXGroup;
+			children = (
+				F685270C2D398B6D008EC4C1 /* ShortcutManager.swift */,
 				F685270E2D398B77008EC4C1 /* Key.swift */,
 				F66C39C51C6AD73E0008FDD5 /* Keymap.swift */,
 				F68527102D398B7C008EC4C1 /* Modifier.swift */,
-				F68B12202BC3182E00E3F7FF /* Process.swift */,
 				F68527122D398B81008EC4C1 /* Shortcut.swift */,
+			);
+			path = Shortcuts;
+			sourceTree = "<group>";
+		};
+		BB000005BB000005BB000005 /* Spaces */ = {
+			isa = PBXGroup;
+			children = (
 				F644DFF51FB5110B00944C6B /* Space.swift */,
 				F6CEF4F82E48049300C975E4 /* SpaceType.swift */,
-				F6792C421C4055A2007D9DF9 /* Window.swift */,
 				F6A5DFCE2BCDE914000C1630 /* Workspace.swift */,
 			);
-			path = Models;
+			path = Spaces;
+			sourceTree = "<group>";
+		};
+		BB000006BB000006BB000006 /* Windows */ = {
+			isa = PBXGroup;
+			children = (
+				F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */,
+				F6792C421C4055A2007D9DF9 /* Window.swift */,
+				F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */,
+			);
+			path = Windows;
+			sourceTree = "<group>";
+		};
+		BB000007BB000007BB000007 /* Accessibility */ = {
+			isa = PBXGroup;
+			children = (
+				F6A2BBDB2F7049C9007C7701 /* AccessibilityHelper.swift */,
+			);
+			path = Accessibility;
+			sourceTree = "<group>";
+		};
+		BB000008BB000008BB000008 /* JavaScript */ = {
+			isa = PBXGroup;
+			children = (
+				F60DF8EE2CC2C8040083D3BE /* JavaScriptRuntimeSupport.swift */,
+			);
+			path = JavaScript;
+			sourceTree = "<group>";
+		};
+		BB000009BB000009BB000009 /* Logging */ = {
+			isa = PBXGroup;
+			children = (
+				F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */,
+			);
+			path = Logging;
+			sourceTree = "<group>";
+		};
+		BB00000ABB00000ABB00000A /* System */ = {
+			isa = PBXGroup;
+			children = (
+				F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */,
+				F60DF8F02CC2C8050083D3BE /* SystemAdapters.swift */,
+				F6F4ECF82BC9BC13001234D4 /* Private.swift */,
+			);
+			path = System;
+			sourceTree = "<group>";
+		};
+		F6A50A252BC076AE002689F2 /* Applications */ = {
+			isa = PBXGroup;
+			children = (
+				F6792C401C405598007D9DF9 /* Application.swift */,
+				F63B99242BC73FB100355240 /* ApplicationNotifications.swift */,
+				F68B12202BC3182E00E3F7FF /* Process.swift */,
+				F645D0472BC37DF300BED730 /* ProcessManager.swift */,
+			);
+			path = Applications;
 			sourceTree = "<group>";
 		};
 		F6A50A272BC07CAA002689F2 /* UI */ = {
