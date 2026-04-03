@@ -11,6 +11,7 @@
 		AA100009AA100009AA100009 /* LogHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100020AA100020AA100020 /* LogHelperTests.swift */; };
 		AA10000AAA10000AAA10000A /* SpaceTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100025AA100025AA100025 /* SpaceTypeTests.swift */; };
 		AA10000CAA10000CAA10000C /* EventManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100027AA100027AA100027 /* EventManagerTests.swift */; };
+		AA100029AA100029AA100029 /* StarkRuntimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100028AA100028AA100028 /* StarkRuntimeTests.swift */; };
 		AA100007AA100007AA100007 /* LaunchAgentHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */; };
 		AA100006AA100006AA100006 /* ShortcutManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100017AA100017AA100017 /* ShortcutManagerTests.swift */; };
 		AA100005AA100005AA100005 /* EventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100016AA100016AA100016 /* EventTests.swift */; };
@@ -18,6 +19,7 @@
 		AA100002AA100002AA100002 /* KeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100012AA100012AA100012 /* KeyTests.swift */; };
 		AA100003AA100003AA100003 /* ConfigManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100013AA100013AA100013 /* ConfigManagerTests.swift */; };
 		AA100004AA100004AA100004 /* KeymapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100014AA100014AA100014 /* KeymapTests.swift */; };
+		AA100033AA100033AA100033 /* StarkRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100032AA100032AA100032 /* StarkRuntime.swift */; };
 		F60DF8ED2CC2C8030083D3BE /* LogHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */; };
 		F61AF11C2BC488EC00FF39E0 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11B2BC488EC00FF39E0 /* EventManager.swift */; };
 		F61AF11E2BC4B80100FF39E0 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */; };
@@ -71,6 +73,7 @@
 		AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAgentHelperTests.swift; sourceTree = "<group>"; };
 		AA100025AA100025AA100025 /* SpaceTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceTypeTests.swift; sourceTree = "<group>"; };
 		AA100027AA100027AA100027 /* EventManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManagerTests.swift; sourceTree = "<group>"; };
+		AA100028AA100028AA100028 /* StarkRuntimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkRuntimeTests.swift; sourceTree = "<group>"; };
 		AA100017AA100017AA100017 /* ShortcutManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutManagerTests.swift; sourceTree = "<group>"; };
 		AA100016AA100016AA100016 /* EventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTests.swift; sourceTree = "<group>"; };
 		AA100011AA100011AA100011 /* ModifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifierTests.swift; sourceTree = "<group>"; };
@@ -78,6 +81,7 @@
 		AA100013AA100013AA100013 /* ConfigManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigManagerTests.swift; sourceTree = "<group>"; };
 		AA100014AA100014AA100014 /* KeymapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeymapTests.swift; sourceTree = "<group>"; };
 		AA100015AA100015AA100015 /* StarkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StarkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA100032AA100032AA100032 /* StarkRuntime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkRuntime.swift; sourceTree = "<group>"; };
 		F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogHelper.swift; sourceTree = "<group>"; };
 		F61AF11B2BC488EC00FF39E0 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
@@ -178,6 +182,7 @@
 			children = (
 				F6792C311C404B53007D9DF9 /* Stark-Info.plist */,
 				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
+				AA100032AA100032AA100032 /* StarkRuntime.swift */,
 				F6A2E7692BC8CB250024F674 /* main.swift */,
 				F6F4ECF82BC9BC13001234D4 /* Private.swift */,
 				F6792C2C1C404B53007D9DF9 /* Assets.xcassets */,
@@ -217,6 +222,7 @@
 			children = (
 				AA100013AA100013AA100013 /* ConfigManagerTests.swift */,
 				AA100027AA100027AA100027 /* EventManagerTests.swift */,
+				AA100028AA100028AA100028 /* StarkRuntimeTests.swift */,
 				AA100017AA100017AA100017 /* ShortcutManagerTests.swift */,
 			);
 			path = Managers;
@@ -418,6 +424,7 @@
 				AA100009AA100009AA100009 /* LogHelperTests.swift in Sources */,
 				AA100001AA100001AA100001 /* ModifierTests.swift in Sources */,
 				AA10000AAA10000AAA10000A /* SpaceTypeTests.swift in Sources */,
+				AA100029AA100029AA100029 /* StarkRuntimeTests.swift in Sources */,
 				AA100006AA100006AA100006 /* ShortcutManagerTests.swift in Sources */,
 				AA100008AA100008AA100008 /* WorkspaceTests.swift in Sources */,
 			);
@@ -438,6 +445,7 @@
 				F6F4ECF92BC9BC13001234D4 /* Private.swift in Sources */,
 				F66C39C61C6AD73E0008FDD5 /* Keymap.swift in Sources */,
 				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
+				AA100033AA100033AA100033 /* StarkRuntime.swift in Sources */,
 				F6A2BBD02F703EB2007C7701 /* AXError.swift in Sources */,
 				F60DF8ED2CC2C8030083D3BE /* LogHelper.swift in Sources */,
 				F6A2E76A2BC8CB250024F674 /* main.swift in Sources */,

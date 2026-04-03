@@ -1,46 +1,26 @@
 import AppKit
-import Sentry
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-  private var statusItem = StarkStatusItem()
+  private let makeRuntime: () -> StarkRuntimeType
+  private var runtime: StarkRuntimeType?
+
+  override init() {
+    makeRuntime = { StarkRuntime.live() }
+    super.init()
+  }
+
+  init(makeRuntime: @escaping () -> StarkRuntimeType) {
+    self.makeRuntime = makeRuntime
+    super.init()
+  }
 
   func applicationDidFinishLaunching(_: Notification) {
-    if let dsn = Bundle.main.object(forInfoDictionaryKey: "SentryDSN") as? String {
-      SentrySDK.start { options in
-        options.dsn = dsn
-      }
-    }
-
-    if !askForAccessibilityIfNeeded() {
-      NSApplication.shared.terminate(nil)
-      return
-    }
-
-    switch ProcessManager.shared.start() {
-    case .success: break
-    case .failure(let error):
-      log("could not start process manager: \(error)", level: .error)
-      return
-    }
-
-    WindowManager.shared.start()
-
-    switch ConfigManager.shared.start() {
-    case .success: break
-    case .failure(let error):
-      log("could not start config manager: \(error)", level: .error)
-      return
-    }
-
-    statusItem.setup()
+    let runtime = makeRuntime()
+    self.runtime = runtime
+    runtime.start()
   }
 
   func applicationWillTerminate(_: Notification) {
-    ConfigManager.shared.stop()
-  }
-
-  private func askForAccessibilityIfNeeded() -> Bool {
-    let options = [kAXTrustedCheckOptionPrompt.takeUnretainedValue(): true]
-    return AXIsProcessTrustedWithOptions(options as CFDictionary?)
+    runtime?.stop()
   }
 }
