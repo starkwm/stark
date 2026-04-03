@@ -36,8 +36,8 @@ class Workspace: NSObject {
   static let shared = Workspace()
 
   private let environment: WorkspaceEnvironment
-  private var activationPolicyObserved = [UInt32]()
-  private var finishedLaunchingObserved = [UInt32]()
+  private let activationPolicyObservations = ProcessObservationRegistry(keyPath: "activationPolicy")
+  private let finishedLaunchingObservations = ProcessObservationRegistry(keyPath: "finishedLaunching")
 
   init(environment: WorkspaceEnvironment = .live) {
     self.environment = environment
@@ -58,26 +58,20 @@ class Workspace: NSObject {
   }
 
   func observeActivationPolicy(_ process: Process) {
-    guard let application = process.application else { return }
+    guard process.application != nil else { return }
 
-    let context: UnsafeMutableRawPointer? = Unmanaged.passUnretained(process).toOpaque()
+    let token = activationPolicyObservations.register(process)
 
     log("adding observer for activation policy \(process)")
-    activationPolicyObserved.append(process.psn.lowLongOfPSN)
-
-    environment.addObserver(self, process, "activationPolicy", context)
+    environment.addObserver(self, process, token.keyPath, token.context)
   }
 
   func unobserveActivationPolicy(_ process: Process) {
-    guard let application = process.application else { return }
+    guard process.application != nil else { return }
+    guard let token = activationPolicyObservations.unregister(process) else { return }
 
-    if activationPolicyObserved.contains(where: { $0 == process.psn.lowLongOfPSN }) {
-      let context: UnsafeMutableRawPointer? = Unmanaged.passUnretained(process).toOpaque()
-
-      log("removing observer for activation policy \(process)")
-      activationPolicyObserved.removeAll(where: { $0 == process.psn.lowLongOfPSN })
-      environment.removeObserver(self, process, "activationPolicy", context)
-    }
+    log("removing observer for activation policy \(process)")
+    environment.removeObserver(self, process, token.keyPath, token.context)
   }
 
   func isFinishedLaunching(_ process: Process) -> Bool {
@@ -87,25 +81,20 @@ class Workspace: NSObject {
   }
 
   func observeFinishedLaunching(_ process: Process) {
-    guard let application = process.application else { return }
+    guard process.application != nil else { return }
 
-    let context: UnsafeMutableRawPointer? = Unmanaged.passUnretained(process).toOpaque()
+    let token = finishedLaunchingObservations.register(process)
 
     log("adding observer for finished launching \(process)")
-    finishedLaunchingObserved.append(process.psn.lowLongOfPSN)
-    environment.addObserver(self, process, "finishedLaunching", context)
+    environment.addObserver(self, process, token.keyPath, token.context)
   }
 
   func unobserveFinishedLaunching(_ process: Process) {
-    guard let application = process.application else { return }
+    guard process.application != nil else { return }
+    guard let token = finishedLaunchingObservations.unregister(process) else { return }
 
-    if finishedLaunchingObserved.contains(where: { $0 == process.psn.lowLongOfPSN }) {
-      let context: UnsafeMutableRawPointer? = Unmanaged.passUnretained(process).toOpaque()
-
-      log("removing observer for finished launching \(process)")
-      finishedLaunchingObserved.removeAll(where: { $0 == process.psn.lowLongOfPSN })
-      environment.removeObserver(self, process, "finishedLaunching", context)
-    }
+    log("removing observer for finished launching \(process)")
+    environment.removeObserver(self, process, token.keyPath, token.context)
   }
 
   @objc
@@ -123,7 +112,7 @@ class Workspace: NSObject {
 
     let process = Unmanaged<Process>.fromOpaque(context).takeUnretainedValue()
 
-    if keyPath == "activationPolicy" {
+    if keyPath == activationPolicyObservations.keyPath {
       guard
         let raw = change?[.newKey] as? Int,
         let result = NSApplication.ActivationPolicy(rawValue: raw)
@@ -135,7 +124,7 @@ class Workspace: NSObject {
       }
     }
 
-    if keyPath == "finishedLaunching" {
+    if keyPath == finishedLaunchingObservations.keyPath {
       guard let result = change?[.newKey] as? Bool else { return }
 
       if result {
@@ -146,10 +135,50 @@ class Workspace: NSObject {
   }
 
   var activationPolicyObservedForTesting: [UInt32] {
-    activationPolicyObserved.sorted()
+    activationPolicyObservations.processIDs
   }
 
   var finishedLaunchingObservedForTesting: [UInt32] {
-    finishedLaunchingObserved.sorted()
+    finishedLaunchingObservations.processIDs
+  }
+}
+
+private struct ProcessObservationToken {
+  let keyPath: String
+  let context: UnsafeMutableRawPointer?
+  let processID: UInt32
+}
+
+private final class ProcessObservationRegistry {
+  let keyPath: String
+
+  private var tokens = [UInt32: ProcessObservationToken]()
+
+  init(keyPath: String) {
+    self.keyPath = keyPath
+  }
+
+  func register(_ process: Process) -> ProcessObservationToken {
+    if let existing = tokens[process.psn.lowLongOfPSN] {
+      return existing
+    }
+
+    let token = ProcessObservationToken(
+      keyPath: keyPath,
+      context: Unmanaged.passUnretained(process).toOpaque(),
+      processID: process.psn.lowLongOfPSN
+    )
+
+    tokens[token.processID] = token
+
+    return token
+  }
+
+  func unregister(_ process: Process) -> ProcessObservationToken? {
+    tokens.removeValue(forKey: process.psn.lowLongOfPSN)
+  }
+
+  var processIDs: [UInt32] {
+    tokens.keys.sorted()
   }
 }
