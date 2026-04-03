@@ -13,20 +13,44 @@ import Testing
 
     #expect(Event.activeListenerCount(for: .spaceChanged) == 1)
 
-    EventManager.shared.post(event: .spaceChanged, with: Space.active())
+    EventManager.shared.post(.space(.changed(Space.active())))
     spinMainRunLoop()
 
     #expect(Event.activeListenerCount(for: .spaceChanged) == 1)
   }
 
-  @Test func spaceChangedIgnoresUnexpectedPayloads() throws {
+  @Test func typedRuntimeEventExposesUnderlyingEventType() {
+    let event = RuntimeEvent.space(.changed(Space.active()))
+
+    #expect(event.type == .spaceChanged)
+  }
+
+  @Test func windowEventExposesUnderlyingEventType() {
+    let event = RuntimeEvent.window(.focused(42))
+
+    #expect(event.type == .windowFocused)
+  }
+
+  @Test func applicationEventExposesUnderlyingEventType() {
+    let process = Stark.Process(
+      psn: ProcessSerialNumber(highLongOfPSN: 0, lowLongOfPSN: 1),
+      pid: 1,
+      name: "Test"
+    )
+
+    let event = RuntimeEvent.application(.launched(process))
+
+    #expect(event.type == .applicationLaunched)
+  }
+
+  @Test func spaceChangedWithTypedEventKeepsListenerStateStable() throws {
     resetState()
     defer { resetState() }
 
     _ = Event.on("spaceChanged", try callback())
     #expect(Event.activeListenerCount(for: .spaceChanged) == 1)
 
-    EventManager.shared.post(event: .spaceChanged, with: "not-a-space")
+    EventManager.shared.post(.space(.changed(Space.active())))
     spinMainRunLoop()
 
     #expect(Event.activeListenerCount(for: .spaceChanged) == 1)

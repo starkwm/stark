@@ -4,7 +4,7 @@ struct WorkspaceEnvironment {
   var addActiveSpaceObserver: (Workspace) -> Void
   var addObserver: (Workspace, Process, String, UnsafeMutableRawPointer?) -> Void
   var removeObserver: (Workspace, Process, String, UnsafeMutableRawPointer?) -> Void
-  var postEvent: (EventType, Any?) -> Void
+  var postEvent: (RuntimeEvent) -> Void
 
   static let live = WorkspaceEnvironment(
     addActiveSpaceObserver: { workspace in
@@ -26,8 +26,8 @@ struct WorkspaceEnvironment {
     removeObserver: { _, process, keyPath, context in
       process.application?.removeObserver(Workspace.shared, forKeyPath: keyPath, context: context)
     },
-    postEvent: { event, object in
-      EventManager.shared.post(event: event, with: object)
+    postEvent: { event in
+      EventManager.shared.post(event)
     }
   )
 }
@@ -110,7 +110,7 @@ class Workspace: NSObject {
 
   @objc
   func activeSpaceDidChange(_: Notification) {
-    environment.postEvent(.spaceChanged, Space.active())
+    environment.postEvent(.space(.changed(Space.active())))
   }
 
   override func observeValue(
@@ -131,7 +131,7 @@ class Workspace: NSObject {
 
       if result != process.policy {
         unobserveActivationPolicy(process)
-        environment.postEvent(.applicationLaunched, process)
+        environment.postEvent(.application(.launched(process)))
       }
     }
 
@@ -140,7 +140,7 @@ class Workspace: NSObject {
 
       if result {
         unobserveFinishedLaunching(process)
-        environment.postEvent(.applicationLaunched, process)
+        environment.postEvent(.application(.launched(process)))
       }
     }
   }

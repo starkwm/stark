@@ -306,34 +306,34 @@ private func accessibilityObserverCallback(
 ) {
   switch notification as String {
   case kAXCreatedNotification:
-    EventManager.shared.post(event: .windowCreated, with: element)
+    EventManager.shared.post(.window(.created(element)))
 
   case kAXFocusedWindowChangedNotification:
-    EventManager.shared.post(event: .windowFocused, withWindowElement: element)
+    EventManager.shared.post(windowIdentifierEvent: .focused, withWindowElement: element)
 
   case kAXWindowMovedNotification:
-    EventManager.shared.post(event: .windowMoved, withWindowElement: element)
+    EventManager.shared.post(windowIdentifierEvent: .moved, withWindowElement: element)
 
   case kAXWindowResizedNotification:
-    EventManager.shared.post(event: .windowResized, withWindowElement: element)
+    EventManager.shared.post(windowIdentifierEvent: .resized, withWindowElement: element)
 
   case kAXWindowMiniaturizedNotification:
     guard let context else { return }
     let windowID = CGWindowID(UInt(bitPattern: context))
     guard let window = WindowManager.shared.window(by: windowID) else { return }
-    EventManager.shared.post(event: .windowMinimized, with: window)
+    EventManager.shared.post(.window(.minimized(window)))
 
   case kAXWindowDeminiaturizedNotification:
     guard let context = context else { return }
     let windowID = CGWindowID(UInt(bitPattern: context))
     guard let window = WindowManager.shared.window(by: windowID) else { return }
-    EventManager.shared.post(event: .windowDeminimized, with: window)
+    EventManager.shared.post(.window(.deminimized(window)))
 
   case kAXUIElementDestroyedNotification:
     guard let context = context else { return }
     let windowID = CGWindowID(UInt(bitPattern: context))
     guard let window = WindowManager.shared.window(by: windowID) else { return }
-    EventManager.shared.post(event: .windowDestroyed, with: window)
+    EventManager.shared.post(.window(.destroyed(window)))
 
   default:
     break

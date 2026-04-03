@@ -12,74 +12,66 @@ final class EventManager {
     qos: .userInitiated
   )
 
-  /// Posts an event to be processed asynchronously.
-  /// - Parameters:
-  ///   - event: The type of event to post
-  ///   - object: Optional data associated with the event
-  func post(event: EventType, with object: Any?) {
-    queue.addOperation { self.handle(event: event, with: object) }
+  private let applicationHandler = ApplicationLifecycleHandler()
+  private let windowHandler = WindowLifecycleHandler()
+  private let spaceHandler = SpaceLifecycleHandler()
+
+  /// Posts a typed runtime event to be processed asynchronously.
+  func post(_ event: RuntimeEvent) {
+    queue.addOperation { self.handle(event) }
   }
 
   /// Resolves a window identifier off the main run loop before dispatching the event.
   /// This keeps AX observer callbacks lightweight and avoids blocking the app on
   /// `_AXUIElementGetWindow` when the target process is slow to respond.
-  func post(event: EventType, withWindowElement element: AXUIElement) {
+  func post(windowIdentifierEvent event: WindowIdentifierEvent, withWindowElement element: AXUIElement) {
     accessibilityQueue.async {
       let windowID = Window.id(for: element)
-      self.post(event: event, with: windowID)
+      self.post(.window(event.runtimeEvent(windowID: windowID)))
     }
   }
 
-  private func handle(event: EventType, with object: Any?) {
+  private func handle(_ event: RuntimeEvent) {
     switch event {
-    case .applicationLaunched:
-      guard let process = object as? Process else { return }
-      applicationLaunched(for: process)
-
-    case .applicationTerminated:
-      guard let process = object as? Process else { return }
-      applicationTerminated(for: process)
-
-    case .applicationFrontSwitched:
-      guard let process = object as? Process else { return }
-      applicationFrontSwitched(for: process)
-
-    case .windowCreated:
-      guard let object else { return }
-      windowCreated(with: object as! AXUIElement)
-
-    case .windowDestroyed:
-      guard let window = object as? Window else { return }
-      windowDestroyed(with: window)
-
-    case .windowFocused:
-      guard let windowID = object as? CGWindowID else { return }
-      windowFocused(with: windowID)
-
-    case .windowMoved:
-      guard let windowID = object as? CGWindowID else { return }
-      windowMoved(with: windowID)
-
-    case .windowResized:
-      guard let windowID = object as? CGWindowID else { return }
-      windowResized(with: windowID)
-
-    case .windowMinimized:
-      guard let window = object as? Window else { return }
-      windowMinimized(with: window)
-
-    case .windowDeminimized:
-      guard let window = object as? Window else { return }
-      windowDeminimized(with: window)
-
-    case .spaceChanged:
-      guard let space = object as? Space else { return }
-      spaceChanged(with: space)
+    case .application(let event):
+      applicationHandler.handle(event)
+    case .window(let event):
+      windowHandler.handle(event)
+    case .space(let event):
+      spaceHandler.handle(event)
     }
   }
 }
 
-extension EventManager {
+enum WindowIdentifierEvent {
+  case focused
+  case moved
+  case resized
+
+  func runtimeEvent(windowID: CGWindowID) -> WindowEvent {
+    switch self {
+    case .focused:
+      .focused(windowID)
+    case .moved:
+      .moved(windowID)
+    case .resized:
+      .resized(windowID)
+    }
+  }
+}
+
+private struct ApplicationLifecycleHandler {
+  func handle(_ event: ApplicationEvent) {
+    switch event {
+    case .launched(let process):
+      applicationLaunched(for: process)
+    case .terminated(let process):
+      applicationTerminated(for: process)
+    case .frontSwitched(let process):
+      applicationFrontSwitched(for: process)
+    }
+  }
+
   private func applicationLaunched(for process: Process) {
     if process.terminated {
       log("application terminated during launch \(process)")
@@ -110,7 +102,8 @@ extension EventManager {
     }
 
     switch application.observe() {
-    case .success: break
+    case .success:
+      break
     case .failure(let error):
       log("could not observe application \(application): \(error)", level: .warn)
       application.unobserve()
@@ -118,7 +111,7 @@ extension EventManager {
       if application.retryObserving {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
           guard let process = ProcessManager.shared.find(by: process.psn) else { return }
-          Self.shared.post(event: .applicationLaunched, with: process)
+          EventManager.shared.post(.application(.launched(process)))
         }
       }
 
@@ -168,6 +161,27 @@ extension EventManager {
 
     for listener in Event.callbacks(for: .applicationFrontSwitched) {
       listener.call(withArguments: [application])
+    }
+  }
+}
+
+private struct WindowLifecycleHandler {
+  func handle(_ event: WindowEvent) {
+    switch event {
+    case .created(let element):
+      windowCreated(with: element)
+    case .destroyed(let window):
+      windowDestroyed(with: window)
+    case .focused(let windowID):
+      windowFocused(with: windowID)
+    case .moved(let windowID):
+      windowMoved(with: windowID)
+    case .resized(let windowID):
+      windowResized(with: windowID)
+    case .minimized(let window):
+      windowMinimized(with: window)
+    case .deminimized(let window):
+      windowDeminimized(with: window)
     }
   }
 
@@ -247,6 +261,15 @@ extension EventManager {
 
     for listener in Event.callbacks(for: .windowDeminimized) {
       listener.call(withArguments: [window])
+    }
+  }
+}
+
+private struct SpaceLifecycleHandler {
+  func handle(_ event: SpaceEvent) {
+    switch event {
+    case .changed(let space):
+      spaceChanged(with: space)
     }
   }
 

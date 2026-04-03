@@ -7,7 +7,7 @@ import Testing
 private final class WorkspaceRecorder {
   var addObserverCalls = [(UInt32, String)]()
   var removeObserverCalls = [(UInt32, String)]()
-  var postedEvents = [(EventType, Any?)]()
+  var postedEvents = [RuntimeEvent]()
 }
 
 @Suite(.serialized) struct WorkspaceTests {
@@ -124,8 +124,14 @@ private final class WorkspaceRecorder {
 
     #expect(workspace.activationPolicyObservedForTesting.isEmpty)
     #expect(recorder.postedEvents.count == 1)
-    #expect(recorder.postedEvents.first?.0 == .applicationLaunched)
-    #expect((recorder.postedEvents.first?.1 as? Stark.Process) === process)
+    #expect(recorder.postedEvents.first?.type == .applicationLaunched)
+
+    guard case .application(.launched(let postedProcess))? = recorder.postedEvents.first else {
+      Issue.record("Expected launched application event")
+      return
+    }
+
+    #expect(postedProcess === process)
   }
 
   @Test func activationPolicyObservationIgnoresUnchangedAndInvalidValues() {
@@ -188,8 +194,14 @@ private final class WorkspaceRecorder {
 
     #expect(workspace.finishedLaunchingObservedForTesting.isEmpty)
     #expect(recorder.postedEvents.count == 1)
-    #expect(recorder.postedEvents.first?.0 == .applicationLaunched)
-    #expect((recorder.postedEvents.first?.1 as? Stark.Process) === process)
+    #expect(recorder.postedEvents.first?.type == .applicationLaunched)
+
+    guard case .application(.launched(let postedProcess))? = recorder.postedEvents.first else {
+      Issue.record("Expected launched application event")
+      return
+    }
+
+    #expect(postedProcess === process)
   }
 
   @Test func activeSpaceDidChangePostsSpaceChangedEvent() {
@@ -201,8 +213,14 @@ private final class WorkspaceRecorder {
     )
 
     #expect(recorder.postedEvents.count == 1)
-    #expect(recorder.postedEvents.first?.0 == .spaceChanged)
-    #expect(recorder.postedEvents.first?.1 is Space)
+    #expect(recorder.postedEvents.first?.type == .spaceChanged)
+
+    guard case .space(.changed(let space))? = recorder.postedEvents.first else {
+      Issue.record("Expected changed space event")
+      return
+    }
+
+    #expect(space.id > 0)
   }
 
   private func workspace(recorder: WorkspaceRecorder? = nil) -> Workspace {
@@ -215,8 +233,8 @@ private final class WorkspaceRecorder {
         removeObserver: { _, process, keyPath, _ in
           recorder?.removeObserverCalls.append((process.psn.lowLongOfPSN, keyPath))
         },
-        postEvent: { event, object in
-          recorder?.postedEvents.append((event, object))
+        postEvent: { event in
+          recorder?.postedEvents.append(event)
         }
       )
     )

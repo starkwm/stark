@@ -95,7 +95,7 @@ extension ProcessManager {
 
     processes[process.psn.lowLongOfPSN] = process
 
-    EventManager.shared.post(event: .applicationLaunched, with: process)
+    EventManager.shared.post(.application(.launched(process)))
   }
 
   private func applicationTerminated(with psn: ProcessSerialNumber) {
@@ -104,13 +104,13 @@ extension ProcessManager {
     processes.removeValue(forKey: psn.lowLongOfPSN)
     process.terminated = true
 
-    EventManager.shared.post(event: .applicationTerminated, with: process)
+    EventManager.shared.post(.application(.terminated(process)))
   }
 
   private func applicationFrontSwitched(to psn: ProcessSerialNumber) {
     guard let process = processes[psn.lowLongOfPSN] else { return }
 
-    EventManager.shared.post(event: .applicationFrontSwitched, with: process)
+    EventManager.shared.post(.application(.frontSwitched(process)))
   }
 }
 
