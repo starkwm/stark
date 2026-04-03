@@ -82,9 +82,13 @@ final class AccessibilityClient {
 
   /// Resolves the Core Graphics window id for an AX window element.
   func windowID(for element: AXUIElement) -> CGWindowID {
-    var identifier: CGWindowID = 0
-    _AXUIElementGetWindow(element, &identifier)
-    return identifier
+    if Thread.isMainThread {
+      return unsafeWindowID(for: element)
+    }
+
+    return DispatchQueue.main.sync {
+      unsafeWindowID(for: element)
+    }
   }
 
   /// Resolves the owning process id for an AX element.
@@ -135,5 +139,14 @@ final class AccessibilityClient {
 
   func removeNotification(observer: AXObserver, element: AXUIElement, notification: String) {
     AXObserverRemoveNotification(observer, element, notification as CFString)
+  }
+
+  private func unsafeWindowID(for element: AXUIElement) -> CGWindowID {
+    var identifier: CGWindowID = 0
+    let result: ApplicationServices.AXError = _AXUIElementGetWindow(element, &identifier)
+
+    guard result == .success else { return 0 }
+
+    return identifier
   }
 }

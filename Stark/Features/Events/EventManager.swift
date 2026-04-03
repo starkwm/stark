@@ -75,7 +75,10 @@ final class EventManager {
     windowIdentifierEvent event: WindowIdentifierEvent,
     withWindowElement element: AXUIElement
   ) {
+    let retainedElement = Unmanaged.passRetained(element)
+
     accessibilityQueue.async {
+      let element = retainedElement.takeRetainedValue()
       let windowID = Window.id(for: element)
       self.post(.window(event.runtimeEvent(windowID: windowID)))
     }
@@ -83,7 +86,10 @@ final class EventManager {
 
   /// Converts a created-window AX element into stable identifiers before enqueueing it.
   func post(windowCreatedWithElement element: AXUIElement) {
+    let retainedElement = Unmanaged.passRetained(element)
+
     accessibilityQueue.async {
+      let element = retainedElement.takeRetainedValue()
       let windowID = Window.id(for: element)
 
       guard windowID != 0 else { return }

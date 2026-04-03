@@ -1,3 +1,4 @@
+import ApplicationServices
 import Carbon
 
 // swift-format-ignore: AlwaysUseLowerCamelCase
@@ -80,7 +81,10 @@ func SLSWindowQueryWindows(_ connectionID: Int32, _ windows: CFArray, _ count: I
 // swift-format-ignore: AlwaysUseLowerCamelCase
 @_silgen_name("_AXUIElementGetWindow")
 @discardableResult
-func _AXUIElementGetWindow(_ element: AXUIElement, _ identifier: inout UInt32) -> AXError
+func _AXUIElementGetWindow(
+  _ element: AXUIElement,
+  _ identifier: inout UInt32
+) -> ApplicationServices.AXError
 
 // swift-format-ignore: AlwaysUseLowerCamelCase
 @_silgen_name("_AXUIElementCreateWithRemoteToken")
