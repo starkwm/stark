@@ -7,21 +7,6 @@ private let primaryPaths: [String] = [
   "~/Library/Application Support/Stark/stark.js",
 ]
 
-struct ConfigFileSystem {
-  var fileExists: (String) -> Bool
-  var readFile: (String) -> String?
-
-  static let live = ConfigFileSystem(
-    fileExists: { FileManager.default.fileExists(atPath: $0) },
-    readFile: { try? String(contentsOfFile: $0, encoding: .utf8) }
-  )
-}
-
-struct ConfigExecutor {
-  var createContext: () -> Result<JSContext, JSExceptionError>
-  var executeScript: (JSContext, String) -> Result<Void, Error>
-}
-
 /// Manages JavaScript configuration loading and monitoring.
 /// Loads user configuration from ~/.stark.js and watches for changes.
 final class ConfigManager {
