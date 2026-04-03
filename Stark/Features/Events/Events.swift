@@ -52,7 +52,7 @@ enum ApplicationEvent {
 }
 
 enum WindowEvent {
-  case created(AXUIElement)
+  case created(pid_t, CGWindowID)
   case destroyed(Window)
   case focused(CGWindowID)
   case moved(CGWindowID)

@@ -315,7 +315,7 @@ private func accessibilityObserverCallback(
 ) {
   switch notification as String {
   case kAXCreatedNotification:
-    EventManager.shared.post(.window(.created(element)))
+    EventManager.shared.post(windowCreatedWithElement: element)
 
   case kAXFocusedWindowChangedNotification:
     EventManager.shared.post(windowIdentifierEvent: .focused, withWindowElement: element)

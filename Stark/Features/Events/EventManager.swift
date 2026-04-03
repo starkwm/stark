@@ -81,6 +81,18 @@ final class EventManager {
     }
   }
 
+  /// Converts a created-window AX element into stable identifiers before enqueueing it.
+  func post(windowCreatedWithElement element: AXUIElement) {
+    accessibilityQueue.async {
+      let windowID = Window.id(for: element)
+
+      guard windowID != 0 else { return }
+      guard let pid = Window.pid(for: element) else { return }
+
+      self.post(.window(.created(pid, windowID)))
+    }
+  }
+
   private func handle(_ event: RuntimeEvent) {
     switch event {
     case .application(let event):
@@ -228,8 +240,8 @@ private struct WindowLifecycleHandler {
   /// Routes window lifecycle events to the appropriate handler.
   func handle(_ event: WindowEvent) {
     switch event {
-    case .created(let element):
-      windowCreated(with: element)
+    case .created(let pid, let windowID):
+      windowCreated(for: pid, with: windowID)
     case .destroyed(let window):
       windowDestroyed(with: window)
     case .focused(let windowID):
@@ -245,15 +257,23 @@ private struct WindowLifecycleHandler {
     }
   }
 
-  private func windowCreated(with element: AXUIElement) {
-    let windowID = Window.id(for: element)
-
+  private func windowCreated(for pid: pid_t, with windowID: CGWindowID) {
     guard windowManager.window(by: windowID) == nil else { return }
-    guard let pid = Window.pid(for: element) else { return }
     guard let application = windowManager.application(by: pid) else { return }
-    guard let window = windowManager.addWindow(for: application, with: element) else {
-      return
+
+    let element =
+      application.windowElements().first { Window.validID(for: $0) == windowID }
+
+    let window: Window?
+
+    if let element {
+      window = windowManager.addWindow(for: application, with: element)
+    } else {
+      _ = windowManager.addWindows(for: application)
+      window = windowManager.window(by: windowID)
     }
+
+    guard let window else { return }
 
     log("window created \(window)", level: .info)
 
