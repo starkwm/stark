@@ -29,26 +29,18 @@ import JavaScriptCore
 }
 
 class Event: NSObject, EventJSExport {
-  private static var callbacks: [EventType: [Event]] = [:]
-  private static var recordingCallbacks: [EventType: [Event]]?
-  private static let queue = DispatchQueue(label: "dev.tombell.stark.events")
+  private static let callbacks = StagedStorage<[EventType: [Event]]>(
+    active: [:],
+    queueLabel: "dev.tombell.stark.events",
+    makeEmptyStorage: { [:] }
+  )
 
   static func beginRecording() {
-    queue.sync {
-      recordingCallbacks = [:]
-    }
+    callbacks.beginRecording()
   }
 
   static func commitRecording() {
-    let activeListeners: [Event] = queue.sync {
-      guard let recordingCallbacks else { return [] }
-
-      let activeListeners = callbacks.values.flatMap { $0 }
-      callbacks = recordingCallbacks
-      self.recordingCallbacks = nil
-
-      return activeListeners
-    }
+    let activeListeners = callbacks.commit()?.previousActive.values.flatMap { $0 } ?? []
 
     for listener in activeListeners {
       removeManagedReference(for: listener)
@@ -56,11 +48,7 @@ class Event: NSObject, EventJSExport {
   }
 
   static func discardRecording() {
-    let listeners: [Event] = queue.sync {
-      let listeners = recordingCallbacks?.values.flatMap { $0 } ?? []
-      recordingCallbacks = nil
-      return listeners
-    }
+    let listeners = callbacks.discard()?.values.flatMap { $0 } ?? []
 
     for listener in listeners {
       removeManagedReference(for: listener)
@@ -68,7 +56,7 @@ class Event: NSObject, EventJSExport {
   }
 
   static func callbacks(for event: EventType) -> [Event] {
-    queue.sync { callbacks[event] ?? [] }
+    callbacks.withActive { $0[event] ?? [] }
   }
 
   static func on(_ event: String, _ callback: JSValue) -> Event {
@@ -79,24 +67,20 @@ class Event: NSObject, EventJSExport {
 
     let listener = Event(event: event, callback: callback)
 
-    if recordingCallbacks != nil {
-      queue.sync {
+    callbacks.mutate { callbacks, recordingCallbacks in
+      if recordingCallbacks != nil {
         var list = recordingCallbacks?[eventType] ?? []
         list.append(listener)
         recordingCallbacks?[eventType] = list
+        return
       }
 
-      callback.context.virtualMachine.addManagedReference(listener, withOwner: self)
-      return listener
-    }
-
-    queue.sync {
       var list = callbacks[eventType] ?? []
       list.append(listener)
       callbacks[eventType] = list
     }
 
-    callback.context.virtualMachine.addManagedReference(listener, withOwner: self)
+    JSCallbackInvoker.addManagedReference(for: listener, callback: callback, owner: self)
 
     return listener
   }
@@ -104,22 +88,12 @@ class Event: NSObject, EventJSExport {
   static func off(_ event: String) {
     guard let eventType = EventType(rawValue: event) else { return }
 
-    if recordingCallbacks != nil {
-      let removed: [Event] = queue.sync {
-        let list = recordingCallbacks?.removeValue(forKey: eventType) ?? []
-        return list
+    let removed = callbacks.mutate { callbacks, recordingCallbacks in
+      if recordingCallbacks != nil {
+        return recordingCallbacks?.removeValue(forKey: eventType) ?? []
       }
 
-      for listener in removed {
-        removeManagedReference(for: listener)
-      }
-
-      return
-    }
-
-    let removed: [Event] = queue.sync {
-      let list = callbacks.removeValue(forKey: eventType) ?? []
-      return list
+      return callbacks.removeValue(forKey: eventType) ?? []
     }
 
     for listener in removed {
@@ -128,24 +102,16 @@ class Event: NSObject, EventJSExport {
   }
 
   static func reset() {
-    if recordingCallbacks != nil {
-      let all: [Event] = queue.sync {
-        let list = recordingCallbacks?.values.flatMap { $0 } ?? []
+    let all = callbacks.mutate { callbacks, recordingCallbacks in
+      if recordingCallbacks != nil {
+        let listeners = recordingCallbacks?.values.flatMap { $0 } ?? []
         recordingCallbacks?.removeAll()
-        return list
+        return listeners
       }
 
-      for listener in all {
-        removeManagedReference(for: listener)
-      }
-
-      return
-    }
-
-    let all: [Event] = queue.sync {
-      let list = callbacks.values.flatMap { $0 }
+      let listeners = callbacks.values.flatMap { $0 }
       callbacks.removeAll()
-      return list
+      return listeners
     }
 
     for listener in all {
@@ -154,15 +120,15 @@ class Event: NSObject, EventJSExport {
   }
 
   static func activeListenerCount(for event: EventType) -> Int {
-    queue.sync { callbacks[event]?.count ?? 0 }
+    callbacks.withActive { $0[event]?.count ?? 0 }
   }
 
   static func recordingListenerCount(for event: EventType) -> Int {
-    queue.sync { recordingCallbacks?[event]?.count ?? 0 }
+    callbacks.withRecording { $0?[event]?.count ?? 0 }
   }
 
   static func resetForTesting() {
-    if recordingCallbacks != nil {
+    if callbacks.withRecording({ $0 != nil }) {
       reset()
     }
 
@@ -170,9 +136,7 @@ class Event: NSObject, EventJSExport {
   }
 
   private static func removeManagedReference(for listener: Event) {
-    guard let callback = listener.callback?.value else { return }
-
-    callback.context.virtualMachine.removeManagedReference(listener, withOwner: self)
+    JSCallbackInvoker.removeManagedReference(for: listener, callback: listener.callback, owner: self)
   }
 
   var id: String
@@ -203,15 +167,6 @@ class Event: NSObject, EventJSExport {
   }
 
   func call(withArguments args: [Any]) {
-    guard let callback = callback?.value else { return }
-
-    guard let context = JSContext(virtualMachine: callback.context.virtualMachine) else { return }
-
-    context.exceptionHandler = { _, err in
-      log("unhandled javascript exception - \(String(describing: err))", level: .error)
-    }
-
-    let function = JSValue(object: callback, in: context)
-    function?.call(withArguments: args)
+    JSCallbackInvoker.call(callback, withArguments: args)
   }
 }
