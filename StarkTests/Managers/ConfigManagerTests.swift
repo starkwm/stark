@@ -5,6 +5,9 @@ import Testing
 @testable import Stark
 
 private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
+  var installEventHandlerCallCount = 0
+  var removeEventHandlerCallCount = 0
+
   func register(keyCode _: UInt32, modifiers _: UInt32, hotKeyID _: UInt32, signature _: OSType)
     -> Bool
   {
@@ -12,8 +15,15 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
   }
 
   func unregister(hotKeyID _: UInt32) {}
-  func installEventHandler() -> Bool { true }
-  func removeEventHandler() {}
+
+  func installEventHandler() -> Bool {
+    installEventHandlerCallCount += 1
+    return true
+  }
+
+  func removeEventHandler() {
+    removeEventHandlerCallCount += 1
+  }
 }
 
 @Suite(.serialized) struct ConfigManagerTests {
@@ -376,9 +386,129 @@ private final class ConfigManagerShortcutRegistrar: ShortcutRegistrar {
     }
   }
 
+  @Test func failedReloadPreservesPreviouslyLoadedConfiguration() throws {
+    let registrar = prepareRegistrar()
+    defer { resetState() }
+
+    var loadCount = 0
+    let manager = ConfigManager(
+      fileSystem: ConfigFileSystem(
+        fileExists: { _ in true },
+        readFile: { _ in "ignored" }
+      ),
+      executor: ConfigExecutor(
+        createContext: {
+          guard let context = JSContext() else {
+            return .failure(.exception("Could not create javascript context"))
+          }
+
+          return .success(context)
+        },
+        executeScript: { _, _ in
+          do {
+            loadCount += 1
+
+            if loadCount == 1 {
+              _ = Event.on("windowFocused", try self.callback())
+              _ = Keymap.on("return", ["cmd"], try self.callback())
+              return .success(())
+            }
+
+            _ = Event.on("windowMoved", try self.callback())
+            _ = Keymap.on("escape", ["shift"], try self.callback())
+            return .failure(JSExceptionError.exception("JS exception: boom"))
+          } catch {
+            return .failure(error)
+          }
+        }
+      ),
+      path: "/tmp/stark.js",
+      fileMonitorSetup: { _ in .success(()) }
+    )
+
+    switch manager.loadForTesting() {
+    case .success:
+      #expect(Event.activeListenerCount(for: .windowFocused) == 1)
+      #expect(Event.activeListenerCount(for: .windowMoved) == 0)
+      #expect(Keymap.activeIDsForTesting == ["return[cmd]"])
+      #expect(registrar.installEventHandlerCallCount == 1)
+    case .failure(let error):
+      Issue.record("Expected first successful load, got \(error)")
+      return
+    }
+
+    switch manager.loadForTesting() {
+    case .success:
+      Issue.record("Expected second load to fail")
+    case .failure:
+      #expect(Event.activeListenerCount(for: .windowFocused) == 1)
+      #expect(Event.activeListenerCount(for: .windowMoved) == 0)
+      #expect(Keymap.activeIDsForTesting == ["return[cmd]"])
+      #expect(Keymap.recordingIDsForTesting.isEmpty)
+      #expect(registrar.installEventHandlerCallCount == 1)
+    }
+  }
+
+  @Test func successfulStartSetsUpMonitorAndStopTearsDownShortcutHandling() throws {
+    let registrar = prepareRegistrar()
+    defer { resetState() }
+
+    var monitorSetupCallCount = 0
+    let manager = ConfigManager(
+      fileSystem: ConfigFileSystem(
+        fileExists: { _ in true },
+        readFile: { _ in "ignored" }
+      ),
+      executor: ConfigExecutor(
+        createContext: {
+          guard let context = JSContext() else {
+            return .failure(.exception("Could not create javascript context"))
+          }
+
+          return .success(context)
+        },
+        executeScript: { _, _ in
+          do {
+            _ = Keymap.on("escape", ["shift"], try self.callback())
+            return .success(())
+          } catch {
+            return .failure(error)
+          }
+        }
+      ),
+      path: "/tmp/stark.js",
+      fileMonitorSetup: { _ in
+        monitorSetupCallCount += 1
+        return .success(())
+      }
+    )
+
+    switch manager.start() {
+    case .success:
+      #expect(monitorSetupCallCount == 1)
+      #expect(Keymap.activeIDsForTesting == ["escape[shift]"])
+      #expect(registrar.installEventHandlerCallCount == 1)
+    case .failure(let error):
+      Issue.record("Expected start success, got \(error)")
+      return
+    }
+
+    manager.stop()
+
+    #expect(registrar.removeEventHandlerCallCount == 2)
+  }
+
   private func prepareState() {
+    _ = prepareRegistrar()
+  }
+
+  private func prepareRegistrar() -> ConfigManagerShortcutRegistrar {
     resetState()
-    ShortcutManager.useRegistrar(ConfigManagerShortcutRegistrar())
+
+    let registrar = ConfigManagerShortcutRegistrar()
+    ShortcutManager.useRegistrar(registrar)
+
+    return registrar
   }
 
   private func resetState() {

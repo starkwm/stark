@@ -10,6 +10,7 @@
 		AA100008AA100008AA100008 /* WorkspaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100019AA100019AA100019 /* WorkspaceTests.swift */; };
 		AA100009AA100009AA100009 /* LogHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100020AA100020AA100020 /* LogHelperTests.swift */; };
 		AA10000AAA10000AAA10000A /* SpaceTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100025AA100025AA100025 /* SpaceTypeTests.swift */; };
+		AA10000CAA10000CAA10000C /* EventManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100027AA100027AA100027 /* EventManagerTests.swift */; };
 		AA100007AA100007AA100007 /* LaunchAgentHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */; };
 		AA100006AA100006AA100006 /* ShortcutManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100017AA100017AA100017 /* ShortcutManagerTests.swift */; };
 		AA100005AA100005AA100005 /* EventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100016AA100016AA100016 /* EventTests.swift */; };
@@ -69,6 +70,7 @@
 		AA100020AA100020AA100020 /* LogHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogHelperTests.swift; sourceTree = "<group>"; };
 		AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAgentHelperTests.swift; sourceTree = "<group>"; };
 		AA100025AA100025AA100025 /* SpaceTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceTypeTests.swift; sourceTree = "<group>"; };
+		AA100027AA100027AA100027 /* EventManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManagerTests.swift; sourceTree = "<group>"; };
 		AA100017AA100017AA100017 /* ShortcutManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutManagerTests.swift; sourceTree = "<group>"; };
 		AA100016AA100016AA100016 /* EventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTests.swift; sourceTree = "<group>"; };
 		AA100011AA100011AA100011 /* ModifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifierTests.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 			isa = PBXGroup;
 			children = (
 				AA100013AA100013AA100013 /* ConfigManagerTests.swift */,
+				AA100027AA100027AA100027 /* EventManagerTests.swift */,
 				AA100017AA100017AA100017 /* ShortcutManagerTests.swift */,
 			);
 			path = Managers;
@@ -407,6 +410,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA100003AA100003AA100003 /* ConfigManagerTests.swift in Sources */,
+				AA10000CAA10000CAA10000C /* EventManagerTests.swift in Sources */,
 				AA100005AA100005AA100005 /* EventTests.swift in Sources */,
 				AA100002AA100002AA100002 /* KeyTests.swift in Sources */,
 				AA100004AA100004AA100004 /* KeymapTests.swift in Sources */,
