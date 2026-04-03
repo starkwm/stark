@@ -139,7 +139,10 @@ class Window: NSObject, WindowJSExport {
 
   var title: String {
     guard let element else { return "" }
-    return Self.accessibilityClient.stringAttribute(for: element, attribute: kAXTitleAttribute as String)
+    return Self.accessibilityClient.stringAttribute(
+      for: element,
+      attribute: kAXTitleAttribute as String
+    )
       ?? ""
   }
 
@@ -149,13 +152,19 @@ class Window: NSObject, WindowJSExport {
 
   var topLeft: CGPoint {
     guard let element else { return CGPoint.zero }
-    return Self.accessibilityClient.pointAttribute(for: element, attribute: kAXPositionAttribute as String)
+    return Self.accessibilityClient.pointAttribute(
+      for: element,
+      attribute: kAXPositionAttribute as String
+    )
       ?? CGPoint.zero
   }
 
   var size: CGSize {
     guard let element else { return CGSize.zero }
-    return Self.accessibilityClient.sizeAttribute(for: element, attribute: kAXSizeAttribute as String)
+    return Self.accessibilityClient.sizeAttribute(
+      for: element,
+      attribute: kAXSizeAttribute as String
+    )
       ?? CGSize.zero
   }
 
@@ -175,7 +184,8 @@ class Window: NSObject, WindowJSExport {
 
   var isFullscreen: Bool {
     guard let element else { return false }
-    return Self.accessibilityClient.boolAttribute(for: element, attribute: kAXFullScreenAttribute) ?? false
+    return Self.accessibilityClient.boolAttribute(for: element, attribute: kAXFullScreenAttribute)
+      ?? false
   }
 
   var isMinimized: Bool {
@@ -230,7 +240,11 @@ class Window: NSObject, WindowJSExport {
   func setTopLeft(_ topLeft: CGPoint) {
     application?.enhancedUIWorkaround {
       guard let element else { return }
-      Self.accessibilityClient.setPoint(topLeft, for: element, attribute: kAXPositionAttribute as String)
+      Self.accessibilityClient.setPoint(
+        topLeft,
+        for: element,
+        attribute: kAXPositionAttribute as String
+      )
     }
   }
 

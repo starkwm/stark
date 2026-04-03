@@ -67,7 +67,9 @@ class Space: NSObject, SpaceJSExport {
   }
 
   static func spaces(containing window: Window) -> [Space] {
-    let identifiers = Set(windowServerClient.spaceIDs(containing: window.id, connectionID: connection))
+    let identifiers = Set(
+      windowServerClient.spaceIDs(containing: window.id, connectionID: connection)
+    )
     return all().filter { identifiers.contains($0.id) }
   }
 
@@ -103,7 +105,11 @@ class Space: NSObject, SpaceJSExport {
       return NSScreen.screens
     }
 
-    guard let screenID = Self.windowServerClient.screenID(forSpaceID: id, connectionID: Space.connection),
+    guard
+      let screenID = Self.windowServerClient.screenID(
+        forSpaceID: id,
+        connectionID: Space.connection
+      ),
       let screen = NSScreen.screen(for: screenID)
     else {
       return []

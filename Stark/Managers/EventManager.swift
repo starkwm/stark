@@ -71,7 +71,10 @@ final class EventManager {
   /// Resolves a window identifier off the main run loop before dispatching the event.
   /// This keeps AX observer callbacks lightweight and avoids blocking the app on
   /// `_AXUIElementGetWindow` when the target process is slow to respond.
-  func post(windowIdentifierEvent event: WindowIdentifierEvent, withWindowElement element: AXUIElement) {
+  func post(
+    windowIdentifierEvent event: WindowIdentifierEvent,
+    withWindowElement element: AXUIElement
+  ) {
     accessibilityQueue.async {
       let windowID = Window.id(for: element)
       self.post(.window(event.runtimeEvent(windowID: windowID)))

@@ -70,7 +70,8 @@ final class AccessibilityClient {
   func windowElements(for element: AXUIElement) -> [AXUIElement] {
     var values: AnyObject?
 
-    guard AXUIElementCopyAttributeValue(element, kAXWindowsAttribute as CFString, &values) == .success,
+    guard
+      AXUIElementCopyAttributeValue(element, kAXWindowsAttribute as CFString, &values) == .success,
       let windows = values as? [AXUIElement]
     else {
       return []
@@ -82,7 +83,9 @@ final class AccessibilityClient {
   func focusedWindowElement(for element: AXUIElement) -> AXUIElement? {
     var value: AnyObject?
 
-    guard AXUIElementCopyAttributeValue(element, kAXFocusedWindowAttribute as CFString, &value) == .success,
+    guard
+      AXUIElementCopyAttributeValue(element, kAXFocusedWindowAttribute as CFString, &value)
+        == .success,
       let value
     else {
       return nil

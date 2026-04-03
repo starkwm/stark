@@ -33,14 +33,16 @@ import Testing
 
     runtime.start()
 
-    #expect(recorder.events == [
-      "startSentry",
-      "askForAccessibility",
-      "process.start",
-      "window.start",
-      "config.start",
-      "statusItem.setup",
-    ])
+    #expect(
+      recorder.events == [
+        "startSentry",
+        "askForAccessibility",
+        "process.start",
+        "window.start",
+        "config.start",
+        "statusItem.setup",
+      ]
+    )
     #expect(loggedMessages.isEmpty)
   }
 
@@ -65,11 +67,13 @@ import Testing
 
     runtime.start()
 
-    #expect(recorder.events == [
-      "startSentry",
-      "askForAccessibility",
-      "terminateApplication",
-    ])
+    #expect(
+      recorder.events == [
+        "startSentry",
+        "askForAccessibility",
+        "terminateApplication",
+      ]
+    )
   }
 
   @Test func startStopsAfterProcessManagerFailure() {
@@ -99,10 +103,12 @@ import Testing
 
     runtime.start()
 
-    #expect(recorder.events == [
-      "askForAccessibility",
-      "process.start",
-    ])
+    #expect(
+      recorder.events == [
+        "askForAccessibility",
+        "process.start",
+      ]
+    )
     #expect(loggedMessages.count == 1)
     #expect(loggedMessages[0].level == .error)
     #expect(loggedMessages[0].message.contains("could not start process manager"))
@@ -136,12 +142,14 @@ import Testing
 
     runtime.start()
 
-    #expect(recorder.events == [
-      "askForAccessibility",
-      "process.start",
-      "window.start",
-      "config.start",
-    ])
+    #expect(
+      recorder.events == [
+        "askForAccessibility",
+        "process.start",
+        "window.start",
+        "config.start",
+      ]
+    )
     #expect(loggedMessages.count == 1)
     #expect(loggedMessages[0].level == .error)
     #expect(loggedMessages[0].message.contains("could not start config manager"))

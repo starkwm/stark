@@ -76,11 +76,12 @@ struct ConfigScriptExecutor {
 }
 
 struct ConfigFileWatcher {
-  var startMonitoring: (
-    _ path: String,
-    _ queue: DispatchQueue,
-    _ reloadHandler: @escaping (_ needsMonitorRestart: Bool) -> Void
-  ) -> Result<DispatchSourceFileSystemObject, FileError>
+  var startMonitoring:
+    (
+      _ path: String,
+      _ queue: DispatchQueue,
+      _ reloadHandler: @escaping (_ needsMonitorRestart: Bool) -> Void
+    ) -> Result<DispatchSourceFileSystemObject, FileError>
 
   static let live = ConfigFileWatcher(
     startMonitoring: { path, queue, reloadHandler in

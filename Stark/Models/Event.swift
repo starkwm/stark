@@ -136,7 +136,11 @@ class Event: NSObject, EventJSExport {
   }
 
   private static func removeManagedReference(for listener: Event) {
-    JSCallbackInvoker.removeManagedReference(for: listener, callback: listener.callback, owner: self)
+    JSCallbackInvoker.removeManagedReference(
+      for: listener,
+      callback: listener.callback,
+      owner: self
+    )
   }
 
   var id: String

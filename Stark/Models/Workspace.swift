@@ -37,7 +37,9 @@ class Workspace: NSObject {
 
   private let environment: WorkspaceEnvironment
   private let activationPolicyObservations = ProcessObservationRegistry(keyPath: "activationPolicy")
-  private let finishedLaunchingObservations = ProcessObservationRegistry(keyPath: "finishedLaunching")
+  private let finishedLaunchingObservations = ProcessObservationRegistry(
+    keyPath: "finishedLaunching"
+  )
 
   init(environment: WorkspaceEnvironment = .live) {
     self.environment = environment
