@@ -96,7 +96,7 @@ final class AccessibilityClient {
       return nil
     }
 
-    return value as! AXUIElement
+    return (value as! AXUIElement)
   }
 
   func subrole(for element: AXUIElement) -> String? {
