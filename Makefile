@@ -1,4 +1,4 @@
-XCODEFLAGS=-project "Stark.xcodeproj" -scheme "Stark" -destination "platform=macOS"
+XCODEFLAGS=-project "Stark.xcodeproj" -scheme "Stark" -destination "platform=macOS,arch=arm64"
 
 BUILD_DIR=$(PWD)/Build
 STARK_ARCHIVE=$(BUILD_DIR)/Stark.xcarchive
@@ -19,8 +19,6 @@ test:
 archive:
 	@xcodebuild $(XCODEFLAGS) clean archive -archivePath $(STARK_ARCHIVE) DEBUG_INFORMATION_FORMAT=dwarf-with-dsym
 	@xcodebuild -exportArchive -archivePath $(STARK_ARCHIVE) -exportPath $(BUILD_DIR) -exportOptionsPlist $(EXPORT_PLIST)
-	@cp -R $(STARK_ARCHIVE)/dSYMs $(BUILD_DIR)/
-	@(cd $(BUILD_DIR) && zip stark-dsyms.zip dSYMs/**/*)
 
 clean:
 	@xcodebuild $(XCODEFLAGS) clean
