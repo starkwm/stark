@@ -43,6 +43,7 @@ struct StarkRuntimeEnvironment {
     startSentry: { dsn in
       SentrySDK.start { options in
         options.dsn = dsn
+        options.enableAppHangTracking = false
       }
     },
     askForAccessibility: {
