@@ -1,113 +1,33 @@
 import JavaScriptCore
 
 @objc protocol KeymapJSExport: JSExport {
+  func on(_ key: String, _ modifiers: [String], _ callback: JSValue) -> Keymap
+  func off(_ id: String)
+}
 
-  static func on(_ key: String, _ modifiers: [String], _ callback: JSValue) -> Keymap
-
-  static func off(_ id: String)
-
-
+@objc protocol KeymapObjectJSExport: JSExport {
   var id: String { get }
-
   var key: String { get }
-
   var modifiers: [String] { get }
 }
 
-class Keymap: NSObject, KeymapJSExport {
-  private static let registry = KeymapRegistry()
+final class KeymapBridge: NSObject, KeymapJSExport {
+  private unowned let session: ConfigSession
 
-  private static func identifier(for key: String, modifiers: [String]) -> String {
-    String(format: "%@[%@]", key, modifiers.joined(separator: "|"))
+  init(session: ConfigSession) {
+    self.session = session
   }
 
-  static func configureShortcutManager(_ manager: ShortcutManager) {
-    registry.configure(shortcutManager: manager)
+  func on(_ key: String, _ modifiers: [String], _ callback: JSValue) -> Keymap {
+    session.registerKeymap(key, modifiers: modifiers, callback: callback)
   }
 
-  static func beginRecording() {
-    registry.beginRecording()
+  func off(_ id: String) {
+    session.removeKeymap(id: id)
   }
+}
 
-  static func commitRecording() {
-    guard let transition = registry.commitRecording() else { return }
-
-    for keymap in transition.previousActive.values {
-      removeManagedReference(for: keymap)
-      if let shortcut = keymap.shortcut {
-        registry.shortcutManager.unregister(shortcut: shortcut)
-      }
-    }
-
-    for keymap in transition.nextActive.values {
-      keymap.activate()
-    }
-  }
-
-  static func discardRecording() {
-    guard let recordingKeymaps = registry.discardRecording() else { return }
-
-    for keymap in recordingKeymaps.values {
-      removeManagedReference(for: keymap)
-    }
-  }
-
-  static func on(_ key: String, _ modifiers: [String], _ callback: JSValue) -> Keymap {
-    let keymap = Keymap(key: key, modifiers: modifiers, callback: callback)
-
-    let result = registry.insert(keymap)
-
-    if let previous = result.previous {
-      removeManagedReference(for: previous)
-
-      if !result.isRecording {
-        if let shortcut = previous.shortcut {
-          registry.shortcutManager.unregister(shortcut: shortcut)
-        }
-      }
-    }
-
-    JSCallbackInvoker.addManagedReference(for: keymap, callback: callback, owner: self)
-
-    if !result.isRecording {
-      keymap.activate()
-    }
-
-    return keymap
-  }
-
-  static func off(_ id: String) {
-    let result = registry.remove(id: id)
-
-    guard let keymap = result.keymap else { return }
-
-    removeManagedReference(for: keymap)
-
-    if !result.isRecording {
-      if let shortcut = keymap.shortcut {
-        registry.shortcutManager.unregister(shortcut: shortcut)
-      }
-    }
-  }
-
-  static func reset() {
-    let result = registry.reset()
-
-    for keymap in result.removed {
-      removeManagedReference(for: keymap)
-
-      if !result.isRecording {
-        if let shortcut = keymap.shortcut {
-          registry.shortcutManager.unregister(shortcut: shortcut)
-        }
-      }
-    }
-  }
-
-  private static func removeManagedReference(for keymap: Keymap) {
-    JSCallbackInvoker.removeManagedReference(for: keymap, callback: keymap.callback, owner: self)
-  }
-
+class Keymap: NSObject, KeymapObjectJSExport {
   override var description: String {
     "<Keymap id: \(id), key: \(key), modifiers: \(modifiers.joined(separator: "|"))>"
   }
@@ -122,27 +42,41 @@ class Keymap: NSObject, KeymapJSExport {
   private var shortcut: Shortcut?
   private var callback: JSManagedValue?
 
-  init(key: String, modifiers: [String], callback: JSValue) {
+  init(key: String, modifiers: [String], callback: JSValue, callbackOwner: AnyObject) {
     self.key = key
     self.modifiers = modifiers
     shortcut = Shortcut(key: key, modifiers: modifiers)
+    self.callback = JSManagedValue(value: callback, andOwner: callbackOwner)
 
     super.init()
 
-    self.callback = JSManagedValue(value: callback, andOwner: self)
     shortcut?.handler = call
+    JSCallbackInvoker.addManagedReference(for: self, callback: callback, owner: callbackOwner)
   }
 
   deinit {
     log("keymap deinit \(self)")
   }
 
-  func activate() {
+  func activate(with shortcutManager: ShortcutManager) {
     guard let shortcut else { return }
-    Self.registry.shortcutManager.register(shortcut: shortcut)
+    shortcutManager.register(shortcut: shortcut)
+  }
+
+  func deactivate(with shortcutManager: ShortcutManager) {
+    guard let shortcut else { return }
+    shortcutManager.unregister(shortcut: shortcut)
+  }
+
+  func detachCallback(from owner: AnyObject) {
+    JSCallbackInvoker.removeManagedReference(for: self, callback: callback, owner: owner)
   }
 
   private func call() {
     JSCallbackInvoker.call(callback, withArguments: [])
+  }
+
+  private static func identifier(for key: String, modifiers: [String]) -> String {
+    String(format: "%@[%@]", key, modifiers.joined(separator: "|"))
   }
 }

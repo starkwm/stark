@@ -43,29 +43,38 @@ private final class TestShortcutTapRecorder {
 
 @Suite(.serialized) struct KeymapTests {
   @Test func createsStableIdentifiers() throws {
-    let (_, _, callbackState) = prepareState()
-    defer { resetState() }
+    let session = ConfigSession()
+    let callbackState = CallbackState()
 
-    let keymap = Keymap.on("return", ["cmd", "shift"], try callback(in: callbackState.context))
+    let keymap = session.keymapBridge.on(
+      "return",
+      ["cmd", "shift"],
+      try callback(in: callbackState.context)
+    )
 
     #expect(keymap.id == "return[cmd|shift]")
   }
 
   @Test func preservesRawSidedModifierIdentifiers() throws {
-    let (_, _, callbackState) = prepareState()
-    defer { resetState() }
+    let session = ConfigSession()
+    let callbackState = CallbackState()
 
-    let keymap = Keymap.on("return", ["lcmd", "shift"], try callback(in: callbackState.context))
+    let keymap = session.keymapBridge.on(
+      "return",
+      ["lcmd", "shift"],
+      try callback(in: callbackState.context)
+    )
 
     #expect(keymap.id == "return[lcmd|shift]")
   }
 
   @Test func specialKeysKeepRawIdentifiersWhileInjectingFnInternally() throws {
-    let (manager, tapRecorder, callbackState) = prepareState()
-    defer { resetState() }
+    let (manager, tapRecorder, session, callbackState) = prepareState()
+    var activeSession: ConfigSession?
+    defer { activeSession?.deactivate() }
 
-    _ = Keymap.on("left", ["cmd"], try callback(in: callbackState.context))
-    manager.start()
+    _ = session.keymapBridge.on("left", ["cmd"], try callback(in: callbackState.context))
+    apply(session, with: manager, activeSession: &activeSession)
 
     #expect(
       dispatchKeyDown(
@@ -78,11 +87,16 @@ private final class TestShortcutTapRecorder {
   }
 
   @Test func removedAliasDoesNotRegisterShortcut() throws {
-    let (manager, tapRecorder, callbackState) = prepareState()
-    defer { resetState() }
+    let (manager, tapRecorder, session, callbackState) = prepareState()
+    var activeSession: ConfigSession?
+    defer { activeSession?.deactivate() }
 
-    let keymap = Keymap.on("return", ["option"], try callback(in: callbackState.context))
-    manager.start()
+    let keymap = session.keymapBridge.on(
+      "return",
+      ["option"],
+      try callback(in: callbackState.context)
+    )
+    apply(session, with: manager, activeSession: &activeSession)
 
     #expect(keymap.id == "return[option]")
     #expect(tapRecorder.createCallCount == 0)
@@ -91,43 +105,48 @@ private final class TestShortcutTapRecorder {
   }
 
   @Test func overwritesDuplicateActiveRegistrations() throws {
-    let (manager, tapRecorder, callbackState) = prepareState()
-    defer { resetState() }
+    let (manager, tapRecorder, session, callbackState) = prepareState()
+    var activeSession: ConfigSession?
+    defer { activeSession?.deactivate() }
 
-    _ = Keymap.on("return", ["cmd"], try callback(in: callbackState.context))
-    _ = Keymap.on("return", ["cmd"], try callback(in: callbackState.context))
-    manager.start()
+    _ = session.keymapBridge.on("return", ["cmd"], try callback(in: callbackState.context))
+    _ = session.keymapBridge.on("return", ["cmd"], try callback(in: callbackState.context))
+    apply(session, with: manager, activeSession: &activeSession)
 
     #expect(dispatchKeyDown(with: tapRecorder) == nil)
     #expect(callbackState.callCount() == 1)
   }
 
-  @Test func commitRecordingSwapsActiveKeymaps() throws {
-    let (manager, tapRecorder, callbackState) = prepareState()
-    defer { resetState() }
+  @Test func replacingActiveSessionSwapsRegisteredKeymaps() throws {
+    let (manager, tapRecorder, session, callbackState) = prepareState()
+    var activeSession: ConfigSession?
+    defer { activeSession?.deactivate() }
 
-    _ = Keymap.on("return", ["cmd"], try callback(in: callbackState.context))
-    manager.start()
+    _ = session.keymapBridge.on("return", ["cmd"], try callback(in: callbackState.context))
+    apply(session, with: manager, activeSession: &activeSession)
 
-    Keymap.beginRecording()
-    _ = Keymap.on("escape", ["shift"], try callback(in: callbackState.context))
-    Keymap.commitRecording()
+    #expect(dispatchKeyDown(with: tapRecorder, keyCode: 36, flags: [.maskCommand]) == nil)
+
+    let replacement = ConfigSession()
+    _ = replacement.keymapBridge.on("escape", ["shift"], try callback(in: callbackState.context))
+    apply(replacement, with: manager, activeSession: &activeSession)
 
     #expect(dispatchKeyDown(with: tapRecorder, keyCode: 36, flags: [.maskCommand]) != nil)
     #expect(dispatchKeyDown(with: tapRecorder, keyCode: 53, flags: [.maskShift]) == nil)
-    #expect(callbackState.callCount() == 1)
+    #expect(callbackState.callCount() == 2)
   }
 
-  @Test func discardRecordingPreservesActiveKeymaps() throws {
-    let (manager, tapRecorder, callbackState) = prepareState()
-    defer { resetState() }
+  @Test func discardingCandidateSessionPreservesActiveKeymaps() throws {
+    let (manager, tapRecorder, session, callbackState) = prepareState()
+    var activeSession: ConfigSession?
+    defer { activeSession?.deactivate() }
 
-    _ = Keymap.on("return", ["cmd"], try callback(in: callbackState.context))
-    manager.start()
+    _ = session.keymapBridge.on("return", ["cmd"], try callback(in: callbackState.context))
+    apply(session, with: manager, activeSession: &activeSession)
 
-    Keymap.beginRecording()
-    _ = Keymap.on("escape", ["shift"], try callback(in: callbackState.context))
-    Keymap.discardRecording()
+    let discarded = ConfigSession()
+    _ = discarded.keymapBridge.on("escape", ["shift"], try callback(in: callbackState.context))
+    discarded.deactivate()
 
     #expect(dispatchKeyDown(with: tapRecorder, keyCode: 36, flags: [.maskCommand]) == nil)
     #expect(dispatchKeyDown(with: tapRecorder, keyCode: 53, flags: [.maskShift]) != nil)
@@ -135,39 +154,46 @@ private final class TestShortcutTapRecorder {
   }
 
   @Test func offAndResetClearRegisteredState() throws {
-    let (manager, tapRecorder, callbackState) = prepareState()
-    defer { resetState() }
+    let (manager, tapRecorder, session, callbackState) = prepareState()
+    var activeSession: ConfigSession?
+    defer { activeSession?.deactivate() }
 
-    _ = Keymap.on("return", ["cmd"], try callback(in: callbackState.context))
-    _ = Keymap.on("escape", ["shift"], try callback(in: callbackState.context))
-    manager.start()
+    _ = session.keymapBridge.on("return", ["cmd"], try callback(in: callbackState.context))
+    _ = session.keymapBridge.on("escape", ["shift"], try callback(in: callbackState.context))
+    apply(session, with: manager, activeSession: &activeSession)
 
-    Keymap.off("return[cmd]")
+    session.keymapBridge.off("return[cmd]")
     #expect(dispatchKeyDown(with: tapRecorder, keyCode: 36, flags: [.maskCommand]) != nil)
     #expect(dispatchKeyDown(with: tapRecorder, keyCode: 53, flags: [.maskShift]) == nil)
 
-    Keymap.reset()
+    session.resetKeymaps()
     #expect(dispatchKeyDown(with: tapRecorder, keyCode: 53, flags: [.maskShift]) != nil)
     #expect(callbackState.callCount() == 1)
   }
 
-  private func prepareState() -> (ShortcutManager, TestShortcutTapRecorder, CallbackState) {
-    resetState()
-
+  private func prepareState() -> (
+    ShortcutManager, TestShortcutTapRecorder, ConfigSession, CallbackState
+  ) {
     let tapRecorder = TestShortcutTapRecorder()
     let manager = ShortcutManager(
       tapFactory: tapRecorder.makeTap(),
       handlerInvoker: { handler in handler() }
     )
-    Keymap.configureShortcutManager(manager)
 
-    return (manager, tapRecorder, CallbackState())
+    return (manager, tapRecorder, ConfigSession(), CallbackState())
   }
 
-  private func resetState() {
-    Keymap.discardRecording()
-    Keymap.reset()
-    Keymap.configureShortcutManager(ShortcutManager())
+  private func apply(
+    _ session: ConfigSession,
+    with manager: ShortcutManager,
+    activeSession: inout ConfigSession?
+  ) {
+    manager.stop()
+    manager.reset()
+    activeSession?.deactivate()
+    activeSession = session
+    session.activate(with: manager)
+    manager.start()
   }
 
   private func callback(in context: JSContext) throws -> JSValue {

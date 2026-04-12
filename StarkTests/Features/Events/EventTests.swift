@@ -5,91 +5,36 @@ import Testing
 
 @Suite(.serialized) struct EventTests {
   @Test func unknownEventsAreNotRegistered() throws {
-    resetState()
-    defer { resetState() }
-
-    let listener = Event.on("notReal", try callback())
+    let session = ConfigSession()
+    let listener = session.eventBridge.on("notReal", try callback())
 
     #expect(listener.event == "notReal")
-    #expect(Event.activeListenerCount(for: .windowFocused) == 0)
+    #expect(session.activeListenerCount(for: .windowFocused) == 0)
   }
 
   @Test func onAndOffManageActiveListeners() throws {
-    resetState()
-    defer { resetState() }
+    let session = ConfigSession()
 
-    _ = Event.on("windowFocused", try callback())
-    _ = Event.on("windowFocused", try callback())
+    _ = session.eventBridge.on("windowFocused", try callback())
+    _ = session.eventBridge.on("windowFocused", try callback())
 
-    #expect(Event.activeListenerCount(for: .windowFocused) == 2)
+    #expect(session.activeListenerCount(for: .windowFocused) == 2)
 
-    Event.off("windowFocused")
+    session.eventBridge.off("windowFocused")
 
-    #expect(Event.activeListenerCount(for: .windowFocused) == 0)
+    #expect(session.activeListenerCount(for: .windowFocused) == 0)
   }
 
   @Test func resetClearsAllActiveListeners() throws {
-    resetState()
-    defer { resetState() }
+    let session = ConfigSession()
 
-    _ = Event.on("windowFocused", try callback())
-    _ = Event.on("windowMoved", try callback())
+    _ = session.eventBridge.on("windowFocused", try callback())
+    _ = session.eventBridge.on("windowMoved", try callback())
 
-    Event.reset()
+    session.eventBridge.reset()
 
-    #expect(Event.activeListenerCount(for: .windowFocused) == 0)
-    #expect(Event.activeListenerCount(for: .windowMoved) == 0)
-  }
-
-  @Test func commitRecordingSwapsRecordedListenersIntoActiveState() throws {
-    resetState()
-    defer { resetState() }
-
-    _ = Event.on("windowFocused", try callback())
-
-    Event.beginRecording()
-    _ = Event.on("windowMoved", try callback())
-    _ = Event.on("windowMoved", try callback())
-
-    #expect(Event.activeListenerCount(for: .windowFocused) == 1)
-    #expect(Event.recordingListenerCount(for: .windowMoved) == 2)
-
-    Event.commitRecording()
-
-    #expect(Event.activeListenerCount(for: .windowFocused) == 0)
-    #expect(Event.activeListenerCount(for: .windowMoved) == 2)
-    #expect(Event.recordingListenerCount(for: .windowMoved) == 0)
-  }
-
-  @Test func discardRecordingPreservesActiveListeners() throws {
-    resetState()
-    defer { resetState() }
-
-    _ = Event.on("windowFocused", try callback())
-
-    Event.beginRecording()
-    _ = Event.on("windowMoved", try callback())
-    Event.discardRecording()
-
-    #expect(Event.activeListenerCount(for: .windowFocused) == 1)
-    #expect(Event.activeListenerCount(for: .windowMoved) == 0)
-    #expect(Event.recordingListenerCount(for: .windowMoved) == 0)
-  }
-
-  @Test func offWithinRecordingOnlyClearsRecordedListeners() throws {
-    resetState()
-    defer { resetState() }
-
-    _ = Event.on("windowFocused", try callback())
-
-    Event.beginRecording()
-    _ = Event.on("windowMoved", try callback())
-    _ = Event.on("windowMoved", try callback())
-
-    Event.off("windowMoved")
-
-    #expect(Event.activeListenerCount(for: .windowFocused) == 1)
-    #expect(Event.recordingListenerCount(for: .windowMoved) == 0)
+    #expect(session.activeListenerCount(for: .windowFocused) == 0)
+    #expect(session.activeListenerCount(for: .windowMoved) == 0)
   }
 
   private func callback() throws -> JSValue {
@@ -102,10 +47,6 @@ import Testing
     }
 
     return callback
-  }
-
-  private func resetState() {
-    Event.resetForTesting()
   }
 }
 

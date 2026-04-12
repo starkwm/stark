@@ -1,17 +1,15 @@
 import JavaScriptCore
 
 struct ConfigScriptExecutor {
-  var executeScript: (JSContext, String) -> Result<Void, Error>
+  var executeScript: (ConfigSession, JSContext, String) throws -> Void
 
   static let live = ConfigScriptExecutor(
-    executeScript: { context, script in
+    executeScript: { _, context, script in
       context.evaluateScript(script)
 
       if let exception = context.exception {
-        return .failure(JSExceptionError.exception("JS exception: \(exception)"))
+        throw JSExceptionError.exception("JS exception: \(exception)")
       }
-
-      return .success(())
     }
   )
 }

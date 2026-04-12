@@ -1,20 +1,21 @@
 import JavaScriptCore
 
 struct ScriptRuntimeFactory {
-  var createContext: () -> Result<JSContext, JSExceptionError>
+  var createContext: (ConfigSession) throws -> JSContext
 
   static func live(bridgeInstaller: JSBridgeInstaller = .live) -> ScriptRuntimeFactory {
     ScriptRuntimeFactory(
-      createContext: {
+      createContext: { session in
         let context = JSContext(virtualMachine: JSVirtualMachine())
 
         guard let context else {
-          return .failure(.exception("Could not create javascript context"))
+          throw JSExceptionError.exception("Could not create javascript context")
         }
 
-        bridgeInstaller.install(context)
+        session.attach(context: context)
+        bridgeInstaller.install(context, session)
 
-        return .success(context)
+        return context
       }
     )
   }

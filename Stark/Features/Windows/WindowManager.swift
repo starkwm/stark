@@ -14,10 +14,11 @@ final class WindowManager {
 
   private let processManager: WindowManagerProcessListing
   private let workspace: WindowManagerWorkspaceObserving
-  private let applications = ManagedApplicationStore()
-  private let refreshQueue = UnresolvedWindowRefreshQueue()
   private let resolver = RemoteWindowResolver()
-  private let windows = ManagedWindowStore()
+
+  private var applicationsByPID = [pid_t: Application]()
+  private var unresolvedApplicationIDs = Set<pid_t>()
+  private var windowsByID = [CGWindowID: Window]()
 
   init(
     processManager: WindowManagerProcessListing = ProcessManager.shared,
@@ -29,37 +30,17 @@ final class WindowManager {
 
   func start() {
     for process in processManager.all() {
-      guard workspace.isObservable(process) else {
-        log("application is not observable \(process)", level: .warn)
-        workspace.observeActivationPolicy(process)
-        continue
-      }
-
-      guard let application = Application(for: process) else {
-        log("could not create application for process \(process)", level: .warn)
-        continue
-      }
-
-      switch application.observe() {
-      case .success:
-        break
-      case .failure:
-        application.unobserve()
-        continue
-      }
-
-      add(application: application)
-      reconcileWindows(for: application, mode: .initialDiscovery)
+      startManaging(process)
     }
   }
 
   func add(application: Application) {
-    applications.add(application)
+    applicationsByPID[application.processID] = application
   }
 
   func remove(application: Application) {
-    refreshQueue.remove(application)
-    applications.remove(application)
+    unresolvedApplicationIDs.remove(application.processID)
+    applicationsByPID.removeValue(forKey: application.processID)
   }
 
   @discardableResult
@@ -73,7 +54,7 @@ final class WindowManager {
       return nil
     }
 
-    windows.add(window)
+    windowsByID[window.id] = window
 
     return window
   }
@@ -81,57 +62,62 @@ final class WindowManager {
   @discardableResult
   func addWindows(for application: Application) -> [Window] {
     let elements = application.windowElements()
-    var result = [Window]()
+    var windows = [Window]()
 
     for element in elements {
-      let windowID = Window.id(for: element)
-
-      guard windowID != 0, windows.window(by: windowID) == nil else { continue }
+      guard let windowID = Window.validID(for: element), windowsByID[windowID] == nil else {
+        continue
+      }
 
       if let window = addWindow(for: application, with: element) {
-        result.append(window)
+        windows.append(window)
       }
     }
 
-    return result
+    return windows
   }
 
   func remove(by windowID: CGWindowID) {
-    windows.remove(windowID: windowID)
+    windowsByID.removeValue(forKey: windowID)
   }
 
   func application(by pid: pid_t) -> Application? {
-    applications.application(by: pid)
+    applicationsByPID[pid]
   }
 
   func application(by name: String) -> Application? {
-    applications.application(named: name)
+    applicationsByPID.values.first { $0.name == name }
   }
 
   func allApplications() -> [Application] {
-    applications.all()
+    Array(applicationsByPID.values)
   }
 
   func window(by id: CGWindowID) -> Window? {
-    windows.window(by: id)
+    windowsByID[id]
   }
 
   func allWindows(for application: Application) -> [Window] {
-    windows.windows(for: application)
+    windowsByID.values.filter { $0.application == application }
   }
 
   func allWindows() -> [Window] {
-    windows.all()
+    Array(windowsByID.values)
   }
 
   func refreshWindows() {
-    for application in refreshQueue.all() {
+    for processID in Array(unresolvedApplicationIDs) {
+      guard let application = applicationsByPID[processID] else {
+        unresolvedApplicationIDs.remove(processID)
+        continue
+      }
+
       refreshWindows(for: application)
     }
   }
 
   func refreshWindows(for application: Application) {
-    guard refreshQueue.contains(application) else { return }
+    guard unresolvedApplicationIDs.contains(application.processID) else { return }
 
     log("application has windows that are not yet resolved \(application)", level: .info)
     _ = reconcileWindows(for: application, mode: .refreshAttempt)
@@ -142,39 +128,87 @@ final class WindowManager {
     for application: Application,
     mode: WindowDiscoveryMode
   ) -> Bool {
-    let globalWindowList = application.windowIdentifiers()
-    let elements = application.windowElements()
+    let globalWindowIDs = application.windowIdentifiers()
+    let accessibilityElements = application.windowElements()
+    let resolvedWindowCount = registerAccessibleWindows(
+      for: application,
+      elements: accessibilityElements
+    )
 
-    var emptyCount = 0
+    if globalWindowIDs.count == resolvedWindowCount {
+      return finishResolution(for: application, mode: mode)
+    }
+
+    var unresolvedWindowIDs = globalWindowIDs.filter { windowsByID[$0] == nil }
+
+    guard !unresolvedWindowIDs.isEmpty else {
+      return finishResolution(for: application, mode: mode)
+    }
+
+    resolveRemoteWindows(&unresolvedWindowIDs, for: application)
+    return updateRefreshTracking(
+      for: application,
+      unresolvedWindowIDs: unresolvedWindowIDs,
+      mode: mode
+    )
+  }
+
+  private func startManaging(_ process: Process) {
+    guard workspace.isObservable(process) else {
+      log("application is not observable \(process)", level: .warn)
+      workspace.observeActivationPolicy(process)
+      return
+    }
+
+    guard let application = Application(for: process) else {
+      log("could not create application for process \(process)", level: .warn)
+      return
+    }
+
+    switch application.observe() {
+    case .success:
+      break
+    case .failure:
+      application.unobserve()
+      return
+    }
+
+    add(application: application)
+    _ = reconcileWindows(for: application, mode: .initialDiscovery)
+  }
+
+  private func registerAccessibleWindows(
+    for application: Application,
+    elements: [AXUIElement]
+  ) -> Int {
+    var resolvedWindowCount = 0
 
     for element in elements {
-      let windowID = Window.id(for: element)
+      guard let windowID = Window.validID(for: element) else { continue }
 
-      if windowID == 0 {
-        emptyCount += 1
-        continue
-      }
+      resolvedWindowCount += 1
 
-      if windows.window(by: windowID) == nil {
-        addWindow(for: application, with: element)
+      if windowsByID[windowID] == nil {
+        _ = addWindow(for: application, with: element)
       }
     }
 
-    let resolvedWindowCount = elements.count - emptyCount
+    return resolvedWindowCount
+  }
 
-    guard globalWindowList.count != resolvedWindowCount else {
-      if mode == .refreshAttempt {
-        log("all windows resolved \(application)", level: .info)
-        refreshQueue.remove(application)
-        return true
-      }
+  private func finishResolution(for application: Application, mode: WindowDiscoveryMode) -> Bool {
+    guard mode == .refreshAttempt else { return false }
 
-      return false
-    }
+    log("all windows resolved \(application)", level: .info)
+    unresolvedApplicationIDs.remove(application.processID)
 
-    var unresolvedWindowIDs = globalWindowList.filter { windows.window(by: $0) == nil }
-    guard !unresolvedWindowIDs.isEmpty else { return false }
+    return true
+  }
 
+  private func resolveRemoteWindows(
+    _ unresolvedWindowIDs: inout [CGWindowID],
+    for application: Application
+  ) {
     log(
       "application has windows that are not resolved, attempting workaround \(application)",
       level: .info
@@ -188,18 +222,24 @@ final class WindowManager {
         _ = self.addWindow(for: application, with: element)
       }
     )
+  }
 
+  private func updateRefreshTracking(
+    for application: Application,
+    unresolvedWindowIDs: [CGWindowID],
+    mode: WindowDiscoveryMode
+  ) -> Bool {
     switch mode {
     case .initialDiscovery:
       if !unresolvedWindowIDs.isEmpty {
         log("workaround failed to resolve all windows \(application)", level: .warn)
-        refreshQueue.enqueue(application)
+        unresolvedApplicationIDs.insert(application.processID)
       }
 
     case .refreshAttempt:
       if unresolvedWindowIDs.isEmpty {
         log("workaround successfully resolved all windows \(application)", level: .info)
-        refreshQueue.remove(application)
+        unresolvedApplicationIDs.remove(application.processID)
         return true
       }
     }
@@ -214,74 +254,6 @@ extension Workspace: WindowManagerWorkspaceObserving {}
 private enum WindowDiscoveryMode {
   case initialDiscovery
   case refreshAttempt
-}
-
-private final class ManagedApplicationStore {
-  private var applications = [pid_t: Application]()
-
-  func add(_ application: Application) {
-    applications[application.processID] = application
-  }
-
-  func remove(_ application: Application) {
-    applications.removeValue(forKey: application.processID)
-  }
-
-  func application(by pid: pid_t) -> Application? {
-    applications[pid]
-  }
-
-  func application(named name: String) -> Application? {
-    applications.values.first { $0.name == name }
-  }
-
-  func all() -> [Application] {
-    Array(applications.values)
-  }
-}
-
-private final class ManagedWindowStore {
-  private var windows = [CGWindowID: Window]()
-
-  func add(_ window: Window) {
-    windows[window.id] = window
-  }
-
-  func remove(windowID: CGWindowID) {
-    windows.removeValue(forKey: windowID)
-  }
-
-  func window(by id: CGWindowID) -> Window? {
-    windows[id]
-  }
-
-  func windows(for application: Application) -> [Window] {
-    windows.values.filter { $0.application == application }
-  }
-
-  func all() -> [Window] {
-    Array(windows.values)
-  }
-}
-
-private final class UnresolvedWindowRefreshQueue {
-  private var applications = [pid_t: Application]()
-
-  func enqueue(_ application: Application) {
-    applications[application.processID] = application
-  }
-
-  func remove(_ application: Application) {
-    applications.removeValue(forKey: application.processID)
-  }
-
-  func contains(_ application: Application) -> Bool {
-    applications[application.processID] != nil
-  }
-
-  func all() -> [Application] {
-    Array(applications.values)
-  }
 }
 
 private final class RemoteWindowResolver {

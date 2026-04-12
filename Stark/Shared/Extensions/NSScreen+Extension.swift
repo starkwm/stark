@@ -7,7 +7,6 @@ import JavaScriptCore
 
   static func focused() -> NSScreen?
 
-
   var id: String { get }
 
   var flippedFrame: CGRect { get }
@@ -17,7 +16,6 @@ import JavaScriptCore
   var next: NSScreen? { get }
 
   var previous: NSScreen? { get }
-
 
   func spaces() -> [Space]
 

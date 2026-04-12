@@ -2,10 +2,10 @@ import AppKit
 import JavaScriptCore
 
 struct JSBridgeInstaller {
-  var install: (JSContext) -> Void
+  var install: (JSContext, ConfigSession) -> Void
 
   static let live = JSBridgeInstaller(
-    install: { context in
+    install: { context, session in
       context.exceptionHandler = { _, err in
         log("javascript exception - \(String(describing: err))", level: .error)
       }
@@ -15,8 +15,8 @@ struct JSBridgeInstaller {
       }
 
       context.setObject(print, forKeyedSubscript: "print" as NSString)
-      context.setObject(Keymap.self, forKeyedSubscript: "Keymap" as NSString)
-      context.setObject(Event.self, forKeyedSubscript: "Event" as NSString)
+      context.setObject(session.keymapBridge, forKeyedSubscript: "Keymap" as NSString)
+      context.setObject(session.eventBridge, forKeyedSubscript: "Event" as NSString)
       context.setObject(NSScreen.self, forKeyedSubscript: "Screen" as NSString)
       context.setObject(Space.self, forKeyedSubscript: "Space" as NSString)
       context.setObject(Application.self, forKeyedSubscript: "Application" as NSString)

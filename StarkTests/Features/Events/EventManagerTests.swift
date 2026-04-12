@@ -6,17 +6,18 @@ import Testing
 
 @Suite(.serialized) struct EventManagerTests {
   @Test func spaceChangedProcessesValidPayloadWithoutMutatingListenerState() throws {
-    resetState()
-    defer { resetState() }
+    let session = ConfigSession()
+    ConfigSessionStore.shared.replace(with: session)
+    defer { ConfigSessionStore.shared.replace(with: nil)?.deactivate() }
 
-    _ = Event.on("spaceChanged", try callback())
+    _ = session.eventBridge.on("spaceChanged", try callback())
 
-    #expect(Event.activeListenerCount(for: .spaceChanged) == 1)
+    #expect(session.activeListenerCount(for: .spaceChanged) == 1)
 
     EventManager.shared.post(.space(.changed(Space.active())))
     spinMainRunLoop()
 
-    #expect(Event.activeListenerCount(for: .spaceChanged) == 1)
+    #expect(session.activeListenerCount(for: .spaceChanged) == 1)
   }
 
   @Test func typedRuntimeEventExposesUnderlyingEventType() {
@@ -47,23 +48,6 @@ import Testing
     let event = RuntimeEvent.application(.launched(process))
 
     #expect(event.type == .applicationLaunched)
-  }
-
-  @Test func spaceChangedWithTypedEventKeepsListenerStateStable() throws {
-    resetState()
-    defer { resetState() }
-
-    _ = Event.on("spaceChanged", try callback())
-    #expect(Event.activeListenerCount(for: .spaceChanged) == 1)
-
-    EventManager.shared.post(.space(.changed(Space.active())))
-    spinMainRunLoop()
-
-    #expect(Event.activeListenerCount(for: .spaceChanged) == 1)
-  }
-
-  private func resetState() {
-    Event.resetForTesting()
   }
 
   private func callback() throws -> JSValue {

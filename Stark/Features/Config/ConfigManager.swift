@@ -7,17 +7,181 @@ private let primaryPaths: [String] = [
   "~/Library/Application Support/Stark/stark.js",
 ]
 
+protocol EventListenerProviding: AnyObject {
+  func callbacks(for event: EventType) -> [Event]
+}
+
+final class ConfigSessionStore: EventListenerProviding {
+  static let shared = ConfigSessionStore()
+
+  private let queue = DispatchQueue(label: "dev.tombell.stark.config.session-store")
+  private var session: ConfigSession?
+
+  @discardableResult
+  func replace(with session: ConfigSession?) -> ConfigSession? {
+    queue.sync {
+      let previous = self.session
+      self.session = session
+      return previous
+    }
+  }
+
+  func activeSession() -> ConfigSession? {
+    queue.sync { session }
+  }
+
+  func callbacks(for event: EventType) -> [Event] {
+    queue.sync { session?.callbacks(for: event) ?? [] }
+  }
+
+  func activeListenerCount(for event: EventType) -> Int {
+    queue.sync { session?.activeListenerCount(for: event) ?? 0 }
+  }
+}
+
+final class ConfigSession {
+  lazy var keymapBridge = KeymapBridge(session: self)
+  lazy var eventBridge = EventBridge(session: self)
+
+  private var keymapsByID = [String: Keymap]()
+  private var listenersByEvent = [EventType: [Event]]()
+  private weak var shortcutManager: ShortcutManager?
+
+  private(set) var context: JSContext?
+
+  func attach(context: JSContext) {
+    self.context = context
+  }
+
+  func activate(with shortcutManager: ShortcutManager) {
+    self.shortcutManager = shortcutManager
+
+    for keymap in keymapsByID.values {
+      keymap.activate(with: shortcutManager)
+    }
+  }
+
+  func deactivate() {
+    if let shortcutManager {
+      for keymap in keymapsByID.values {
+        keymap.deactivate(with: shortcutManager)
+      }
+    }
+
+    shortcutManager = nil
+
+    for keymap in keymapsByID.values {
+      keymap.detachCallback(from: self)
+    }
+
+    for listeners in listenersByEvent.values {
+      for listener in listeners {
+        listener.detachCallback(from: self)
+      }
+    }
+  }
+
+  @discardableResult
+  func registerKeymap(_ key: String, modifiers: [String], callback: JSValue) -> Keymap {
+    let keymap = Keymap(
+      key: key,
+      modifiers: modifiers,
+      callback: callback,
+      callbackOwner: self
+    )
+
+    if let previous = keymapsByID.updateValue(keymap, forKey: keymap.id) {
+      if let shortcutManager {
+        previous.deactivate(with: shortcutManager)
+      }
+
+      previous.detachCallback(from: self)
+    }
+
+    if let shortcutManager {
+      keymap.activate(with: shortcutManager)
+    }
+
+    return keymap
+  }
+
+  func removeKeymap(id: String) {
+    guard let keymap = keymapsByID.removeValue(forKey: id) else { return }
+
+    if let shortcutManager {
+      keymap.deactivate(with: shortcutManager)
+    }
+
+    keymap.detachCallback(from: self)
+  }
+
+  func resetKeymaps() {
+    let keymaps = Array(keymapsByID.values)
+    keymapsByID.removeAll()
+
+    if let shortcutManager {
+      for keymap in keymaps {
+        keymap.deactivate(with: shortcutManager)
+      }
+    }
+
+    for keymap in keymaps {
+      keymap.detachCallback(from: self)
+    }
+  }
+
+  @discardableResult
+  func registerEvent(_ event: String, callback: JSValue) -> Event {
+    guard let eventType = EventType(rawValue: event) else {
+      log("unknown event type: \(event)", level: .error)
+      return Event(event: event)
+    }
+
+    let listener = Event(event: event, callback: callback, callbackOwner: self)
+    listenersByEvent[eventType, default: []].append(listener)
+
+    return listener
+  }
+
+  func removeEvent(_ event: String) {
+    guard let eventType = EventType(rawValue: event) else { return }
+
+    let listeners = listenersByEvent.removeValue(forKey: eventType) ?? []
+
+    for listener in listeners {
+      listener.detachCallback(from: self)
+    }
+  }
+
+  func resetEvents() {
+    let listeners = listenersByEvent.values.flatMap { $0 }
+    listenersByEvent.removeAll()
+
+    for listener in listeners {
+      listener.detachCallback(from: self)
+    }
+  }
+
+  func callbacks(for event: EventType) -> [Event] {
+    listenersByEvent[event] ?? []
+  }
+
+  func activeListenerCount(for event: EventType) -> Int {
+    callbacks(for: event).count
+  }
+}
+
 final class ConfigManager {
   private let fileSystem: ConfigFileSystem
   private let executor: ConfigExecutor
   private let fileWatcher: ConfigFileWatcher
-  private let fileMonitorSetup: (ConfigManager) -> Result<Void, FileError>
+  private let fileMonitorSetup: (ConfigManager) throws -> Void
+  private let sessionStore: ConfigSessionStore
   private let shortcutManager: ShortcutManager
+
   private var path: String
   private var fileSystemSource: DispatchSourceFileSystemObject?
   private let fileMonitorQueue = DispatchQueue(label: "dev.tombell.stark.config")
-
-  private var context: JSContext?
 
   init(
     shortcutManager: ShortcutManager = ShortcutManager(),
@@ -26,13 +190,15 @@ final class ConfigManager {
     path: String? = nil,
     pathResolver: ConfigPathResolver = .live,
     fileWatcher: ConfigFileWatcher = .live,
-    fileMonitorSetup: ((ConfigManager) -> Result<Void, FileError>)? = nil
+    sessionStore: ConfigSessionStore = .shared,
+    fileMonitorSetup: ((ConfigManager) throws -> Void)? = nil
   ) {
     let runtimeFactory = ScriptRuntimeFactory.live()
     let scriptExecutor = ConfigScriptExecutor.live
 
     self.shortcutManager = shortcutManager
     self.fileSystem = fileSystem
+    self.sessionStore = sessionStore
     self.executor =
       executor
       ?? ConfigExecutor(
@@ -41,7 +207,10 @@ final class ConfigManager {
       )
     self.fileWatcher = fileWatcher
     self.path = path ?? pathResolver.resolvePrimaryPath(primaryPaths, fileSystem)
-    self.fileMonitorSetup = fileMonitorSetup ?? { manager in manager.setupFileMonitor() }
+    self.fileMonitorSetup =
+      fileMonitorSetup ?? { manager in
+        try manager.setupFileMonitor()
+      }
   }
 
   static func resolvePrimaryPath(
@@ -52,17 +221,11 @@ final class ConfigManager {
   }
 
   func start() -> Result<Void, Error> {
-    switch load() {
-    case .success:
-      break
-    case .failure(let error):
-      return .failure(error)
-    }
-
-    switch fileMonitorSetup(self) {
-    case .success:
+    do {
+      try performLoad()
+      try fileMonitorSetup(self)
       return .success(())
-    case .failure(let error):
+    } catch {
       return .failure(error)
     }
   }
@@ -72,73 +235,70 @@ final class ConfigManager {
     fileSystemSource = nil
 
     shortcutManager.stop()
+    shortcutManager.reset()
+
+    sessionStore.replace(with: nil)?.deactivate()
   }
 
   func load() -> Result<Void, Error> {
-    let nextContext: JSContext
-
-    switch executor.createContext() {
-    case .success(let context):
-      nextContext = context
-    case .failure(let error):
-      return .failure(error)
-    }
-
-    Keymap.configureShortcutManager(shortcutManager)
-    Keymap.beginRecording()
-    Event.beginRecording()
-
-    switch executeConfig(in: nextContext) {
-    case .success:
-      shortcutManager.stop()
-      shortcutManager.reset()
-
-      context = nextContext
-
-      Event.commitRecording()
-      Keymap.commitRecording()
-      shortcutManager.start()
-
+    do {
+      try performLoad()
       return .success(())
-    case .failure(let error):
-      Keymap.discardRecording()
-      Event.discardRecording()
+    } catch {
       return .failure(error)
     }
-  }
-
-  private func executeConfig(in context: JSContext) -> Result<Void, Error> {
-    let scriptContents: String
-
-    switch readConfigScript() {
-    case .success(let contents):
-      scriptContents = contents
-    case .failure(let error):
-      return .failure(error)
-    }
-
-    return executor.executeScript(context, scriptContents)
   }
 
   func readConfigScript() -> Result<String, Error> {
+    do {
+      return .success(try readConfigScriptOrThrow())
+    } catch {
+      return .failure(error)
+    }
+  }
+
+  private func performLoad() throws {
+    let session = ConfigSession()
+    let context = try executor.createContext(session)
+
+    try executeConfig(in: session, context: context)
+    apply(session)
+  }
+
+  private func executeConfig(in session: ConfigSession, context: JSContext) throws {
+    let scriptContents = try readConfigScriptOrThrow()
+    try executor.executeScript(session, context, scriptContents)
+  }
+
+  private func apply(_ session: ConfigSession) {
+    shortcutManager.stop()
+    shortcutManager.reset()
+
+    let previousSession = sessionStore.replace(with: session)
+    previousSession?.deactivate()
+
+    session.activate(with: shortcutManager)
+    shortcutManager.start()
+  }
+
+  private func readConfigScriptOrThrow() throws -> String {
     if !fileSystem.fileExists(path) {
-      return .failure(FileError.notFound(path))
+      throw FileError.notFound(path)
     }
 
     guard let scriptContents = fileSystem.readFile(path) else {
-      return .failure(FileError.readFailed("could not read file \(path)"))
+      throw FileError.readFailed("could not read file \(path)")
     }
 
-    return .success(scriptContents)
+    return scriptContents
   }
 
-  private func setupFileMonitor() -> Result<Void, FileError> {
+  private func setupFileMonitor() throws {
     switch fileWatcher.startMonitoring(path, fileMonitorQueue, handleFileWatchReload) {
     case .success(let source):
       fileSystemSource = source
-      return .success(())
     case .failure(let error):
-      return .failure(error)
+      throw error
     }
   }
 
@@ -147,7 +307,8 @@ final class ConfigManager {
       log("config file changed, reloading...", level: .info)
 
       switch self.load() {
-      case .success: break
+      case .success:
+        break
       case .failure(let error):
         log("could not reload config file: \(error)", level: .error)
       }
@@ -164,9 +325,9 @@ final class ConfigManager {
     fileSystemSource?.cancel()
     fileSystemSource = nil
 
-    switch fileMonitorSetup(self) {
-    case .success: break
-    case .failure(let error):
+    do {
+      try fileMonitorSetup(self)
+    } catch {
       log("could not restart config monitor: \(error)", level: .error)
     }
   }
@@ -178,5 +339,4 @@ final class ConfigManager {
 
     reloadConfig()
   }
-
 }

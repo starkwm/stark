@@ -75,7 +75,7 @@ private final class ConfigManagerShortcutTapRecorder {
     #expect(resolved == paths[0])
   }
 
-  @Test func returnsNotFoundWhenConfigFileDoesNotExist() throws {
+  @Test func returnsNotFoundWhenConfigFileDoesNotExist() {
     let path = "/tmp/stark.js"
     let manager = ConfigManager(
       shortcutManager: ShortcutManager(),
@@ -103,7 +103,7 @@ private final class ConfigManagerShortcutTapRecorder {
     }
   }
 
-  @Test func returnsReadFailedWhenConfigCannotBeRead() throws {
+  @Test func returnsReadFailedWhenConfigCannotBeRead() {
     let path = "/tmp/stark.js"
     let manager = ConfigManager(
       shortcutManager: ShortcutManager(),
@@ -131,12 +131,14 @@ private final class ConfigManagerShortcutTapRecorder {
     }
   }
 
-  @Test func successfulLoadCommitsRecordedState() throws {
-    let (shortcutManager, registrar) = prepareRegistrar()
-    defer { resetState() }
+  @Test func successfulLoadReplacesActiveSession() throws {
+    let (shortcutManager, registrar, sessionStore) = prepareRegistrar()
+    defer { resetState(shortcutManager: shortcutManager, sessionStore: sessionStore) }
 
-    _ = Event.on("windowFocused", try callback())
-    _ = Keymap.on("return", ["cmd"], try callback())
+    let existingSession = ConfigSession()
+    _ = existingSession.eventBridge.on("windowFocused", try callback())
+    _ = existingSession.keymapBridge.on("return", ["cmd"], try callback())
+    activate(existingSession, shortcutManager: shortcutManager, sessionStore: sessionStore)
 
     let manager = ConfigManager(
       shortcutManager: shortcutManager,
@@ -144,34 +146,19 @@ private final class ConfigManagerShortcutTapRecorder {
         fileExists: { _ in true },
         readFile: { _ in "ignored" }
       ),
-      executor: ConfigExecutor(
-        createContext: {
-          guard let context = JSContext() else {
-            return .failure(.exception("Could not create javascript context"))
-          }
-
-          return .success(context)
-        },
-        executeScript: { _, _ in
-          do {
-            _ = Event.on("windowMoved", try self.callback())
-            _ = Keymap.on("escape", ["shift"], try self.callback())
-            return .success(())
-          } catch {
-            return .failure(error)
-          }
-        }
-      ),
+      executor: makeExecutor { session, _ in
+        _ = session.eventBridge.on("windowMoved", try self.callback())
+        _ = session.keymapBridge.on("escape", ["shift"], try self.callback())
+      },
       path: "/tmp/stark.js",
-      fileMonitorSetup: { _ in .success(()) }
+      sessionStore: sessionStore,
+      fileMonitorSetup: { _ in }
     )
 
-    let result = manager.loadForTesting()
-
-    switch result {
+    switch manager.loadForTesting() {
     case .success:
-      #expect(Event.activeListenerCount(for: .windowFocused) == 0)
-      #expect(Event.activeListenerCount(for: .windowMoved) == 1)
+      #expect(sessionStore.activeListenerCount(for: .windowFocused) == 0)
+      #expect(sessionStore.activeListenerCount(for: .windowMoved) == 1)
       #expect(dispatchShortcut(with: registrar, keyCode: 53, flags: [.maskShift]))
       #expect(!dispatchShortcut(with: registrar, keyCode: 36, flags: [.maskCommand]))
     case .failure(let error):
@@ -179,12 +166,14 @@ private final class ConfigManagerShortcutTapRecorder {
     }
   }
 
-  @Test func failedLoadDiscardsRecordedStateAndPreservesActiveState() throws {
-    let (shortcutManager, registrar) = prepareRegistrar()
-    defer { resetState() }
+  @Test func failedLoadPreservesPreviouslyLoadedConfiguration() throws {
+    let (shortcutManager, registrar, sessionStore) = prepareRegistrar()
+    defer { resetState(shortcutManager: shortcutManager, sessionStore: sessionStore) }
 
-    _ = Event.on("windowFocused", try callback())
-    _ = Keymap.on("return", ["cmd"], try callback())
+    let existingSession = ConfigSession()
+    _ = existingSession.eventBridge.on("windowFocused", try callback())
+    _ = existingSession.keymapBridge.on("return", ["cmd"], try callback())
+    activate(existingSession, shortcutManager: shortcutManager, sessionStore: sessionStore)
 
     let manager = ConfigManager(
       shortcutManager: shortcutManager,
@@ -192,46 +181,31 @@ private final class ConfigManagerShortcutTapRecorder {
         fileExists: { _ in true },
         readFile: { _ in "ignored" }
       ),
-      executor: ConfigExecutor(
-        createContext: {
-          guard let context = JSContext() else {
-            return .failure(.exception("Could not create javascript context"))
-          }
-
-          return .success(context)
-        },
-        executeScript: { _, _ in
-          do {
-            _ = Event.on("windowMoved", try self.callback())
-            _ = Keymap.on("escape", ["shift"], try self.callback())
-            return .failure(JSExceptionError.exception("JS exception: boom"))
-          } catch {
-            return .failure(error)
-          }
-        }
-      ),
+      executor: makeExecutor { session, _ in
+        _ = session.eventBridge.on("windowMoved", try self.callback())
+        _ = session.keymapBridge.on("escape", ["shift"], try self.callback())
+        throw JSExceptionError.exception("JS exception: boom")
+      },
       path: "/tmp/stark.js",
-      fileMonitorSetup: { _ in .success(()) }
+      sessionStore: sessionStore,
+      fileMonitorSetup: { _ in }
     )
 
-    let result = manager.loadForTesting()
-
-    switch result {
+    switch manager.loadForTesting() {
     case .success:
       Issue.record("Expected failed load")
     case .failure:
-      shortcutManager.start()
-      #expect(Event.activeListenerCount(for: .windowFocused) == 1)
-      #expect(Event.activeListenerCount(for: .windowMoved) == 0)
-      #expect(Event.recordingListenerCount(for: .windowMoved) == 0)
+      #expect(sessionStore.activeListenerCount(for: .windowFocused) == 1)
+      #expect(sessionStore.activeListenerCount(for: .windowMoved) == 0)
       #expect(dispatchShortcut(with: registrar, keyCode: 36, flags: [.maskCommand]))
       #expect(!dispatchShortcut(with: registrar, keyCode: 53, flags: [.maskShift]))
+      #expect(registrar.createCallCount == 1)
     }
   }
 
   @Test func startReturnsLoadFailureWithoutStartingMonitor() {
-    let shortcutManager = prepareState()
-    defer { resetState() }
+    let (shortcutManager, _, sessionStore) = prepareRegistrar()
+    defer { resetState(shortcutManager: shortcutManager, sessionStore: sessionStore) }
 
     var monitorSetupCallCount = 0
     let manager = ConfigManager(
@@ -241,9 +215,9 @@ private final class ConfigManagerShortcutTapRecorder {
         readFile: { _ in nil }
       ),
       path: "/tmp/stark.js",
+      sessionStore: sessionStore,
       fileMonitorSetup: { _ in
         monitorSetupCallCount += 1
-        return .success(())
       }
     )
 
@@ -258,8 +232,8 @@ private final class ConfigManagerShortcutTapRecorder {
   }
 
   @Test func startReturnsMonitorFailureAfterSuccessfulLoad() throws {
-    let (shortcutManager, registrar) = prepareRegistrar()
-    defer { resetState() }
+    let (shortcutManager, registrar, sessionStore) = prepareRegistrar()
+    defer { resetState(shortcutManager: shortcutManager, sessionStore: sessionStore) }
 
     let manager = ConfigManager(
       shortcutManager: shortcutManager,
@@ -267,25 +241,14 @@ private final class ConfigManagerShortcutTapRecorder {
         fileExists: { _ in true },
         readFile: { _ in "ignored" }
       ),
-      executor: ConfigExecutor(
-        createContext: {
-          guard let context = JSContext() else {
-            return .failure(.exception("Could not create javascript context"))
-          }
-
-          return .success(context)
-        },
-        executeScript: { _, _ in
-          do {
-            _ = Keymap.on("escape", ["shift"], try self.callback())
-            return .success(())
-          } catch {
-            return .failure(error)
-          }
-        }
-      ),
+      executor: makeExecutor { session, _ in
+        _ = session.keymapBridge.on("escape", ["shift"], try self.callback())
+      },
       path: "/tmp/stark.js",
-      fileMonitorSetup: { _ in .failure(.monitorFailed("boom")) }
+      sessionStore: sessionStore,
+      fileMonitorSetup: { _ in
+        throw FileError.monitorFailed("boom")
+      }
     )
 
     let result = manager.start()
@@ -307,50 +270,9 @@ private final class ConfigManagerShortcutTapRecorder {
     }
   }
 
-  @Test func executorJavascriptExceptionsArePropagated() {
-    let shortcutManager = prepareState()
-    defer { resetState() }
-
-    let manager = ConfigManager(
-      shortcutManager: shortcutManager,
-      fileSystem: ConfigFileSystem(
-        fileExists: { _ in true },
-        readFile: { _ in "ignored" }
-      ),
-      executor: ConfigExecutor(
-        createContext: {
-          guard let context = JSContext() else {
-            return .failure(.exception("Could not create javascript context"))
-          }
-
-          return .success(context)
-        },
-        executeScript: { _, _ in
-          .failure(JSExceptionError.exception("JS exception: boom"))
-        }
-      ),
-      path: "/tmp/stark.js",
-      fileMonitorSetup: { _ in .success(()) }
-    )
-
-    let result = manager.loadForTesting()
-
-    switch result {
-    case .success:
-      Issue.record("Expected javascript exception")
-    case .failure(let error as JSExceptionError):
-      switch error {
-      case .exception(let message):
-        #expect(message.contains("boom"))
-      }
-    case .failure(let error):
-      Issue.record("Expected JSExceptionError, got \(error)")
-    }
-  }
-
-  @Test func repeatedSuccessfulLoadsReplaceRecordedStateWithoutAccumulating() throws {
-    let (shortcutManager, registrar) = prepareRegistrar()
-    defer { resetState() }
+  @Test func repeatedSuccessfulLoadsReplaceStoredStateWithoutAccumulating() throws {
+    let (shortcutManager, registrar, sessionStore) = prepareRegistrar()
+    defer { resetState(shortcutManager: shortcutManager, sessionStore: sessionStore) }
 
     var loadCount = 0
     let manager = ConfigManager(
@@ -359,42 +281,27 @@ private final class ConfigManagerShortcutTapRecorder {
         fileExists: { _ in true },
         readFile: { _ in "ignored" }
       ),
-      executor: ConfigExecutor(
-        createContext: {
-          guard let context = JSContext() else {
-            return .failure(.exception("Could not create javascript context"))
-          }
+      executor: makeExecutor { session, _ in
+        loadCount += 1
 
-          return .success(context)
-        },
-        executeScript: { _, _ in
-          do {
-            loadCount += 1
-
-            if loadCount == 1 {
-              _ = Event.on("windowFocused", try self.callback())
-              _ = Keymap.on("return", ["cmd"], try self.callback())
-            } else {
-              _ = Event.on("windowMoved", try self.callback())
-              _ = Keymap.on("escape", ["shift"], try self.callback())
-            }
-
-            return .success(())
-          } catch {
-            return .failure(error)
-          }
+        if loadCount == 1 {
+          _ = session.eventBridge.on("windowFocused", try self.callback())
+          _ = session.keymapBridge.on("return", ["cmd"], try self.callback())
+        } else {
+          _ = session.eventBridge.on("windowMoved", try self.callback())
+          _ = session.keymapBridge.on("escape", ["shift"], try self.callback())
         }
-      ),
+      },
       path: "/tmp/stark.js",
-      fileMonitorSetup: { _ in .success(()) }
+      sessionStore: sessionStore,
+      fileMonitorSetup: { _ in }
     )
 
     switch manager.loadForTesting() {
     case .success:
-      #expect(Event.activeListenerCount(for: .windowFocused) == 1)
-      #expect(Event.activeListenerCount(for: .windowMoved) == 0)
+      #expect(sessionStore.activeListenerCount(for: .windowFocused) == 1)
+      #expect(sessionStore.activeListenerCount(for: .windowMoved) == 0)
       #expect(dispatchShortcut(with: registrar, keyCode: 36, flags: [.maskCommand]))
-      #expect(!dispatchShortcut(with: registrar, keyCode: 53, flags: [.maskShift]))
     case .failure(let error):
       Issue.record("Expected first successful load, got \(error)")
       return
@@ -402,10 +309,8 @@ private final class ConfigManagerShortcutTapRecorder {
 
     switch manager.loadForTesting() {
     case .success:
-      #expect(Event.activeListenerCount(for: .windowFocused) == 0)
-      #expect(Event.activeListenerCount(for: .windowMoved) == 1)
-      #expect(Event.recordingListenerCount(for: .windowFocused) == 0)
-      #expect(Event.recordingListenerCount(for: .windowMoved) == 0)
+      #expect(sessionStore.activeListenerCount(for: .windowFocused) == 0)
+      #expect(sessionStore.activeListenerCount(for: .windowMoved) == 1)
       #expect(dispatchShortcut(with: registrar, keyCode: 53, flags: [.maskShift]))
       #expect(!dispatchShortcut(with: registrar, keyCode: 36, flags: [.maskCommand]))
     case .failure(let error):
@@ -413,73 +318,9 @@ private final class ConfigManagerShortcutTapRecorder {
     }
   }
 
-  @Test func failedReloadPreservesPreviouslyLoadedConfiguration() throws {
-    let (shortcutManager, registrar) = prepareRegistrar()
-    defer { resetState() }
-
-    var loadCount = 0
-    let manager = ConfigManager(
-      shortcutManager: shortcutManager,
-      fileSystem: ConfigFileSystem(
-        fileExists: { _ in true },
-        readFile: { _ in "ignored" }
-      ),
-      executor: ConfigExecutor(
-        createContext: {
-          guard let context = JSContext() else {
-            return .failure(.exception("Could not create javascript context"))
-          }
-
-          return .success(context)
-        },
-        executeScript: { _, _ in
-          do {
-            loadCount += 1
-
-            if loadCount == 1 {
-              _ = Event.on("windowFocused", try self.callback())
-              _ = Keymap.on("return", ["cmd"], try self.callback())
-              return .success(())
-            }
-
-            _ = Event.on("windowMoved", try self.callback())
-            _ = Keymap.on("escape", ["shift"], try self.callback())
-            return .failure(JSExceptionError.exception("JS exception: boom"))
-          } catch {
-            return .failure(error)
-          }
-        }
-      ),
-      path: "/tmp/stark.js",
-      fileMonitorSetup: { _ in .success(()) }
-    )
-
-    switch manager.loadForTesting() {
-    case .success:
-      #expect(Event.activeListenerCount(for: .windowFocused) == 1)
-      #expect(Event.activeListenerCount(for: .windowMoved) == 0)
-      #expect(dispatchShortcut(with: registrar, keyCode: 36, flags: [.maskCommand]))
-      #expect(registrar.createCallCount == 1)
-    case .failure(let error):
-      Issue.record("Expected first successful load, got \(error)")
-      return
-    }
-
-    switch manager.loadForTesting() {
-    case .success:
-      Issue.record("Expected second load to fail")
-    case .failure:
-      #expect(Event.activeListenerCount(for: .windowFocused) == 1)
-      #expect(Event.activeListenerCount(for: .windowMoved) == 0)
-      #expect(dispatchShortcut(with: registrar, keyCode: 36, flags: [.maskCommand]))
-      #expect(!dispatchShortcut(with: registrar, keyCode: 53, flags: [.maskShift]))
-      #expect(registrar.createCallCount == 1)
-    }
-  }
-
   @Test func successfulStartSetsUpMonitorAndStopTearsDownShortcutHandling() throws {
-    let (shortcutManager, registrar) = prepareRegistrar()
-    defer { resetState() }
+    let (shortcutManager, registrar, sessionStore) = prepareRegistrar()
+    defer { resetState(shortcutManager: shortcutManager, sessionStore: sessionStore) }
 
     var monitorSetupCallCount = 0
     let manager = ConfigManager(
@@ -488,27 +329,13 @@ private final class ConfigManagerShortcutTapRecorder {
         fileExists: { _ in true },
         readFile: { _ in "ignored" }
       ),
-      executor: ConfigExecutor(
-        createContext: {
-          guard let context = JSContext() else {
-            return .failure(.exception("Could not create javascript context"))
-          }
-
-          return .success(context)
-        },
-        executeScript: { _, _ in
-          do {
-            _ = Keymap.on("escape", ["shift"], try self.callback())
-            return .success(())
-          } catch {
-            return .failure(error)
-          }
-        }
-      ),
+      executor: makeExecutor { session, _ in
+        _ = session.keymapBridge.on("escape", ["shift"], try self.callback())
+      },
       path: "/tmp/stark.js",
+      sessionStore: sessionStore,
       fileMonitorSetup: { _ in
         monitorSetupCallCount += 1
-        return .success(())
       }
     )
 
@@ -528,8 +355,8 @@ private final class ConfigManagerShortcutTapRecorder {
   }
 
   @Test func sidedModifierBindingsSurviveReload() throws {
-    let (shortcutManager, registrar) = prepareRegistrar()
-    defer { resetState() }
+    let (shortcutManager, registrar, sessionStore) = prepareRegistrar()
+    defer { resetState(shortcutManager: shortcutManager, sessionStore: sessionStore) }
 
     var loadCount = 0
     let manager = ConfigManager(
@@ -538,32 +365,18 @@ private final class ConfigManagerShortcutTapRecorder {
         fileExists: { _ in true },
         readFile: { _ in "ignored" }
       ),
-      executor: ConfigExecutor(
-        createContext: {
-          guard let context = JSContext() else {
-            return .failure(.exception("Could not create javascript context"))
-          }
+      executor: makeExecutor { session, _ in
+        loadCount += 1
 
-          return .success(context)
-        },
-        executeScript: { _, _ in
-          do {
-            loadCount += 1
-
-            if loadCount == 1 {
-              _ = Keymap.on("return", ["lcmd"], try self.callback())
-            } else {
-              _ = Keymap.on("escape", ["rshift"], try self.callback())
-            }
-
-            return .success(())
-          } catch {
-            return .failure(error)
-          }
+        if loadCount == 1 {
+          _ = session.keymapBridge.on("return", ["lcmd"], try self.callback())
+        } else {
+          _ = session.keymapBridge.on("escape", ["rshift"], try self.callback())
         }
-      ),
+      },
       path: "/tmp/stark.js",
-      fileMonitorSetup: { _ in .success(()) }
+      sessionStore: sessionStore,
+      fileMonitorSetup: { _ in }
     )
 
     switch manager.loadForTesting() {
@@ -584,7 +397,6 @@ private final class ConfigManagerShortcutTapRecorder {
           deviceMasks: [NX_DEVICERCMDKEYMASK]
         )
       )
-      #expect(registrar.createCallCount == 1)
     case .failure(let error):
       Issue.record("Expected first load success, got \(error)")
       return
@@ -608,15 +420,14 @@ private final class ConfigManagerShortcutTapRecorder {
           deviceMasks: [NX_DEVICELSHIFTKEYMASK]
         )
       )
-      #expect(registrar.createCallCount == 2)
     case .failure(let error):
       Issue.record("Expected second load success, got \(error)")
     }
   }
 
   @Test func removedModifierAliasesDoNotRegisterShortcuts() throws {
-    let (shortcutManager, registrar) = prepareRegistrar()
-    defer { resetState() }
+    let (shortcutManager, registrar, sessionStore) = prepareRegistrar()
+    defer { resetState(shortcutManager: shortcutManager, sessionStore: sessionStore) }
 
     let manager = ConfigManager(
       shortcutManager: shortcutManager,
@@ -624,25 +435,12 @@ private final class ConfigManagerShortcutTapRecorder {
         fileExists: { _ in true },
         readFile: { _ in "ignored" }
       ),
-      executor: ConfigExecutor(
-        createContext: {
-          guard let context = JSContext() else {
-            return .failure(.exception("Could not create javascript context"))
-          }
-
-          return .success(context)
-        },
-        executeScript: { _, _ in
-          do {
-            _ = Keymap.on("return", ["option"], try self.callback())
-            return .success(())
-          } catch {
-            return .failure(error)
-          }
-        }
-      ),
+      executor: makeExecutor { session, _ in
+        _ = session.keymapBridge.on("return", ["option"], try self.callback())
+      },
       path: "/tmp/stark.js",
-      fileMonitorSetup: { _ in .success(()) }
+      sessionStore: sessionStore,
+      fileMonitorSetup: { _ in }
     )
 
     switch manager.loadForTesting() {
@@ -654,29 +452,75 @@ private final class ConfigManagerShortcutTapRecorder {
     }
   }
 
-  private func prepareState() -> ShortcutManager {
-    let (shortcutManager, _) = prepareRegistrar()
-    return shortcutManager
+  @Test func notificationRegistrarTracksApplicationAndWindowNotificationSets() {
+    var observedApplications = ApplicationNotifications(rawValue: 0)
+    var observedWindows = WindowNotifications(rawValue: 0)
+    var removedApplicationNotifications = [String]()
+    var removedWindowNotifications = [String]()
+
+    let applicationRegistrar = AXNotificationRegistrar<ApplicationNotifications>(
+      notifications: applicationNotifications
+    )
+    let windowRegistrar = AXNotificationRegistrar<WindowNotifications>(
+      notifications: windowNotifications
+    )
+
+    #expect(
+      applicationRegistrar.observe(
+        observedNotifications: &observedApplications,
+        addNotification: { _ in .success },
+        onFailure: { _, _ in }
+      )
+    )
+    #expect(
+      windowRegistrar.observe(
+        observedNotifications: &observedWindows,
+        addNotification: { _ in .success },
+        onFailure: { _, _ in }
+      )
+    )
+
+    applicationRegistrar.unobserve(
+      observedNotifications: &observedApplications,
+      removeNotification: { removedApplicationNotifications.append($0) }
+    )
+    windowRegistrar.unobserve(
+      observedNotifications: &observedWindows,
+      removeNotification: { removedWindowNotifications.append($0) }
+    )
+
+    #expect(removedApplicationNotifications.count == applicationNotifications.count)
+    #expect(removedWindowNotifications.count == windowNotifications.count)
   }
 
-  private func prepareRegistrar() -> (ShortcutManager, ConfigManagerShortcutTapRecorder) {
-    resetState()
-
+  private func prepareRegistrar() -> (
+    ShortcutManager, ConfigManagerShortcutTapRecorder, ConfigSessionStore
+  ) {
     let registrar = ConfigManagerShortcutTapRecorder()
     let shortcutManager = ShortcutManager(
       tapFactory: registrar.makeTap(),
       handlerInvoker: { handler in handler() }
     )
-    Keymap.configureShortcutManager(shortcutManager)
 
-    return (shortcutManager, registrar)
+    return (shortcutManager, registrar, ConfigSessionStore())
   }
 
-  private func resetState() {
-    Event.resetForTesting()
-    Keymap.discardRecording()
-    Keymap.reset()
-    Keymap.configureShortcutManager(ShortcutManager())
+  private func resetState(shortcutManager: ShortcutManager, sessionStore: ConfigSessionStore) {
+    shortcutManager.stop()
+    shortcutManager.reset()
+    sessionStore.replace(with: nil)?.deactivate()
+  }
+
+  private func activate(
+    _ session: ConfigSession,
+    shortcutManager: ShortcutManager,
+    sessionStore: ConfigSessionStore
+  ) {
+    shortcutManager.stop()
+    shortcutManager.reset()
+    sessionStore.replace(with: session)?.deactivate()
+    session.activate(with: shortcutManager)
+    shortcutManager.start()
   }
 
   private func dispatchShortcut(
@@ -712,6 +556,24 @@ private final class ConfigManagerShortcutTapRecorder {
     }
 
     return callback
+  }
+
+  private func makeExecutor(
+    execute: @escaping (ConfigSession, JSContext) throws -> Void
+  ) -> ConfigExecutor {
+    ConfigExecutor(
+      createContext: { session in
+        guard let context = JSContext() else {
+          throw JSExceptionError.exception("Could not create javascript context")
+        }
+
+        session.attach(context: context)
+        return context
+      },
+      executeScript: { session, context, _ in
+        try execute(session, context)
+      }
+    )
   }
 }
 

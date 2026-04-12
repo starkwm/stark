@@ -3,6 +3,7 @@ import Foundation
 final class KeymapRegistry {
   private final class ShortcutEnvironment {
     weak var manager: ShortcutManager?
+    let fallbackManager = ShortcutManager()
   }
 
   private let keymaps = StagedStorage<[String: Keymap]>(
@@ -13,11 +14,7 @@ final class KeymapRegistry {
   private let shortcutEnvironment = ShortcutEnvironment()
 
   var shortcutManager: ShortcutManager {
-    guard let manager = shortcutEnvironment.manager else {
-      preconditionFailure("Keymap shortcut manager has not been configured")
-    }
-
-    return manager
+    shortcutEnvironment.manager ?? shortcutEnvironment.fallbackManager
   }
 
   func configure(shortcutManager: ShortcutManager) {

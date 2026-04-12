@@ -9,13 +9,11 @@ import JavaScriptCore
 
   static func active() -> Space
 
-
   var id: uint64 { get }
 
   var isNormal: Bool { get }
 
   var isFullscreen: Bool { get }
-
 
   func screens() -> [NSScreen]
 

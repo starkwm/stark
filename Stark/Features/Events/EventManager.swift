@@ -38,26 +38,37 @@ final class EventManager {
   private let workspace: EventWorkspaceManaging
   private let windowManager: EventWindowManaging
   private let processLookup: EventProcessLookup
+  private let listenerProvider: EventListenerProviding
 
+  private lazy var dispatcher = RuntimeEventDispatcher(listenerProvider: listenerProvider)
   private lazy var applicationHandler = ApplicationLifecycleHandler(
     workspace: workspace,
     windowManager: windowManager,
     processLookup: processLookup,
+    dispatcher: dispatcher,
     postEvent: { [weak self] event in
       self?.post(event)
     }
   )
-  private lazy var windowHandler = WindowLifecycleHandler(windowManager: windowManager)
-  private lazy var spaceHandler = SpaceLifecycleHandler(windowManager: windowManager)
+  private lazy var windowHandler = WindowLifecycleHandler(
+    windowManager: windowManager,
+    dispatcher: dispatcher
+  )
+  private lazy var spaceHandler = SpaceLifecycleHandler(
+    windowManager: windowManager,
+    dispatcher: dispatcher
+  )
 
   init(
     workspace: EventWorkspaceManaging = Workspace.shared,
     windowManager: EventWindowManaging = WindowManager.shared,
-    processLookup: EventProcessLookup = ProcessManager.shared
+    processLookup: EventProcessLookup = ProcessManager.shared,
+    listenerProvider: EventListenerProviding = ConfigSessionStore.shared
   ) {
     self.workspace = workspace
     self.windowManager = windowManager
     self.processLookup = processLookup
+    self.listenerProvider = listenerProvider
   }
 
   func post(_ event: RuntimeEvent) {
@@ -120,10 +131,23 @@ enum WindowIdentifierEvent {
   }
 }
 
+private struct RuntimeEventDispatcher {
+  let listenerProvider: EventListenerProviding
+
+  func emit(_ type: EventType, payload: Any, message: String, level: LogLevel = .info) {
+    log(message, level: level)
+
+    for listener in listenerProvider.callbacks(for: type) {
+      listener.call(withArguments: [payload])
+    }
+  }
+}
+
 private struct ApplicationLifecycleHandler {
   let workspace: EventWorkspaceManaging
   let windowManager: EventWindowManaging
   let processLookup: EventProcessLookup
+  let dispatcher: RuntimeEventDispatcher
   let postEvent: (RuntimeEvent) -> Void
 
   func handle(_ event: ApplicationEvent) {
@@ -186,11 +210,11 @@ private struct ApplicationLifecycleHandler {
     windowManager.add(application: application)
     _ = windowManager.addWindows(for: application)
 
-    log("application launched \(application)", level: .info)
-
-    for listener in Event.callbacks(for: .applicationLaunched) {
-      listener.call(withArguments: [application])
-    }
+    dispatcher.emit(
+      .applicationLaunched,
+      payload: application,
+      message: "application launched \(application)"
+    )
   }
 
   private func applicationTerminated(for process: Process) {
@@ -199,9 +223,11 @@ private struct ApplicationLifecycleHandler {
 
     guard let application = windowManager.application(by: process.pid) else { return }
 
-    for listener in Event.callbacks(for: .applicationTerminated) {
-      listener.call(withArguments: [application])
-    }
+    dispatcher.emit(
+      .applicationTerminated,
+      payload: application,
+      message: "application terminated \(application)"
+    )
 
     windowManager.remove(application: application)
 
@@ -213,8 +239,6 @@ private struct ApplicationLifecycleHandler {
     }
 
     application.unobserve()
-
-    log("application terminated \(application)", level: .info)
   }
 
   private func applicationFrontSwitched(for process: Process) {
@@ -222,16 +246,17 @@ private struct ApplicationLifecycleHandler {
 
     windowManager.refreshWindows(for: application)
 
-    log("frontmost application switched \(application)", level: .info)
-
-    for listener in Event.callbacks(for: .applicationFrontSwitched) {
-      listener.call(withArguments: [application])
-    }
+    dispatcher.emit(
+      .applicationFrontSwitched,
+      payload: application,
+      message: "frontmost application switched \(application)"
+    )
   }
 }
 
 private struct WindowLifecycleHandler {
   let windowManager: EventWindowManaging
+  let dispatcher: RuntimeEventDispatcher
 
   func handle(_ event: WindowEvent) {
     switch event {
@@ -256,9 +281,7 @@ private struct WindowLifecycleHandler {
     guard windowManager.window(by: windowID) == nil else { return }
     guard let application = windowManager.application(by: pid) else { return }
 
-    let element =
-      application.windowElements().first { Window.validID(for: $0) == windowID }
-
+    let element = application.windowElements().first { Window.validID(for: $0) == windowID }
     let window: Window?
 
     if let element {
@@ -270,21 +293,13 @@ private struct WindowLifecycleHandler {
 
     guard let window else { return }
 
-    log("window created \(window)", level: .info)
-
-    for listener in Event.callbacks(for: .windowCreated) {
-      listener.call(withArguments: [window])
-    }
+    dispatcher.emit(.windowCreated, payload: window, message: "window created \(window)")
   }
 
   private func windowDestroyed(with window: Window) {
     guard window.id != 0 else { return }
 
-    for listener in Event.callbacks(for: .windowDestroyed) {
-      listener.call(withArguments: [window])
-    }
-
-    log("window destroyed \(window)", level: .info)
+    dispatcher.emit(.windowDestroyed, payload: window, message: "window destroyed \(window)")
 
     windowManager.remove(by: window.id)
     window.invalidate()
@@ -294,54 +309,39 @@ private struct WindowLifecycleHandler {
     guard windowID != 0 else { return }
     guard let window = windowManager.window(by: windowID) else { return }
 
-    log("window focused \(window)", level: .info)
-
-    for listener in Event.callbacks(for: .windowFocused) {
-      listener.call(withArguments: [window])
-    }
+    dispatcher.emit(.windowFocused, payload: window, message: "window focused \(window)")
   }
 
   private func windowMoved(with windowID: CGWindowID) {
     guard windowID != 0 else { return }
     guard let window = windowManager.window(by: windowID) else { return }
 
-    log("window moved \(window)", level: .info)
-
-    for listener in Event.callbacks(for: .windowMoved) {
-      listener.call(withArguments: [window])
-    }
+    dispatcher.emit(.windowMoved, payload: window, message: "window moved \(window)")
   }
 
   private func windowResized(with windowID: CGWindowID) {
     guard windowID != 0 else { return }
     guard let window = windowManager.window(by: windowID) else { return }
 
-    log("window resized \(window)", level: .info)
-
-    for listener in Event.callbacks(for: .windowResized) {
-      listener.call(withArguments: [window])
-    }
+    dispatcher.emit(.windowResized, payload: window, message: "window resized \(window)")
   }
 
   private func windowMinimized(with window: Window) {
-    log("window minimized \(window)", level: .info)
-
-    for listener in Event.callbacks(for: .windowMinimized) {
-      listener.call(withArguments: [window])
-    }
+    dispatcher.emit(.windowMinimized, payload: window, message: "window minimized \(window)")
   }
 
   private func windowDeminimized(with window: Window) {
-    log("window deminimized \(window)", level: .info)
-
-    for listener in Event.callbacks(for: .windowDeminimized) {
-      listener.call(withArguments: [window])
-    }
+    dispatcher.emit(
+      .windowDeminimized,
+      payload: window,
+      message: "window deminimized \(window)"
+    )
   }
 }
 
 private struct SpaceLifecycleHandler {
   let windowManager: EventWindowManaging
+  let dispatcher: RuntimeEventDispatcher
 
   func handle(_ event: SpaceEvent) {
     switch event {
@@ -352,12 +352,7 @@ private struct SpaceLifecycleHandler {
 
   private func spaceChanged(with space: Space) {
     windowManager.refreshWindows()
-
-    log("space changed \(space)", level: .info)
-
-    for listener in Event.callbacks(for: .spaceChanged) {
-      listener.call(withArguments: [space])
-    }
+    dispatcher.emit(.spaceChanged, payload: space, message: "space changed \(space)")
   }
 }
 

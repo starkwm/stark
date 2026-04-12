@@ -11,7 +11,6 @@ private let kAXFullScreenAttribute = "AXFullScreen"
 
   static func focused() -> Window?
 
-
   var id: CGWindowID { get }
 
   var application: Application? { get }
@@ -34,7 +33,6 @@ private let kAXFullScreenAttribute = "AXFullScreen"
 
   var isMinimized: Bool { get }
 
-
   func setFrame(_ frame: CGRect)
 
   func setTopLeft(_ topLeft: CGPoint)
@@ -54,6 +52,9 @@ private let kAXFullScreenAttribute = "AXFullScreen"
 
 class Window: NSObject, WindowJSExport {
   private static let accessibilityClient = AccessibilityClient.live
+  private static let notificationRegistrar = AXNotificationRegistrar<WindowNotifications>(
+    notifications: windowNotifications
+  )
 
   static func all() -> [Window] {
     WindowManager.shared.allWindows()
@@ -279,40 +280,34 @@ class Window: NSObject, WindowJSExport {
     guard let element else { return false }
 
     let context = UnsafeMutableRawPointer(bitPattern: UInt(id))
-
-    for (idx, notification) in windowNotifications.enumerated() {
-      let result = Self.accessibilityClient.addNotification(
-        observer: observer,
-        element: element,
-        notification: notification,
-        context: context
-      )
-
-      if result == .success || result == .notificationAlreadyRegistered {
-        observedNotifications.insert(WindowNotifications(rawValue: 1 << idx))
-      } else {
+    return Self.notificationRegistrar.observe(
+      observedNotifications: &observedNotifications,
+      addNotification: { notification in
+        Self.accessibilityClient.addNotification(
+          observer: observer,
+          element: element,
+          notification: notification,
+          context: context
+        )
+      },
+      onFailure: { notification, _ in
         log("notification \(notification) not added \(self)", level: .warn)
       }
-    }
-
-    return observedNotifications.contains(.all)
+    )
   }
 
   func unobserve() {
     guard let observer = application?.observer else { return }
     guard let element else { return }
-
-    for (idx, notification) in windowNotifications.enumerated() {
-      let notif = WindowNotifications(rawValue: 1 << idx)
-
-      if observedNotifications.contains(notif) {
+    Self.notificationRegistrar.unobserve(
+      observedNotifications: &observedNotifications,
+      removeNotification: { notification in
         Self.accessibilityClient.removeNotification(
           observer: observer,
           element: element,
           notification: notification
         )
-        observedNotifications.remove(notif)
       }
-    }
+    )
   }
 }

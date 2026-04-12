@@ -1,6 +1,6 @@
 import JavaScriptCore
 
 struct ConfigExecutor {
-  var createContext: () -> Result<JSContext, JSExceptionError>
-  var executeScript: (JSContext, String) -> Result<Void, Error>
+  var createContext: (ConfigSession) throws -> JSContext
+  var executeScript: (ConfigSession, JSContext, String) throws -> Void
 }

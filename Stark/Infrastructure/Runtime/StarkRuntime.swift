@@ -90,6 +90,18 @@ final class StarkRuntime: StarkRuntimeType {
   }
 
   func start() {
+    do {
+      try performStart()
+    } catch {
+      environment.writeLog("\(error)", .error)
+    }
+  }
+
+  func stop() {
+    configManager.stop()
+  }
+
+  private func performStart() throws {
     if !environment.isDevelopmentBuild(), let dsn = environment.sentryDSN() {
       environment.startSentry(dsn)
     }
@@ -106,29 +118,42 @@ final class StarkRuntime: StarkRuntimeType {
       )
     }
 
+    try startProcessManager()
+    windowManager.start()
+    try startConfigManager()
+    statusItem.setup()
+  }
+
+  private func startProcessManager() throws {
     switch processManager.start() {
     case .success:
       break
     case .failure(let error):
-      environment.writeLog("could not start process manager: \(error)", .error)
-      return
+      throw RuntimeStartupError.processManager(error)
     }
+  }
 
-    windowManager.start()
-
+  private func startConfigManager() throws {
     switch configManager.start() {
     case .success:
       break
     case .failure(let error):
-      environment.writeLog("could not start config manager: \(error)", .error)
-      return
+      throw RuntimeStartupError.configManager(error)
     }
-
-    statusItem.setup()
   }
+}
 
-  func stop() {
-    configManager.stop()
+private enum RuntimeStartupError: Error, CustomStringConvertible {
+  case processManager(AXError)
+  case configManager(Error)
+
+  var description: String {
+    switch self {
+    case .processManager(let error):
+      "could not start process manager: \(error)"
+    case .configManager(let error):
+      "could not start config manager: \(error)"
+    }
   }
 }
 

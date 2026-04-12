@@ -11,7 +11,6 @@ private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
 
   static func find(_ name: String) -> Application?
 
-
   var name: String? { get }
 
   var bundleID: String? { get }
@@ -23,7 +22,6 @@ private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
   var isHidden: Bool { get }
 
   var isTerminated: Bool { get }
-
 
   func windows() -> [Window]
 
@@ -42,6 +40,9 @@ class Application: NSObject, ApplicationJSExport {
   private static let accessibilityClient = AccessibilityClient.live
   private static let processClient = ProcessClient.live
   private static let windowServerClient = WindowServerClient.live
+  private static let notificationRegistrar = AXNotificationRegistrar<ApplicationNotifications>(
+    notifications: applicationNotifications
+  )
 
   static func all() -> [Application] {
     WindowManager.shared.allApplications()
@@ -159,27 +160,31 @@ class Application: NSObject, ApplicationJSExport {
     guard let observer else { return .failure(.observerCreationFailed) }
 
     let context: UnsafeMutableRawPointer? = Unmanaged.passUnretained(self).toOpaque()
+    var observationError: AXError?
 
-    for (idx, notification) in applicationNotifications.enumerated() {
-      let result = Self.accessibilityClient.addNotification(
-        observer: observer,
-        element: element,
-        notification: notification,
-        context: context
-      )
-
-      if result == .success || result == .notificationAlreadyRegistered {
-        observedNotifications.insert(ApplicationNotifications(rawValue: 1 << idx))
-      } else {
+    let observedAllNotifications = Self.notificationRegistrar.observe(
+      observedNotifications: &observedNotifications,
+      addNotification: { notification in
+        Self.accessibilityClient.addNotification(
+          observer: observer,
+          element: element,
+          notification: notification,
+          context: context
+        )
+      },
+      onFailure: { notification, result in
         retryObserving = result == .cannotComplete
 
         log(
-          "notification \(notification) not added \(self) (retry: \(retryObserving)",
+          "notification \(notification) not added \(self) (retry: \(retryObserving))",
           level: .warn
         )
-        return .failure(.notificationFailed("failed to add notification \(notification)"))
+
+        if observationError == nil {
+          observationError = .notificationFailed("failed to add notification \(notification)")
+        }
       }
-    }
+    )
 
     observing = true
 
@@ -189,8 +194,10 @@ class Application: NSObject, ApplicationJSExport {
       CFRunLoopMode.defaultMode
     )
 
-    guard observedNotifications.contains(.all) else {
-      return .failure(.notificationFailed("not all notifications were added"))
+    guard observedAllNotifications else {
+      return .failure(
+        observationError ?? .notificationFailed("not all notifications were added")
+      )
     }
 
     return .success(())
@@ -198,19 +205,16 @@ class Application: NSObject, ApplicationJSExport {
 
   func unobserve() {
     guard let observer = observer else { return }
-
-    for (idx, notification) in applicationNotifications.enumerated() {
-      let notif = ApplicationNotifications(rawValue: 1 << idx)
-
-      guard observedNotifications.contains(notif) else { continue }
-
-      Self.accessibilityClient.removeNotification(
-        observer: observer,
-        element: element,
-        notification: notification
-      )
-      observedNotifications.remove(notif)
-    }
+    Self.notificationRegistrar.unobserve(
+      observedNotifications: &observedNotifications,
+      removeNotification: { notification in
+        Self.accessibilityClient.removeNotification(
+          observer: observer,
+          element: element,
+          notification: notification
+        )
+      }
+    )
 
     if observing {
       CFRunLoopSourceInvalidate(AXObserverGetRunLoopSource(observer))
