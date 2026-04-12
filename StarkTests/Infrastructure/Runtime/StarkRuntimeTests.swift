@@ -14,6 +14,7 @@ import Testing
 
     let runtime = StarkRuntime(
       environment: StarkRuntimeEnvironment(
+        isDevelopmentBuild: { false },
         sentryDSN: { "dsn" },
         startSentry: { _ in recorder.record("startSentry") },
         askForAccessibility: {
@@ -46,10 +47,44 @@ import Testing
     #expect(loggedMessages.isEmpty)
   }
 
+  @Test func startSkipsSentryInDevelopmentBuilds() {
+    let recorder = RuntimeCallRecorder()
+    let runtime = StarkRuntime(
+      environment: StarkRuntimeEnvironment(
+        isDevelopmentBuild: { true },
+        sentryDSN: { "dsn" },
+        startSentry: { _ in recorder.record("startSentry") },
+        askForAccessibility: {
+          recorder.record("askForAccessibility")
+          return true
+        },
+        terminateApplication: { recorder.record("terminateApplication") },
+        writeLog: { _, _ in recorder.record("writeLog") }
+      ),
+      processManager: RecordingProcessManager(recorder: recorder, result: .success(())),
+      windowManager: RecordingWindowManager(recorder: recorder),
+      configManager: RecordingConfigManager(recorder: recorder, startResult: .success(())),
+      statusItem: RecordingStatusItem(recorder: recorder)
+    )
+
+    runtime.start()
+
+    #expect(
+      recorder.events == [
+        "askForAccessibility",
+        "process.start",
+        "window.start",
+        "config.start",
+        "statusItem.setup",
+      ]
+    )
+  }
+
   @Test func startTerminatesApplicationWhenAccessibilityIsDenied() {
     let recorder = RuntimeCallRecorder()
     let runtime = StarkRuntime(
       environment: StarkRuntimeEnvironment(
+        isDevelopmentBuild: { false },
         sentryDSN: { "dsn" },
         startSentry: { _ in recorder.record("startSentry") },
         askForAccessibility: {
@@ -81,6 +116,7 @@ import Testing
     var loggedMessages = [LoggedMessage]()
     let runtime = StarkRuntime(
       environment: StarkRuntimeEnvironment(
+        isDevelopmentBuild: { false },
         sentryDSN: { nil },
         startSentry: { _ in recorder.record("startSentry") },
         askForAccessibility: {
@@ -120,6 +156,7 @@ import Testing
     var loggedMessages = [LoggedMessage]()
     let runtime = StarkRuntime(
       environment: StarkRuntimeEnvironment(
+        isDevelopmentBuild: { false },
         sentryDSN: { nil },
         startSentry: { _ in recorder.record("startSentry") },
         askForAccessibility: {
@@ -161,6 +198,7 @@ import Testing
     let configManager = RecordingConfigManager(recorder: recorder, startResult: .success(()))
     let runtime = StarkRuntime(
       environment: StarkRuntimeEnvironment(
+        isDevelopmentBuild: { false },
         sentryDSN: { nil },
         startSentry: { _ in recorder.record("startSentry") },
         askForAccessibility: {

@@ -32,6 +32,7 @@ protocol StarkStatusItemManaging {
 
 /// Provides platform-facing hooks used while bootstrapping Stark's long-lived services.
 struct StarkRuntimeEnvironment {
+  var isDevelopmentBuild: () -> Bool
   var sentryDSN: () -> String?
   var startSentry: (String) -> Void
   var askForAccessibility: () -> Bool
@@ -39,6 +40,13 @@ struct StarkRuntimeEnvironment {
   var writeLog: (String, LogLevel) -> Void
 
   static let live = StarkRuntimeEnvironment(
+    isDevelopmentBuild: {
+      #if DEBUG
+        true
+      #else
+        false
+      #endif
+    },
     sentryDSN: { Bundle.main.object(forInfoDictionaryKey: "SentryDSN") as? String },
     startSentry: { dsn in
       SentrySDK.start { options in
@@ -88,7 +96,7 @@ final class StarkRuntime: StarkRuntimeType {
 
   /// Boots the runtime in dependency order so each subsystem sees initialized state.
   func start() {
-    if let dsn = environment.sentryDSN() {
+    if !environment.isDevelopmentBuild(), let dsn = environment.sentryDSN() {
       environment.startSentry(dsn)
     }
 
