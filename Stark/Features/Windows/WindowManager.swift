@@ -9,8 +9,6 @@ protocol WindowManagerWorkspaceObserving {
   func observeActivationPolicy(_ process: Process)
 }
 
-/// Manages all windows and applications in the system.
-/// Coordinates window discovery, observation, and lifecycle management.
 final class WindowManager {
   static let shared = WindowManager()
 
@@ -29,7 +27,6 @@ final class WindowManager {
     self.workspace = workspace
   }
 
-  /// Initializes window management by observing all running applications.
   func start() {
     for process in processManager.all() {
       guard workspace.isObservable(process) else {
@@ -56,24 +53,15 @@ final class WindowManager {
     }
   }
 
-  /// Adds an application to management.
-  /// - Parameter application: The application to add
   func add(application: Application) {
     applications.add(application)
   }
 
-  /// Removes an application from management and cleans up its resources.
-  /// - Parameter application: The application to remove
   func remove(application: Application) {
     refreshQueue.remove(application)
     applications.remove(application)
   }
 
-  /// Creates and manages a new window from an accessibility element.
-  /// - Parameters:
-  ///   - application: The application that owns the window
-  ///   - element: The AXUIElement representing the window
-  /// - Returns: The created Window, or nil if invalid/unobservable
   @discardableResult
   func addWindow(for application: Application, with element: AXUIElement) -> Window? {
     let window = Window(with: element, for: application)
@@ -108,42 +96,26 @@ final class WindowManager {
     return result
   }
 
-  /// Removes a window from management.
-  /// - Parameter windowID: The ID of the window to remove
   func remove(by windowID: CGWindowID) {
     windows.remove(windowID: windowID)
   }
 
-  /// Looks up an application by its process ID.
-  /// - Parameter pid: The process identifier
-  /// - Returns: The application, or nil if not found
   func application(by pid: pid_t) -> Application? {
     applications.application(by: pid)
   }
 
-  /// Looks up an application by its name.
-  /// - Parameter name: The application name
-  /// - Returns: The application, or nil if not found
   func application(by name: String) -> Application? {
     applications.application(named: name)
   }
 
-  /// Returns all managed applications.
-  /// - Returns: Array of all applications
   func allApplications() -> [Application] {
     applications.all()
   }
 
-  /// Looks up a window by its ID.
-  /// - Parameter id: The window identifier
-  /// - Returns: The window, or nil if not found
   func window(by id: CGWindowID) -> Window? {
     windows.window(by: id)
   }
 
-  /// Returns all windows belonging to an application.
-  /// - Parameter application: The application to query
-  /// - Returns: Array of windows for that application
   func allWindows(for application: Application) -> [Window] {
     windows.windows(for: application)
   }
@@ -152,14 +124,12 @@ final class WindowManager {
     windows.all()
   }
 
-  /// Retries window discovery for every application still waiting on remote resolution.
   func refreshWindows() {
     for application in refreshQueue.all() {
       refreshWindows(for: application)
     }
   }
 
-  /// Retries deferred window discovery for a single application.
   func refreshWindows(for application: Application) {
     guard refreshQueue.contains(application) else { return }
 
@@ -167,7 +137,6 @@ final class WindowManager {
     _ = reconcileWindows(for: application, mode: .refreshAttempt)
   }
 
-  /// Reconciles AX-reported windows against the window server list and runs the fallback resolver.
   @discardableResult
   private func reconcileWindows(
     for application: Application,

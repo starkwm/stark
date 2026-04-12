@@ -13,35 +13,30 @@ final class StagedStorage<Storage> {
     self.makeEmptyStorage = makeEmptyStorage
   }
 
-  /// Starts a staging session so mutations can be committed or discarded atomically.
   func beginRecording() {
     queue.sync {
       recording = makeEmptyStorage()
     }
   }
 
-  /// Reads the active storage snapshot on the staging queue.
   func withActive<T>(_ block: (Storage) -> T) -> T {
     queue.sync {
       block(active)
     }
   }
 
-  /// Reads the recording storage snapshot on the staging queue.
   func withRecording<T>(_ block: (Storage?) -> T) -> T {
     queue.sync {
       block(recording)
     }
   }
 
-  /// Mutates active and recording storage together while holding the staging queue.
   func mutate<T>(_ block: (inout Storage, inout Storage?) -> T) -> T {
     queue.sync {
       block(&active, &recording)
     }
   }
 
-  /// Promotes the recording storage to active storage and returns both snapshots.
   func commit() -> (previousActive: Storage, nextActive: Storage)? {
     queue.sync {
       guard let recording else { return nil }
@@ -54,7 +49,6 @@ final class StagedStorage<Storage> {
     }
   }
 
-  /// Discards the recording storage and returns what was staged.
   func discard() -> Storage? {
     queue.sync {
       let discarded = recording

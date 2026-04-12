@@ -3,68 +3,38 @@ import JavaScriptCore
 
 private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
 
-/// Protocol exposing application management functionality to JavaScript.
-/// Provides access to running applications and their windows.
 @objc protocol ApplicationJSExport: JSExport {
-  // MARK: - Application Retrieval
 
-  /// Returns all running applications.
-  /// - Returns: Array of all applications
   static func all() -> [Application]
 
-  /// Returns the frontmost (active) application.
-  /// - Returns: The frontmost application, or nil if none
   static func focused() -> Application?
 
-  /// Finds an application by name.
-  /// - Parameter name: The application name to search for
-  /// - Returns: The matching application, or nil if not found
   static func find(_ name: String) -> Application?
 
-  // MARK: - Properties
 
-  /// The application's display name.
   var name: String? { get }
 
-  /// The application's bundle identifier (e.g., "com.apple.Safari").
   var bundleID: String? { get }
 
-  /// The application's process identifier.
   var processID: pid_t { get }
 
-  /// Whether this application is currently frontmost.
   var isFrontmost: Bool { get }
 
-  /// Whether this application is hidden.
   var isHidden: Bool { get }
 
-  /// Whether this application has terminated.
   var isTerminated: Bool { get }
 
-  // MARK: - Application Control
 
-  /// Returns all windows belonging to this application.
-  /// - Returns: Array of windows
   func windows() -> [Window]
 
-  /// Activates the application, bringing it to the front with all windows.
-  /// - Returns: true if successful
   func activate() -> Bool
 
-  /// Focuses the application without activating all windows.
-  /// - Returns: true if successful
   func focus() -> Bool
 
-  /// Unhides the application.
-  /// - Returns: true if successful
   func show() -> Bool
 
-  /// Hides the application.
-  /// - Returns: true if successful
   func hide() -> Bool
 
-  /// Terminates the application.
-  /// - Returns: true if successful
   func terminate() -> Bool
 }
 
@@ -73,12 +43,10 @@ class Application: NSObject, ApplicationJSExport {
   private static let processClient = ProcessClient.live
   private static let windowServerClient = WindowServerClient.live
 
-  /// Returns all applications currently tracked by the window manager.
   static func all() -> [Application] {
     WindowManager.shared.allApplications()
   }
 
-  /// Returns the frontmost tracked application, if one can be resolved.
   static func focused() -> Application? {
     guard let pid = processClient.frontmostProcessID() else { return nil }
 
@@ -87,7 +55,6 @@ class Application: NSObject, ApplicationJSExport {
     return WindowManager.shared.application(by: application.processID)
   }
 
-  /// Looks up a tracked application by its localized name.
   static func find(_ name: String) -> Application? {
     WindowManager.shared.application(by: name)
   }
@@ -133,7 +100,6 @@ class Application: NSObject, ApplicationJSExport {
   private var observedNotifications = ApplicationNotifications(rawValue: 0)
   private var observing = false
 
-  /// Wraps a running process with its AX application element and SkyLight connection id.
   init?(for process: Process) {
     element = Self.accessibilityClient.applicationElement(for: process.pid)
 
@@ -155,7 +121,6 @@ class Application: NSObject, ApplicationJSExport {
     log("application deinit \(self)")
   }
 
-  /// Returns the tracked windows currently associated with this application.
   func windows() -> [Window] {
     WindowManager.shared.allWindows(for: self)
   }
@@ -180,7 +145,6 @@ class Application: NSObject, ApplicationJSExport {
     application.terminate()
   }
 
-  /// Installs the AX observer and subscribes to app-level window notifications.
   func observe() -> Result<Void, AXError> {
     switch Self.accessibilityClient.createObserver(
       processID: application.processIdentifier,
@@ -232,7 +196,6 @@ class Application: NSObject, ApplicationJSExport {
     return .success(())
   }
 
-  /// Removes any AX notifications and invalidates the app-level observer.
   func unobserve() {
     guard let observer = observer else { return }
 
@@ -257,7 +220,6 @@ class Application: NSObject, ApplicationJSExport {
     self.observer = nil
   }
 
-  /// Returns the window server ids currently owned by this application across all spaces.
   func windowIdentifiers() -> [CGWindowID] {
     Self.windowServerClient.windowIdentifiers(
       connectionID: Space.connection,
@@ -266,15 +228,10 @@ class Application: NSObject, ApplicationJSExport {
     )
   }
 
-  /// Returns the application's current AX window elements.
   func windowElements() -> [AXUIElement] {
     Self.accessibilityClient.windowElements(for: element)
   }
 
-  /// Workaround for applications with Enhanced User Interface enabled (e.g., Slack, Discord).
-  /// Some applications block programmatic window manipulation when this feature is enabled.
-  /// This method temporarily disables it, executes the callback, then restores the original state.
-  /// - Parameter callback: The window manipulation code to execute
   func enhancedUIWorkaround(callback: () -> Void) {
     let enhancedUserInterfaceEnabled = isEnhancedUIEnabled()
 
@@ -297,8 +254,6 @@ class Application: NSObject, ApplicationJSExport {
     }
   }
 
-  /// Checks if Enhanced User Interface is enabled for this application.
-  /// - Returns: true if Enhanced UI is enabled
   private func isEnhancedUIEnabled() -> Bool {
     Self.accessibilityClient.enhancedUIEnabled(
       for: element,

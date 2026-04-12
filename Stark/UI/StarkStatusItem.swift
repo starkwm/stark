@@ -5,7 +5,6 @@ let logJavaScriptExceptionsKey = "logJavaScriptExceptions"
 class StarkStatusItem {
   private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
 
-  /// Builds the menu bar item and wires its actions to Stark's runtime toggles.
   func setup() {
     statusItem.button?.image = NSImage(named: NSImage.Name("StatusItemIcon"))
 
@@ -42,7 +41,6 @@ class StarkStatusItem {
   }
 
   @objc
-  /// Toggles the launch agent plist and updates the menu item's checkmark.
   func toggleRunAtLogin(sender: NSMenuItem) {
     if sender.state == .on {
       LaunchAgentHelper.remove()
@@ -54,7 +52,6 @@ class StarkStatusItem {
   }
 
   @objc
-  /// Persists the logging preference and reflects it in the menu item's state.
   func toggleLogging(sender: NSMenuItem) {
     if sender.state == .on {
       UserDefaults.standard.set(false, forKey: "enableLogging")

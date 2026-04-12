@@ -1,31 +1,16 @@
 import JavaScriptCore
 
-/// Protocol exposing keyboard shortcut functionality to JavaScript.
-/// Allows binding keyboard combinations to JavaScript callbacks.
 @objc protocol KeymapJSExport: JSExport {
-  // MARK: - Keymap Management
 
-  /// Registers a keyboard shortcut with a callback.
-  /// - Parameters:
-  ///   - key: The key name (e.g., "return", "space", "a")
-  ///   - modifiers: Array of modifier keys (e.g., ["cmd"], ["cmd", "shift"])
-  ///   - callback: JavaScript function to execute when shortcut is pressed
-  /// - Returns: The created keymap instance
   static func on(_ key: String, _ modifiers: [String], _ callback: JSValue) -> Keymap
 
-  /// Unregisters a keyboard shortcut by its ID.
-  /// - Parameter id: The keymap ID to unregister
   static func off(_ id: String)
 
-  // MARK: - Properties
 
-  /// Unique identifier for this keymap (format: "key[modifier1|modifier2]").
   var id: String { get }
 
-  /// The key associated with this shortcut.
   var key: String { get }
 
-  /// The modifier keys associated with this shortcut.
   var modifiers: [String] { get }
 }
 

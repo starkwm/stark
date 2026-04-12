@@ -3,7 +3,6 @@ import ApplicationServices
 final class AccessibilityClient {
   static let live = AccessibilityClient()
 
-  /// Returns the AX application element for the given process id.
   func applicationElement(for processID: pid_t) -> AXUIElement {
     AXUIElementCreateApplication(processID)
   }
@@ -39,7 +38,6 @@ final class AccessibilityClient {
     AXUIElementSetAttributeValue(element, attribute as CFString, value) == .success
   }
 
-  /// Returns the AX window elements currently exposed by an application element.
   func windowElements(for element: AXUIElement) -> [AXUIElement] {
     var values: AnyObject?
 
@@ -53,7 +51,6 @@ final class AccessibilityClient {
     return windows
   }
 
-  /// Returns the currently focused AX window element for an application element.
   func focusedWindowElement(for element: AXUIElement) -> AXUIElement? {
     var value: AnyObject?
 
@@ -80,7 +77,6 @@ final class AccessibilityClient {
     stringAttribute(for: element, attribute: kAXRoleAttribute as String) == kAXWindowRole
   }
 
-  /// Resolves the Core Graphics window id for an AX window element.
   func windowID(for element: AXUIElement) -> CGWindowID {
     if Thread.isMainThread {
       return unsafeWindowID(for: element)
@@ -91,14 +87,12 @@ final class AccessibilityClient {
     }
   }
 
-  /// Resolves the owning process id for an AX element.
   func processID(for element: AXUIElement) -> pid_t? {
     var pid: pid_t = 0
     guard AXUIElementGetPid(element, &pid) == .success else { return nil }
     return pid
   }
 
-  /// Reads the Enhanced User Interface flag used by some apps to resist window manipulation.
   func enhancedUIEnabled(for element: AXUIElement, attribute: String) -> Bool {
     var value: AnyObject?
     let result = AXUIElementCopyAttributeValue(element, attribute as CFString, &value)
@@ -114,7 +108,6 @@ final class AccessibilityClient {
     return false
   }
 
-  /// Creates an AX observer for a process and wraps the result in Stark's error type.
   func createObserver(processID: pid_t, callback: @escaping AXObserverCallback) -> Result<
     AXObserver, AXError
   > {

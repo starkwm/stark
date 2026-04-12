@@ -1,43 +1,24 @@
 import AppKit
 import JavaScriptCore
 
-/// Protocol exposing Space (virtual desktop) functionality to JavaScript.
-/// Provides access to macOS Spaces and their windows.
 @objc protocol SpaceJSExport: JSExport {
-  // MARK: - Space Retrieval
 
-  /// Returns all Spaces across all screens.
-  /// - Returns: Array of all spaces
   static func all() -> [Space]
 
-  /// Returns the Space at the specified index.
-  /// - Parameter index: The zero-based index
-  /// - Returns: The space at that index, or nil if out of bounds
   static func at(_ index: Int) -> Space?
 
-  /// Returns the currently active Space.
-  /// - Returns: The active space
   static func active() -> Space
 
-  // MARK: - Properties
 
-  /// Unique identifier for this space.
   var id: uint64 { get }
 
-  /// Whether this is a normal space (not fullscreen).
   var isNormal: Bool { get }
 
-  /// Whether this is a fullscreen space.
   var isFullscreen: Bool { get }
 
-  // MARK: - Space Contents
 
-  /// Returns all screens showing this space.
-  /// - Returns: Array of screens
   func screens() -> [NSScreen]
 
-  /// Returns all windows in this space.
-  /// - Returns: Array of windows
   func windows() -> [Window]
 }
 
@@ -62,12 +43,10 @@ class Space: NSObject, SpaceJSExport {
     Space(id: windowServerClient.activeSpace(connectionID: connection))
   }
 
-  /// Returns the space currently visible on the provided screen.
   static func current(for screen: NSScreen) -> Space? {
     Space(id: windowServerClient.currentSpace(connectionID: connection, screenID: screen.id))
   }
 
-  /// Returns every space that currently contains the given window.
   static func spaces(containing window: Window) -> [Space] {
     let identifiers = Set(
       windowServerClient.spaceIDs(containing: window.id, connectionID: connection)
@@ -87,7 +66,6 @@ class Space: NSObject, SpaceJSExport {
 
   private var type: SpaceType
 
-  /// Captures the space identifier and resolves its current SkyLight-reported type.
   init(id: uint64) {
     self.id = id
     type = Self.windowServerClient.spaceType(connectionID: Space.connection, spaceID: self.id)
@@ -103,7 +81,6 @@ class Space: NSObject, SpaceJSExport {
     return id == space.id
   }
 
-  /// Resolves the screen or screens that are currently presenting this space.
   func screens() -> [NSScreen] {
     if !NSScreen.screensHaveSeparateSpaces {
       return NSScreen.screens
@@ -122,7 +99,6 @@ class Space: NSObject, SpaceJSExport {
     return [screen]
   }
 
-  /// Filters managed windows to those assigned to this space.
   func windows() -> [Window] {
     Window.all().filter { $0.spaces().contains(self) }
   }

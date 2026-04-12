@@ -1,30 +1,16 @@
 import JavaScriptCore
 
-/// Protocol exposing event callback functionality to JavaScript.
-/// Allows registering JavaScript callbacks for system events like window and application lifecycle changes.
 @objc protocol EventJSExport: JSExport {
-  // MARK: - Event Management
 
-  /// Registers a callback for the specified event type.
-  /// - Parameters:
-  ///   - event: The event name (e.g., "windowFocused", "applicationLaunched")
-  ///   - callback: JavaScript function to execute when the event fires
-  /// - Returns: The created event listener instance
   static func on(_ event: String, _ callback: JSValue) -> Event
 
-  /// Unregisters all listeners for the specified event type.
-  /// - Parameter event: The event name to unregister listeners for
   static func off(_ event: String)
 
-  /// Unregisters all event listeners across all event types.
   static func reset()
 
-  // MARK: - Properties
 
-  /// Unique identifier for this event listener.
   var id: String { get }
 
-  /// The event name this listener is registered for.
   var event: String { get }
 }
 

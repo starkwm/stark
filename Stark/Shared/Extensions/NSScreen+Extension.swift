@@ -1,62 +1,40 @@
 import AppKit
 import JavaScriptCore
 
-/// Protocol exposing screen/display functionality to JavaScript.
-/// Provides access to physical screens and their properties.
 @objc protocol NSScreenJSExport: JSExport {
-  // MARK: - Screen Retrieval
 
-  /// Returns all connected screens.
-  /// - Returns: Array of all screens
   static func all() -> [NSScreen]
 
-  /// Returns the main (focused) screen.
-  /// - Returns: The main screen, or nil if none
   static func focused() -> NSScreen?
 
-  // MARK: - Properties
 
-  /// Unique identifier for this screen.
   var id: String { get }
 
-  /// Screen frame with origin at top-left (flipped coordinates).
-  /// Use this for window positioning calculations.
   var flippedFrame: CGRect { get }
 
-  /// Visible frame (excluding menu bar/dock) with origin at top-left.
   var flippedVisibleFrame: CGRect { get }
 
-  /// The next screen in the sequence (for multi-monitor setups).
   var next: NSScreen? { get }
 
-  /// The previous screen in the sequence (for multi-monitor setups).
   var previous: NSScreen? { get }
 
-  // MARK: - Space Methods
 
-  /// Returns all spaces on this screen.
-  /// - Returns: Array of spaces
   func spaces() -> [Space]
 
-  /// Returns the currently active space on this screen.
-  /// - Returns: The current space, or nil if none
   func currentSpace() -> Space?
 }
 
 extension AppKit.NSScreen: JavaScriptCore.JSExport {}
 
 extension NSScreen: NSScreenJSExport {
-  /// Returns the current list of connected screens.
   static func all() -> [NSScreen] {
     screens
   }
 
-  /// Returns the main AppKit screen.
   static func focused() -> NSScreen? {
     main
   }
 
-  /// Looks up a screen by its stable display UUID string.
   static func screen(for id: String) -> NSScreen? {
     screens.first { $0.id == id }
   }
@@ -103,12 +81,10 @@ extension NSScreen: NSScreenJSExport {
     return NSScreen.screens[previousIndex]
   }
 
-  /// Returns every space whose screen list currently includes this screen.
   func spaces() -> [Space] {
     Space.all().filter { $0.screens().contains(self) }
   }
 
-  /// Returns the space currently shown on this screen.
   func currentSpace() -> Space? {
     Space.current(for: self)
   }

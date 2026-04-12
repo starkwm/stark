@@ -26,9 +26,6 @@ protocol EventProcessLookup {
   func find(by psn: ProcessSerialNumber) -> Process?
 }
 
-/// Manages and dispatches window management events.
-/// Processes events serially on the main queue so AppKit, AX callbacks, and
-/// window/application state all stay on the same thread.
 final class EventManager {
   static let shared = EventManager()
 
@@ -63,14 +60,10 @@ final class EventManager {
     self.processLookup = processLookup
   }
 
-  /// Posts a typed runtime event to be processed asynchronously.
   func post(_ event: RuntimeEvent) {
     queue.addOperation { self.handle(event) }
   }
 
-  /// Resolves a window identifier off the main run loop before dispatching the event.
-  /// This keeps AX observer callbacks lightweight and avoids blocking the app on
-  /// `_AXUIElementGetWindow` when the target process is slow to respond.
   func post(
     windowIdentifierEvent event: WindowIdentifierEvent,
     withWindowElement element: AXUIElement
@@ -84,7 +77,6 @@ final class EventManager {
     }
   }
 
-  /// Converts a created-window AX element into stable identifiers before enqueueing it.
   func post(windowCreatedWithElement element: AXUIElement) {
     let retainedElement = Unmanaged.passRetained(element)
 
@@ -116,7 +108,6 @@ enum WindowIdentifierEvent {
   case moved
   case resized
 
-  /// Converts a deferred AX window lookup into the corresponding runtime event.
   func runtimeEvent(windowID: CGWindowID) -> WindowEvent {
     switch self {
     case .focused:
@@ -135,7 +126,6 @@ private struct ApplicationLifecycleHandler {
   let processLookup: EventProcessLookup
   let postEvent: (RuntimeEvent) -> Void
 
-  /// Routes application lifecycle events to the appropriate handler.
   func handle(_ event: ApplicationEvent) {
     switch event {
     case .launched(let process):
@@ -243,7 +233,6 @@ private struct ApplicationLifecycleHandler {
 private struct WindowLifecycleHandler {
   let windowManager: EventWindowManaging
 
-  /// Routes window lifecycle events to the appropriate handler.
   func handle(_ event: WindowEvent) {
     switch event {
     case .created(let pid, let windowID):
@@ -354,7 +343,6 @@ private struct WindowLifecycleHandler {
 private struct SpaceLifecycleHandler {
   let windowManager: EventWindowManaging
 
-  /// Routes space lifecycle events to the appropriate handler.
   func handle(_ event: SpaceEvent) {
     switch event {
     case .changed(let space):

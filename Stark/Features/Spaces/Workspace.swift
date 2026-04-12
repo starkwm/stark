@@ -48,7 +48,6 @@ class Workspace: NSObject {
     environment.addActiveSpaceObserver(self)
   }
 
-  /// Determines whether an app is currently eligible for AX-based window observation.
   func isObservable(_ process: Process) -> Bool {
     guard let application = process.application else {
       process.policy = .prohibited
@@ -60,7 +59,6 @@ class Workspace: NSObject {
     return process.policy == .regular
   }
 
-  /// Starts observing activation policy changes until an app becomes window-manageable.
   func observeActivationPolicy(_ process: Process) {
     guard process.application != nil else { return }
 
@@ -70,7 +68,6 @@ class Workspace: NSObject {
     environment.addObserver(self, process, token.keyPath, token.context)
   }
 
-  /// Stops watching activation policy changes for a process.
   func unobserveActivationPolicy(_ process: Process) {
     guard process.application != nil else { return }
     guard let token = activationPolicyObservations.unregister(process) else { return }
@@ -79,14 +76,12 @@ class Workspace: NSObject {
     environment.removeObserver(self, process, token.keyPath, token.context)
   }
 
-  /// Returns whether the underlying app has completed its launch sequence.
   func isFinishedLaunching(_ process: Process) -> Bool {
     guard let application = process.application else { return false }
 
     return application.isFinishedLaunching
   }
 
-  /// Starts observing finished-launching state for an app that is still booting.
   func observeFinishedLaunching(_ process: Process) {
     guard process.application != nil else { return }
 
@@ -96,7 +91,6 @@ class Workspace: NSObject {
     environment.addObserver(self, process, token.keyPath, token.context)
   }
 
-  /// Stops watching finished-launching state for a process.
   func unobserveFinishedLaunching(_ process: Process) {
     guard process.application != nil else { return }
     guard let token = finishedLaunchingObservations.unregister(process) else { return }
@@ -106,12 +100,10 @@ class Workspace: NSObject {
   }
 
   @objc
-  /// Publishes the currently active space whenever macOS reports a space switch.
   func activeSpaceDidChange(_: Notification) {
     environment.postEvent(.space(.changed(Space.active())))
   }
 
-  /// Translates KVO updates into runtime events once tracked process state changes.
   override func observeValue(
     forKeyPath keyPath: String?,
     of object: Any?,
@@ -168,7 +160,6 @@ private final class ProcessObservationRegistry {
     self.keyPath = keyPath
   }
 
-  /// Returns an existing token or creates one that can be used for KVO bookkeeping.
   func register(_ process: Process) -> ProcessObservationToken {
     if let existing = tokens[process.psn.lowLongOfPSN] {
       return existing
@@ -185,7 +176,6 @@ private final class ProcessObservationRegistry {
     return token
   }
 
-  /// Removes the token associated with the given process, if one exists.
   func unregister(_ process: Process) -> ProcessObservationToken? {
     tokens.removeValue(forKey: process.psn.lowLongOfPSN)
   }
