@@ -1,4 +1,3 @@
-import AppKit
 import JavaScriptCore
 
 private let primaryPaths: [String] = [

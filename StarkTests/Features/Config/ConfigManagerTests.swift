@@ -1,4 +1,3 @@
-import Foundation
 import IOKit.hidsystem
 import JavaScriptCore
 import Testing

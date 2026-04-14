@@ -1,5 +1,4 @@
 import ApplicationServices
-import Carbon
 
 struct ApplicationNotifications: OptionSet {
   static let windowCreated = ApplicationNotifications(rawValue: 1 << 0)

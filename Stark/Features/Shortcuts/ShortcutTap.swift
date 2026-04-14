@@ -1,5 +1,4 @@
 import CoreGraphics
-import Foundation
 
 final class ShortcutTap: ShortcutTapType {
   typealias EventHandler = (CGEventType, CGEvent) -> Unmanaged<CGEvent>?

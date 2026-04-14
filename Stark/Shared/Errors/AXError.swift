@@ -1,5 +1,3 @@
-import Foundation
-
 enum AXError: Error {
   case accessFailed(String)
   case observerCreationFailed

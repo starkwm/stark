@@ -1,5 +1,4 @@
 import ApplicationServices
-import Foundation
 
 enum EventType: String {
   case applicationLaunched
