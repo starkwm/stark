@@ -21,7 +21,6 @@
 		AA100029AA100029AA100029 /* StarkRuntimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100028AA100028AA100028 /* StarkRuntimeTests.swift */; };
 		AA100033AA100033AA100033 /* StarkRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100032AA100032AA100032 /* StarkRuntime.swift */; };
 		AA100034AA100034AA100034 /* AppDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100035AA100035AA100035 /* AppDelegateTests.swift */; };
-		C0DE00000000000000000001 /* ProcessClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000001 /* ProcessClient.swift */; };
 		C0DE00000000000000000002 /* AccessibilityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000002 /* AccessibilityClient.swift */; };
 		C0DE00000000000000000003 /* WindowServerClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000003 /* WindowServerClient.swift */; };
 		C0DE00000000000000000004 /* ConfigPathResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000004 /* ConfigPathResolver.swift */; };
@@ -103,7 +102,6 @@
 		AA100028AA100028AA100028 /* StarkRuntimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkRuntimeTests.swift; sourceTree = "<group>"; };
 		AA100032AA100032AA100032 /* StarkRuntime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkRuntime.swift; sourceTree = "<group>"; };
 		AA100035AA100035AA100035 /* AppDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateTests.swift; sourceTree = "<group>"; };
-		C0DE10000000000000000001 /* ProcessClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessClient.swift; sourceTree = "<group>"; };
 		C0DE10000000000000000002 /* AccessibilityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityClient.swift; sourceTree = "<group>"; };
 		C0DE10000000000000000003 /* WindowServerClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowServerClient.swift; sourceTree = "<group>"; };
 		C0DE10000000000000000004 /* ConfigPathResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigPathResolver.swift; sourceTree = "<group>"; };
@@ -317,7 +315,6 @@
 				C0DE10000000000000000002 /* AccessibilityClient.swift */,
 				F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */,
 				F6F4ECF82BC9BC13001234D4 /* Private.swift */,
-				C0DE10000000000000000001 /* ProcessClient.swift */,
 				C0DE10000000000000000003 /* WindowServerClient.swift */,
 			);
 			path = System;
@@ -696,7 +693,6 @@
 				C0DE0000000000000000000B /* StagedStorage.swift in Sources */,
 				F60DF8ED2CC2C8030083D3BE /* LogHelper.swift in Sources */,
 				C0DE00000000000000000002 /* AccessibilityClient.swift in Sources */,
-				C0DE00000000000000000001 /* ProcessClient.swift in Sources */,
 				C0DE00000000000000000003 /* WindowServerClient.swift in Sources */,
 				F6A2E76A2BC8CB250024F674 /* main.swift in Sources */,
 				F6A2BBD82F703EB7007C7701 /* StateError.swift in Sources */,
@@ -949,6 +945,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 28;
+				CURRENT_PROJECT_VERSION = 29;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = Y54Z78V9M7;
 				ENABLE_HARDENED_RUNTIME = YES;

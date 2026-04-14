@@ -4,7 +4,6 @@ private let kAXEnhancedUserInterface = "AXEnhancedUserInterface"
 
 class Application: NSObject {
   private static let accessibilityClient = AccessibilityClient.live
-  private static let processClient = ProcessClient.live
   private static let windowServerClient = WindowServerClient.live
   private static let notificationRegistrar = AXNotificationRegistrar<ApplicationNotifications>(
     notifications: applicationNotifications
@@ -15,7 +14,7 @@ class Application: NSObject {
   }
 
   static func focused() -> Application? {
-    guard let pid = processClient.frontmostProcessID() else { return nil }
+    guard let pid = windowServerClient.frontmostProcessID() else { return nil }
 
     guard let application = WindowManager.shared.application(by: pid) else { return nil }
 
@@ -75,7 +74,7 @@ class Application: NSObject {
     }
     application = app
 
-    if let connectionID = Self.processClient.connectionID(
+    if let connectionID = Self.windowServerClient.connectionID(
       for: process.psn,
       mainConnectionID: Space.connection
     ) {
