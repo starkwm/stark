@@ -19,8 +19,8 @@
 		AA10000AAA10000AAA10000A /* SpaceTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100025AA100025AA100025 /* SpaceTypeTests.swift */; };
 		AA10000CAA10000CAA10000C /* EventManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100027AA100027AA100027 /* EventManagerTests.swift */; };
 		AA100029AA100029AA100029 /* StarkRuntimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100028AA100028AA100028 /* StarkRuntimeTests.swift */; };
-		AA100034AA100034AA100034 /* AppDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100035AA100035AA100035 /* AppDelegateTests.swift */; };
 		AA100033AA100033AA100033 /* StarkRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100032AA100032AA100032 /* StarkRuntime.swift */; };
+		AA100034AA100034AA100034 /* AppDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100035AA100035AA100035 /* AppDelegateTests.swift */; };
 		C0DE00000000000000000001 /* ProcessClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000001 /* ProcessClient.swift */; };
 		C0DE00000000000000000002 /* AccessibilityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000002 /* AccessibilityClient.swift */; };
 		C0DE00000000000000000003 /* WindowServerClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000003 /* WindowServerClient.swift */; };
@@ -64,7 +64,6 @@
 		F6A2BBD22F703EB3007C7701 /* FileError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBD12F703EB3007C7701 /* FileError.swift */; };
 		F6A2BBD62F703EB6007C7701 /* JSExceptionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBD52F703EB6007C7701 /* JSExceptionError.swift */; };
 		F6A2BBD82F703EB7007C7701 /* StateError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBD72F703EB7007C7701 /* StateError.swift */; };
-		F6A2BBDC2F7049C9007C7701 /* AccessibilityHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBDB2F7049C9007C7701 /* AccessibilityHelper.swift */; };
 		F6A2E76A2BC8CB250024F674 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2E7692BC8CB250024F674 /* main.swift */; };
 		F6A3CFA62F8ED69300CB3FF8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6A3CFA32F8ED69300CB3FF8 /* Assets.xcassets */; };
 		F6A3CFA72F8ED69300CB3FF8 /* Stark.icon in Resources */ = {isa = PBXBuildFile; fileRef = F6A3CFA42F8ED69300CB3FF8 /* Stark.icon */; };
@@ -102,8 +101,8 @@
 		AA100025AA100025AA100025 /* SpaceTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceTypeTests.swift; sourceTree = "<group>"; };
 		AA100027AA100027AA100027 /* EventManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManagerTests.swift; sourceTree = "<group>"; };
 		AA100028AA100028AA100028 /* StarkRuntimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkRuntimeTests.swift; sourceTree = "<group>"; };
-		AA100035AA100035AA100035 /* AppDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateTests.swift; sourceTree = "<group>"; };
 		AA100032AA100032AA100032 /* StarkRuntime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkRuntime.swift; sourceTree = "<group>"; };
+		AA100035AA100035AA100035 /* AppDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateTests.swift; sourceTree = "<group>"; };
 		C0DE10000000000000000001 /* ProcessClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessClient.swift; sourceTree = "<group>"; };
 		C0DE10000000000000000002 /* AccessibilityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityClient.swift; sourceTree = "<group>"; };
 		C0DE10000000000000000003 /* WindowServerClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowServerClient.swift; sourceTree = "<group>"; };
@@ -148,7 +147,6 @@
 		F6A2BBD12F703EB3007C7701 /* FileError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileError.swift; sourceTree = "<group>"; };
 		F6A2BBD52F703EB6007C7701 /* JSExceptionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSExceptionError.swift; sourceTree = "<group>"; };
 		F6A2BBD72F703EB7007C7701 /* StateError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateError.swift; sourceTree = "<group>"; };
-		F6A2BBDB2F7049C9007C7701 /* AccessibilityHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityHelper.swift; sourceTree = "<group>"; };
 		F6A2E7692BC8CB250024F674 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		F6A3CFA32F8ED69300CB3FF8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F6A3CFA42F8ED69300CB3FF8 /* Stark.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Stark.icon; sourceTree = "<group>"; };
@@ -227,8 +225,8 @@
 				C0DE20000000000000000001 /* Lifecycle */,
 				C0DE20000000000000000002 /* MenuBar */,
 				BB00000BBB00000BBB00000B /* Runtime */,
-				F6A2E7692BC8CB250024F674 /* main.swift */,
 				F6792C311C404B53007D9DF9 /* Info.plist */,
+				F6A2E7692BC8CB250024F674 /* main.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -261,8 +259,8 @@
 			isa = PBXGroup;
 			children = (
 				F685270E2D398B77008EC4C1 /* Key.swift */,
-				F66C39C51C6AD73E0008FDD5 /* Keymap.swift */,
 				C0DE10000000000000000018 /* Keymap+JS.swift */,
+				F66C39C51C6AD73E0008FDD5 /* Keymap.swift */,
 				C0DE10000000000000000013 /* KeymapRegistry.swift */,
 				F68527102D398B7C008EC4C1 /* Modifier.swift */,
 				C0DE10000000000000000010 /* ModifierGroup.swift */,
@@ -276,8 +274,8 @@
 		BB000005BB000005BB000005 /* Spaces */ = {
 			isa = PBXGroup;
 			children = (
-				F644DFF51FB5110B00944C6B /* Space.swift */,
 				C0DE10000000000000000016 /* Space+JS.swift */,
+				F644DFF51FB5110B00944C6B /* Space.swift */,
 				F6CEF4F82E48049300C975E4 /* SpaceType.swift */,
 				F6A5DFCE2BCDE914000C1630 /* Workspace.swift */,
 			);
@@ -287,20 +285,12 @@
 		BB000006BB000006BB000006 /* Windows */ = {
 			isa = PBXGroup;
 			children = (
-				F6792C421C4055A2007D9DF9 /* Window.swift */,
 				C0DE10000000000000000015 /* Window+JS.swift */,
+				F6792C421C4055A2007D9DF9 /* Window.swift */,
 				F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */,
 				F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */,
 			);
 			path = Windows;
-			sourceTree = "<group>";
-		};
-		BB000007BB000007BB000007 /* Accessibility */ = {
-			isa = PBXGroup;
-			children = (
-				F6A2BBDB2F7049C9007C7701 /* AccessibilityHelper.swift */,
-			);
-			path = Accessibility;
 			sourceTree = "<group>";
 		};
 		BB000008BB000008BB000008 /* JavaScript */ = {
@@ -337,6 +327,42 @@
 			isa = PBXGroup;
 			children = (
 				AA100032AA100032AA100032 /* StarkRuntime.swift */,
+			);
+			path = Runtime;
+			sourceTree = "<group>";
+		};
+		BB100002BB100002BB100002 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				AA100013AA100013AA100013 /* ConfigManagerTests.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		BB100003BB100003BB100003 /* Shortcuts */ = {
+			isa = PBXGroup;
+			children = (
+				AA100012AA100012AA100012 /* KeyTests.swift */,
+				AA100014AA100014AA100014 /* KeymapTests.swift */,
+				AA100011AA100011AA100011 /* ModifierTests.swift */,
+				AA100017AA100017AA100017 /* ShortcutManagerTests.swift */,
+			);
+			path = Shortcuts;
+			sourceTree = "<group>";
+		};
+		BB100004BB100004BB100004 /* Spaces */ = {
+			isa = PBXGroup;
+			children = (
+				AA100025AA100025AA100025 /* SpaceTypeTests.swift */,
+				AA100019AA100019AA100019 /* WorkspaceTests.swift */,
+			);
+			path = Spaces;
+			sourceTree = "<group>";
+		};
+		BB100005BB100005BB100005 /* Runtime */ = {
+			isa = PBXGroup;
+			children = (
+				AA100028AA100028AA100028 /* StarkRuntimeTests.swift */,
 			);
 			path = Runtime;
 			sourceTree = "<group>";
@@ -390,42 +416,6 @@
 			path = Support;
 			sourceTree = "<group>";
 		};
-		BB100002BB100002BB100002 /* Config */ = {
-			isa = PBXGroup;
-			children = (
-				AA100013AA100013AA100013 /* ConfigManagerTests.swift */,
-			);
-			path = Config;
-			sourceTree = "<group>";
-		};
-		BB100003BB100003BB100003 /* Shortcuts */ = {
-			isa = PBXGroup;
-			children = (
-				AA100012AA100012AA100012 /* KeyTests.swift */,
-				AA100014AA100014AA100014 /* KeymapTests.swift */,
-				AA100011AA100011AA100011 /* ModifierTests.swift */,
-				AA100017AA100017AA100017 /* ShortcutManagerTests.swift */,
-			);
-			path = Shortcuts;
-			sourceTree = "<group>";
-		};
-		BB100004BB100004BB100004 /* Spaces */ = {
-			isa = PBXGroup;
-			children = (
-				AA100025AA100025AA100025 /* SpaceTypeTests.swift */,
-				AA100019AA100019AA100019 /* WorkspaceTests.swift */,
-			);
-			path = Spaces;
-			sourceTree = "<group>";
-		};
-		BB100005BB100005BB100005 /* Runtime */ = {
-			isa = PBXGroup;
-			children = (
-				AA100028AA100028AA100028 /* StarkRuntimeTests.swift */,
-			);
-			path = Runtime;
-			sourceTree = "<group>";
-		};
 		F62C3C412F8020F50089A4EB /* System */ = {
 			isa = PBXGroup;
 			children = (
@@ -445,8 +435,8 @@
 		F63B99232BC73FA100355240 /* Events */ = {
 			isa = PBXGroup;
 			children = (
-				F6EA81572BCD810500F0F68C /* Event.swift */,
 				C0DE10000000000000000017 /* Event+JS.swift */,
+				F6EA81572BCD810500F0F68C /* Event.swift */,
 				F61AF11B2BC488EC00FF39E0 /* EventManager.swift */,
 				F6EA81552BCD810400F0F68C /* Events.swift */,
 			);
@@ -496,7 +486,6 @@
 		F6792C381C404EF8007D9DF9 /* Platform */ = {
 			isa = PBXGroup;
 			children = (
-				BB000007BB000007BB000007 /* Accessibility */,
 				BB00000ABB00000ABB00000A /* System */,
 			);
 			path = Platform;
@@ -537,8 +526,8 @@
 		F6A50A252BC076AE002689F2 /* Applications */ = {
 			isa = PBXGroup;
 			children = (
-				F6792C401C405598007D9DF9 /* Application.swift */,
 				C0DE10000000000000000014 /* Application+JS.swift */,
+				F6792C401C405598007D9DF9 /* Application.swift */,
 				F63B99242BC73FB100355240 /* ApplicationNotifications.swift */,
 				F68B12202BC3182E00E3F7FF /* Process.swift */,
 				F645D0472BC37DF300BED730 /* ProcessManager.swift */,
@@ -713,7 +702,6 @@
 				F6A2BBD82F703EB7007C7701 /* StateError.swift in Sources */,
 				F68527132D398B83008EC4C1 /* Shortcut.swift in Sources */,
 				F6CEF4F92E48049600C975E4 /* SpaceType.swift in Sources */,
-				F6A2BBDC2F7049C9007C7701 /* AccessibilityHelper.swift in Sources */,
 				F64945862357B6B8009E423B /* StarkStatusItem.swift in Sources */,
 				F61AF11E2BC4B80100FF39E0 /* WindowManager.swift in Sources */,
 				F645D0482BC37DF300BED730 /* ProcessManager.swift in Sources */,

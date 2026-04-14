@@ -1,4 +1,5 @@
 import ApplicationServices
+import CoreGraphics
 
 final class AccessibilityClient {
   static let live = AccessibilityClient()
@@ -8,29 +9,77 @@ final class AccessibilityClient {
   }
 
   func boolAttribute(for element: AXUIElement, attribute: String) -> Bool? {
-    AccessibilityHelper.boolAttribute(for: element, attribute: attribute)
+    var value: AnyObject?
+
+    guard
+      AXUIElementCopyAttributeValue(element, attribute as CFString, &value) == .success,
+      let number = value as? NSNumber
+    else {
+      return nil
+    }
+
+    return number.boolValue
   }
 
   func stringAttribute(for element: AXUIElement, attribute: String) -> String? {
-    AccessibilityHelper.stringAttribute(for: element, attribute: attribute)
+    var value: AnyObject?
+
+    guard
+      AXUIElementCopyAttributeValue(element, attribute as CFString, &value) == .success,
+      let result = value as? String
+    else {
+      return nil
+    }
+
+    return result
   }
 
   func pointAttribute(for element: AXUIElement, attribute: String) -> CGPoint? {
-    AccessibilityHelper.pointAttribute(for: element, attribute: attribute)
+    var value: AnyObject?
+    var point = CGPoint.zero
+
+    guard
+      AXUIElementCopyAttributeValue(element, attribute as CFString, &value) == .success,
+      AXValueGetValue(value as! AXValue, AXValueType.cgPoint, &point)
+    else {
+      return nil
+    }
+
+    return point
   }
 
   func sizeAttribute(for element: AXUIElement, attribute: String) -> CGSize? {
-    AccessibilityHelper.sizeAttribute(for: element, attribute: attribute)
+    var value: AnyObject?
+    var size = CGSize.zero
+
+    guard
+      AXUIElementCopyAttributeValue(element, attribute as CFString, &value) == .success,
+      AXValueGetValue(value as! AXValue, AXValueType.cgSize, &size)
+    else {
+      return nil
+    }
+
+    return size
   }
 
   @discardableResult
   func setPoint(_ point: CGPoint, for element: AXUIElement, attribute: String) -> Bool {
-    AccessibilityHelper.setPoint(point, for: element, attribute: attribute)
+    var pointValue = point
+
+    guard let type = AXValueType(rawValue: kAXValueCGPointType) else { return false }
+    guard let value = AXValueCreate(type, &pointValue) else { return false }
+
+    return AXUIElementSetAttributeValue(element, attribute as CFString, value) == .success
   }
 
   @discardableResult
   func setSize(_ size: CGSize, for element: AXUIElement, attribute: String) -> Bool {
-    AccessibilityHelper.setSize(size, for: element, attribute: attribute)
+    var sizeValue = size
+
+    guard let type = AXValueType(rawValue: kAXValueCGSizeType) else { return false }
+    guard let value = AXValueCreate(type, &sizeValue) else { return false }
+
+    return AXUIElementSetAttributeValue(element, attribute as CFString, value) == .success
   }
 
   @discardableResult
