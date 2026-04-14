@@ -47,7 +47,6 @@
 		F66509DB25E594F0006C0C19 /* SkyLight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F66509DA25E594F0006C0C19 /* SkyLight.framework */; };
 		F66C39C61C6AD73E0008FDD5 /* Keymap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F66C39C51C6AD73E0008FDD5 /* Keymap.swift */; };
 		F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */; };
-		F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6792C2C1C404B53007D9DF9 /* Assets.xcassets */; };
 		F6792C411C405598007D9DF9 /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C401C405598007D9DF9 /* Application.swift */; };
 		F6792C431C4055A2007D9DF9 /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6792C421C4055A2007D9DF9 /* Window.swift */; };
 		F67DB62F2E30159F007C78D6 /* ConfigManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67DB62E2E30159D007C78D6 /* ConfigManager.swift */; };
@@ -61,9 +60,10 @@
 		F6A2BBD82F703EB7007C7701 /* StateError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBD72F703EB7007C7701 /* StateError.swift */; };
 		F6A2BBDC2F7049C9007C7701 /* AccessibilityHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2BBDB2F7049C9007C7701 /* AccessibilityHelper.swift */; };
 		F6A2E76A2BC8CB250024F674 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A2E7692BC8CB250024F674 /* main.swift */; };
+		F6A3CFA62F8ED69300CB3FF8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6A3CFA32F8ED69300CB3FF8 /* Assets.xcassets */; };
+		F6A3CFA72F8ED69300CB3FF8 /* Stark.icon in Resources */ = {isa = PBXBuildFile; fileRef = F6A3CFA42F8ED69300CB3FF8 /* Stark.icon */; };
 		F6A5DFCF2BCDE914000C1630 /* Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A5DFCE2BCDE914000C1630 /* Workspace.swift */; };
 		F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */; };
-		F6CC6A962E7F755900AB781C /* Stark.icon in Resources */ = {isa = PBXBuildFile; fileRef = F6CC6A952E7F755900AB781C /* Stark.icon */; };
 		F6CEF4F92E48049600C975E4 /* SpaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CEF4F82E48049300C975E4 /* SpaceType.swift */; };
 		F6EA81542BCD740F00F0F68C /* WindowNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */; };
 		F6EA81562BCD810400F0F68C /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EA81552BCD810400F0F68C /* Events.swift */; };
@@ -124,7 +124,6 @@
 		F66C39C51C6AD73E0008FDD5 /* Keymap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keymap.swift; sourceTree = "<group>"; };
 		F6792C271C404B53007D9DF9 /* Stark (Dev).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Stark (Dev).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F6792C2C1C404B53007D9DF9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F6792C311C404B53007D9DF9 /* Stark-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Stark-Info.plist"; sourceTree = "<group>"; };
 		F6792C401C405598007D9DF9 /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		F6792C421C4055A2007D9DF9 /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
@@ -139,9 +138,10 @@
 		F6A2BBD72F703EB7007C7701 /* StateError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StateError.swift; sourceTree = "<group>"; };
 		F6A2BBDB2F7049C9007C7701 /* AccessibilityHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityHelper.swift; sourceTree = "<group>"; };
 		F6A2E7692BC8CB250024F674 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		F6A3CFA32F8ED69300CB3FF8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F6A3CFA42F8ED69300CB3FF8 /* Stark.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Stark.icon; sourceTree = "<group>"; };
 		F6A5DFCE2BCDE914000C1630 /* Workspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workspace.swift; sourceTree = "<group>"; };
 		F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extension.swift"; sourceTree = "<group>"; };
-		F6CC6A952E7F755900AB781C /* Stark.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Stark.icon; sourceTree = "<group>"; };
 		F6CEF4F82E48049300C975E4 /* SpaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceType.swift; sourceTree = "<group>"; };
 		F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowNotifications.swift; sourceTree = "<group>"; };
 		F6EA81552BCD810400F0F68C /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
@@ -417,11 +417,10 @@
 				BB000001BB000001BB000001 /* App */,
 				F68B121F2BC3172800E3F7FF /* Features */,
 				F6792C381C404EF8007D9DF9 /* Infrastructure */,
+				F6A3CFA52F8ED69300CB3FF8 /* Resources */,
 				BB000002BB000002BB000002 /* Shared */,
 				F6A50A272BC07CAA002689F2 /* UI */,
-				F6792C2C1C404B53007D9DF9 /* Assets.xcassets */,
 				F6792C311C404B53007D9DF9 /* Stark-Info.plist */,
-				F6CC6A952E7F755900AB781C /* Stark.icon */,
 			);
 			path = Stark;
 			sourceTree = "<group>";
@@ -468,6 +467,15 @@
 				F6A2BBD72F703EB7007C7701 /* StateError.swift */,
 			);
 			path = Errors;
+			sourceTree = "<group>";
+		};
+		F6A3CFA52F8ED69300CB3FF8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F6A3CFA32F8ED69300CB3FF8 /* Assets.xcassets */,
+				F6A3CFA42F8ED69300CB3FF8 /* Stark.icon */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		F6A50A252BC076AE002689F2 /* Applications */ = {
@@ -582,8 +590,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F6CC6A962E7F755900AB781C /* Stark.icon in Resources */,
-				F6792C2D1C404B53007D9DF9 /* Assets.xcassets in Resources */,
+				F6A3CFA62F8ED69300CB3FF8 /* Assets.xcassets in Resources */,
+				F6A3CFA72F8ED69300CB3FF8 /* Stark.icon in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
