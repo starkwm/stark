@@ -1,40 +1,10 @@
 import AppKit
-import JavaScriptCore
 
 private let systemWideElement = AXUIElementCreateSystemWide()
 
 private let kAXFullScreenAttribute = "AXFullScreen"
 
-@objc protocol WindowJSExport: JSExport {
-  static func all() -> [Window]
-  static func focused() -> Window?
-
-  var id: CGWindowID { get }
-  var application: Application? { get }
-  var screen: NSScreen? { get }
-  var title: String { get }
-
-  var frame: CGRect { get }
-  var topLeft: CGPoint { get }
-  var size: CGSize { get }
-
-  var isStandard: Bool { get }
-  var isMain: Bool { get }
-  var isFullscreen: Bool { get }
-  var isMinimized: Bool { get }
-
-  func setFrame(_ frame: CGRect)
-  func setTopLeft(_ topLeft: CGPoint)
-  func setSize(_ size: CGSize)
-  func setFullscreen(_ value: Bool)
-
-  func minimize()
-  func unminimize()
-  func focus()
-  func spaces() -> [Space]
-}
-
-class Window: NSObject, WindowJSExport {
+class Window: NSObject {
   private static let accessibilityClient = AccessibilityClient.live
   private static let notificationRegistrar = AXNotificationRegistrar<WindowNotifications>(
     notifications: windowNotifications

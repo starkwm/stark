@@ -19,6 +19,7 @@
 		AA10000AAA10000AAA10000A /* SpaceTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100025AA100025AA100025 /* SpaceTypeTests.swift */; };
 		AA10000CAA10000CAA10000C /* EventManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100027AA100027AA100027 /* EventManagerTests.swift */; };
 		AA100029AA100029AA100029 /* StarkRuntimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100028AA100028AA100028 /* StarkRuntimeTests.swift */; };
+		AA100034AA100034AA100034 /* AppDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100035AA100035AA100035 /* AppDelegateTests.swift */; };
 		AA100033AA100033AA100033 /* StarkRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100032AA100032AA100032 /* StarkRuntime.swift */; };
 		C0DE00000000000000000001 /* ProcessClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000001 /* ProcessClient.swift */; };
 		C0DE00000000000000000002 /* AccessibilityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000002 /* AccessibilityClient.swift */; };
@@ -36,6 +37,11 @@
 		C0DE0000000000000000000E /* ShortcutTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE1000000000000000000E /* ShortcutTap.swift */; };
 		C0DE00000000000000000010 /* ModifierGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000010 /* ModifierGroup.swift */; };
 		C0DE00000000000000000013 /* KeymapRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000013 /* KeymapRegistry.swift */; };
+		C0DE00000000000000000014 /* Application+JS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000014 /* Application+JS.swift */; };
+		C0DE00000000000000000015 /* Window+JS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000015 /* Window+JS.swift */; };
+		C0DE00000000000000000016 /* Space+JS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000016 /* Space+JS.swift */; };
+		C0DE00000000000000000017 /* Event+JS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000017 /* Event+JS.swift */; };
+		C0DE00000000000000000018 /* Keymap+JS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000018 /* Keymap+JS.swift */; };
 		F60DF8ED2CC2C8030083D3BE /* LogHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */; };
 		F61AF11C2BC488EC00FF39E0 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11B2BC488EC00FF39E0 /* EventManager.swift */; };
 		F61AF11E2BC4B80100FF39E0 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */; };
@@ -63,7 +69,7 @@
 		F6A3CFA62F8ED69300CB3FF8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6A3CFA32F8ED69300CB3FF8 /* Assets.xcassets */; };
 		F6A3CFA72F8ED69300CB3FF8 /* Stark.icon in Resources */ = {isa = PBXBuildFile; fileRef = F6A3CFA42F8ED69300CB3FF8 /* Stark.icon */; };
 		F6A5DFCF2BCDE914000C1630 /* Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A5DFCE2BCDE914000C1630 /* Workspace.swift */; };
-		F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */; };
+		F6CBE6061C4160A900C962A7 /* NSScreen+JS.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CBE6051C4160A900C962A7 /* NSScreen+JS.swift */; };
 		F6CEF4F92E48049600C975E4 /* SpaceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CEF4F82E48049300C975E4 /* SpaceType.swift */; };
 		F6EA81542BCD740F00F0F68C /* WindowNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */; };
 		F6EA81562BCD810400F0F68C /* Events.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EA81552BCD810400F0F68C /* Events.swift */; };
@@ -96,6 +102,7 @@
 		AA100025AA100025AA100025 /* SpaceTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceTypeTests.swift; sourceTree = "<group>"; };
 		AA100027AA100027AA100027 /* EventManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManagerTests.swift; sourceTree = "<group>"; };
 		AA100028AA100028AA100028 /* StarkRuntimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkRuntimeTests.swift; sourceTree = "<group>"; };
+		AA100035AA100035AA100035 /* AppDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateTests.swift; sourceTree = "<group>"; };
 		AA100032AA100032AA100032 /* StarkRuntime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkRuntime.swift; sourceTree = "<group>"; };
 		C0DE10000000000000000001 /* ProcessClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessClient.swift; sourceTree = "<group>"; };
 		C0DE10000000000000000002 /* AccessibilityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityClient.swift; sourceTree = "<group>"; };
@@ -113,6 +120,11 @@
 		C0DE1000000000000000000E /* ShortcutTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutTap.swift; sourceTree = "<group>"; };
 		C0DE10000000000000000010 /* ModifierGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifierGroup.swift; sourceTree = "<group>"; };
 		C0DE10000000000000000013 /* KeymapRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeymapRegistry.swift; sourceTree = "<group>"; };
+		C0DE10000000000000000014 /* Application+JS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Application+JS.swift"; sourceTree = "<group>"; };
+		C0DE10000000000000000015 /* Window+JS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Window+JS.swift"; sourceTree = "<group>"; };
+		C0DE10000000000000000016 /* Space+JS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Space+JS.swift"; sourceTree = "<group>"; };
+		C0DE10000000000000000017 /* Event+JS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Event+JS.swift"; sourceTree = "<group>"; };
+		C0DE10000000000000000018 /* Keymap+JS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Keymap+JS.swift"; sourceTree = "<group>"; };
 		F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogHelper.swift; sourceTree = "<group>"; };
 		F61AF11B2BC488EC00FF39E0 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
@@ -141,7 +153,7 @@
 		F6A3CFA32F8ED69300CB3FF8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F6A3CFA42F8ED69300CB3FF8 /* Stark.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = Stark.icon; sourceTree = "<group>"; };
 		F6A5DFCE2BCDE914000C1630 /* Workspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workspace.swift; sourceTree = "<group>"; };
-		F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+Extension.swift"; sourceTree = "<group>"; };
+		F6CBE6051C4160A900C962A7 /* NSScreen+JS.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSScreen+JS.swift"; sourceTree = "<group>"; };
 		F6CEF4F82E48049300C975E4 /* SpaceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceType.swift; sourceTree = "<group>"; };
 		F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowNotifications.swift; sourceTree = "<group>"; };
 		F6EA81552BCD810400F0F68C /* Events.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Events.swift; sourceTree = "<group>"; };
@@ -173,8 +185,11 @@
 		AA100021AA100021AA100021 /* StarkTests */ = {
 			isa = PBXGroup;
 			children = (
+				C0DE20000000000000000011 /* App */,
 				AA100022AA100022AA100022 /* Features */,
-				AA100024AA100024AA100024 /* Infrastructure */,
+				AA100024AA100024AA100024 /* Platform */,
+				C0DE20000000000000000013 /* Scripting */,
+				C0DE20000000000000000014 /* Support */,
 			);
 			path = StarkTests;
 			sourceTree = "<group>";
@@ -182,7 +197,6 @@
 		AA100022AA100022AA100022 /* Features */ = {
 			isa = PBXGroup;
 			children = (
-				BB100002BB100002BB100002 /* Config */,
 				AA100023AA100023AA100023 /* Events */,
 				BB100003BB100003BB100003 /* Shortcuts */,
 				BB100004BB100004BB100004 /* Spaces */,
@@ -199,32 +213,33 @@
 			path = Events;
 			sourceTree = "<group>";
 		};
-		AA100024AA100024AA100024 /* Infrastructure */ = {
+		AA100024AA100024AA100024 /* Platform */ = {
 			isa = PBXGroup;
 			children = (
-				F62C3C422F8021000089A4EB /* Logging */,
-				BB100005BB100005BB100005 /* Runtime */,
 				F62C3C412F8020F50089A4EB /* System */,
 			);
-			path = Infrastructure;
+			path = Platform;
 			sourceTree = "<group>";
 		};
 		BB000001BB000001BB000001 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
+				C0DE20000000000000000001 /* Lifecycle */,
+				C0DE20000000000000000002 /* MenuBar */,
+				BB00000BBB00000BBB00000B /* Runtime */,
 				F6A2E7692BC8CB250024F674 /* main.swift */,
+				F6792C311C404B53007D9DF9 /* Info.plist */,
 			);
 			path = App;
 			sourceTree = "<group>";
 		};
-		BB000002BB000002BB000002 /* Shared */ = {
+		BB000002BB000002BB000002 /* Support */ = {
 			isa = PBXGroup;
 			children = (
 				F6A2BBCE2F703E2B007C7701 /* Errors */,
-				F6A0DB63204724AF00471843 /* Extensions */,
+				BB000009BB000009BB000009 /* Logging */,
 			);
-			path = Shared;
+			path = Support;
 			sourceTree = "<group>";
 		};
 		BB000003BB000003BB000003 /* Config */ = {
@@ -247,6 +262,7 @@
 			children = (
 				F685270E2D398B77008EC4C1 /* Key.swift */,
 				F66C39C51C6AD73E0008FDD5 /* Keymap.swift */,
+				C0DE10000000000000000018 /* Keymap+JS.swift */,
 				C0DE10000000000000000013 /* KeymapRegistry.swift */,
 				F68527102D398B7C008EC4C1 /* Modifier.swift */,
 				C0DE10000000000000000010 /* ModifierGroup.swift */,
@@ -261,6 +277,7 @@
 			isa = PBXGroup;
 			children = (
 				F644DFF51FB5110B00944C6B /* Space.swift */,
+				C0DE10000000000000000016 /* Space+JS.swift */,
 				F6CEF4F82E48049300C975E4 /* SpaceType.swift */,
 				F6A5DFCE2BCDE914000C1630 /* Workspace.swift */,
 			);
@@ -271,6 +288,7 @@
 			isa = PBXGroup;
 			children = (
 				F6792C421C4055A2007D9DF9 /* Window.swift */,
+				C0DE10000000000000000015 /* Window+JS.swift */,
 				F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */,
 				F6EA81532BCD740F00F0F68C /* WindowNotifications.swift */,
 			);
@@ -289,6 +307,7 @@
 			isa = PBXGroup;
 			children = (
 				C0DE1000000000000000000C /* JSCallbackInvoker.swift */,
+				F6CBE6051C4160A900C962A7 /* NSScreen+JS.swift */,
 				C0DE1000000000000000000B /* StagedStorage.swift */,
 			);
 			path = JavaScript;
@@ -320,6 +339,55 @@
 				AA100032AA100032AA100032 /* StarkRuntime.swift */,
 			);
 			path = Runtime;
+			sourceTree = "<group>";
+		};
+		C0DE20000000000000000001 /* Lifecycle */ = {
+			isa = PBXGroup;
+			children = (
+				F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */,
+			);
+			path = Lifecycle;
+			sourceTree = "<group>";
+		};
+		C0DE20000000000000000002 /* MenuBar */ = {
+			isa = PBXGroup;
+			children = (
+				F64945852357B6B8009E423B /* StarkStatusItem.swift */,
+			);
+			path = MenuBar;
+			sourceTree = "<group>";
+		};
+		C0DE20000000000000000011 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C0DE20000000000000000012 /* Lifecycle */,
+				BB100005BB100005BB100005 /* Runtime */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		C0DE20000000000000000012 /* Lifecycle */ = {
+			isa = PBXGroup;
+			children = (
+				AA100035AA100035AA100035 /* AppDelegateTests.swift */,
+			);
+			path = Lifecycle;
+			sourceTree = "<group>";
+		};
+		C0DE20000000000000000013 /* Scripting */ = {
+			isa = PBXGroup;
+			children = (
+				BB100002BB100002BB100002 /* Config */,
+			);
+			path = Scripting;
+			sourceTree = "<group>";
+		};
+		C0DE20000000000000000014 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				F62C3C422F8021000089A4EB /* Logging */,
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 		BB100002BB100002BB100002 /* Config */ = {
@@ -378,6 +446,7 @@
 			isa = PBXGroup;
 			children = (
 				F6EA81572BCD810500F0F68C /* Event.swift */,
+				C0DE10000000000000000017 /* Event+JS.swift */,
 				F61AF11B2BC488EC00FF39E0 /* EventManager.swift */,
 				F6EA81552BCD810400F0F68C /* Events.swift */,
 			);
@@ -416,46 +485,33 @@
 			children = (
 				BB000001BB000001BB000001 /* App */,
 				F68B121F2BC3172800E3F7FF /* Features */,
-				F6792C381C404EF8007D9DF9 /* Infrastructure */,
+				F6792C381C404EF8007D9DF9 /* Platform */,
 				F6A3CFA52F8ED69300CB3FF8 /* Resources */,
-				BB000002BB000002BB000002 /* Shared */,
-				F6A50A272BC07CAA002689F2 /* UI */,
-				F6792C311C404B53007D9DF9 /* Info.plist */,
+				F6A50A272BC07CAA002689F2 /* Scripting */,
+				BB000002BB000002BB000002 /* Support */,
 			);
 			path = Stark;
 			sourceTree = "<group>";
 		};
-		F6792C381C404EF8007D9DF9 /* Infrastructure */ = {
+		F6792C381C404EF8007D9DF9 /* Platform */ = {
 			isa = PBXGroup;
 			children = (
 				BB000007BB000007BB000007 /* Accessibility */,
-				BB000008BB000008BB000008 /* JavaScript */,
-				BB000009BB000009BB000009 /* Logging */,
-				BB00000BBB00000BBB00000B /* Runtime */,
 				BB00000ABB00000ABB00000A /* System */,
 			);
-			path = Infrastructure;
+			path = Platform;
 			sourceTree = "<group>";
 		};
 		F68B121F2BC3172800E3F7FF /* Features */ = {
 			isa = PBXGroup;
 			children = (
 				F6A50A252BC076AE002689F2 /* Applications */,
-				BB000003BB000003BB000003 /* Config */,
 				F63B99232BC73FA100355240 /* Events */,
 				BB000004BB000004BB000004 /* Shortcuts */,
 				BB000005BB000005BB000005 /* Spaces */,
 				BB000006BB000006BB000006 /* Windows */,
 			);
 			path = Features;
-			sourceTree = "<group>";
-		};
-		F6A0DB63204724AF00471843 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				F6CBE6051C4160A900C962A7 /* NSScreen+Extension.swift */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		F6A2BBCE2F703E2B007C7701 /* Errors */ = {
@@ -482,6 +538,7 @@
 			isa = PBXGroup;
 			children = (
 				F6792C401C405598007D9DF9 /* Application.swift */,
+				C0DE10000000000000000014 /* Application+JS.swift */,
 				F63B99242BC73FB100355240 /* ApplicationNotifications.swift */,
 				F68B12202BC3182E00E3F7FF /* Process.swift */,
 				F645D0472BC37DF300BED730 /* ProcessManager.swift */,
@@ -489,12 +546,13 @@
 			path = Applications;
 			sourceTree = "<group>";
 		};
-		F6A50A272BC07CAA002689F2 /* UI */ = {
+		F6A50A272BC07CAA002689F2 /* Scripting */ = {
 			isa = PBXGroup;
 			children = (
-				F64945852357B6B8009E423B /* StarkStatusItem.swift */,
+				BB000003BB000003BB000003 /* Config */,
+				BB000008BB000008BB000008 /* JavaScript */,
 			);
-			path = UI;
+			path = Scripting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -602,6 +660,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA100034AA100034AA100034 /* AppDelegateTests.swift in Sources */,
 				AA100003AA100003AA100003 /* ConfigManagerTests.swift in Sources */,
 				AA10000CAA10000CAA10000C /* EventManagerTests.swift in Sources */,
 				AA100005AA100005AA100005 /* EventTests.swift in Sources */,
@@ -623,19 +682,23 @@
 			files = (
 				F6EA81562BCD810400F0F68C /* Events.swift in Sources */,
 				F6EA81582BCD810500F0F68C /* Event.swift in Sources */,
+				C0DE00000000000000000017 /* Event+JS.swift in Sources */,
 				F6792C411C405598007D9DF9 /* Application.swift in Sources */,
+				C0DE00000000000000000014 /* Application+JS.swift in Sources */,
 				C0DE0000000000000000000D /* ShortcutManager.swift in Sources */,
 				C0DE0000000000000000000E /* ShortcutTap.swift in Sources */,
 				C0DE00000000000000000009 /* ConfigFileSystem.swift in Sources */,
 				C0DE00000000000000000008 /* ConfigFileWatcher.swift in Sources */,
 				C0DE0000000000000000000A /* ConfigExecutor.swift in Sources */,
-				F6CBE6061C4160A900C962A7 /* NSScreen+Extension.swift in Sources */,
+				F6CBE6061C4160A900C962A7 /* NSScreen+JS.swift in Sources */,
 				F644DFF61FB5110B00944C6B /* Space.swift in Sources */,
+				C0DE00000000000000000016 /* Space+JS.swift in Sources */,
 				F68B12212BC3182E00E3F7FF /* Process.swift in Sources */,
 				F68527112D398B7E008EC4C1 /* Modifier.swift in Sources */,
 				C0DE00000000000000000010 /* ModifierGroup.swift in Sources */,
 				F6F4ECF92BC9BC13001234D4 /* Private.swift in Sources */,
 				F66C39C61C6AD73E0008FDD5 /* Keymap.swift in Sources */,
+				C0DE00000000000000000018 /* Keymap+JS.swift in Sources */,
 				C0DE00000000000000000013 /* KeymapRegistry.swift in Sources */,
 				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
 				AA100033AA100033AA100033 /* StarkRuntime.swift in Sources */,
@@ -655,6 +718,7 @@
 				F61AF11E2BC4B80100FF39E0 /* WindowManager.swift in Sources */,
 				F645D0482BC37DF300BED730 /* ProcessManager.swift in Sources */,
 				F6792C431C4055A2007D9DF9 /* Window.swift in Sources */,
+				C0DE00000000000000000015 /* Window+JS.swift in Sources */,
 				F6A2BBD22F703EB3007C7701 /* FileError.swift in Sources */,
 				C0DE00000000000000000004 /* ConfigPathResolver.swift in Sources */,
 				C0DE00000000000000000007 /* ConfigScriptExecutor.swift in Sources */,
@@ -866,7 +930,7 @@
 					"$(SDKROOT)/System/Library/Frameworks",
 					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
 				);
-				INFOPLIST_FILE = Stark/Info.plist;
+				INFOPLIST_FILE = Stark/App/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -906,7 +970,7 @@
 					"$(SDKROOT)/System/Library/Frameworks",
 					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
 				);
-				INFOPLIST_FILE = Stark/Info.plist;
+				INFOPLIST_FILE = Stark/App/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

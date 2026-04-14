@@ -1,6 +1,5 @@
 import AppKit
 import CoreGraphics
-import Foundation
 
 final class WindowServerClient {
   static let live = WindowServerClient()
