@@ -1,10 +1,6 @@
 import Foundation
 
 struct LogFileSystem {
-  var homeDirectory: () -> String
-  var append: (URL, Data) -> Bool
-  var write: (URL, Data) -> Void
-
   static let live = LogFileSystem(
     homeDirectory: { NSHomeDirectory() },
     append: { url, data in
@@ -19,6 +15,11 @@ struct LogFileSystem {
       try? data.write(to: url)
     }
   )
+
+  var homeDirectory: () -> String
+  var append: (URL, Data) -> Bool
+  var write: (URL, Data) -> Void
+
 }
 
 struct LogHelper: TextOutputStream {

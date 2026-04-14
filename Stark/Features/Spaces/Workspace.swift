@@ -1,11 +1,6 @@
 import AppKit
 
 struct WorkspaceEnvironment {
-  var addActiveSpaceObserver: (Workspace) -> Void
-  var addObserver: (Workspace, Process, String, UnsafeMutableRawPointer?) -> Void
-  var removeObserver: (Workspace, Process, String, UnsafeMutableRawPointer?) -> Void
-  var postEvent: (RuntimeEvent) -> Void
-
   static let live = WorkspaceEnvironment(
     addActiveSpaceObserver: { workspace in
       NSWorkspace.shared.notificationCenter.addObserver(
@@ -30,10 +25,23 @@ struct WorkspaceEnvironment {
       EventManager.shared.post(event)
     }
   )
+
+  var addActiveSpaceObserver: (Workspace) -> Void
+  var addObserver: (Workspace, Process, String, UnsafeMutableRawPointer?) -> Void
+  var removeObserver: (Workspace, Process, String, UnsafeMutableRawPointer?) -> Void
+  var postEvent: (RuntimeEvent) -> Void
 }
 
 class Workspace: NSObject {
   static let shared = Workspace()
+
+  var activationPolicyObservedForTesting: [UInt32] {
+    activationPolicyObservations.processIDs
+  }
+
+  var finishedLaunchingObservedForTesting: [UInt32] {
+    finishedLaunchingObservations.processIDs
+  }
 
   private let environment: WorkspaceEnvironment
   private let activationPolicyObservations = ProcessObservationRegistry(
@@ -102,14 +110,6 @@ class Workspace: NSObject {
 
     unobserve(process, registry: registry)
     environment.postEvent(.application(.launched(process)))
-  }
-
-  var activationPolicyObservedForTesting: [UInt32] {
-    activationPolicyObservations.processIDs
-  }
-
-  var finishedLaunchingObservedForTesting: [UInt32] {
-    finishedLaunchingObservations.processIDs
   }
 
   private func observe(_ process: Process, registry: ProcessObservationRegistry) {
@@ -188,6 +188,10 @@ private enum ProcessObservationKind {
 private final class ProcessObservationRegistry {
   let kind: ProcessObservationKind
 
+  var processIDs: [UInt32] {
+    tokens.keys.sorted()
+  }
+
   private var tokens = [UInt32: ProcessObservationToken]()
 
   init(kind: ProcessObservationKind) {
@@ -212,9 +216,5 @@ private final class ProcessObservationRegistry {
 
   func unregister(_ process: Process) -> ProcessObservationToken? {
     tokens.removeValue(forKey: process.psn.lowLongOfPSN)
-  }
-
-  var processIDs: [UInt32] {
-    tokens.keys.sorted()
   }
 }

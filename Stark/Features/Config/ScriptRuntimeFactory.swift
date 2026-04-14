@@ -1,8 +1,6 @@
 import JavaScriptCore
 
 struct ScriptRuntimeFactory {
-  var createContext: (ConfigSession) throws -> JSContext
-
   static func live(bridgeInstaller: JSBridgeInstaller = .live) -> ScriptRuntimeFactory {
     ScriptRuntimeFactory(
       createContext: { session in
@@ -19,4 +17,6 @@ struct ScriptRuntimeFactory {
       }
     )
   }
+
+  var createContext: (ConfigSession) throws -> JSContext
 }

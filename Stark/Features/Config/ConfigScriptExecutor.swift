@@ -1,8 +1,6 @@
 import JavaScriptCore
 
 struct ConfigScriptExecutor {
-  var executeScript: (ConfigSession, JSContext, String) throws -> Void
-
   static let live = ConfigScriptExecutor(
     executeScript: { _, context, script in
       context.evaluateScript(script)
@@ -12,4 +10,6 @@ struct ConfigScriptExecutor {
       }
     }
   )
+
+  var executeScript: (ConfigSession, JSContext, String) throws -> Void
 }

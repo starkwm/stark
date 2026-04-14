@@ -35,11 +35,11 @@ class Event: NSObject, EventObjectJSExport {
   var id: String
   var event: String
 
-  private var callback: JSManagedValue?
-
   override var description: String {
     "<Event id: \(id), event: \(event)>"
   }
+
+  private var callback: JSManagedValue?
 
   init(event: String) {
     self.event = event

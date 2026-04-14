@@ -2,28 +2,23 @@ import AppKit
 import JavaScriptCore
 
 @objc protocol SpaceJSExport: JSExport {
-
   static func all() -> [Space]
-
   static func at(_ index: Int) -> Space?
-
   static func active() -> Space
 
   var id: uint64 { get }
 
   var isNormal: Bool { get }
-
   var isFullscreen: Bool { get }
 
   func screens() -> [NSScreen]
-
   func windows() -> [Window]
 }
 
 class Space: NSObject, SpaceJSExport {
-  private static let windowServerClient = WindowServerClient.live
-
   static let connection = windowServerClient.mainConnectionID()
+
+  private static let windowServerClient = WindowServerClient.live
 
   static func all() -> [Space] {
     windowServerClient.allSpaceIDs(connectionID: connection).map(Space.init(id:))
@@ -59,7 +54,6 @@ class Space: NSObject, SpaceJSExport {
   var id: UInt64
 
   var isNormal: Bool { type == .normal }
-
   var isFullscreen: Bool { type == .fullscreen }
 
   private var type: SpaceType

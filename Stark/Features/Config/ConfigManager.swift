@@ -42,11 +42,10 @@ final class ConfigSession {
   lazy var keymapBridge = KeymapBridge(session: self)
   lazy var eventBridge = EventBridge(session: self)
 
+  private(set) var context: JSContext?
   private var keymapsByID = [String: Keymap]()
   private var listenersByEvent = [EventType: [Event]]()
   private weak var shortcutManager: ShortcutManager?
-
-  private(set) var context: JSContext?
 
   func attach(context: JSContext) {
     self.context = context
@@ -171,6 +170,13 @@ final class ConfigSession {
 }
 
 final class ConfigManager {
+  static func resolvePrimaryPath(
+    paths: [String] = primaryPaths,
+    fileSystem: ConfigFileSystem = .live
+  ) -> String {
+    ConfigPathResolver.live.resolvePrimaryPath(paths, fileSystem)
+  }
+
   private let fileSystem: ConfigFileSystem
   private let executor: ConfigExecutor
   private let fileWatcher: ConfigFileWatcher
@@ -210,13 +216,6 @@ final class ConfigManager {
       fileMonitorSetup ?? { manager in
         try manager.setupFileMonitor()
       }
-  }
-
-  static func resolvePrimaryPath(
-    paths: [String] = primaryPaths,
-    fileSystem: ConfigFileSystem = .live
-  ) -> String {
-    ConfigPathResolver.live.resolvePrimaryPath(paths, fileSystem)
   }
 
   func start() -> Result<Void, Error> {

@@ -2,8 +2,6 @@ import AppKit
 import JavaScriptCore
 
 struct JSBridgeInstaller {
-  var install: (JSContext, ConfigSession) -> Void
-
   static let live = JSBridgeInstaller(
     install: { context, session in
       context.exceptionHandler = { _, err in
@@ -23,4 +21,6 @@ struct JSBridgeInstaller {
       context.setObject(Window.self, forKeyedSubscript: "Window" as NSString)
     }
   )
+
+  var install: (JSContext, ConfigSession) -> Void
 }

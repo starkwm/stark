@@ -28,8 +28,6 @@ struct Modifier: OptionSet, Hashable {
   private static let excludedDescriptionLiterals: Set<String> = ["meh", "hyper"]
   private static let values = Dictionary(uniqueKeysWithValues: allCases)
 
-  let rawValue: UInt32
-
   static func parse(_ modifiers: [String]) -> Modifier? {
     let normalizedModifiers = Set(modifiers.map { $0.lowercased() })
 
@@ -84,6 +82,8 @@ struct Modifier: OptionSet, Hashable {
       matches(group.generic, group.left, group.right)
     } && contains(expected, .fn) == contains(actual, .fn)
   }
+
+  let rawValue: UInt32
 }
 
 extension Modifier: CustomStringConvertible {

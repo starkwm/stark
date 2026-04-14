@@ -1,14 +1,6 @@
 import Foundation
 
 struct LaunchAgentEnvironment {
-  var libraryDirectory: () -> URL?
-  var bundleIdentifier: () -> String?
-  var executablePath: () -> String?
-  var isReachable: (URL) -> Bool
-  var createDirectory: (URL) -> Void
-  var writePlist: ([String: Any], URL) -> Void
-  var removeItem: (URL) -> Void
-
   static let live = LaunchAgentEnvironment(
     libraryDirectory: {
       try? FileManager.default.url(
@@ -33,6 +25,14 @@ struct LaunchAgentEnvironment {
     },
     removeItem: { try? FileManager.default.removeItem(at: $0) }
   )
+
+  var libraryDirectory: () -> URL?
+  var bundleIdentifier: () -> String?
+  var executablePath: () -> String?
+  var isReachable: (URL) -> Bool
+  var createDirectory: (URL) -> Void
+  var writePlist: ([String: Any], URL) -> Void
+  var removeItem: (URL) -> Void
 }
 
 enum LaunchAgentHelper {

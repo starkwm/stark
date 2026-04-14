@@ -24,14 +24,6 @@ protocol StarkStatusItemManaging {
 }
 
 struct StarkRuntimeEnvironment {
-  var isDevelopmentBuild: () -> Bool
-  var sentryDSN: () -> String?
-  var startSentry: (String) -> Void
-  var askForAccessibility: () -> Bool
-  var canListenToKeyboardEvents: () -> Bool
-  var terminateApplication: () -> Void
-  var writeLog: (String, LogLevel) -> Void
-
   static let live = StarkRuntimeEnvironment(
     isDevelopmentBuild: {
       #if DEBUG
@@ -61,9 +53,21 @@ struct StarkRuntimeEnvironment {
       log(message, level: level)
     }
   )
+
+  var isDevelopmentBuild: () -> Bool
+  var sentryDSN: () -> String?
+  var startSentry: (String) -> Void
+  var askForAccessibility: () -> Bool
+  var canListenToKeyboardEvents: () -> Bool
+  var terminateApplication: () -> Void
+  var writeLog: (String, LogLevel) -> Void
 }
 
 final class StarkRuntime: StarkRuntimeType {
+  static func live() -> StarkRuntime {
+    StarkRuntime()
+  }
+
   private let environment: StarkRuntimeEnvironment
   private let processManager: StarkProcessManaging
   private let windowManager: StarkWindowManaging
@@ -83,10 +87,6 @@ final class StarkRuntime: StarkRuntimeType {
     self.windowManager = windowManager
     self.configManager = configManager ?? ConfigManager(shortcutManager: shortcutManager)
     self.statusItem = statusItem
-  }
-
-  static func live() -> StarkRuntime {
-    StarkRuntime()
   }
 
   func start() {

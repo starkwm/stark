@@ -1,8 +1,6 @@
 import Foundation
 
 struct ConfigPathResolver {
-  var resolvePrimaryPath: (_ paths: [String], _ fileSystem: ConfigFileSystem) -> String
-
   static let live = ConfigPathResolver(
     resolvePrimaryPath: { paths, fileSystem in
       paths
@@ -12,4 +10,6 @@ struct ConfigPathResolver {
         ?? (paths[0] as NSString).resolvingSymlinksInPath
     }
   )
+
+  var resolvePrimaryPath: (_ paths: [String], _ fileSystem: ConfigFileSystem) -> String
 }

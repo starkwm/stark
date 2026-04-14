@@ -6,16 +6,16 @@ final class KeymapRegistry {
     let fallbackManager = ShortcutManager()
   }
 
+  var shortcutManager: ShortcutManager {
+    shortcutEnvironment.manager ?? shortcutEnvironment.fallbackManager
+  }
+
   private let keymaps = StagedStorage<[String: Keymap]>(
     active: [:],
     queueLabel: "dev.tombell.stark.keymaps",
     makeEmptyStorage: { [:] }
   )
   private let shortcutEnvironment = ShortcutEnvironment()
-
-  var shortcutManager: ShortcutManager {
-    shortcutEnvironment.manager ?? shortcutEnvironment.fallbackManager
-  }
 
   func configure(shortcutManager: ShortcutManager) {
     shortcutEnvironment.manager = shortcutManager

@@ -1,13 +1,6 @@
 import Foundation
 
 struct ConfigFileWatcher {
-  var startMonitoring:
-    (
-      _ path: String,
-      _ queue: DispatchQueue,
-      _ reloadHandler: @escaping (_ needsMonitorRestart: Bool) -> Void
-    ) -> Result<DispatchSourceFileSystemObject, FileError>
-
   static let live = ConfigFileWatcher(
     startMonitoring: { path, queue, reloadHandler in
       let file = NSURL.fileURL(withPath: path)
@@ -44,4 +37,11 @@ struct ConfigFileWatcher {
       return .success(source)
     }
   )
+
+  var startMonitoring:
+    (
+      _ path: String,
+      _ queue: DispatchQueue,
+      _ reloadHandler: @escaping (_ needsMonitorRestart: Bool) -> Void
+    ) -> Result<DispatchSourceFileSystemObject, FileError>
 }

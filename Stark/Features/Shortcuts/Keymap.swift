@@ -28,6 +28,10 @@ final class KeymapBridge: NSObject, KeymapJSExport {
 }
 
 class Keymap: NSObject, KeymapObjectJSExport {
+  private static func identifier(for key: String, modifiers: [String]) -> String {
+    String(format: "%@[%@]", key, modifiers.joined(separator: "|"))
+  }
+
   override var description: String {
     "<Keymap id: \(id), key: \(key), modifiers: \(modifiers.joined(separator: "|"))>"
   }
@@ -74,9 +78,5 @@ class Keymap: NSObject, KeymapObjectJSExport {
 
   private func call() {
     JSCallbackInvoker.call(callback, withArguments: [])
-  }
-
-  private static func identifier(for key: String, modifiers: [String]) -> String {
-    String(format: "%@[%@]", key, modifiers.joined(separator: "|"))
   }
 }
