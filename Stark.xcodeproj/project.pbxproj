@@ -124,7 +124,7 @@
 		F66C39C51C6AD73E0008FDD5 /* Keymap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Keymap.swift; sourceTree = "<group>"; };
 		F6792C271C404B53007D9DF9 /* Stark (Dev).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Stark (Dev).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6792C2A1C404B53007D9DF9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		F6792C311C404B53007D9DF9 /* Stark-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Stark-Info.plist"; sourceTree = "<group>"; };
+		F6792C311C404B53007D9DF9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F6792C401C405598007D9DF9 /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		F6792C421C4055A2007D9DF9 /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
 		F67DB62E2E30159D007C78D6 /* ConfigManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigManager.swift; sourceTree = "<group>"; };
@@ -420,7 +420,7 @@
 				F6A3CFA52F8ED69300CB3FF8 /* Resources */,
 				BB000002BB000002BB000002 /* Shared */,
 				F6A50A272BC07CAA002689F2 /* UI */,
-				F6792C311C404B53007D9DF9 /* Stark-Info.plist */,
+				F6792C311C404B53007D9DF9 /* Info.plist */,
 			);
 			path = Stark;
 			sourceTree = "<group>";
@@ -866,7 +866,7 @@
 					"$(SDKROOT)/System/Library/Frameworks",
 					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
 				);
-				INFOPLIST_FILE = "Stark//Stark-Info.plist";
+				INFOPLIST_FILE = Stark/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -906,7 +906,7 @@
 					"$(SDKROOT)/System/Library/Frameworks",
 					"$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
 				);
-				INFOPLIST_FILE = "Stark//Stark-Info.plist";
+				INFOPLIST_FILE = Stark/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
