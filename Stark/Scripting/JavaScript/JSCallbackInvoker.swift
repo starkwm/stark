@@ -13,14 +13,14 @@ enum JSCallbackInvoker {
 
   static func call(_ callback: JSManagedValue?, withArguments arguments: [Any]) {
     guard let callback = callback?.value else { return }
+    guard let context = callback.context else { return }
 
-    guard let context = JSContext(virtualMachine: callback.context.virtualMachine) else { return }
-
+    let previousExceptionHandler = context.exceptionHandler
     context.exceptionHandler = { _, err in
       log("unhandled javascript exception - \(String(describing: err))", level: .error)
     }
 
-    let function = JSValue(object: callback, in: context)
-    function?.call(withArguments: arguments)
+    callback.call(withArguments: arguments)
+    context.exceptionHandler = previousExceptionHandler
   }
 }

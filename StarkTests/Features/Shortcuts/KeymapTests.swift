@@ -171,6 +171,21 @@ private final class TestShortcutTapRecorder {
     #expect(callbackState.callCount() == 1)
   }
 
+  @Test func repeatedKeypressesKeepInvokingJavascriptCallback() throws {
+    let (manager, tapRecorder, session, callbackState) = prepareState()
+    var activeSession: ConfigSession?
+    defer { activeSession?.deactivate() }
+
+    _ = session.keymapBridge.on("return", ["cmd"], try callback(in: callbackState.context))
+    apply(session, with: manager, activeSession: &activeSession)
+
+    for _ in 0..<50 {
+      #expect(dispatchKeyDown(with: tapRecorder) == nil)
+    }
+
+    #expect(callbackState.callCount() == 50)
+  }
+
   private func prepareState() -> (
     ShortcutManager, TestShortcutTapRecorder, ConfigSession, CallbackState
   ) {
