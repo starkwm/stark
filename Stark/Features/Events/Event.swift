@@ -8,21 +8,19 @@ class Event: NSObject {
     "<Event id: \(id), event: \(event)>"
   }
 
-  private var callback: JSManagedValue?
+  private var callback: JSValue?
 
   init(event: String) {
     self.event = event
     self.id = UUID().uuidString
   }
 
-  init(event: String, callback: JSValue, callbackOwner: AnyObject) {
+  init(event: String, callback: JSValue) {
     self.event = event
     self.id = UUID().uuidString
-    self.callback = JSManagedValue(value: callback, andOwner: callbackOwner)
+    self.callback = callback
 
     super.init()
-
-    JSCallbackInvoker.addManagedReference(for: self, callback: callback, owner: callbackOwner)
   }
 
   deinit {
@@ -31,9 +29,5 @@ class Event: NSObject {
 
   func call(withArguments args: [Any]) {
     JSCallbackInvoker.call(callback, withArguments: args)
-  }
-
-  func detachCallback(from owner: AnyObject) {
-    JSCallbackInvoker.removeManagedReference(for: self, callback: callback, owner: owner)
   }
 }
