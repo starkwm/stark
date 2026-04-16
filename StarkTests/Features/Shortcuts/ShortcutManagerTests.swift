@@ -349,7 +349,7 @@ private final class RecordingShortcutTapRecorder {
     #expect(tapRecorder.invalidateCallCount == 1)
   }
 
-  @Test func tapDisabledEventsReEnableActiveTap() {
+  @Test func tapDisabledEventsRecreateActiveTap() {
     let (manager, tapRecorder) = prepareManager()
 
     manager.register(shortcut: shortcut(id: "A"))
@@ -358,9 +358,9 @@ private final class RecordingShortcutTapRecorder {
     let event = keyDownEvent(keyCode: UInt32(kVK_Return), flags: eventFlags([.maskCommand]))
 
     _ = tapRecorder.eventHandler?(.tapDisabledByTimeout, event)
-    _ = tapRecorder.eventHandler?(.tapDisabledByUserInput, event)
 
-    #expect(tapRecorder.enableCalls == [true, true])
+    #expect(tapRecorder.invalidateCallCount == 1)
+    #expect(tapRecorder.createCallCount == 2)
   }
 
   @Test func eventTapCallbackSwallowsMatchedShortcut() {
@@ -396,11 +396,117 @@ private final class RecordingShortcutTapRecorder {
     #expect(callCount == 1)
   }
 
+  @Test func repeatedMatchesDoNotQueueWhileHandlerIsStillPending() {
+    ShortcutManager.resetInvocationStateForTesting()
+    let tapRecorder = RecordingShortcutTapRecorder()
+    var queuedHandlers = [() -> Void]()
+    var callCount = 0
+    let manager = ShortcutManager(
+      tapFactory: tapRecorder.makeTap(),
+      handlerInvoker: { handler in
+        queuedHandlers.append(handler)
+      }
+    )
+
+    manager.register(shortcut: shortcut(id: "A", handler: { callCount += 1 }))
+    manager.start()
+
+    #expect(dispatchKeyDown(with: tapRecorder) == nil)
+    #expect(dispatchKeyDown(with: tapRecorder) == nil)
+    #expect(queuedHandlers.count == 1)
+    #expect(callCount == 0)
+
+    let firstHandler = queuedHandlers.removeFirst()
+    firstHandler()
+
+    #expect(callCount == 1)
+    #expect(queuedHandlers.count == 1)
+
+    let secondHandler = queuedHandlers.removeFirst()
+    secondHandler()
+
+    #expect(callCount == 2)
+  }
+
+  @Test func alternatingMatchesCoalesceLatestWhileHandlerIsStillPending() {
+    ShortcutManager.resetInvocationStateForTesting()
+    let tapRecorder = RecordingShortcutTapRecorder()
+    var queuedHandlers = [() -> Void]()
+    var firstCallCount = 0
+    var secondCallCount = 0
+    let manager = ShortcutManager(
+      tapFactory: tapRecorder.makeTap(),
+      handlerInvoker: { handler in
+        queuedHandlers.append(handler)
+      }
+    )
+
+    manager.register(shortcut: shortcut(id: "A", keyCode: 4, handler: { firstCallCount += 1 }))
+    manager.register(shortcut: shortcut(id: "B", keyCode: 37, handler: { secondCallCount += 1 }))
+    manager.start()
+
+    #expect(dispatchKeyDown(with: tapRecorder, keyCode: 4) == nil)
+    #expect(dispatchKeyDown(with: tapRecorder, keyCode: 37) == nil)
+    #expect(queuedHandlers.count == 1)
+    #expect(firstCallCount == 0)
+    #expect(secondCallCount == 0)
+
+    let firstHandler = queuedHandlers.removeFirst()
+    firstHandler()
+
+    #expect(firstCallCount == 1)
+    #expect(secondCallCount == 0)
+    #expect(queuedHandlers.count == 1)
+
+    let secondHandler = queuedHandlers.removeFirst()
+    secondHandler()
+
+    #expect(firstCallCount == 1)
+    #expect(secondCallCount == 1)
+  }
+
+  @Test func pendingInvocationKeepsOnlyLatestShortcut() {
+    ShortcutManager.resetInvocationStateForTesting()
+    let tapRecorder = RecordingShortcutTapRecorder()
+    var queuedHandlers = [() -> Void]()
+    var firstCallCount = 0
+    var secondCallCount = 0
+    let manager = ShortcutManager(
+      tapFactory: tapRecorder.makeTap(),
+      handlerInvoker: { handler in
+        queuedHandlers.append(handler)
+      }
+    )
+
+    manager.register(shortcut: shortcut(id: "A", keyCode: 4, handler: { firstCallCount += 1 }))
+    manager.register(shortcut: shortcut(id: "B", keyCode: 37, handler: { secondCallCount += 1 }))
+    manager.start()
+
+    #expect(dispatchKeyDown(with: tapRecorder, keyCode: 4) == nil)
+    #expect(dispatchKeyDown(with: tapRecorder, keyCode: 37) == nil)
+    #expect(dispatchKeyDown(with: tapRecorder, keyCode: 4) == nil)
+    #expect(queuedHandlers.count == 1)
+
+    let firstHandler = queuedHandlers.removeFirst()
+    firstHandler()
+
+    #expect(firstCallCount == 1)
+    #expect(secondCallCount == 0)
+    #expect(queuedHandlers.count == 1)
+
+    let latestPendingHandler = queuedHandlers.removeFirst()
+    latestPendingHandler()
+
+    #expect(firstCallCount == 2)
+    #expect(secondCallCount == 0)
+  }
+
   private func prepareManager(
     handlerInvoker: @escaping ShortcutManager.HandlerInvoker = { handler in
       DispatchQueue.main.async(execute: handler)
     }
   ) -> (ShortcutManager, RecordingShortcutTapRecorder) {
+    ShortcutManager.resetInvocationStateForTesting()
     let tapRecorder = RecordingShortcutTapRecorder()
     let manager = ShortcutManager(
       tapFactory: tapRecorder.makeTap(),

@@ -14,6 +14,8 @@ final class ShortcutManager {
   private static let defaultHandlerInvoker: HandlerInvoker = { handler in
     DispatchQueue.main.async(execute: handler)
   }
+  private static let invocationLock = NSLock()
+  private static var activeInvocationID: UUID?
 
   private var shortcutsByKeyCode = [UInt32: [Shortcut]]()
   private var shortcutByIdentifier = [UUID: Shortcut]()
@@ -21,6 +23,8 @@ final class ShortcutManager {
   private var tap: ShortcutTapType?
   private var tapFactory: TapFactory?
   private var handlerInvoker = defaultHandlerInvoker
+  private let pendingLock = NSLock()
+  private var pendingInvocationID: UUID?
 
   init(
     tapFactory: TapFactory? = nil,
@@ -79,7 +83,12 @@ final class ShortcutManager {
     guard let matchedShortcut = matchingShortcut(for: keyCode, flags: flags) else { return false }
 
     if let handler = matchedShortcut.handler {
-      handlerInvoker(handler)
+      guard beginInvocation(for: matchedShortcut.identifier) else {
+        recordPendingInvocation(for: matchedShortcut.identifier)
+        return true
+      }
+
+      dispatchInvocation(for: matchedShortcut.identifier, handler: handler)
     }
 
     return true
@@ -115,7 +124,8 @@ final class ShortcutManager {
   }
 
   private func handleTapDisabled(_ event: CGEvent) -> Unmanaged<CGEvent> {
-    tap?.enable(true)
+    tearDownTap()
+    ensureTapState()
     return Unmanaged.passUnretained(event)
   }
 
@@ -162,6 +172,9 @@ final class ShortcutManager {
     guard let shortcut = shortcutByIdentifier.removeValue(forKey: identifier) else { return }
     guard let shortcuts = shortcutsByKeyCode[shortcut.keyCode] else { return }
 
+    finishInvocation(for: identifier)
+    clearPendingInvocation(for: identifier)
+
     let remainingShortcuts = shortcuts.filter { shortcut in
       shortcut.identifier != identifier
     }
@@ -171,5 +184,82 @@ final class ShortcutManager {
     } else {
       shortcutsByKeyCode[shortcut.keyCode] = remainingShortcuts
     }
+  }
+
+  private func beginInvocation(for identifier: UUID) -> Bool {
+    Self.invocationLock.lock()
+    defer { Self.invocationLock.unlock() }
+
+    if Self.activeInvocationID != nil {
+      return false
+    }
+
+    Self.activeInvocationID = identifier
+    return true
+  }
+
+  private func finishInvocation(for identifier: UUID) {
+    Self.invocationLock.lock()
+    if Self.activeInvocationID == identifier {
+      Self.activeInvocationID = nil
+    }
+    Self.invocationLock.unlock()
+  }
+
+  private func dispatchInvocation(for identifier: UUID, handler: @escaping () -> Void) {
+    handlerInvoker { [weak self] in
+      defer { self?.completeInvocation(for: identifier) }
+      handler()
+    }
+  }
+
+  private func completeInvocation(for identifier: UUID) {
+    finishInvocation(for: identifier)
+    dispatchPendingInvocation()
+  }
+
+  private func dispatchPendingInvocation() {
+    while let identifier = takePendingInvocation() {
+      guard beginInvocation(for: identifier) else {
+        recordPendingInvocation(for: identifier)
+        return
+      }
+
+      guard let handler = shortcutByIdentifier[identifier]?.handler else {
+        finishInvocation(for: identifier)
+        continue
+      }
+
+      dispatchInvocation(for: identifier, handler: handler)
+      return
+    }
+  }
+
+  private func recordPendingInvocation(for identifier: UUID) {
+    pendingLock.lock()
+    pendingInvocationID = identifier
+    pendingLock.unlock()
+  }
+
+  private func takePendingInvocation() -> UUID? {
+    pendingLock.lock()
+    let identifier = pendingInvocationID
+    pendingInvocationID = nil
+    pendingLock.unlock()
+    return identifier
+  }
+
+  private func clearPendingInvocation(for identifier: UUID) {
+    pendingLock.lock()
+    if pendingInvocationID == identifier {
+      pendingInvocationID = nil
+    }
+    pendingLock.unlock()
+  }
+
+  static func resetInvocationStateForTesting() {
+    invocationLock.lock()
+    activeInvocationID = nil
+    invocationLock.unlock()
   }
 }
