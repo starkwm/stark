@@ -17,18 +17,17 @@ class Keymap: NSObject {
   var modifiers: [String]
 
   private var shortcut: Shortcut?
-  private var callback: JSManagedValue?
+  private var callback: JSValue?
 
-  init(key: String, modifiers: [String], callback: JSValue, callbackOwner: AnyObject) {
+  init(key: String, modifiers: [String], callback: JSValue) {
     self.key = key
     self.modifiers = modifiers
-    shortcut = Shortcut(key: key, modifiers: modifiers)
-    self.callback = JSManagedValue(value: callback, andOwner: callbackOwner)
+    self.callback = callback
 
     super.init()
 
+    shortcut = Shortcut(key: key, modifiers: modifiers)
     shortcut?.handler = call
-    JSCallbackInvoker.addManagedReference(for: self, callback: callback, owner: callbackOwner)
   }
 
   deinit {
@@ -43,10 +42,6 @@ class Keymap: NSObject {
   func deactivate(with shortcutManager: ShortcutManager) {
     guard let shortcut else { return }
     shortcutManager.unregister(shortcut: shortcut)
-  }
-
-  func detachCallback(from owner: AnyObject) {
-    JSCallbackInvoker.removeManagedReference(for: self, callback: callback, owner: owner)
   }
 
   private func call() {

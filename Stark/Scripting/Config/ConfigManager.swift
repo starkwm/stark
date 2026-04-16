@@ -67,16 +67,6 @@ final class ConfigSession {
     }
 
     shortcutManager = nil
-
-    for keymap in keymapsByID.values {
-      keymap.detachCallback(from: self)
-    }
-
-    for listeners in listenersByEvent.values {
-      for listener in listeners {
-        listener.detachCallback(from: self)
-      }
-    }
   }
 
   @discardableResult
@@ -84,16 +74,13 @@ final class ConfigSession {
     let keymap = Keymap(
       key: key,
       modifiers: modifiers,
-      callback: callback,
-      callbackOwner: self
+      callback: callback
     )
 
     if let previous = keymapsByID.updateValue(keymap, forKey: keymap.id) {
       if let shortcutManager {
         previous.deactivate(with: shortcutManager)
       }
-
-      previous.detachCallback(from: self)
     }
 
     if let shortcutManager {
@@ -109,8 +96,6 @@ final class ConfigSession {
     if let shortcutManager {
       keymap.deactivate(with: shortcutManager)
     }
-
-    keymap.detachCallback(from: self)
   }
 
   func resetKeymaps() {
@@ -122,10 +107,6 @@ final class ConfigSession {
         keymap.deactivate(with: shortcutManager)
       }
     }
-
-    for keymap in keymaps {
-      keymap.detachCallback(from: self)
-    }
   }
 
   @discardableResult
@@ -135,7 +116,7 @@ final class ConfigSession {
       return Event(event: event)
     }
 
-    let listener = Event(event: event, callback: callback, callbackOwner: self)
+    let listener = Event(event: event, callback: callback)
     listenersByEvent[eventType, default: []].append(listener)
 
     return listener
@@ -144,20 +125,11 @@ final class ConfigSession {
   func removeEvent(_ event: String) {
     guard let eventType = EventType(rawValue: event) else { return }
 
-    let listeners = listenersByEvent.removeValue(forKey: eventType) ?? []
-
-    for listener in listeners {
-      listener.detachCallback(from: self)
-    }
+    listenersByEvent.removeValue(forKey: eventType)
   }
 
   func resetEvents() {
-    let listeners = listenersByEvent.values.flatMap { $0 }
     listenersByEvent.removeAll()
-
-    for listener in listeners {
-      listener.detachCallback(from: self)
-    }
   }
 
   func callbacks(for event: EventType) -> [Event] {
