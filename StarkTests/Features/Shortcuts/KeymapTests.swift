@@ -189,6 +189,7 @@ private final class TestShortcutTapRecorder {
   private func prepareState() -> (
     ShortcutManager, TestShortcutTapRecorder, ConfigSession, CallbackState
   ) {
+    ShortcutManager.resetInvocationStateForTesting()
     let tapRecorder = TestShortcutTapRecorder()
     let manager = ShortcutManager(
       tapFactory: tapRecorder.makeTap(),
