@@ -12,11 +12,7 @@ final class ShortcutManager {
   typealias TapFactory = (@escaping EventHandler) -> ShortcutTapType?
 
   private static let defaultHandlerInvoker: HandlerInvoker = { handler in
-    if Thread.isMainThread {
-      handler()
-    } else {
-      DispatchQueue.main.async(execute: handler)
-    }
+    DispatchQueue.main.async(execute: handler)
   }
 
   private var shortcutsByKeyCode = [UInt32: [Shortcut]]()

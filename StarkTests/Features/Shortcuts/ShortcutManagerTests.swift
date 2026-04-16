@@ -378,6 +378,24 @@ private final class RecordingShortcutTapRecorder {
     #expect(callCount == 1)
   }
 
+  @Test @MainActor func defaultInvokerDefersHandlerExecutionOffTapCallback() async throws {
+    let tapRecorder = RecordingShortcutTapRecorder()
+    var callCount = 0
+    let manager = ShortcutManager(tapFactory: tapRecorder.makeTap())
+
+    manager.register(shortcut: shortcut(id: "A", handler: { callCount += 1 }))
+    manager.start()
+
+    let result = dispatchKeyDown(with: tapRecorder)
+
+    #expect(result == nil)
+    #expect(callCount == 0)
+
+    try await Task.sleep(for: .milliseconds(50))
+
+    #expect(callCount == 1)
+  }
+
   private func prepareManager(
     handlerInvoker: @escaping ShortcutManager.HandlerInvoker = { handler in
       DispatchQueue.main.async(execute: handler)
