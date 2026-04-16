@@ -2,12 +2,17 @@ import Foundation
 
 final class KeymapRegistry {
   private final class ShortcutEnvironment {
-    weak var manager: ShortcutManager?
-    let fallbackManager = ShortcutManager()
+    var manager: ShortcutManager?
   }
 
   var shortcutManager: ShortcutManager {
-    shortcutEnvironment.manager ?? shortcutEnvironment.fallbackManager
+    if let manager = shortcutEnvironment.manager {
+      return manager
+    }
+
+    let manager = ShortcutManager()
+    shortcutEnvironment.manager = manager
+    return manager
   }
 
   private let keymaps = StagedStorage<[String: Keymap]>(

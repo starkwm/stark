@@ -21,6 +21,7 @@
 		AA100029AA100029AA100029 /* StarkRuntimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100028AA100028AA100028 /* StarkRuntimeTests.swift */; };
 		AA100033AA100033AA100033 /* StarkRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100032AA100032AA100032 /* StarkRuntime.swift */; };
 		AA100034AA100034AA100034 /* AppDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100035AA100035AA100035 /* AppDelegateTests.swift */; };
+		AA100036AA100036AA100036 /* KeymapRegistryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100037AA100037AA100037 /* KeymapRegistryTests.swift */; };
 		C0DE00000000000000000002 /* AccessibilityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000002 /* AccessibilityClient.swift */; };
 		C0DE00000000000000000003 /* WindowServerClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000003 /* WindowServerClient.swift */; };
 		C0DE00000000000000000004 /* ConfigPathResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000004 /* ConfigPathResolver.swift */; };
@@ -102,6 +103,7 @@
 		AA100028AA100028AA100028 /* StarkRuntimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkRuntimeTests.swift; sourceTree = "<group>"; };
 		AA100032AA100032AA100032 /* StarkRuntime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkRuntime.swift; sourceTree = "<group>"; };
 		AA100035AA100035AA100035 /* AppDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateTests.swift; sourceTree = "<group>"; };
+		AA100037AA100037AA100037 /* KeymapRegistryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeymapRegistryTests.swift; sourceTree = "<group>"; };
 		C0DE10000000000000000002 /* AccessibilityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityClient.swift; sourceTree = "<group>"; };
 		C0DE10000000000000000003 /* WindowServerClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowServerClient.swift; sourceTree = "<group>"; };
 		C0DE10000000000000000004 /* ConfigPathResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigPathResolver.swift; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 			isa = PBXGroup;
 			children = (
 				AA100012AA100012AA100012 /* KeyTests.swift */,
+				AA100037AA100037AA100037 /* KeymapRegistryTests.swift */,
 				AA100014AA100014AA100014 /* KeymapTests.swift */,
 				AA100011AA100011AA100011 /* ModifierTests.swift */,
 				AA100017AA100017AA100017 /* ShortcutManagerTests.swift */,
@@ -651,6 +654,7 @@
 				AA10000CAA10000CAA10000C /* EventManagerTests.swift in Sources */,
 				AA100005AA100005AA100005 /* EventTests.swift in Sources */,
 				AA100002AA100002AA100002 /* KeyTests.swift in Sources */,
+				AA100036AA100036AA100036 /* KeymapRegistryTests.swift in Sources */,
 				AA100004AA100004AA100004 /* KeymapTests.swift in Sources */,
 				AA100007AA100007AA100007 /* LaunchAgentHelperTests.swift in Sources */,
 				AA100009AA100009AA100009 /* LogHelperTests.swift in Sources */,
