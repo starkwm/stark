@@ -1,7 +1,8 @@
 import AppKit
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
-  private let shouldStartRuntime = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil
+  private let shouldStartRuntime =
+    ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil
 
   private var runtime: StarkRuntime?
 

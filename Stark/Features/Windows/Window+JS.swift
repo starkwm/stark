@@ -1,7 +1,8 @@
 import AppKit
 import JavaScriptCore
 
-@objc protocol WindowJSExport: JSExport {
+@objc
+protocol WindowJSExport: JSExport {
   static func all() -> [Window]
   static func focused() -> Window?
 

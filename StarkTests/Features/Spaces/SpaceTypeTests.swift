@@ -2,7 +2,8 @@ import Testing
 
 @testable import Stark
 
-@Suite struct SpaceTypeTests {
+@Suite
+struct SpaceTypeTests {
   @Test(arguments: [
     (SpaceType.normal, "normal"),
     (SpaceType.fullscreen, "fullscreen"),

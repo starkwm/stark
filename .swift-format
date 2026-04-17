@@ -1,3 +1,4 @@
 {
+  "lineBreakBetweenDeclarationAttributes": true,
   "lineBreakBeforeEachArgument": true,
 }

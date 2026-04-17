@@ -1,12 +1,14 @@
 import JavaScriptCore
 
-@objc protocol EventJSExport: JSExport {
+@objc
+protocol EventJSExport: JSExport {
   func on(_ event: String, _ callback: JSValue) -> Event
   func off(_ event: String)
   func reset()
 }
 
-@objc protocol EventObjectJSExport: JSExport {
+@objc
+protocol EventObjectJSExport: JSExport {
   var id: String { get }
   var event: String { get }
 }

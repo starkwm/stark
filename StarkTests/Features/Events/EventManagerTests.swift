@@ -4,8 +4,10 @@ import Testing
 
 @testable import Stark
 
-@Suite(.serialized) struct EventManagerTests {
-  @Test func spaceChangedProcessesValidPayloadWithoutMutatingListenerState() throws {
+@Suite(.serialized)
+struct EventManagerTests {
+  @Test
+  func spaceChangedProcessesValidPayloadWithoutMutatingListenerState() throws {
     let session = ConfigSession()
     ConfigSessionStore.shared.replace(with: session)
     defer { ConfigSessionStore.shared.replace(with: nil)?.deactivate() }
@@ -20,25 +22,29 @@ import Testing
     #expect(session.activeListenerCount(for: .spaceChanged) == 1)
   }
 
-  @Test func typedRuntimeEventExposesUnderlyingEventType() {
+  @Test
+  func typedRuntimeEventExposesUnderlyingEventType() {
     let event = RuntimeEvent.space(.changed(Space.active()))
 
     #expect(event.type == .spaceChanged)
   }
 
-  @Test func windowEventExposesUnderlyingEventType() {
+  @Test
+  func windowEventExposesUnderlyingEventType() {
     let event = RuntimeEvent.window(.focused(42))
 
     #expect(event.type == .windowFocused)
   }
 
-  @Test func createdWindowEventExposesUnderlyingEventType() {
+  @Test
+  func createdWindowEventExposesUnderlyingEventType() {
     let event = RuntimeEvent.window(.created(123, 42))
 
     #expect(event.type == .windowCreated)
   }
 
-  @Test func applicationEventExposesUnderlyingEventType() {
+  @Test
+  func applicationEventExposesUnderlyingEventType() {
     let process = Stark.Process(
       psn: ProcessSerialNumber(highLongOfPSN: 0, lowLongOfPSN: 1),
       pid: 1,

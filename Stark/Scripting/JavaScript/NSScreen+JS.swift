@@ -1,7 +1,8 @@
 import AppKit
 import JavaScriptCore
 
-@objc protocol NSScreenJSExport: JSExport {
+@objc
+protocol NSScreenJSExport: JSExport {
   static func all() -> [NSScreen]
   static func focused() -> NSScreen?
 

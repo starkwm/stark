@@ -3,8 +3,10 @@ import Testing
 
 @testable import Stark
 
-@Suite struct KeyTests {
-  @Test func resolvesFixedKeyAliases() {
+@Suite
+struct KeyTests {
+  @Test
+  func resolvesFixedKeyAliases() {
     #expect(Key.resolve("return").keyCode == UInt32(kVK_Return))
     #expect(Key.resolve("enter").keyCode == UInt32(kVK_Return))
     #expect(Key.resolve("escape").keyCode == UInt32(kVK_Escape))
@@ -13,12 +15,14 @@ import Testing
     #expect(Key.resolve("minus").keyCode == UInt32(kVK_ANSI_Minus))
   }
 
-  @Test func usesCaseInsensitiveLookup() {
+  @Test
+  func usesCaseInsensitiveLookup() {
     #expect(Key.resolve("RETURN").keyCode == UInt32(kVK_Return))
     #expect(Key.resolve("BaCkTiCk").keyCode == UInt32(kVK_ANSI_Grave))
   }
 
-  @Test func specialKeysInjectFnLikeSkbd() {
+  @Test
+  func specialKeysInjectFnLikeSkbd() {
     #expect(Key.resolve("left").keyCode == UInt32(kVK_LeftArrow))
     #expect(Key.resolve("left").modifiers == [.fn])
     #expect(Key.resolve("delete").keyCode == UInt32(kVK_ForwardDelete))
@@ -27,13 +31,15 @@ import Testing
     #expect(Key.resolve("f12").modifiers == [.fn])
   }
 
-  @Test func nonSpecialKeysDoNotInjectFn() {
+  @Test
+  func nonSpecialKeysDoNotInjectFn() {
     #expect(Key.resolve("return").modifiers.isEmpty)
     #expect(Key.resolve("space").modifiers.isEmpty)
     #expect(Key.resolve("backtick").modifiers.isEmpty)
   }
 
-  @Test func returnsZeroForUnknownKeys() {
+  @Test
+  func returnsZeroForUnknownKeys() {
     let resolvedKey = Key.resolve("not-a-real-key")
 
     #expect(resolvedKey.keyCode == 0)

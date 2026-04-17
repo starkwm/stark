@@ -46,8 +46,10 @@ private final class RecordingShortcutTapRecorder {
   }
 }
 
-@Suite(.serialized) struct ShortcutManagerTests {
-  @Test func registerTracksOneShortcut() {
+@Suite(.serialized)
+struct ShortcutManagerTests {
+  @Test
+  func registerTracksOneShortcut() {
     let (manager, tapRecorder) = prepareManager()
 
     manager.register(shortcut: shortcut(id: "A"))
@@ -57,7 +59,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(dispatchKeyDown(with: tapRecorder) == nil)
   }
 
-  @Test func duplicateIdentifiersAreIgnored() {
+  @Test
+  func duplicateIdentifiersAreIgnored() {
     let tapRecorder = RecordingShortcutTapRecorder()
     var firstCallCount = 0
     var secondCallCount = 0
@@ -79,7 +82,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(secondCallCount == 0)
   }
 
-  @Test func multipleRegistrationsRemainActive() {
+  @Test
+  func multipleRegistrationsRemainActive() {
     let (manager, tapRecorder) = prepareManager()
 
     manager.register(shortcut: shortcut(id: "A"))
@@ -92,7 +96,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(dispatchKeyDown(with: tapRecorder, keyCode: 123) == nil)
   }
 
-  @Test func unregisterRemovesMatchingShortcutOnly() {
+  @Test
+  func unregisterRemovesMatchingShortcutOnly() {
     let tapRecorder = RecordingShortcutTapRecorder()
     var firstCallCount = 0
     var secondCallCount = 0
@@ -115,7 +120,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(secondCallCount == 1)
   }
 
-  @Test func resetClearsAllTrackedShortcuts() {
+  @Test
+  func resetClearsAllTrackedShortcuts() {
     let (manager, tapRecorder) = prepareManager()
 
     manager.register(shortcut: shortcut(id: "A"))
@@ -126,7 +132,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(tapRecorder.createCallCount == 0)
   }
 
-  @Test func duplicateBindingsUseLatestRegistration() {
+  @Test
+  func duplicateBindingsUseLatestRegistration() {
     let tapRecorder = RecordingShortcutTapRecorder()
     var firstCallCount = 0
     var secondCallCount = 0
@@ -147,7 +154,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(secondCallCount == 1)
   }
 
-  @Test func leftCommandMatchesOnlyLeftCommand() {
+  @Test
+  func leftCommandMatchesOnlyLeftCommand() {
     let (manager, tapRecorder) = prepareManager(handlerInvoker: { $0() })
 
     var callCount = 0
@@ -171,7 +179,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(callCount == 1)
   }
 
-  @Test func rightCommandMatchesOnlyRightCommand() {
+  @Test
+  func rightCommandMatchesOnlyRightCommand() {
     let (manager, tapRecorder) = prepareManager(handlerInvoker: { $0() })
 
     var callCount = 0
@@ -195,7 +204,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(callCount == 1)
   }
 
-  @Test func genericCommandMatchesEitherSide() {
+  @Test
+  func genericCommandMatchesEitherSide() {
     let (manager, tapRecorder) = prepareManager(handlerInvoker: { $0() })
 
     var callCount = 0
@@ -219,7 +229,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(callCount == 2)
   }
 
-  @Test func fnMatchesExactly() {
+  @Test
+  func fnMatchesExactly() {
     let (manager, tapRecorder) = prepareManager(handlerInvoker: { $0() })
 
     var callCount = 0
@@ -233,7 +244,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(callCount == 1)
   }
 
-  @Test func cmdLeftMatchesSkbdStyleFnAwareBinding() {
+  @Test
+  func cmdLeftMatchesSkbdStyleFnAwareBinding() {
     let (manager, tapRecorder) = prepareManager(handlerInvoker: { $0() })
 
     var callCount = 0
@@ -257,7 +269,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(callCount == 1)
   }
 
-  @Test func startCreatesTapOnceWhenShortcutsExist() {
+  @Test
+  func startCreatesTapOnceWhenShortcutsExist() {
     let (manager, tapRecorder) = prepareManager()
 
     manager.start()
@@ -270,7 +283,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(tapRecorder.createCallCount == 1)
   }
 
-  @Test func stopTearsDownActiveTap() {
+  @Test
+  func stopTearsDownActiveTap() {
     let (manager, tapRecorder) = prepareManager()
 
     manager.register(shortcut: shortcut(id: "A"))
@@ -280,7 +294,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(tapRecorder.invalidateCallCount == 1)
   }
 
-  @Test func resetClearsInstanceState() {
+  @Test
+  func resetClearsInstanceState() {
     let (manager, tapRecorder) = prepareManager()
 
     manager.register(shortcut: shortcut(id: "A"))
@@ -291,7 +306,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(tapRecorder.createCallCount == 0)
   }
 
-  @Test func matchedKeyEventInvokesHandlerAndSwallowsEvent() {
+  @Test
+  func matchedKeyEventInvokesHandlerAndSwallowsEvent() {
     let (manager, tapRecorder) = prepareManager(handlerInvoker: { $0() })
 
     var callCount = 0
@@ -309,7 +325,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(callCount == 1)
   }
 
-  @Test func unmatchedKeyEventPassesThrough() {
+  @Test
+  func unmatchedKeyEventPassesThrough() {
     let (manager, tapRecorder) = prepareManager()
 
     manager.register(shortcut: shortcut(id: "A"))
@@ -320,7 +337,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(result != nil)
   }
 
-  @Test func autorepeatKeyEventIsIgnored() {
+  @Test
+  func autorepeatKeyEventIsIgnored() {
     let (manager, tapRecorder) = prepareManager(handlerInvoker: { $0() })
 
     var callCount = 0
@@ -335,7 +353,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(callCount == 0)
   }
 
-  @Test func unregisteringLastShortcutTearsDownTap() {
+  @Test
+  func unregisteringLastShortcutTearsDownTap() {
     let (manager, tapRecorder) = prepareManager()
 
     let first = shortcut(id: "A")
@@ -349,7 +368,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(tapRecorder.invalidateCallCount == 1)
   }
 
-  @Test func tapDisabledEventsRecreateActiveTap() {
+  @Test
+  func tapDisabledEventsRecreateActiveTap() {
     let (manager, tapRecorder) = prepareManager()
 
     manager.register(shortcut: shortcut(id: "A"))
@@ -363,7 +383,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(tapRecorder.createCallCount == 2)
   }
 
-  @Test func eventTapCallbackSwallowsMatchedShortcut() {
+  @Test
+  func eventTapCallbackSwallowsMatchedShortcut() {
     let (manager, tapRecorder) = prepareManager(handlerInvoker: { $0() })
 
     var callCount = 0
@@ -378,7 +399,9 @@ private final class RecordingShortcutTapRecorder {
     #expect(callCount == 1)
   }
 
-  @Test @MainActor func defaultInvokerDefersHandlerExecutionOffTapCallback() async throws {
+  @Test
+  @MainActor
+  func defaultInvokerDefersHandlerExecutionOffTapCallback() async throws {
     let tapRecorder = RecordingShortcutTapRecorder()
     var callCount = 0
     let manager = ShortcutManager(tapFactory: tapRecorder.makeTap())
@@ -396,7 +419,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(callCount == 1)
   }
 
-  @Test func repeatedMatchesDoNotQueueWhileHandlerIsStillPending() {
+  @Test
+  func repeatedMatchesDoNotQueueWhileHandlerIsStillPending() {
     ShortcutManager.resetInvocationStateForTesting()
     let tapRecorder = RecordingShortcutTapRecorder()
     var queuedHandlers = [() -> Void]()
@@ -428,7 +452,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(callCount == 2)
   }
 
-  @Test func alternatingMatchesCoalesceLatestWhileHandlerIsStillPending() {
+  @Test
+  func alternatingMatchesCoalesceLatestWhileHandlerIsStillPending() {
     ShortcutManager.resetInvocationStateForTesting()
     let tapRecorder = RecordingShortcutTapRecorder()
     var queuedHandlers = [() -> Void]()
@@ -465,7 +490,8 @@ private final class RecordingShortcutTapRecorder {
     #expect(secondCallCount == 1)
   }
 
-  @Test func pendingInvocationKeepsOnlyLatestShortcut() {
+  @Test
+  func pendingInvocationKeepsOnlyLatestShortcut() {
     ShortcutManager.resetInvocationStateForTesting()
     let tapRecorder = RecordingShortcutTapRecorder()
     var queuedHandlers = [() -> Void]()

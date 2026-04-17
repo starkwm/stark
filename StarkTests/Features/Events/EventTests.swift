@@ -3,8 +3,10 @@ import Testing
 
 @testable import Stark
 
-@Suite(.serialized) struct EventTests {
-  @Test func unknownEventsAreNotRegistered() throws {
+@Suite(.serialized)
+struct EventTests {
+  @Test
+  func unknownEventsAreNotRegistered() throws {
     let session = ConfigSession()
     let listener = session.eventBridge.on("notReal", try callback())
 
@@ -12,7 +14,8 @@ import Testing
     #expect(session.activeListenerCount(for: .windowFocused) == 0)
   }
 
-  @Test func onAndOffManageActiveListeners() throws {
+  @Test
+  func onAndOffManageActiveListeners() throws {
     let session = ConfigSession()
 
     _ = session.eventBridge.on("windowFocused", try callback())
@@ -25,7 +28,8 @@ import Testing
     #expect(session.activeListenerCount(for: .windowFocused) == 0)
   }
 
-  @Test func resetClearsAllActiveListeners() throws {
+  @Test
+  func resetClearsAllActiveListeners() throws {
     let session = ConfigSession()
 
     _ = session.eventBridge.on("windowFocused", try callback())

@@ -9,8 +9,10 @@ private final class WorkspaceRecorder {
   var postedEvents = [RuntimeEvent]()
 }
 
-@Suite(.serialized) struct WorkspaceTests {
-  @Test func isObservableReturnsTrueForRegularApplication() {
+@Suite(.serialized)
+struct WorkspaceTests {
+  @Test
+  func isObservableReturnsTrueForRegularApplication() {
     let process = process(
       lowPSN: 1,
       application: testApplication(policy: .regular, finishedLaunching: true)
@@ -21,7 +23,8 @@ private final class WorkspaceRecorder {
     #expect(process.policy == .regular)
   }
 
-  @Test func isObservableReturnsFalseForNonRegularApplication() {
+  @Test
+  func isObservableReturnsFalseForNonRegularApplication() {
     let process = process(
       lowPSN: 2,
       application: testApplication(policy: .accessory, finishedLaunching: true)
@@ -32,7 +35,8 @@ private final class WorkspaceRecorder {
     #expect(process.policy == .accessory)
   }
 
-  @Test func isObservableSetsProhibitedWhenApplicationIsMissing() {
+  @Test
+  func isObservableSetsProhibitedWhenApplicationIsMissing() {
     let process = process(lowPSN: 3, application: nil)
     let workspace = workspace()
 
@@ -40,7 +44,8 @@ private final class WorkspaceRecorder {
     #expect(process.policy == .prohibited)
   }
 
-  @Test func isFinishedLaunchingReadsApplicationState() {
+  @Test
+  func isFinishedLaunchingReadsApplicationState() {
     let launching = process(
       lowPSN: 4,
       application: testApplication(policy: .regular, finishedLaunching: true)
@@ -52,7 +57,8 @@ private final class WorkspaceRecorder {
     #expect(!workspace.isFinishedLaunching(missing))
   }
 
-  @Test func observeAndUnobserveActivationPolicyTrackObservedProcesses() {
+  @Test
+  func observeAndUnobserveActivationPolicyTrackObservedProcesses() {
     let recorder = WorkspaceRecorder()
     let process = process(
       lowPSN: 6,
@@ -78,7 +84,8 @@ private final class WorkspaceRecorder {
     #expect(recorder.removeObserverCalls[0].1 == "activationPolicy")
   }
 
-  @Test func observeAndUnobserveFinishedLaunchingTrackObservedProcesses() {
+  @Test
+  func observeAndUnobserveFinishedLaunchingTrackObservedProcesses() {
     let recorder = WorkspaceRecorder()
     let process = process(
       lowPSN: 7,
@@ -104,7 +111,8 @@ private final class WorkspaceRecorder {
     #expect(recorder.removeObserverCalls[0].1 == "finishedLaunching")
   }
 
-  @Test func activationPolicyObservationPostsWhenPolicyChanges() {
+  @Test
+  func activationPolicyObservationPostsWhenPolicyChanges() {
     let recorder = WorkspaceRecorder()
     let process = process(
       lowPSN: 8,
@@ -133,7 +141,8 @@ private final class WorkspaceRecorder {
     #expect(postedProcess === process)
   }
 
-  @Test func activationPolicyObservationIgnoresUnchangedAndInvalidValues() {
+  @Test
+  func activationPolicyObservationIgnoresUnchangedAndInvalidValues() {
     let recorder = WorkspaceRecorder()
     let process = process(
       lowPSN: 9,
@@ -166,7 +175,8 @@ private final class WorkspaceRecorder {
     #expect(workspace.activationPolicyObservedForTesting == [9])
   }
 
-  @Test func finishedLaunchingObservationPostsOnlyForTrueValues() {
+  @Test
+  func finishedLaunchingObservationPostsOnlyForTrueValues() {
     let recorder = WorkspaceRecorder()
     let process = process(
       lowPSN: 10,
@@ -203,7 +213,8 @@ private final class WorkspaceRecorder {
     #expect(postedProcess === process)
   }
 
-  @Test func activeSpaceDidChangePostsSpaceChangedEvent() {
+  @Test
+  func activeSpaceDidChangePostsSpaceChangedEvent() {
     let recorder = WorkspaceRecorder()
     let workspace = workspace(recorder: recorder)
 

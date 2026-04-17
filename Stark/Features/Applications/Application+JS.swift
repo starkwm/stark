@@ -1,6 +1,7 @@
 import JavaScriptCore
 
-@objc protocol ApplicationJSExport: JSExport {
+@objc
+protocol ApplicationJSExport: JSExport {
   static func all() -> [Application]
   static func focused() -> Application?
   static func find(_ name: String) -> Application?

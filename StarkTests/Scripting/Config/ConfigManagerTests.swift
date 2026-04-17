@@ -43,8 +43,10 @@ private final class ConfigManagerShortcutTapRecorder {
   }
 }
 
-@Suite(.serialized) struct ConfigManagerTests {
-  @Test func resolvesPrimaryPathUsingPriorityOrder() {
+@Suite(.serialized)
+struct ConfigManagerTests {
+  @Test
+  func resolvesPrimaryPathUsingPriorityOrder() {
     let paths = [
       "/tmp/first.js",
       "/tmp/second.js",
@@ -61,7 +63,8 @@ private final class ConfigManagerShortcutTapRecorder {
     #expect(resolved == paths[1])
   }
 
-  @Test func fallsBackToFirstPrimaryPathWhenNoFileExists() {
+  @Test
+  func fallsBackToFirstPrimaryPathWhenNoFileExists() {
     let paths = [
       "/tmp/first.js",
       "/tmp/second.js",
@@ -76,7 +79,8 @@ private final class ConfigManagerShortcutTapRecorder {
     #expect(resolved == paths[0])
   }
 
-  @Test func returnsNotFoundWhenConfigFileDoesNotExist() {
+  @Test
+  func returnsNotFoundWhenConfigFileDoesNotExist() {
     let path = "/tmp/stark.js"
     let manager = ConfigManager(
       shortcutManager: ShortcutManager(),
@@ -104,7 +108,8 @@ private final class ConfigManagerShortcutTapRecorder {
     }
   }
 
-  @Test func returnsReadFailedWhenConfigCannotBeRead() {
+  @Test
+  func returnsReadFailedWhenConfigCannotBeRead() {
     let path = "/tmp/stark.js"
     let manager = ConfigManager(
       shortcutManager: ShortcutManager(),
@@ -132,7 +137,8 @@ private final class ConfigManagerShortcutTapRecorder {
     }
   }
 
-  @Test func successfulLoadReplacesActiveSession() throws {
+  @Test
+  func successfulLoadReplacesActiveSession() throws {
     let (shortcutManager, registrar, sessionStore) = prepareRegistrar()
     defer { resetState(shortcutManager: shortcutManager, sessionStore: sessionStore) }
 
@@ -166,7 +172,8 @@ private final class ConfigManagerShortcutTapRecorder {
     }
   }
 
-  @Test func failedLoadPreservesPreviouslyLoadedConfiguration() throws {
+  @Test
+  func failedLoadPreservesPreviouslyLoadedConfiguration() throws {
     let (shortcutManager, registrar, sessionStore) = prepareRegistrar()
     defer { resetState(shortcutManager: shortcutManager, sessionStore: sessionStore) }
 
@@ -202,7 +209,8 @@ private final class ConfigManagerShortcutTapRecorder {
     }
   }
 
-  @Test func startReturnsLoadFailureWithoutStartingMonitor() {
+  @Test
+  func startReturnsLoadFailureWithoutStartingMonitor() {
     let (shortcutManager, _, sessionStore) = prepareRegistrar()
     defer { resetState(shortcutManager: shortcutManager, sessionStore: sessionStore) }
 
@@ -231,7 +239,8 @@ private final class ConfigManagerShortcutTapRecorder {
     }
   }
 
-  @Test func startReturnsMonitorFailureAfterSuccessfulLoad() throws {
+  @Test
+  func startReturnsMonitorFailureAfterSuccessfulLoad() throws {
     let (shortcutManager, registrar, sessionStore) = prepareRegistrar()
     defer { resetState(shortcutManager: shortcutManager, sessionStore: sessionStore) }
 
@@ -270,7 +279,8 @@ private final class ConfigManagerShortcutTapRecorder {
     }
   }
 
-  @Test func repeatedSuccessfulLoadsReplaceStoredStateWithoutAccumulating() throws {
+  @Test
+  func repeatedSuccessfulLoadsReplaceStoredStateWithoutAccumulating() throws {
     let (shortcutManager, registrar, sessionStore) = prepareRegistrar()
     defer { resetState(shortcutManager: shortcutManager, sessionStore: sessionStore) }
 
@@ -317,7 +327,8 @@ private final class ConfigManagerShortcutTapRecorder {
     }
   }
 
-  @Test func successfulStartSetsUpMonitorAndStopTearsDownShortcutHandling() throws {
+  @Test
+  func successfulStartSetsUpMonitorAndStopTearsDownShortcutHandling() throws {
     let (shortcutManager, registrar, sessionStore) = prepareRegistrar()
     defer { resetState(shortcutManager: shortcutManager, sessionStore: sessionStore) }
 
@@ -354,7 +365,8 @@ private final class ConfigManagerShortcutTapRecorder {
     #expect(registrar.invalidateCallCount == 1)
   }
 
-  @Test func sidedModifierBindingsSurviveReload() throws {
+  @Test
+  func sidedModifierBindingsSurviveReload() throws {
     let (shortcutManager, registrar, sessionStore) = prepareRegistrar()
     defer { resetState(shortcutManager: shortcutManager, sessionStore: sessionStore) }
 
@@ -424,7 +436,8 @@ private final class ConfigManagerShortcutTapRecorder {
     }
   }
 
-  @Test func removedModifierAliasesDoNotRegisterShortcuts() throws {
+  @Test
+  func removedModifierAliasesDoNotRegisterShortcuts() throws {
     let (shortcutManager, registrar, sessionStore) = prepareRegistrar()
     defer { resetState(shortcutManager: shortcutManager, sessionStore: sessionStore) }
 
@@ -450,7 +463,8 @@ private final class ConfigManagerShortcutTapRecorder {
     }
   }
 
-  @Test func notificationRegistrarTracksApplicationAndWindowNotificationSets() {
+  @Test
+  func notificationRegistrarTracksApplicationAndWindowNotificationSets() {
     var observedApplications = ApplicationNotifications(rawValue: 0)
     var observedWindows = WindowNotifications(rawValue: 0)
     var removedApplicationNotifications = [String]()

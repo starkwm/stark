@@ -41,8 +41,10 @@ private final class TestShortcutTapRecorder {
   }
 }
 
-@Suite(.serialized) struct KeymapTests {
-  @Test func createsStableIdentifiers() throws {
+@Suite(.serialized)
+struct KeymapTests {
+  @Test
+  func createsStableIdentifiers() throws {
     let session = ConfigSession()
     let callbackState = CallbackState()
 
@@ -55,7 +57,8 @@ private final class TestShortcutTapRecorder {
     #expect(keymap.id == "return[cmd|shift]")
   }
 
-  @Test func preservesRawSidedModifierIdentifiers() throws {
+  @Test
+  func preservesRawSidedModifierIdentifiers() throws {
     let session = ConfigSession()
     let callbackState = CallbackState()
 
@@ -68,7 +71,8 @@ private final class TestShortcutTapRecorder {
     #expect(keymap.id == "return[lcmd|shift]")
   }
 
-  @Test func specialKeysKeepRawIdentifiersWhileInjectingFnInternally() throws {
+  @Test
+  func specialKeysKeepRawIdentifiersWhileInjectingFnInternally() throws {
     let (manager, tapRecorder, session, callbackState) = prepareState()
     var activeSession: ConfigSession?
     defer { activeSession?.deactivate() }
@@ -86,7 +90,8 @@ private final class TestShortcutTapRecorder {
     #expect(callbackState.callCount() == 1)
   }
 
-  @Test func removedAliasDoesNotRegisterShortcut() throws {
+  @Test
+  func removedAliasDoesNotRegisterShortcut() throws {
     let (manager, tapRecorder, session, callbackState) = prepareState()
     var activeSession: ConfigSession?
     defer { activeSession?.deactivate() }
@@ -104,7 +109,8 @@ private final class TestShortcutTapRecorder {
     #expect(callbackState.callCount() == 0)
   }
 
-  @Test func overwritesDuplicateActiveRegistrations() throws {
+  @Test
+  func overwritesDuplicateActiveRegistrations() throws {
     let (manager, tapRecorder, session, callbackState) = prepareState()
     var activeSession: ConfigSession?
     defer { activeSession?.deactivate() }
@@ -117,7 +123,8 @@ private final class TestShortcutTapRecorder {
     #expect(callbackState.callCount() == 1)
   }
 
-  @Test func replacingActiveSessionSwapsRegisteredKeymaps() throws {
+  @Test
+  func replacingActiveSessionSwapsRegisteredKeymaps() throws {
     let (manager, tapRecorder, session, callbackState) = prepareState()
     var activeSession: ConfigSession?
     defer { activeSession?.deactivate() }
@@ -136,7 +143,8 @@ private final class TestShortcutTapRecorder {
     #expect(callbackState.callCount() == 2)
   }
 
-  @Test func discardingCandidateSessionPreservesActiveKeymaps() throws {
+  @Test
+  func discardingCandidateSessionPreservesActiveKeymaps() throws {
     let (manager, tapRecorder, session, callbackState) = prepareState()
     var activeSession: ConfigSession?
     defer { activeSession?.deactivate() }
@@ -153,7 +161,8 @@ private final class TestShortcutTapRecorder {
     #expect(callbackState.callCount() == 1)
   }
 
-  @Test func offAndResetClearRegisteredState() throws {
+  @Test
+  func offAndResetClearRegisteredState() throws {
     let (manager, tapRecorder, session, callbackState) = prepareState()
     var activeSession: ConfigSession?
     defer { activeSession?.deactivate() }
@@ -171,7 +180,8 @@ private final class TestShortcutTapRecorder {
     #expect(callbackState.callCount() == 1)
   }
 
-  @Test func repeatedKeypressesKeepInvokingJavascriptCallback() throws {
+  @Test
+  func repeatedKeypressesKeepInvokingJavascriptCallback() throws {
     let (manager, tapRecorder, session, callbackState) = prepareState()
     var activeSession: ConfigSession?
     defer { activeSession?.deactivate() }
