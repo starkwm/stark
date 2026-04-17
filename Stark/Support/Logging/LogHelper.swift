@@ -1,49 +1,21 @@
 import Foundation
 
-struct LogFileSystem {
-  static let live = LogFileSystem(
-    homeDirectory: { NSHomeDirectory() },
-    append: { url, data in
-      guard let handle = try? FileHandle(forWritingTo: url) else { return false }
+struct LogHelper: TextOutputStream {
+  func write(_ string: String) {
+    let file = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(".stark.log")
+    let data = Data(string.utf8)
 
+    if let handle = try? FileHandle(forWritingTo: file) {
       handle.seekToEndOfFile()
       handle.write(data)
       handle.closeFile()
-      return true
-    },
-    write: { url, data in
-      try? data.write(to: url)
-    }
-  )
-
-  var homeDirectory: () -> String
-  var append: (URL, Data) -> Bool
-  var write: (URL, Data) -> Void
-
-}
-
-struct LogHelper: TextOutputStream {
-  let fileSystem: LogFileSystem
-
-  init(fileSystem: LogFileSystem = .live) {
-    self.fileSystem = fileSystem
-  }
-
-  func write(_ string: String) {
-    let dir = URL(fileURLWithPath: fileSystem.homeDirectory())
-    let file = dir.appendingPathComponent(".stark.log")
-    let data = string.data(using: .utf8)!
-
-    if !fileSystem.append(file, data) {
-      fileSystem.write(file, data)
+    } else {
+      try? data.write(to: file)
     }
   }
 }
 
-var logger = LogHelper()
-var logDateProvider: () -> String = { Date().ISO8601Format() }
-var logEnabledProvider: () -> Bool = { UserDefaults.standard.bool(forKey: "enableLogging") }
-var logConsoleWriter: (String) -> Void = { print($0) }
+private var logger = LogHelper()
 
 enum LogLevel: String {
   case debug = "DEBUG"
@@ -53,12 +25,12 @@ enum LogLevel: String {
 }
 
 func log(_ message: @autoclosure () -> String, level: LogLevel = .debug) {
-  let now = logDateProvider()
+  let now = Date().ISO8601Format()
   let text = "\(now) \(level.rawValue): \(message())"
 
-  if logEnabledProvider() {
+  if UserDefaults.standard.bool(forKey: "enableLogging") {
     print(text, to: &logger)
   } else {
-    logConsoleWriter(text)
+    print(text)
   }
 }

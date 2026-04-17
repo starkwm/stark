@@ -291,16 +291,6 @@ import Testing
     #expect(loggedMessages[0].message.contains("global shortcuts are disabled"))
   }
 
-  @Test func appDelegateStartsAndStopsInjectedRuntime() {
-    let runtime = RecordingRuntime()
-    let delegate = AppDelegate(makeRuntime: { runtime })
-
-    delegate.applicationDidFinishLaunching(Notification(name: .init("didFinishLaunching")))
-    delegate.applicationWillTerminate(Notification(name: .init("willTerminate")))
-
-    #expect(runtime.startCallCount == 1)
-    #expect(runtime.stopCallCount == 1)
-  }
 }
 
 private final class RuntimeCallRecorder {
@@ -371,19 +361,6 @@ private final class RecordingStatusItem: StarkStatusItemManaging {
 
   func setup() {
     recorder.record("statusItem.setup")
-  }
-}
-
-private final class RecordingRuntime: StarkRuntimeType {
-  private(set) var startCallCount = 0
-  private(set) var stopCallCount = 0
-
-  func start() {
-    startCallCount += 1
-  }
-
-  func stop() {
-    stopCallCount += 1
   }
 }
 

@@ -1,31 +1,13 @@
 import AppKit
 
-class AppDelegate: NSObject, NSApplicationDelegate {
-  private let makeRuntime: () -> StarkRuntimeType
-  private let shouldStartRuntime: () -> Bool
-  private var runtime: StarkRuntimeType?
-
-  override init() {
-    makeRuntime = { StarkRuntime.live() }
-    shouldStartRuntime = {
-      ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil
-    }
-    super.init()
-  }
-
-  init(
-    makeRuntime: @escaping () -> StarkRuntimeType,
-    shouldStartRuntime: @escaping () -> Bool = { true }
-  ) {
-    self.makeRuntime = makeRuntime
-    self.shouldStartRuntime = shouldStartRuntime
-    super.init()
-  }
+final class AppDelegate: NSObject, NSApplicationDelegate {
+  private let shouldStartRuntime = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil
+  private var runtime: StarkRuntime?
 
   func applicationDidFinishLaunching(_: Notification) {
-    guard shouldStartRuntime() else { return }
+    guard shouldStartRuntime else { return }
 
-    let runtime = makeRuntime()
+    let runtime = StarkRuntime()
     self.runtime = runtime
     runtime.start()
   }

@@ -1,11 +1,6 @@
 import AppKit
 import Sentry
 
-protocol StarkRuntimeType: AnyObject {
-  func start()
-  func stop()
-}
-
 protocol StarkProcessManaging {
   func start() -> Result<Void, AXError>
 }
@@ -63,11 +58,7 @@ struct StarkRuntimeEnvironment {
   var writeLog: (String, LogLevel) -> Void
 }
 
-final class StarkRuntime: StarkRuntimeType {
-  static func live() -> StarkRuntime {
-    StarkRuntime()
-  }
-
+final class StarkRuntime {
   private let environment: StarkRuntimeEnvironment
   private let processManager: StarkProcessManaging
   private let windowManager: StarkWindowManaging
