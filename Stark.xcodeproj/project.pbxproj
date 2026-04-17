@@ -40,6 +40,7 @@
 		C0DE00000000000000000016 /* Space+JS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000016 /* Space+JS.swift */; };
 		C0DE00000000000000000017 /* Event+JS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000017 /* Event+JS.swift */; };
 		C0DE00000000000000000018 /* Keymap+JS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000018 /* Keymap+JS.swift */; };
+		C0DE00000000000000000019 /* AXNotificationRegistrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000019 /* AXNotificationRegistrar.swift */; };
 		F60DF8ED2CC2C8030083D3BE /* LogHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */; };
 		F61AF11C2BC488EC00FF39E0 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11B2BC488EC00FF39E0 /* EventManager.swift */; };
 		F61AF11E2BC4B80100FF39E0 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */; };
@@ -120,6 +121,7 @@
 		C0DE10000000000000000016 /* Space+JS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Space+JS.swift"; sourceTree = "<group>"; };
 		C0DE10000000000000000017 /* Event+JS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Event+JS.swift"; sourceTree = "<group>"; };
 		C0DE10000000000000000018 /* Keymap+JS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Keymap+JS.swift"; sourceTree = "<group>"; };
+		C0DE10000000000000000019 /* AXNotificationRegistrar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXNotificationRegistrar.swift; sourceTree = "<group>"; };
 		F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogHelper.swift; sourceTree = "<group>"; };
 		F61AF11B2BC488EC00FF39E0 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 		BB00000ABB00000ABB00000A /* System */ = {
 			isa = PBXGroup;
 			children = (
+				C0DE10000000000000000019 /* AXNotificationRegistrar.swift */,
 				C0DE10000000000000000002 /* AccessibilityClient.swift */,
 				F6EB17171CF36CCC00E08F8F /* LaunchAgentHelper.swift */,
 				F6F4ECF82BC9BC13001234D4 /* Private.swift */,
@@ -688,6 +691,7 @@
 				C0DE0000000000000000000C /* JSCallbackInvoker.swift in Sources */,
 				C0DE0000000000000000000B /* StagedStorage.swift in Sources */,
 				F60DF8ED2CC2C8030083D3BE /* LogHelper.swift in Sources */,
+				C0DE00000000000000000019 /* AXNotificationRegistrar.swift in Sources */,
 				C0DE00000000000000000002 /* AccessibilityClient.swift in Sources */,
 				C0DE00000000000000000003 /* WindowServerClient.swift in Sources */,
 				F6A2E76A2BC8CB250024F674 /* main.swift in Sources */,

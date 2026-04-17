@@ -15,3 +15,5 @@ let windowNotifications = [
   kAXWindowMiniaturizedNotification,
   kAXWindowDeminiaturizedNotification,
 ]
+
+extension WindowNotifications: AXNotificationSet {}
