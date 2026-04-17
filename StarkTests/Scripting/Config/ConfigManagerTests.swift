@@ -1,3 +1,5 @@
+import Darwin
+import Foundation
 import IOKit.hidsystem
 import JavaScriptCore
 import Testing
@@ -150,11 +152,10 @@ private final class ConfigManagerShortcutTapRecorder {
         _ = session.keymapBridge.on("escape", ["shift"], try self.callback())
       },
       path: "/tmp/stark.js",
-      sessionStore: sessionStore,
-      fileMonitorSetup: { _ in }
+      sessionStore: sessionStore
     )
 
-    switch manager.loadForTesting() {
+    switch manager.load() {
     case .success:
       #expect(sessionStore.activeListenerCount(for: .windowFocused) == 0)
       #expect(sessionStore.activeListenerCount(for: .windowMoved) == 1)
@@ -186,11 +187,10 @@ private final class ConfigManagerShortcutTapRecorder {
         throw JSExceptionError.exception("JS exception: boom")
       },
       path: "/tmp/stark.js",
-      sessionStore: sessionStore,
-      fileMonitorSetup: { _ in }
+      sessionStore: sessionStore
     )
 
-    switch manager.loadForTesting() {
+    switch manager.load() {
     case .success:
       Issue.record("Expected failed load")
     case .failure:
@@ -214,10 +214,11 @@ private final class ConfigManagerShortcutTapRecorder {
         readFile: { _ in nil }
       ),
       path: "/tmp/stark.js",
-      sessionStore: sessionStore,
-      fileMonitorSetup: { _ in
+      fileWatcher: fileWatcher {
         monitorSetupCallCount += 1
-      }
+        return .success(self.makeMonitoringSource())
+      },
+      sessionStore: sessionStore
     )
 
     let result = manager.start()
@@ -244,10 +245,10 @@ private final class ConfigManagerShortcutTapRecorder {
         _ = session.keymapBridge.on("escape", ["shift"], try self.callback())
       },
       path: "/tmp/stark.js",
-      sessionStore: sessionStore,
-      fileMonitorSetup: { _ in
+      fileWatcher: fileWatcher {
         throw FileError.monitorFailed("boom")
-      }
+      },
+      sessionStore: sessionStore
     )
 
     let result = manager.start()
@@ -292,11 +293,10 @@ private final class ConfigManagerShortcutTapRecorder {
         }
       },
       path: "/tmp/stark.js",
-      sessionStore: sessionStore,
-      fileMonitorSetup: { _ in }
+      sessionStore: sessionStore
     )
 
-    switch manager.loadForTesting() {
+    switch manager.load() {
     case .success:
       #expect(sessionStore.activeListenerCount(for: .windowFocused) == 1)
       #expect(sessionStore.activeListenerCount(for: .windowMoved) == 0)
@@ -306,7 +306,7 @@ private final class ConfigManagerShortcutTapRecorder {
       return
     }
 
-    switch manager.loadForTesting() {
+    switch manager.load() {
     case .success:
       #expect(sessionStore.activeListenerCount(for: .windowFocused) == 0)
       #expect(sessionStore.activeListenerCount(for: .windowMoved) == 1)
@@ -332,10 +332,11 @@ private final class ConfigManagerShortcutTapRecorder {
         _ = session.keymapBridge.on("escape", ["shift"], try self.callback())
       },
       path: "/tmp/stark.js",
-      sessionStore: sessionStore,
-      fileMonitorSetup: { _ in
+      fileWatcher: fileWatcher {
         monitorSetupCallCount += 1
-      }
+        return .success(self.makeMonitoringSource())
+      },
+      sessionStore: sessionStore
     )
 
     switch manager.start() {
@@ -374,11 +375,10 @@ private final class ConfigManagerShortcutTapRecorder {
         }
       },
       path: "/tmp/stark.js",
-      sessionStore: sessionStore,
-      fileMonitorSetup: { _ in }
+      sessionStore: sessionStore
     )
 
-    switch manager.loadForTesting() {
+    switch manager.load() {
     case .success:
       #expect(
         dispatchShortcut(
@@ -401,7 +401,7 @@ private final class ConfigManagerShortcutTapRecorder {
       return
     }
 
-    switch manager.loadForTesting() {
+    switch manager.load() {
     case .success:
       #expect(
         dispatchShortcut(
@@ -438,11 +438,10 @@ private final class ConfigManagerShortcutTapRecorder {
         _ = session.keymapBridge.on("return", ["option"], try self.callback())
       },
       path: "/tmp/stark.js",
-      sessionStore: sessionStore,
-      fileMonitorSetup: { _ in }
+      sessionStore: sessionStore
     )
 
-    switch manager.loadForTesting() {
+    switch manager.load() {
     case .success:
       #expect(registrar.createCallCount == 0)
       #expect(!dispatchShortcut(with: registrar, keyCode: 36, flags: [.maskCommand]))
@@ -502,6 +501,44 @@ private final class ConfigManagerShortcutTapRecorder {
     )
 
     return (shortcutManager, registrar, ConfigSessionStore())
+  }
+
+  private func fileWatcher(
+    startMonitoring: @escaping () throws -> Result<DispatchSourceFileSystemObject, FileError>
+  ) -> ConfigFileWatcher {
+    ConfigFileWatcher(
+      startMonitoring: { _, _, _ in
+        do {
+          return try startMonitoring()
+        } catch let error as FileError {
+          return .failure(error)
+        } catch {
+          return .failure(.monitorFailed("\(error)"))
+        }
+      }
+    )
+  }
+
+  private func makeMonitoringSource() -> DispatchSourceFileSystemObject {
+    let url = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+    FileManager.default.createFile(atPath: url.path, contents: Data())
+
+    let fileDescriptor = open(url.path, O_EVTONLY)
+    precondition(fileDescriptor >= 0, "Failed to open temp file for config monitor stub")
+
+    let source = DispatchSource.makeFileSystemObjectSource(
+      fileDescriptor: fileDescriptor,
+      eventMask: [.write],
+      queue: DispatchQueue(label: "dev.tombell.stark.config.tests")
+    )
+    source.setEventHandler {}
+    source.setCancelHandler {
+      close(fileDescriptor)
+      try? FileManager.default.removeItem(at: url)
+    }
+    source.resume()
+
+    return source
   }
 
   private func resetState(shortcutManager: ShortcutManager, sessionStore: ConfigSessionStore) {
@@ -579,10 +616,4 @@ private final class ConfigManagerShortcutTapRecorder {
 private enum CallbackError: Error {
   case contextCreationFailed
   case callbackCreationFailed
-}
-
-extension ConfigManager {
-  fileprivate func loadForTesting() -> Result<Void, Error> {
-    load()
-  }
 }

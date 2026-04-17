@@ -21,7 +21,6 @@
 		AA100029AA100029AA100029 /* StarkRuntimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100028AA100028AA100028 /* StarkRuntimeTests.swift */; };
 		AA100033AA100033AA100033 /* StarkRuntime.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100032AA100032AA100032 /* StarkRuntime.swift */; };
 		AA100034AA100034AA100034 /* AppDelegateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100035AA100035AA100035 /* AppDelegateTests.swift */; };
-		AA100036AA100036AA100036 /* KeymapRegistryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100037AA100037AA100037 /* KeymapRegistryTests.swift */; };
 		C0DE00000000000000000002 /* AccessibilityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000002 /* AccessibilityClient.swift */; };
 		C0DE00000000000000000003 /* WindowServerClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000003 /* WindowServerClient.swift */; };
 		C0DE00000000000000000004 /* ConfigPathResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000004 /* ConfigPathResolver.swift */; };
@@ -36,7 +35,6 @@
 		C0DE0000000000000000000D /* ShortcutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE1000000000000000000D /* ShortcutManager.swift */; };
 		C0DE0000000000000000000E /* ShortcutTap.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE1000000000000000000E /* ShortcutTap.swift */; };
 		C0DE00000000000000000010 /* ModifierGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000010 /* ModifierGroup.swift */; };
-		C0DE00000000000000000013 /* KeymapRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000013 /* KeymapRegistry.swift */; };
 		C0DE00000000000000000014 /* Application+JS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000014 /* Application+JS.swift */; };
 		C0DE00000000000000000015 /* Window+JS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000015 /* Window+JS.swift */; };
 		C0DE00000000000000000016 /* Space+JS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000016 /* Space+JS.swift */; };
@@ -103,7 +101,6 @@
 		AA100028AA100028AA100028 /* StarkRuntimeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkRuntimeTests.swift; sourceTree = "<group>"; };
 		AA100032AA100032AA100032 /* StarkRuntime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarkRuntime.swift; sourceTree = "<group>"; };
 		AA100035AA100035AA100035 /* AppDelegateTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegateTests.swift; sourceTree = "<group>"; };
-		AA100037AA100037AA100037 /* KeymapRegistryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeymapRegistryTests.swift; sourceTree = "<group>"; };
 		C0DE10000000000000000002 /* AccessibilityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityClient.swift; sourceTree = "<group>"; };
 		C0DE10000000000000000003 /* WindowServerClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowServerClient.swift; sourceTree = "<group>"; };
 		C0DE10000000000000000004 /* ConfigPathResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigPathResolver.swift; sourceTree = "<group>"; };
@@ -118,7 +115,6 @@
 		C0DE1000000000000000000D /* ShortcutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutManager.swift; sourceTree = "<group>"; };
 		C0DE1000000000000000000E /* ShortcutTap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutTap.swift; sourceTree = "<group>"; };
 		C0DE10000000000000000010 /* ModifierGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifierGroup.swift; sourceTree = "<group>"; };
-		C0DE10000000000000000013 /* KeymapRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeymapRegistry.swift; sourceTree = "<group>"; };
 		C0DE10000000000000000014 /* Application+JS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Application+JS.swift"; sourceTree = "<group>"; };
 		C0DE10000000000000000015 /* Window+JS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Window+JS.swift"; sourceTree = "<group>"; };
 		C0DE10000000000000000016 /* Space+JS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Space+JS.swift"; sourceTree = "<group>"; };
@@ -261,7 +257,6 @@
 				F685270E2D398B77008EC4C1 /* Key.swift */,
 				C0DE10000000000000000018 /* Keymap+JS.swift */,
 				F66C39C51C6AD73E0008FDD5 /* Keymap.swift */,
-				C0DE10000000000000000013 /* KeymapRegistry.swift */,
 				F68527102D398B7C008EC4C1 /* Modifier.swift */,
 				C0DE10000000000000000010 /* ModifierGroup.swift */,
 				F68527122D398B81008EC4C1 /* Shortcut.swift */,
@@ -342,7 +337,6 @@
 			isa = PBXGroup;
 			children = (
 				AA100012AA100012AA100012 /* KeyTests.swift */,
-				AA100037AA100037AA100037 /* KeymapRegistryTests.swift */,
 				AA100014AA100014AA100014 /* KeymapTests.swift */,
 				AA100011AA100011AA100011 /* ModifierTests.swift */,
 				AA100017AA100017AA100017 /* ShortcutManagerTests.swift */,
@@ -654,7 +648,6 @@
 				AA10000CAA10000CAA10000C /* EventManagerTests.swift in Sources */,
 				AA100005AA100005AA100005 /* EventTests.swift in Sources */,
 				AA100002AA100002AA100002 /* KeyTests.swift in Sources */,
-				AA100036AA100036AA100036 /* KeymapRegistryTests.swift in Sources */,
 				AA100004AA100004AA100004 /* KeymapTests.swift in Sources */,
 				AA100007AA100007AA100007 /* LaunchAgentHelperTests.swift in Sources */,
 				AA100009AA100009AA100009 /* LogHelperTests.swift in Sources */,
@@ -689,7 +682,6 @@
 				F6F4ECF92BC9BC13001234D4 /* Private.swift in Sources */,
 				F66C39C61C6AD73E0008FDD5 /* Keymap.swift in Sources */,
 				C0DE00000000000000000018 /* Keymap+JS.swift in Sources */,
-				C0DE00000000000000000013 /* KeymapRegistry.swift in Sources */,
 				F6792C2B1C404B53007D9DF9 /* AppDelegate.swift in Sources */,
 				AA100033AA100033AA100033 /* StarkRuntime.swift in Sources */,
 				F6A2BBD02F703EB2007C7701 /* AXError.swift in Sources */,

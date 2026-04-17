@@ -152,7 +152,6 @@ final class ConfigManager {
   private let fileSystem: ConfigFileSystem
   private let executor: ConfigExecutor
   private let fileWatcher: ConfigFileWatcher
-  private let fileMonitorSetup: (ConfigManager) throws -> Void
   private let sessionStore: ConfigSessionStore
   private let shortcutManager: ShortcutManager
 
@@ -167,8 +166,7 @@ final class ConfigManager {
     path: String? = nil,
     pathResolver: ConfigPathResolver = .live,
     fileWatcher: ConfigFileWatcher = .live,
-    sessionStore: ConfigSessionStore = .shared,
-    fileMonitorSetup: ((ConfigManager) throws -> Void)? = nil
+    sessionStore: ConfigSessionStore = .shared
   ) {
     let runtimeFactory = ScriptRuntimeFactory.live()
     let scriptExecutor = ConfigScriptExecutor.live
@@ -184,16 +182,12 @@ final class ConfigManager {
       )
     self.fileWatcher = fileWatcher
     self.path = path ?? pathResolver.resolvePrimaryPath(primaryPaths, fileSystem)
-    self.fileMonitorSetup =
-      fileMonitorSetup ?? { manager in
-        try manager.setupFileMonitor()
-      }
   }
 
   func start() -> Result<Void, Error> {
     do {
       try performLoad()
-      try fileMonitorSetup(self)
+      try setupFileMonitor()
       return .success(())
     } catch {
       return .failure(error)
@@ -296,7 +290,7 @@ final class ConfigManager {
     fileSystemSource = nil
 
     do {
-      try fileMonitorSetup(self)
+      try setupFileMonitor()
     } catch {
       log("could not restart config monitor: \(error)", level: .error)
     }
