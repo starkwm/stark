@@ -41,6 +41,11 @@
 		C0DE00000000000000000017 /* Event+JS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000017 /* Event+JS.swift */; };
 		C0DE00000000000000000018 /* Keymap+JS.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000018 /* Keymap+JS.swift */; };
 		C0DE00000000000000000019 /* AXNotificationRegistrar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE10000000000000000019 /* AXNotificationRegistrar.swift */; };
+		C0DE0000000000000000001A /* AccessibilityWindowEventResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE1000000000000000001A /* AccessibilityWindowEventResolver.swift */; };
+		C0DE0000000000000000001B /* ApplicationLifecycleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE1000000000000000001B /* ApplicationLifecycleHandler.swift */; };
+		C0DE0000000000000000001C /* RuntimeEventDispatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE1000000000000000001C /* RuntimeEventDispatcher.swift */; };
+		C0DE0000000000000000001D /* SpaceLifecycleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE1000000000000000001D /* SpaceLifecycleHandler.swift */; };
+		C0DE0000000000000000001E /* WindowLifecycleHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0DE1000000000000000001E /* WindowLifecycleHandler.swift */; };
 		F60DF8ED2CC2C8030083D3BE /* LogHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */; };
 		F61AF11C2BC488EC00FF39E0 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11B2BC488EC00FF39E0 /* EventManager.swift */; };
 		F61AF11E2BC4B80100FF39E0 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */; };
@@ -122,6 +127,11 @@
 		C0DE10000000000000000017 /* Event+JS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Event+JS.swift"; sourceTree = "<group>"; };
 		C0DE10000000000000000018 /* Keymap+JS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Keymap+JS.swift"; sourceTree = "<group>"; };
 		C0DE10000000000000000019 /* AXNotificationRegistrar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXNotificationRegistrar.swift; sourceTree = "<group>"; };
+		C0DE1000000000000000001A /* AccessibilityWindowEventResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityWindowEventResolver.swift; sourceTree = "<group>"; };
+		C0DE1000000000000000001B /* ApplicationLifecycleHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationLifecycleHandler.swift; sourceTree = "<group>"; };
+		C0DE1000000000000000001C /* RuntimeEventDispatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuntimeEventDispatcher.swift; sourceTree = "<group>"; };
+		C0DE1000000000000000001D /* SpaceLifecycleHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceLifecycleHandler.swift; sourceTree = "<group>"; };
+		C0DE1000000000000000001E /* WindowLifecycleHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowLifecycleHandler.swift; sourceTree = "<group>"; };
 		F60DF8EC2CC2C7FF0083D3BE /* LogHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogHelper.swift; sourceTree = "<group>"; };
 		F61AF11B2BC488EC00FF39E0 /* EventManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventManager.swift; sourceTree = "<group>"; };
 		F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
@@ -432,10 +442,15 @@
 		F63B99232BC73FA100355240 /* Events */ = {
 			isa = PBXGroup;
 			children = (
+				C0DE1000000000000000001A /* AccessibilityWindowEventResolver.swift */,
+				C0DE1000000000000000001B /* ApplicationLifecycleHandler.swift */,
 				C0DE10000000000000000017 /* Event+JS.swift */,
 				F6EA81572BCD810500F0F68C /* Event.swift */,
 				F61AF11B2BC488EC00FF39E0 /* EventManager.swift */,
 				F6EA81552BCD810400F0F68C /* Events.swift */,
+				C0DE1000000000000000001C /* RuntimeEventDispatcher.swift */,
+				C0DE1000000000000000001D /* SpaceLifecycleHandler.swift */,
+				C0DE1000000000000000001E /* WindowLifecycleHandler.swift */,
 			);
 			path = Events;
 			sourceTree = "<group>";
@@ -668,6 +683,8 @@
 			files = (
 				F6EA81562BCD810400F0F68C /* Events.swift in Sources */,
 				F6EA81582BCD810500F0F68C /* Event.swift in Sources */,
+				C0DE0000000000000000001A /* AccessibilityWindowEventResolver.swift in Sources */,
+				C0DE0000000000000000001B /* ApplicationLifecycleHandler.swift in Sources */,
 				C0DE00000000000000000017 /* Event+JS.swift in Sources */,
 				F6792C411C405598007D9DF9 /* Application.swift in Sources */,
 				C0DE00000000000000000014 /* Application+JS.swift in Sources */,
@@ -708,8 +725,11 @@
 				C0DE00000000000000000007 /* ConfigScriptExecutor.swift in Sources */,
 				C0DE00000000000000000005 /* JSBridgeInstaller.swift in Sources */,
 				F67DB62F2E30159F007C78D6 /* ConfigManager.swift in Sources */,
+				C0DE0000000000000000001C /* RuntimeEventDispatcher.swift in Sources */,
 				C0DE00000000000000000006 /* ScriptRuntimeFactory.swift in Sources */,
+				C0DE0000000000000000001D /* SpaceLifecycleHandler.swift in Sources */,
 				F6EA81542BCD740F00F0F68C /* WindowNotifications.swift in Sources */,
+				C0DE0000000000000000001E /* WindowLifecycleHandler.swift in Sources */,
 				F685270F2D398B79008EC4C1 /* Key.swift in Sources */,
 				F6A2BBD62F703EB6007C7701 /* JSExceptionError.swift in Sources */,
 				F6EB17181CF36CCC00E08F8F /* LaunchAgentHelper.swift in Sources */,
