@@ -1,38 +1,17 @@
 import CoreGraphics
 import Foundation
 
-protocol ShortcutTapType: AnyObject {
-  func enable(_ enabled: Bool)
-  func invalidate()
-}
-
 final class ShortcutManager {
-  typealias HandlerInvoker = (@escaping () -> Void) -> Void
   typealias EventHandler = (CGEventType, CGEvent) -> Unmanaged<CGEvent>?
-  typealias TapFactory = (@escaping EventHandler) -> ShortcutTapType?
-
-  private static let defaultHandlerInvoker: HandlerInvoker = { handler in
-    DispatchQueue.main.async(execute: handler)
-  }
   private static let invocationLock = NSLock()
   private static var activeInvocationID: UUID?
 
   private var shortcutsByKeyCode = [UInt32: [Shortcut]]()
   private var shortcutByIdentifier = [UUID: Shortcut]()
   private var isStarted = false
-  private var tap: ShortcutTapType?
-  private var tapFactory: TapFactory?
-  private var handlerInvoker = defaultHandlerInvoker
+  private var tap: ShortcutTap?
   private let pendingLock = NSLock()
   private var pendingInvocationID: UUID?
-
-  init(
-    tapFactory: TapFactory? = nil,
-    handlerInvoker: @escaping HandlerInvoker = ShortcutManager.defaultHandlerInvoker
-  ) {
-    self.tapFactory = tapFactory
-    self.handlerInvoker = handlerInvoker
-  }
 
   func register(shortcut: Shortcut) {
     guard shortcutByIdentifier[shortcut.identifier] == nil else {
@@ -102,7 +81,7 @@ final class ShortcutManager {
 
     guard tap == nil else { return }
 
-    tap = (tapFactory ?? ShortcutTap.makeLive)(makeEventHandler())
+    tap = ShortcutTap.makeLive(eventHandler: makeEventHandler())
   }
 
   private func tearDownTap() {
@@ -207,7 +186,7 @@ final class ShortcutManager {
   }
 
   private func dispatchInvocation(for identifier: UUID, handler: @escaping () -> Void) {
-    handlerInvoker { [weak self] in
+    DispatchQueue.main.async { [weak self] in
       defer { self?.completeInvocation(for: identifier) }
       handler()
     }
@@ -255,11 +234,5 @@ final class ShortcutManager {
       pendingInvocationID = nil
     }
     pendingLock.unlock()
-  }
-
-  static func resetInvocationStateForTesting() {
-    invocationLock.lock()
-    activeInvocationID = nil
-    invocationLock.unlock()
   }
 }

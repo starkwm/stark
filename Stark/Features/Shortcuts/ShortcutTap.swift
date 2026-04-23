@@ -1,6 +1,6 @@
 import CoreGraphics
 
-final class ShortcutTap: ShortcutTapType {
+final class ShortcutTap {
   typealias EventHandler = (CGEventType, CGEvent) -> Unmanaged<CGEvent>?
 
   static func makeLive(eventHandler: @escaping EventHandler) -> ShortcutTap? {
