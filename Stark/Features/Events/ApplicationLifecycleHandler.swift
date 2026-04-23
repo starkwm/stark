@@ -1,9 +1,9 @@
 import Foundation
 
 struct ApplicationLifecycleHandler {
-  let workspace: EventWorkspaceManaging
-  let windowManager: EventWindowManaging
-  let processLookup: EventProcessLookup
+  let workspace: Workspace
+  let windowManager: WindowManager
+  let processLookup: ProcessManager
   let dispatcher: RuntimeEventDispatcher
   let postEvent: (RuntimeEvent) -> Void
 

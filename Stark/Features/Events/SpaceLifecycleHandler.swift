@@ -1,5 +1,5 @@
 struct SpaceLifecycleHandler {
-  let windowManager: EventWindowManaging
+  let windowManager: WindowManager
   let dispatcher: RuntimeEventDispatcher
 
   func handle(_ event: SpaceEvent) {

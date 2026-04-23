@@ -2,39 +2,13 @@ import ApplicationServices
 import Carbon
 import Foundation
 
-protocol EventWorkspaceManaging {
-  func isFinishedLaunching(_ process: Process) -> Bool
-  func observeFinishedLaunching(_ process: Process)
-  func unobserveFinishedLaunching(_ process: Process)
-  func isObservable(_ process: Process) -> Bool
-  func observeActivationPolicy(_ process: Process)
-  func unobserveActivationPolicy(_ process: Process)
-}
-
-protocol EventWindowManaging {
-  func add(application: Application)
-  func remove(application: Application)
-  func application(by pid: pid_t) -> Application?
-  func addWindow(for application: Application, with element: AXUIElement) -> Window?
-  func addWindows(for application: Application) -> [Window]
-  func remove(by windowID: CGWindowID)
-  func window(by id: CGWindowID) -> Window?
-  func allWindows(for application: Application) -> [Window]
-  func refreshWindows()
-  func refreshWindows(for application: Application)
-}
-
-protocol EventProcessLookup {
-  func find(by psn: ProcessSerialNumber) -> Process?
-}
-
 final class EventManager {
   static let shared = EventManager()
 
   private let queue = OperationQueue.main
-  private let workspace: EventWorkspaceManaging
-  private let windowManager: EventWindowManaging
-  private let processLookup: EventProcessLookup
+  private let workspace: Workspace
+  private let windowManager: WindowManager
+  private let processLookup: ProcessManager
   private let listenerProvider: EventListenerProviding
 
   private lazy var dispatcher = RuntimeEventDispatcher(listenerProvider: listenerProvider)
@@ -62,9 +36,9 @@ final class EventManager {
   )
 
   init(
-    workspace: EventWorkspaceManaging = Workspace.shared,
-    windowManager: EventWindowManaging = WindowManager.shared,
-    processLookup: EventProcessLookup = ProcessManager.shared,
+    workspace: Workspace = .shared,
+    windowManager: WindowManager = .shared,
+    processLookup: ProcessManager = .shared,
     listenerProvider: EventListenerProviding = ConfigSessionStore.shared
   ) {
     self.workspace = workspace
@@ -99,7 +73,3 @@ final class EventManager {
     }
   }
 }
-
-extension Workspace: EventWorkspaceManaging {}
-extension WindowManager: EventWindowManaging {}
-extension ProcessManager: EventProcessLookup {}

@@ -1,7 +1,7 @@
 import ApplicationServices
 
 struct WindowLifecycleHandler {
-  let windowManager: EventWindowManaging
+  let windowManager: WindowManager
   let dispatcher: RuntimeEventDispatcher
 
   func handle(_ event: WindowEvent) {

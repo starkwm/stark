@@ -151,9 +151,8 @@ final class ConfigManager {
 
   private let fileSystem: ConfigFileSystem
   private let executor: ConfigExecutor
-  private let fileWatcher: ConfigFileWatcher
-  private let sessionStore: ConfigSessionStore
   private let shortcutManager: ShortcutManager
+  private let sessionStore = ConfigSessionStore.shared
 
   private var path: String
   private var fileSystemSource: DispatchSourceFileSystemObject?
@@ -162,26 +161,18 @@ final class ConfigManager {
   init(
     shortcutManager: ShortcutManager = ShortcutManager(),
     fileSystem: ConfigFileSystem = .live,
-    executor: ConfigExecutor? = nil,
-    path: String? = nil,
-    pathResolver: ConfigPathResolver = .live,
-    fileWatcher: ConfigFileWatcher = .live,
-    sessionStore: ConfigSessionStore = .shared
+    path: String? = nil
   ) {
     let runtimeFactory = ScriptRuntimeFactory.live()
     let scriptExecutor = ConfigScriptExecutor.live
 
     self.shortcutManager = shortcutManager
     self.fileSystem = fileSystem
-    self.sessionStore = sessionStore
-    self.executor =
-      executor
-      ?? ConfigExecutor(
-        createContext: runtimeFactory.createContext,
-        executeScript: scriptExecutor.executeScript
-      )
-    self.fileWatcher = fileWatcher
-    self.path = path ?? pathResolver.resolvePrimaryPath(primaryPaths, fileSystem)
+    self.executor = ConfigExecutor(
+      createContext: runtimeFactory.createContext,
+      executeScript: scriptExecutor.executeScript
+    )
+    self.path = path ?? Self.resolvePrimaryPath(fileSystem: fileSystem)
   }
 
   func start() -> Result<Void, Error> {
@@ -258,7 +249,7 @@ final class ConfigManager {
   }
 
   private func setupFileMonitor() throws {
-    switch fileWatcher.startMonitoring(path, fileMonitorQueue, handleFileWatchReload) {
+    switch ConfigFileWatcher.live.startMonitoring(path, fileMonitorQueue, handleFileWatchReload) {
     case .success(let source):
       fileSystemSource = source
     case .failure(let error):
