@@ -5,7 +5,7 @@ struct JSBridgeInstaller {
   static let live = JSBridgeInstaller(
     install: { context, session in
       context.exceptionHandler = { _, err in
-        log("javascript exception - \(String(describing: err))", level: .error)
+        log("unhandled javascript exception - \(String(describing: err))", level: .error)
       }
 
       let print: @convention(block) (String) -> Void = { message in
