@@ -23,10 +23,6 @@ class Event: NSObject {
     super.init()
   }
 
-  deinit {
-    log("event deinit \(self)")
-  }
-
   func call(withArguments args: [Any]) {
     JSCallbackInvoker.call(callback, withArguments: args)
   }

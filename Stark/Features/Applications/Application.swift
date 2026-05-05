@@ -84,7 +84,6 @@ class Application: NSObject {
 
   deinit {
     unobserve()
-    log("application deinit \(self)")
   }
 
   func windows() -> [Window] {

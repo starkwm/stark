@@ -48,10 +48,6 @@ class Space: NSObject {
     type = Self.windowServerClient.spaceType(connectionID: Space.connection, spaceID: self.id)
   }
 
-  deinit {
-    log("space deinit \(self)")
-  }
-
   override func isEqual(_ object: Any?) -> Bool {
     guard let space = object as? Self else { return false }
 

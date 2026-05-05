@@ -30,10 +30,6 @@ class Keymap: NSObject {
     shortcut?.handler = call
   }
 
-  deinit {
-    log("keymap deinit \(self)")
-  }
-
   func activate(with shortcutManager: ShortcutManager) {
     guard let shortcut else { return }
     shortcutManager.register(shortcut: shortcut)
