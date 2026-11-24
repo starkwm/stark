@@ -280,6 +280,8 @@ Keymap.on("b", ["cmd", "shift"], () => {
 
 ## Development
 
+Run `make build` to build the app and `make test` to run the Stark scheme’s hosted tests. CI runs `make lint` and `make test` on the shared Xcode runner and signs the test host and bundle ad hoc. Use `make format` to fix formatting reported by lint.
+
 Stark is built with Swift and uses:
 
 - macOS Accessibility APIs for window management

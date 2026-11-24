@@ -1,0 +1,14 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint-and-test:
+    uses: starkwm/workflows/.github/workflows/lint-and-test.yml@fb41a4e2c943e782f0f0cc791a920679b415b101
