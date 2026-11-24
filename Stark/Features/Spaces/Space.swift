@@ -6,7 +6,7 @@ class Space: NSObject {
   private static let windowServerClient = WindowServerClient.live
 
   static func all() -> [Space] {
-    windowServerClient.allSpaceIDs(connectionID: connection).map(Space.init(id:))
+    windowServerClient.allSpaces().map { Space(id: $0.id.rawValue, type: SpaceType($0.type)) }
   }
 
   static func at(_ index: Int) -> Space? {
@@ -18,16 +18,16 @@ class Space: NSObject {
   }
 
   static func active() -> Space {
-    Space(id: windowServerClient.activeSpace(connectionID: connection))
+    Space(id: windowServerClient.activeSpace())
   }
 
   static func current(for screen: NSScreen) -> Space? {
-    Space(id: windowServerClient.currentSpace(connectionID: connection, screenID: screen.id))
+    Space(id: windowServerClient.currentSpace(screenID: screen.id))
   }
 
   static func spaces(containing window: Window) -> [Space] {
     let identifiers = Set(
-      windowServerClient.spaceIDs(containing: window.id, connectionID: connection)
+      windowServerClient.spaceIDs(containing: window.id)
     )
     return all().filter { identifiers.contains($0.id) }
   }
@@ -43,9 +43,13 @@ class Space: NSObject {
 
   private var type: SpaceType
 
-  init(id: uint64) {
+  convenience init(id: UInt64) {
+    self.init(id: id, type: Self.windowServerClient.spaceType(for: id))
+  }
+
+  init(id: UInt64, type: SpaceType) {
     self.id = id
-    type = Self.windowServerClient.spaceType(connectionID: Space.connection, spaceID: self.id)
+    self.type = type
   }
 
   override func isEqual(_ object: Any?) -> Bool {
@@ -60,10 +64,7 @@ class Space: NSObject {
     }
 
     guard
-      let screenID = Self.windowServerClient.screenID(
-        forSpaceID: id,
-        connectionID: Space.connection
-      ),
+      let screenID = Self.windowServerClient.screenID(forSpaceID: id),
       let screen = NSScreen.screen(for: screenID)
     else {
       return []

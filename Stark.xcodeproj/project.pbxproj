@@ -14,6 +14,7 @@
 		AA100005AA100005AA100005 /* EventTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100016AA100016AA100016 /* EventTests.swift */; };
 		AA100006AA100006AA100006 /* ShortcutManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100017AA100017AA100017 /* ShortcutManagerTests.swift */; };
 		AA100007AA100007AA100007 /* LaunchAgentHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */; };
+		BB4000040000000000000000 /* WindowServerClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB4000050000000000000000 /* WindowServerClientTests.swift */; };
 		AA100008AA100008AA100008 /* WorkspaceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100019AA100019AA100019 /* WorkspaceTests.swift */; };
 		AA100009AA100009AA100009 /* LogHelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100020AA100020AA100020 /* LogHelperTests.swift */; };
 		AA10000AAA10000AAA10000A /* SpaceTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA100025AA100025AA100025 /* SpaceTypeTests.swift */; };
@@ -50,6 +51,7 @@
 		F61AF11C2BC488EC00FF39E0 /* EventManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11B2BC488EC00FF39E0 /* EventManager.swift */; };
 		F61AF11E2BC4B80100FF39E0 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61AF11D2BC4B80100FF39E0 /* WindowManager.swift */; };
 		F627C49E2F74A75800C81D16 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = F627C49D2F74A75800C81D16 /* Sentry */; };
+		BB4000030000000000000000 /* StarkSkyLight in Frameworks */ = {isa = PBXBuildFile; productRef = BB4000020000000000000000 /* StarkSkyLight */; };
 		F63B99252BC73FB100355240 /* ApplicationNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63B99242BC73FB100355240 /* ApplicationNotifications.swift */; };
 		F644DFF61FB5110B00944C6B /* Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = F644DFF51FB5110B00944C6B /* Space.swift */; };
 		F645D0482BC37DF300BED730 /* ProcessManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F645D0472BC37DF300BED730 /* ProcessManager.swift */; };
@@ -100,6 +102,7 @@
 		AA100016AA100016AA100016 /* EventTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTests.swift; sourceTree = "<group>"; };
 		AA100017AA100017AA100017 /* ShortcutManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutManagerTests.swift; sourceTree = "<group>"; };
 		AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchAgentHelperTests.swift; sourceTree = "<group>"; };
+		BB4000050000000000000000 /* WindowServerClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowServerClientTests.swift; sourceTree = "<group>"; };
 		AA100019AA100019AA100019 /* WorkspaceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceTests.swift; sourceTree = "<group>"; };
 		AA100020AA100020AA100020 /* LogHelperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogHelperTests.swift; sourceTree = "<group>"; };
 		AA100025AA100025AA100025 /* SpaceTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceTypeTests.swift; sourceTree = "<group>"; };
@@ -182,6 +185,7 @@
 			files = (
 				F66509DB25E594F0006C0C19 /* SkyLight.framework in Frameworks */,
 				F627C49E2F74A75800C81D16 /* Sentry in Frameworks */,
+				BB4000030000000000000000 /* StarkSkyLight in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,6 +431,7 @@
 			isa = PBXGroup;
 			children = (
 				AA100018AA100018AA100018 /* LaunchAgentHelperTests.swift */,
+				BB4000050000000000000000 /* WindowServerClientTests.swift */,
 			);
 			path = System;
 			sourceTree = "<group>";
@@ -592,6 +597,7 @@
 			name = Stark;
 			packageProductDependencies = (
 				F627C49D2F74A75800C81D16 /* Sentry */,
+				BB4000020000000000000000 /* StarkSkyLight */,
 			);
 			productName = Stark;
 			productReference = F6792C271C404B53007D9DF9 /* Stark (Dev).app */;
@@ -626,6 +632,7 @@
 			mainGroup = F6792C1E1C404B53007D9DF9;
 			packageReferences = (
 				F627C49C2F74A75800C81D16 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
+				BB4000010000000000000000 /* XCRemoteSwiftPackageReference "stark-skylight" */,
 			);
 			productRefGroup = F6792C281C404B53007D9DF9 /* Products */;
 			projectDirPath = "";
@@ -668,6 +675,7 @@
 				AA100002AA100002AA100002 /* KeyTests.swift in Sources */,
 				AA100004AA100004AA100004 /* KeymapTests.swift in Sources */,
 				AA100007AA100007AA100007 /* LaunchAgentHelperTests.swift in Sources */,
+				BB4000040000000000000000 /* WindowServerClientTests.swift in Sources */,
 				AA100009AA100009AA100009 /* LogHelperTests.swift in Sources */,
 				AA100001AA100001AA100001 /* ModifierTests.swift in Sources */,
 				AA10000AAA10000AAA10000A /* SpaceTypeTests.swift in Sources */,
@@ -1033,6 +1041,14 @@
 				minimumVersion = 9.8.0;
 			};
 		};
+		BB4000010000000000000000 /* XCRemoteSwiftPackageReference "stark-skylight" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/starkwm/stark-skylight";
+			requirement = {
+				kind = exactVersion;
+				version = 0.0.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1040,6 +1056,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F627C49C2F74A75800C81D16 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
 			productName = Sentry;
+		};
+		BB4000020000000000000000 /* StarkSkyLight */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BB4000010000000000000000 /* XCRemoteSwiftPackageReference "stark-skylight" */;
+			productName = StarkSkyLight;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

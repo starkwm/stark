@@ -1,5 +1,5 @@
 {
-  "originHash" : "7b5e54f81ac1ebaa640945691cb38c371b637198701f04fba811702fc8e7067e",
+  "originHash" : "1a5e9fbe24fd05226e30096f72d84e9d27846755d4a38f8e732f065e2a7d0ace",
   "pins" : [
     {
       "identity" : "sentry-cocoa",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "0baded16c4bd1f2471949e89bf36289ca2b93080",
         "version" : "9.12.0"
+      }
+    },
+    {
+      "identity" : "stark-skylight",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/starkwm/stark-skylight",
+      "state" : {
+        "revision" : "71e042a4c65ea62b900a696c7ee22b9ef7f4195f",
+        "version" : "0.0.3"
       }
     }
   ],
