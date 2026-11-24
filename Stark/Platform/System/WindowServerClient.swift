@@ -1,13 +1,18 @@
 import AppKit
 import Carbon
 import CoreGraphics
+import StarkSkyLight
 
 final class WindowServerClient {
   static let live = WindowServerClient()
 
-  private let screenIDKey = "Display Identifier"
-  private let spaceIDKey = "ManagedSpaceID"
-  private let spacesKey = "Spaces"
+  @MainActor
+  private var spaces: (any SpaceQuerying)?
+
+  private init() {}
+
+  @MainActor
+  init(spaces: any SpaceQuerying) { self.spaces = spaces }
 
   func mainConnectionID() -> Int32 {
     SLSMainConnectionID()
@@ -34,44 +39,32 @@ final class WindowServerClient {
     return connectionID
   }
 
-  func activeSpace(connectionID: Int32) -> UInt64 {
-    SLSGetActiveSpace(connectionID)
+  func activeSpace() -> UInt64 {
+    querySpaces(default: 0) { try $0.activeSpace()?.rawValue ?? 0 }
   }
 
-  func currentSpace(connectionID: Int32, screenID: String) -> UInt64 {
-    SLSManagedDisplayGetCurrentSpace(connectionID, screenID as CFString)
-  }
-
-  func allSpaceIDs(connectionID: Int32) -> [UInt64] {
-    managedDisplaySpaces(connectionID: connectionID).flatMap { info -> [UInt64] in
-      guard let spacesInfo = info[spacesKey] as? [[String: AnyObject]] else { return [] }
-      return spacesInfo.compactMap { $0[spaceIDKey] as? UInt64 }
+  func currentSpace(screenID: String) -> UInt64 {
+    querySpaces(default: 0) {
+      try $0.currentSpace(for: DisplayID(rawValue: screenID))?.rawValue ?? 0
     }
   }
 
-  func screenID(forSpaceID spaceID: UInt64, connectionID: Int32) -> String? {
-    for info in managedDisplaySpaces(connectionID: connectionID) {
-      guard let screenID = info[screenIDKey] as? String,
-        let spacesInfo = info[spacesKey] as? [[String: AnyObject]]
-      else {
-        continue
-      }
+  func allSpaces() -> [StarkSkyLight.Space] {
+    querySpaces(default: []) { try $0.snapshot().displays.flatMap(\.spaces) }
+  }
 
-      if spacesInfo.contains(where: { ($0[spaceIDKey] as? UInt64) == spaceID }) {
-        return screenID
-      }
+  func screenID(forSpaceID spaceID: UInt64) -> String? {
+    querySpaces(default: nil) {
+      try $0.snapshot().displayID(containing: SpaceID(rawValue: spaceID))?.rawValue
     }
-
-    return nil
   }
 
-  func spaceIDs(containing windowID: CGWindowID, connectionID: Int32) -> [UInt64] {
-    let identifiers = SLSCopySpacesForWindows(connectionID, 0x7, [windowID] as CFArray) as NSArray
-    return identifiers.compactMap { $0 as? UInt64 }
+  func spaceIDs(containing windowID: CGWindowID) -> [UInt64] {
+    querySpaces(default: []) { try $0.spaceIDs(containing: windowID).map(\.rawValue) }
   }
 
-  func spaceType(connectionID: Int32, spaceID: UInt64) -> SpaceType {
-    SpaceType(rawValue: SLSSpaceGetType(connectionID, spaceID)) ?? .unknown
+  func spaceType(for spaceID: UInt64) -> SpaceType {
+    querySpaces(default: .unknown) { SpaceType(try $0.spaceType(for: SpaceID(rawValue: spaceID))) }
   }
 
   func windowIdentifiers(
@@ -115,9 +108,20 @@ final class WindowServerClient {
     return windowIDs
   }
 
-  private func managedDisplaySpaces(connectionID: Int32) -> [[String: AnyObject]] {
-    let info = SLSCopyManagedDisplaySpaces(connectionID) as NSArray
-    return info.compactMap { $0 as? [String: AnyObject] }
+  // JSExport methods are synchronous. SpaceQuerying requires the main actor.
+  private func querySpaces<Value: Sendable>(
+    default fallback: Value,
+    _ query: @MainActor (any SpaceQuerying) throws -> Value
+  ) -> Value {
+    @MainActor
+    func read() -> Value {
+      if spaces == nil { spaces = try? SpaceClient() }
+      guard let spaces else { return fallback }
+      return (try? query(spaces)) ?? fallback
+    }
+
+    if Thread.isMainThread { return MainActor.assumeIsolated { read() } }
+    return DispatchQueue.main.sync { read() }
   }
 
   private func validWindow(attributes: UInt64, tags: UInt64) -> Bool {

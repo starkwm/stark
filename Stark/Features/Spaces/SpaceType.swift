@@ -1,7 +1,17 @@
+import StarkSkyLight
+
 enum SpaceType: Int32 {
   case normal = 0
   case fullscreen = 4
   case unknown
+
+  init(_ type: StarkSkyLight.SpaceType) {
+    switch type {
+    case .desktop: self = .normal
+    case .fullscreen: self = .fullscreen
+    case .unknown: self = .unknown
+    }
+  }
 }
 
 extension SpaceType: CustomStringConvertible {

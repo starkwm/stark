@@ -2,14 +2,6 @@ import ApplicationServices
 import Carbon
 
 // swift-format-ignore: AlwaysUseLowerCamelCase
-@_silgen_name("SLSCopyManagedDisplaySpaces")
-func SLSCopyManagedDisplaySpaces(_ connectionID: Int32) -> CFArray
-
-// swift-format-ignore: AlwaysUseLowerCamelCase
-@_silgen_name("SLSCopySpacesForWindows")
-func SLSCopySpacesForWindows(_ connectionID: Int32, _ mask: Int32, _ windows: CFArray) -> CFArray
-
-// swift-format-ignore: AlwaysUseLowerCamelCase
 @_silgen_name("SLSCopyWindowsWithOptionsAndTags")
 func SLSCopyWindowsWithOptionsAndTags(
   _ connectionID: Int32,
@@ -19,10 +11,6 @@ func SLSCopyWindowsWithOptionsAndTags(
   _ setTags: inout UInt64,
   _ clearTags: inout UInt64
 ) -> CFArray
-
-// swift-format-ignore: AlwaysUseLowerCamelCase
-@_silgen_name("SLSGetActiveSpace")
-func SLSGetActiveSpace(_ connectionID: Int32) -> UInt64
 
 // swift-format-ignore: AlwaysUseLowerCamelCase
 @_silgen_name("SLSGetConnectionIDForPSN")
@@ -36,14 +24,6 @@ func SLSGetConnectionIDForPSN(
 // swift-format-ignore: AlwaysUseLowerCamelCase
 @_silgen_name("SLSMainConnectionID")
 func SLSMainConnectionID() -> Int32
-
-// swift-format-ignore: AlwaysUseLowerCamelCase
-@_silgen_name("SLSManagedDisplayGetCurrentSpace")
-func SLSManagedDisplayGetCurrentSpace(_ connectionID: Int32, _ screenID: CFString) -> UInt64
-
-// swift-format-ignore: AlwaysUseLowerCamelCase
-@_silgen_name("SLSSpaceGetType")
-func SLSSpaceGetType(_ connectionID: Int32, _ spaceID: UInt64) -> Int32
 
 // swift-format-ignore: AlwaysUseLowerCamelCase
 @_silgen_name("SLSWindowIteratorAdvance")
