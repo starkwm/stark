@@ -1,5 +1,7 @@
 # Stark
 
+> **Archived.** This repository is archived. Stark's successor is [swm](https://github.com/starkwm/swm).
+
 Power your window management with JavaScript.
 
 ## Overview
